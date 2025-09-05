@@ -1,0 +1,438 @@
+// Firebase Firestore storage replacement
+import { db } from './firebase-config.js';
+import { 
+    collection, 
+    doc, 
+    addDoc, 
+    getDoc, 
+    getDocs, 
+    updateDoc, 
+    deleteDoc, 
+    setDoc,
+    query, 
+    where, 
+    orderBy,
+    onSnapshot 
+} from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+class FirebaseStorage {
+    constructor() {
+        this.db = db;
+        this.currentPersonId = null;
+        this.currentGroupId = null;
+        console.log('FirebaseStorage initialized');
+    }
+
+    // ============= PERSONS =============
+    
+    async createPerson(personData) {
+        try {
+            const docRef = await addDoc(collection(this.db, 'persons'), {
+                ...personData,
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+            });
+            
+            const newPerson = { id: docRef.id, ...personData };
+            this.currentPersonId = docRef.id;
+            
+            console.log('Person created:', newPerson);
+            return newPerson;
+        } catch (error) {
+            console.error('Error creating person:', error);
+            return null;
+        }
+    }
+
+    async getPersonById(personId) {
+        try {
+            const docRef = doc(this.db, 'persons', personId);
+            const docSnap = await getDoc(docRef);
+            
+            if (docSnap.exists()) {
+                return { id: docSnap.id, ...docSnap.data() };
+            } else {
+                console.log('No person found with ID:', personId);
+                return null;
+            }
+        } catch (error) {
+            console.error('Error getting person:', error);
+            return null;
+        }
+    }
+
+    async getAllPersons() {
+        try {
+            const querySnapshot = await getDocs(collection(this.db, 'persons'));
+            const persons = [];
+            
+            querySnapshot.forEach((doc) => {
+                persons.push({ id: doc.id, ...doc.data() });
+            });
+            
+            console.log('Retrieved persons:', persons.length);
+            return persons;
+        } catch (error) {
+            console.error('Error getting persons:', error);
+            return [];
+        }
+    }
+
+    async deletePerson(personId) {
+        try {
+            await deleteDoc(doc(this.db, 'persons', personId));
+            console.log('Person deleted:', personId);
+            return true;
+        } catch (error) {
+            console.error('Error deleting person:', error);
+            return false;
+        }
+    }
+
+    // ============= GROUPS =============
+
+    async createGroup(groupData) {
+        try {
+            const docRef = await addDoc(collection(this.db, 'groups'), {
+                ...groupData,
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString(),
+                members: [this.currentPersonId] // Add creator as first member
+            });
+            
+            const newGroup = { id: docRef.id, ...groupData, members: [this.currentPersonId] };
+            this.currentGroupId = docRef.id;
+            
+            console.log('Group created:', newGroup);
+            return newGroup;
+        } catch (error) {
+            console.error('Error creating group:', error);
+            return null;
+        }
+    }
+
+    async getGroupById(groupId) {
+        try {
+            const docRef = doc(this.db, 'groups', groupId);
+            const docSnap = await getDoc(docRef);
+            
+            if (docSnap.exists()) {
+                return { id: docSnap.id, ...docSnap.data() };
+            } else {
+                console.log('No group found with ID:', groupId);
+                return null;
+            }
+        } catch (error) {
+            console.error('Error getting group:', error);
+            return null;
+        }
+    }
+
+    async getGroupsForPerson(personId) {
+        try {
+            const q = query(
+                collection(this.db, 'groups'), 
+                where('members', 'array-contains', personId)
+            );
+            const querySnapshot = await getDocs(q);
+            const groups = [];
+            
+            querySnapshot.forEach((doc) => {
+                groups.push({ id: doc.id, ...doc.data() });
+            });
+            
+            console.log('Groups for person:', groups.length);
+            return groups;
+        } catch (error) {
+            console.error('Error getting groups for person:', error);
+            return [];
+        }
+    }
+
+    async joinGroup(groupId, personId) {
+        try {
+            const groupRef = doc(this.db, 'groups', groupId);
+            const groupDoc = await getDoc(groupRef);
+            
+            if (groupDoc.exists()) {
+                const groupData = groupDoc.data();
+                const members = groupData.members || [];
+                
+                if (!members.includes(personId)) {
+                    members.push(personId);
+                    await updateDoc(groupRef, { 
+                        members: members,
+                        updatedAt: new Date().toISOString()
+                    });
+                    
+                    console.log('Person joined group:', { groupId, personId });
+                    return true;
+                }
+            }
+            return false;
+        } catch (error) {
+            console.error('Error joining group:', error);
+            return false;
+        }
+    }
+
+    // ============= PLAYERS =============
+
+    async addPlayer(playerData) {
+        if (!this.currentGroupId) {
+            console.error('No current group set');
+            return false;
+        }
+
+        try {
+            const playersCollection = collection(this.db, 'groups', this.currentGroupId, 'players');
+            const docRef = await addDoc(playersCollection, {
+                ...playerData,
+                groupId: this.currentGroupId,
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+            });
+            
+            console.log('Player added:', { id: docRef.id, ...playerData });
+            return true;
+        } catch (error) {
+            console.error('Error adding player:', error);
+            return false;
+        }
+    }
+
+    async getPlayers() {
+        if (!this.currentGroupId) {
+            console.error('No current group set');
+            return [];
+        }
+
+        try {
+            const playersCollection = collection(this.db, 'groups', this.currentGroupId, 'players');
+            const querySnapshot = await getDocs(playersCollection);
+            const players = [];
+            
+            querySnapshot.forEach((doc) => {
+                players.push({ id: doc.id, ...doc.data() });
+            });
+            
+            console.log('Retrieved players:', players.length);
+            return players;
+        } catch (error) {
+            console.error('Error getting players:', error);
+            return [];
+        }
+    }
+
+    async getPlayerById(playerId) {
+        if (!this.currentGroupId) {
+            console.error('No current group set');
+            return null;
+        }
+
+        try {
+            const playerDoc = doc(this.db, 'groups', this.currentGroupId, 'players', playerId);
+            const docSnap = await getDoc(playerDoc);
+            
+            if (docSnap.exists()) {
+                return { id: docSnap.id, ...docSnap.data() };
+            }
+            return null;
+        } catch (error) {
+            console.error('Error getting player:', error);
+            return null;
+        }
+    }
+
+    async updatePlayer(playerId, updates) {
+        if (!this.currentGroupId) {
+            console.error('No current group set');
+            return false;
+        }
+
+        try {
+            const playerDoc = doc(this.db, 'groups', this.currentGroupId, 'players', playerId);
+            await updateDoc(playerDoc, {
+                ...updates,
+                updatedAt: new Date().toISOString()
+            });
+            
+            console.log('Player updated:', playerId);
+            return true;
+        } catch (error) {
+            console.error('Error updating player:', error);
+            return false;
+        }
+    }
+
+    async deletePlayer(playerId) {
+        if (!this.currentGroupId) {
+            console.error('No current group set');
+            return false;
+        }
+
+        try {
+            const playerDoc = doc(this.db, 'groups', this.currentGroupId, 'players', playerId);
+            await deleteDoc(playerDoc);
+            
+            console.log('Player deleted:', playerId);
+            return true;
+        } catch (error) {
+            console.error('Error deleting player:', error);
+            return false;
+        }
+    }
+
+    // ============= MATCHES =============
+
+    async addMatch(matchData) {
+        if (!this.currentGroupId) {
+            console.error('No current group set');
+            return false;
+        }
+
+        try {
+            const matchesCollection = collection(this.db, 'groups', this.currentGroupId, 'matches');
+            const docRef = await addDoc(matchesCollection, {
+                ...matchData,
+                groupId: this.currentGroupId,
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+            });
+            
+            console.log('Match added:', { id: docRef.id, ...matchData });
+            return true;
+        } catch (error) {
+            console.error('Error adding match:', error);
+            return false;
+        }
+    }
+
+    async getMatches() {
+        if (!this.currentGroupId) {
+            console.error('No current group set');
+            return [];
+        }
+
+        try {
+            const matchesCollection = collection(this.db, 'groups', this.currentGroupId, 'matches');
+            const q = query(matchesCollection, orderBy('createdAt', 'desc'));
+            const querySnapshot = await getDocs(q);
+            const matches = [];
+            
+            querySnapshot.forEach((doc) => {
+                matches.push({ id: doc.id, ...doc.data() });
+            });
+            
+            console.log('Retrieved matches:', matches.length);
+            return matches;
+        } catch (error) {
+            console.error('Error getting matches:', error);
+            return [];
+        }
+    }
+
+    async getMatchById(matchId) {
+        if (!this.currentGroupId) {
+            console.error('No current group set');
+            return null;
+        }
+
+        try {
+            const matchDoc = doc(this.db, 'groups', this.currentGroupId, 'matches', matchId);
+            const docSnap = await getDoc(matchDoc);
+            
+            if (docSnap.exists()) {
+                return { id: docSnap.id, ...docSnap.data() };
+            }
+            return null;
+        } catch (error) {
+            console.error('Error getting match:', error);
+            return null;
+        }
+    }
+
+    async updateMatch(matchId, updates) {
+        if (!this.currentGroupId) {
+            console.error('No current group set');
+            return false;
+        }
+
+        try {
+            const matchDoc = doc(this.db, 'groups', this.currentGroupId, 'matches', matchId);
+            await updateDoc(matchDoc, {
+                ...updates,
+                updatedAt: new Date().toISOString()
+            });
+            
+            console.log('Match updated:', matchId);
+            return true;
+        } catch (error) {
+            console.error('Error updating match:', error);
+            return false;
+        }
+    }
+
+    // ============= SESSION MANAGEMENT =============
+
+    getCurrentPerson() {
+        return this.currentPersonId ? { id: this.currentPersonId } : null;
+    }
+
+    getCurrentGroup() {
+        return this.currentGroupId ? { id: this.currentGroupId } : null;
+    }
+
+    setCurrentPerson(personId) {
+        this.currentPersonId = personId;
+        console.log('Current person set:', personId);
+    }
+
+    setCurrentGroup(groupId) {
+        this.currentGroupId = groupId;
+        console.log('Current group set:', groupId);
+    }
+
+    clearSession() {
+        this.currentPersonId = null;
+        this.currentGroupId = null;
+        console.log('Session cleared');
+    }
+
+    // ============= UTILITY METHODS =============
+
+    async getPersonsInGroup(groupId) {
+        try {
+            const group = await this.getGroupById(groupId);
+            if (group && group.members) {
+                const persons = [];
+                for (const personId of group.members) {
+                    const person = await this.getPersonById(personId);
+                    if (person) {
+                        persons.push(person);
+                    }
+                }
+                return persons;
+            }
+            return [];
+        } catch (error) {
+            console.error('Error getting persons in group:', error);
+            return [];
+        }
+    }
+
+    // Alias methods for compatibility
+    saveMatch(matchData) {
+        return this.addMatch(matchData);
+    }
+
+    saveMatches(matches) {
+        // This method is not needed with Firestore as we save individual matches
+        console.warn('saveMatches method called - not applicable with Firestore');
+        return true;
+    }
+}
+
+// Export singleton instance
+const Storage = new FirebaseStorage();
+export default Storage;

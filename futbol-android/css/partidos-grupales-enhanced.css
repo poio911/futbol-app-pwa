@@ -1,0 +1,582 @@
+/* ============================================
+   PARTIDOS GRUPALES - ESTILOS MEJORADOS
+   ============================================ */
+
+:root {
+    --pg-primary: #00ff9d;
+    --pg-secondary: #ff00e6;
+    --pg-dark: #0a0e1a;
+    --pg-card: #1a1f2e;
+    --pg-card-hover: #232938;
+    --pg-text: #ffffff;
+    --pg-text-secondary: #a0a0a0;
+    --pg-border: rgba(255, 255, 255, 0.1);
+    --pg-success: #28a745;
+    --pg-warning: #ffc107;
+    --pg-danger: #dc3545;
+    --pg-info: #17a2b8;
+}
+
+/* Sección principal de partidos colaborativos */
+#collaborative-section {
+    padding: 20px;
+    background: linear-gradient(135deg, var(--pg-dark) 0%, #141824 100%);
+    min-height: calc(100vh - 200px);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Patrón de fondo decorativo */
+#collaborative-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(circle at 20% 50%, rgba(0, 255, 157, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 50%, rgba(255, 0, 230, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+/* Header de la sección */
+.collaborative-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: var(--pg-card);
+    border-radius: 15px;
+    border: 1px solid var(--pg-border);
+    backdrop-filter: blur(10px);
+    position: relative;
+    z-index: 1;
+}
+
+.collaborative-title {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collaborative-title h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--pg-text);
+    margin: 0;
+    text-shadow: 0 0 20px rgba(0, 255, 157, 0.3);
+}
+
+.collaborative-title .icon {
+    font-size: 32px;
+    color: var(--pg-primary);
+    animation: bounce 2s infinite;
+}
+
+/* Botón crear partido mejorado */
+.btn-create-match {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, var(--pg-primary) 0%, #00cc7d 100%);
+    color: var(--pg-dark);
+    border: none;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(0, 255, 157, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-create-match::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.5s, height 0.5s;
+}
+
+.btn-create-match:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 255, 157, 0.4);
+}
+
+.btn-create-match:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+/* Container de partidos */
+#all-matches {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 20px;
+    padding: 10px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Card de partido mejorado */
+.match-card {
+    background: var(--pg-card);
+    border-radius: 20px;
+    padding: 20px;
+    border: 1px solid var(--pg-border);
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.match-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--pg-primary) 0%, var(--pg-secondary) 100%);
+}
+
+.match-card:hover {
+    background: var(--pg-card-hover);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Header del card */
+.match-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.match-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--pg-text);
+    margin-bottom: 5px;
+}
+
+.match-status {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.match-status.open {
+    background: rgba(40, 167, 69, 0.2);
+    color: var(--pg-success);
+    border: 1px solid var(--pg-success);
+}
+
+.match-status.full {
+    background: rgba(255, 193, 7, 0.2);
+    color: var(--pg-warning);
+    border: 1px solid var(--pg-warning);
+}
+
+.match-status.closed {
+    background: rgba(220, 53, 69, 0.2);
+    color: var(--pg-danger);
+    border: 1px solid var(--pg-danger);
+}
+
+/* Información del partido */
+.match-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.match-info-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--pg-text-secondary);
+    font-size: 14px;
+}
+
+.match-info-item i {
+    color: var(--pg-primary);
+    font-size: 16px;
+}
+
+/* Contador de jugadores */
+.match-players {
+    background: rgba(0, 255, 157, 0.1);
+    border: 1px solid var(--pg-primary);
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.players-count {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.players-count span {
+    color: var(--pg-text);
+    font-size: 14px;
+}
+
+.players-bar {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    margin-top: 8px;
+    overflow: hidden;
+}
+
+.players-progress {
+    height: 100%;
+    background: linear-gradient(90deg, var(--pg-primary) 0%, #00cc7d 100%);
+    border-radius: 3px;
+    transition: width 0.3s;
+}
+
+/* Botones de acción */
+.match-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
+
+.btn-match-action {
+    flex: 1;
+    min-width: 120px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.btn-join {
+    background: linear-gradient(135deg, var(--pg-primary) 0%, #00cc7d 100%);
+    color: var(--pg-dark);
+}
+
+.btn-join:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0, 255, 157, 0.3);
+}
+
+.btn-leave {
+    background: rgba(255, 193, 7, 0.2);
+    color: var(--pg-warning);
+    border: 1px solid var(--pg-warning);
+}
+
+.btn-leave:hover {
+    background: var(--pg-warning);
+    color: var(--pg-dark);
+}
+
+.btn-invite {
+    background: rgba(23, 162, 184, 0.2);
+    color: var(--pg-info);
+    border: 1px solid var(--pg-info);
+}
+
+.btn-invite:hover {
+    background: var(--pg-info);
+    color: white;
+}
+
+.btn-manage {
+    background: rgba(255, 193, 7, 0.2);
+    color: var(--pg-warning);
+    border: 1px solid var(--pg-warning);
+}
+
+.btn-manage:hover {
+    background: var(--pg-warning);
+    color: var(--pg-dark);
+}
+
+.btn-delete {
+    background: rgba(220, 53, 69, 0.2);
+    color: var(--pg-danger);
+    border: 1px solid var(--pg-danger);
+}
+
+.btn-delete:hover {
+    background: var(--pg-danger);
+    color: white;
+}
+
+.btn-view-teams {
+    background: rgba(0, 255, 157, 0.2);
+    color: var(--pg-primary);
+    border: 1px solid var(--pg-primary);
+}
+
+.btn-view-teams:hover {
+    background: var(--pg-primary);
+    color: var(--pg-dark);
+}
+
+/* Modal de crear partido mejorado */
+.modal-create-match {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--pg-card);
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 600px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    z-index: 1001;
+    border: 1px solid var(--pg-border);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--pg-border);
+}
+
+.modal-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--pg-text);
+}
+
+.modal-close {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--pg-border);
+    color: var(--pg-text);
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-close:hover {
+    background: var(--pg-danger);
+    border-color: var(--pg-danger);
+}
+
+/* Formulario del modal */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    display: block;
+    color: var(--pg-text);
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+    width: 100%;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--pg-border);
+    border-radius: 10px;
+    color: var(--pg-text);
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+    outline: none;
+    border-color: var(--pg-primary);
+    background: rgba(0, 255, 157, 0.05);
+}
+
+/* Sección de invitados */
+.invite-section {
+    background: rgba(0, 255, 157, 0.05);
+    border: 1px solid var(--pg-primary);
+    border-radius: 15px;
+    padding: 20px;
+    margin: 25px 0;
+}
+
+.invite-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--pg-primary);
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.invite-input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.btn-add-guest {
+    padding: 10px 20px;
+    background: var(--pg-primary);
+    color: var(--pg-dark);
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-add-guest:hover {
+    background: #00cc7d;
+}
+
+.guest-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.guest-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+.guest-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.guest-badge {
+    padding: 3px 8px;
+    background: rgba(23, 162, 184, 0.2);
+    color: var(--pg-info);
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+.btn-remove-guest {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(220, 53, 69, 0.2);
+    border: 1px solid var(--pg-danger);
+    color: var(--pg-danger);
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-remove-guest:hover {
+    background: var(--pg-danger);
+    color: white;
+}
+
+/* Estado vacío mejorado */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    background: var(--pg-card);
+    border-radius: 20px;
+    border: 1px solid var(--pg-border);
+}
+
+.empty-icon {
+    font-size: 64px;
+    color: var(--pg-primary);
+    margin-bottom: 20px;
+}
+
+.empty-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--pg-text);
+    margin-bottom: 10px;
+}
+
+.empty-text {
+    color: var(--pg-text-secondary);
+    margin-bottom: 20px;
+}
+
+/* Animaciones */
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.match-card {
+    animation: slideIn 0.5s ease;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    #all-matches {
+        grid-template-columns: 1fr;
+    }
+    
+    .collaborative-header {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .btn-create-match {
+        width: 100%;
+        justify-content: center;
+    }
+}

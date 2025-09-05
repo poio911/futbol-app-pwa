@@ -1,0 +1,487 @@
+/* ===============================================
+   SISTEMA DE EVALUACIÓN - ESTILOS EA SPORTS FC 24
+   =============================================== */
+
+:root {
+    --eval-primary: #00ff9d;
+    --eval-secondary: #ff00e6;
+    --eval-dark: #0a0e1a;
+    --eval-card: #1a1f2e;
+    --eval-card-light: rgba(26, 31, 46, 0.8);
+    --eval-text: #ffffff;
+    --eval-text-secondary: #b8bcc8;
+    --eval-border: rgba(255, 255, 255, 0.1);
+    --eval-success: #00ff9d;
+    --eval-danger: #ff4757;
+}
+
+/* MODAL PRINCIPAL */
+#evaluation-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.9);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+}
+
+#evaluation-modal.active {
+    display: flex;
+}
+
+.eval-modal-content {
+    background: #0a0e1a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 0;
+    max-width: 650px;
+    width: 95%;
+    max-height: 90vh;
+    overflow: hidden;
+}
+
+@keyframes slideUp {
+    from { 
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to { 
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* HEADER DEL MODAL */
+.eval-header {
+    padding: 20px 25px;
+    border-bottom: 1px solid var(--eval-border);
+}
+
+.eval-header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+.eval-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0;
+    color: var(--eval-primary);
+}
+
+#evaluation-modal .eval-close-btn {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: none !important;
+    color: var(--eval-text) !important;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 18px;
+}
+
+.eval-close-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* BODY DEL MODAL */
+.eval-body {
+    padding: 25px;
+    overflow-y: auto;
+    max-height: calc(90vh - 200px);
+}
+
+.eval-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.eval-body::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+}
+
+.eval-body::-webkit-scrollbar-thumb {
+    background: var(--eval-primary);
+    border-radius: 10px;
+}
+
+/* INFO DEL JUGADOR */
+.eval-player-card {
+    background: rgba(26, 31, 46, 0.5);
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.eval-player-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--eval-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: var(--eval-dark);
+}
+
+.eval-player-info {
+    flex: 1;
+}
+
+.eval-player-name {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0 0 5px 0;
+    color: var(--eval-text);
+}
+
+.eval-player-details {
+    font-size: 14px;
+    color: #888;
+}
+
+/* SELECTOR DE MODO */
+.eval-mode-selector {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 5px;
+    border-radius: 12px;
+}
+
+#evaluation-modal .eval-mode-btn {
+    flex: 1;
+    padding: 12px;
+    background: #1a1a1a !important;
+    border: 1px solid #444 !important;
+    border-radius: 8px;
+    color: #ccc !important;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 14px;
+}
+
+#evaluation-modal .eval-mode-btn:hover {
+    background: #222 !important;
+    border-color: #666 !important;
+}
+
+#evaluation-modal .eval-mode-btn.active {
+    background: #333 !important;
+    color: #fff !important;
+    border: 1px solid #555 !important;
+}
+
+/* SECCIÓN DE ETIQUETAS */
+.eval-tags-section {
+    margin-bottom: 25px;
+}
+
+.eval-tags-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.eval-tags-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--eval-text);
+}
+
+#evaluation-modal .eval-tags-counter {
+    background: transparent !important;
+    color: #00ff9d !important;
+    padding: 6px 14px;
+    border: 1px solid #00ff9d;
+    border-radius: 25px;
+    font-weight: 700;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+#evaluation-modal .eval-tags-counter.full {
+    background: #00ff9d !important;
+    color: #000 !important;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* LISTA DE ETIQUETAS */
+.eval-tags-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 350px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.eval-tag-item {
+    background: #222 !important;
+    border: 1px solid #444 !important;
+    border-radius: 10px;
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.eval-tag-item:hover {
+    background: #2a2a2a !important;
+    border-color: #666 !important;
+}
+
+#evaluation-modal .eval-tag-item.selected {
+    background: #333 !important;
+    border-color: #00ff9d !important;
+}
+
+.eval-tag-icon {
+    font-size: 30px;
+    min-width: 40px;
+    text-align: center;
+}
+
+.eval-tag-content {
+    flex: 1;
+}
+
+.eval-tag-name {
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--eval-text);
+    margin-bottom: 5px;
+}
+
+.eval-tag-description {
+    font-size: 12px;
+    color: var(--eval-text-secondary);
+    line-height: 1.4;
+    margin-bottom: 5px;
+}
+
+.eval-tag-stats {
+    font-size: 11px;
+    color: var(--eval-primary);
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* SECCIÓN DE RATING NUMÉRICO */
+.eval-rating-section {
+    background: var(--eval-card);
+    border: 1px solid var(--eval-border);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 25px;
+}
+
+.eval-rating-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-align: center;
+    color: var(--eval-text);
+}
+
+.eval-rating-buttons {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+}
+
+.eval-rating-btn {
+    aspect-ratio: 1;
+    background: #222 !important;
+    border: 2px solid #444 !important;
+    border-radius: 12px;
+    color: #fff !important;
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.eval-rating-btn:hover {
+    background: #333 !important;
+    border-color: #666 !important;
+}
+
+#evaluation-modal .eval-rating-btn.selected {
+    background: #00ff9d !important;
+    color: #000 !important;
+    border-color: #00ff9d !important;
+}
+
+/* FOOTER DEL MODAL */
+.eval-footer {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 20px 25px;
+    border-top: 1px solid var(--eval-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.eval-progress {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--eval-text-secondary);
+}
+
+.eval-progress-bar {
+    width: 100px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.eval-progress-fill {
+    height: 100%;
+    background: var(--eval-primary);
+    transition: width 0.3s ease;
+}
+
+.eval-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.eval-btn {
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: none;
+}
+
+.eval-btn-secondary {
+    background: #333 !important;
+    color: #fff !important;
+    border: 1px solid #555 !important;
+}
+
+.eval-btn-secondary:hover {
+    background: #444 !important;
+    transform: translateY(-2px);
+}
+
+#evaluation-modal .eval-btn-primary {
+    background: #00ff9d !important;
+    color: #000 !important;
+    border: none !important;
+}
+
+#evaluation-modal .eval-btn-primary:hover {
+    background: #00cc7a !important;
+    transform: translateY(-2px);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .eval-modal-content {
+        width: 100%;
+        height: 100vh;
+        max-height: 100vh;
+        border-radius: 0;
+        border: none;
+    }
+    
+    .eval-body {
+        max-height: calc(100vh - 200px);
+    }
+    
+    .eval-rating-buttons {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 8px;
+    }
+    
+    .eval-tags-list {
+        max-height: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+    .eval-player-card {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .eval-mode-selector {
+        flex-direction: column;
+    }
+    
+    .eval-rating-buttons {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* BOTONES DE EVALUACIÓN - CLEAN STYLES */
+.eval-btn-active {
+    background: #00ff9d !important;
+    color: #000 !important;
+    border: none !important;
+    cursor: pointer !important;
+    box-shadow: 0 2px 10px rgba(0,255,157,0.3) !important;
+    background-image: none !important;
+}
+
+.eval-btn-active:hover {
+    background: #00cc7a !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 15px rgba(0,255,157,0.4) !important;
+}
+
+.eval-btn-completed {
+    background: #2a2a2a !important;
+    color: #888 !important;
+    border: 1px solid #444 !important;
+    cursor: not-allowed !important;
+    opacity: 0.7 !important;
+    box-shadow: none !important;
+    background-image: none !important;
+    background-blend-mode: normal !important;
+    transition: none !important;
+}
+
+.eval-btn-completed:hover {
+    background: #2a2a2a !important;
+    color: #888 !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
