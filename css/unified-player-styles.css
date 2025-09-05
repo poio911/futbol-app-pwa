@@ -1,0 +1,382 @@
+/* ====================================
+   SISTEMA UNIFICADO DE ESTILOS DE JUGADOR
+   ==================================== */
+
+/* Variables globales para jugadores */
+:root {
+    /* Colores de posiciones */
+    --pos-por-from: #ff9f43;
+    --pos-por-to: #ffb667;
+    --pos-def-from: #5f27cd;
+    --pos-def-to: #7c4dff;
+    --pos-med-from: #00d2d3;
+    --pos-med-to: #00a8a8;
+    --pos-del-from: #ff4757;
+    --pos-del-to: #ff6b7a;
+    
+    /* Colores de OVR */
+    --ovr-bg: #00ff9d;
+    --ovr-color: #0a0e1a;
+    --ovr-shadow: rgba(0, 255, 157, 0.5);
+    
+    /* Mejor estadística */
+    --best-stat-bg: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 140, 0, 0.15));
+    --best-stat-color: #ffd700;
+    --best-stat-border: rgba(255, 215, 0, 0.3);
+    
+    /* Cambios de OVR */
+    --ovr-increase-bg: rgba(76, 175, 80, 0.2);
+    --ovr-increase-color: #4CAF50;
+    --ovr-increase-border: rgba(76, 175, 80, 0.3);
+    --ovr-decrease-bg: rgba(244, 67, 54, 0.2);
+    --ovr-decrease-color: #F44336;
+    --ovr-decrease-border: rgba(244, 67, 54, 0.3);
+}
+
+/* ===== SISTEMA DE POSICIONES UNIFICADO ===== */
+
+/* Badge base para posiciones */
+.player-position-badge,
+.user-position,
+.player-position,
+.position-badge,
+.eval-player-position,
+.unified-player-position {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: white !important;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+/* Posiciones específicas - PORTERO */
+.player-position-badge.pos-por,
+.user-position.position-por,
+.player-position.position-POR,
+.position-badge.pos-por,
+.eval-player-position.pos-por,
+.unified-player-position.pos-por {
+    background: linear-gradient(135deg, var(--pos-por-from), var(--pos-por-to)) !important;
+}
+
+/* Posiciones específicas - DEFENSOR */
+.player-position-badge.pos-def,
+.user-position.position-def,
+.player-position.position-DEF,
+.position-badge.pos-def,
+.eval-player-position.pos-def,
+.unified-player-position.pos-def {
+    background: linear-gradient(135deg, var(--pos-def-from), var(--pos-def-to)) !important;
+}
+
+/* Posiciones específicas - MEDIOCAMPISTA */
+.player-position-badge.pos-med,
+.user-position.position-med,
+.player-position.position-MED,
+.position-badge.pos-med,
+.eval-player-position.pos-med,
+.unified-player-position.pos-med {
+    background: linear-gradient(135deg, var(--pos-med-from), var(--pos-med-to)) !important;
+}
+
+/* Posiciones específicas - DELANTERO */
+.player-position-badge.pos-del,
+.user-position.position-del,
+.player-position.position-DEL,
+.position-badge.pos-del,
+.eval-player-position.pos-del,
+.unified-player-position.pos-del {
+    background: linear-gradient(135deg, var(--pos-del-from), var(--pos-del-to)) !important;
+}
+
+/* Hover effects para posiciones */
+.player-position-badge:hover,
+.user-position:hover,
+.player-position:hover,
+.position-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* ===== SISTEMA DE OVR UNIFICADO ===== */
+
+/* OVR Badge estándar */
+.ovr-badge,
+.ovr-badge-large,
+.ovr-large,
+.player-rating,
+.unified-player-ovr {
+    width: 55px;
+    height: 55px;
+    background: var(--ovr-bg) !important;
+    color: #0a0e1a !important;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 22px;
+    box-shadow: 0 4px 15px var(--ovr-shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    flex-shrink: 0;
+    border: 2px solid transparent;
+    position: relative;
+    
+    /* Eliminar animaciones no deseadas */
+    animation: none !important;
+    text-shadow: none !important;
+}
+
+/* Sobrescribir clases problemáticas heredadas del sistema anterior */
+.ovr-badge.ovr-excellent,
+.ovr-badge.ovr-special,
+.ovr-badge.ovr-gold,
+.ovr-badge-large.ovr-excellent,
+.ovr-badge-large.ovr-special,
+.ovr-badge-large.ovr-gold,
+.ovr-large.ovr-excellent,
+.ovr-large.ovr-special,
+.ovr-large.ovr-gold,
+.player-rating.ovr-excellent,
+.player-rating.ovr-special,
+.player-rating.ovr-gold {
+    background: var(--ovr-bg) !important;
+    color: #0a0e1a !important;
+    animation: none !important;
+    text-shadow: none !important;
+}
+
+/* OVR Pequeño (para espacios reducidos) */
+.ovr-badge.small,
+.ovr-badge-small {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    box-shadow: 0 3px 10px var(--ovr-shadow);
+    
+    /* Asegurar mismos estilos base */
+    background: var(--ovr-bg) !important;
+    color: #0a0e1a !important;
+    animation: none !important;
+    text-shadow: none !important;
+}
+
+/* Hover effect para OVR */
+.ovr-badge:hover,
+.ovr-badge-large:hover,
+.ovr-large:hover,
+.player-rating:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 255, 157, 0.7);
+}
+
+/* ===== SISTEMA DE MEJOR ESTADÍSTICA ===== */
+
+/* Badge para mejor estadística */
+.best-stat,
+.best-stat-badge,
+.best-stat-header,
+.player-best-stat {
+    background: var(--best-stat-bg);
+    color: var(--best-stat-color);
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    border: 1px solid var(--best-stat-border);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.best-stat:hover,
+.best-stat-badge:hover,
+.best-stat-header:hover {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.25), rgba(255, 140, 0, 0.25));
+    transform: translateY(-1px);
+}
+
+/* ===== SISTEMA DE INDICADORES DE CAMBIO DE OVR ===== */
+
+/* Base para indicadores de cambio */
+.ovr-change,
+.ovr-diff,
+.ovr-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-left: 5px;
+    transition: all 0.3s ease;
+}
+
+/* Aumento de OVR */
+.ovr-change.increase,
+.ovr-diff.positive,
+.ovr-indicator.up {
+    background: var(--ovr-increase-bg);
+    color: var(--ovr-increase-color);
+    border: 1px solid var(--ovr-increase-border);
+}
+
+/* Disminución de OVR */
+.ovr-change.decrease,
+.ovr-diff.negative,
+.ovr-indicator.down {
+    background: var(--ovr-decrease-bg);
+    color: var(--ovr-decrease-color);
+    border: 1px solid var(--ovr-decrease-border);
+}
+
+/* Sin cambio */
+.ovr-change.neutral,
+.ovr-diff.neutral,
+.ovr-indicator.neutral {
+    background: rgba(150, 150, 150, 0.2);
+    color: #999;
+    border: 1px solid rgba(150, 150, 150, 0.3);
+}
+
+/* Hover para indicadores */
+.ovr-change:hover,
+.ovr-diff:hover,
+.ovr-indicator:hover {
+    transform: scale(1.05);
+}
+
+/* ===== ICONOS UNIFICADOS DE ESTADÍSTICAS ===== */
+
+/* Iconos estándar por estadística */
+.stat-icon.pac::before { content: '\F1A6'; font-family: 'boxicons'; } /* bx-run */
+.stat-icon.sho::before { content: '\F1B6'; font-family: 'boxicons'; } /* bx-target-lock */
+.stat-icon.pas::before { content: '\F1EC'; font-family: 'boxicons'; } /* bx-share */
+.stat-icon.dri::before { content: '\F10B'; font-family: 'boxicons'; } /* bx-joystick */
+.stat-icon.def::before { content: '\F1ED'; font-family: 'boxicons'; } /* bx-shield */
+.stat-icon.phy::before { content: '\F0FD'; font-family: 'boxicons'; } /* bx-body */
+
+/* ===== AVATARS UNIFICADOS ===== */
+
+/* Avatar base */
+.player-avatar,
+.player-photo,
+.user-avatar,
+.eval-player-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #232938, #1a1f2e);
+    border: 2px solid var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+    font-size: 20px;
+    font-weight: bold;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0, 255, 157, 0.2);
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.player-avatar img,
+.player-photo img,
+.user-avatar img,
+.eval-player-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* Avatar grande */
+.player-avatar.large,
+.player-photo.large {
+    width: 65px;
+    height: 65px;
+    font-size: 24px;
+}
+
+/* Avatar pequeño */
+.player-avatar.small,
+.player-photo.small {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+@media (max-width: 768px) {
+    .player-position-badge,
+    .user-position,
+    .player-position {
+        padding: 3px 8px;
+        font-size: 10px;
+        gap: 3px;
+    }
+    
+    .ovr-badge,
+    .ovr-badge-large,
+    .ovr-large {
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
+    }
+    
+    .best-stat,
+    .best-stat-badge {
+        padding: 3px 8px;
+        font-size: 10px;
+    }
+    
+    .player-avatar,
+    .player-photo {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .player-position-badge,
+    .user-position,
+    .player-position {
+        padding: 2px 6px;
+        font-size: 9px;
+    }
+    
+    .ovr-badge,
+    .ovr-badge-large,
+    .ovr-large {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+    
+    .best-stat,
+    .best-stat-badge {
+        padding: 2px 6px;
+        font-size: 9px;
+    }
+    
+    .player-avatar,
+    .player-photo {
+        width: 35px;
+        height: 35px;
+        font-size: 14px;
+    }
+}

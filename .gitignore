@@ -1,0 +1,39 @@
+# Archivos del sistema
+*.log
+nul
+.DS_Store
+Thumbs.db
+
+# Node modules (si existen)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Archivos de configuración local
+.claude/
+*.local.*
+
+# Archivos temporales
+temp/
+tmp/
+*.tmp
+*.temp
+
+# Archivos de backup problemáticos
+backup/futbol-android/www/
+backup/innecesarios/archivos-temp/nul
+
+# Screenshots temporales
+screenshots/temp/
+
+# Archivos de IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Archivos de Windows
+*.exe
+*.dll
+*.pdb

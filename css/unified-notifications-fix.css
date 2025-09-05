@@ -1,0 +1,398 @@
+/* 
+ * CORRECCIONES PARA EL SISTEMA DE NOTIFICACIONES UNIFICADO
+ * Fecha: 2025-09-05
+ * Propósito: Arreglar problemas visuales del sistema de notificaciones
+ */
+
+/* === RESET Y CORRECCIONES GLOBALES === */
+.unified-toast-container *,
+.unified-modal-overlay * {
+    box-sizing: border-box !important;
+    margin: 0;
+    padding: 0;
+}
+
+/* === CORRECCIÓN TOAST CONTAINER === */
+.unified-toast-container {
+    position: fixed !important;
+    top: 80px !important; /* Bajarlo para que no choque con el header */
+    right: 20px !important;
+    z-index: 2147483647 !important; /* Máximo z-index */
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    pointer-events: none !important;
+    max-width: 420px !important;
+    width: calc(100vw - 40px) !important;
+}
+
+/* === CORRECCIÓN TOAST === */
+.unified-toast {
+    background: rgba(15, 15, 15, 0.98) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-radius: 12px !important;
+    padding: 16px 50px 16px 20px !important; /* Más espacio para el botón X */
+    min-width: 280px !important;
+    width: 100% !important;
+    box-shadow: 
+        0 10px 40px rgba(0, 0, 0, 0.8),
+        0 0 60px rgba(0, 255, 157, 0.15) !important;
+    border: 1px solid rgba(0, 255, 157, 0.3) !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+    pointer-events: auto !important;
+    position: relative !important;
+    overflow: visible !important; /* Cambiar de hidden a visible */
+    animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* Barra lateral de color */
+.unified-toast::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 4px !important;
+    height: 100% !important;
+    background: var(--toast-accent, #00ff9d) !important;
+    border-radius: 12px 0 0 12px !important;
+}
+
+/* === CORRECCIÓN MODAL OVERLAY === */
+.unified-modal-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background: rgba(0, 0, 0, 0.85) !important;
+    backdrop-filter: blur(15px) !important;
+    -webkit-backdrop-filter: blur(15px) !important;
+    z-index: 2147483646 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 20px !important;
+}
+
+/* === CORRECCIÓN MODAL === */
+.unified-modal {
+    background: linear-gradient(145deg, 
+        rgba(25, 25, 25, 0.98) 0%, 
+        rgba(15, 15, 15, 0.98) 100%) !important;
+    backdrop-filter: blur(30px) !important;
+    -webkit-backdrop-filter: blur(30px) !important;
+    border-radius: 20px !important;
+    padding: 0 !important;
+    max-width: 500px !important;
+    width: 90% !important;
+    max-height: 90vh !important;
+    overflow: auto !important;
+    box-shadow: 
+        0 25px 80px rgba(0, 0, 0, 0.9),
+        0 0 120px rgba(0, 255, 157, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+    border: 2px solid rgba(0, 255, 157, 0.4) !important;
+    position: relative !important;
+    transform: none !important;
+}
+
+/* === CORRECCIÓN HEADER DEL MODAL === */
+.unified-modal-header {
+    background: linear-gradient(135deg, 
+        rgba(0, 255, 157, 0.15) 0%, 
+        rgba(40, 40, 40, 0.9) 100%) !important;
+    padding: 20px 24px !important;
+    border-bottom: 2px solid rgba(0, 255, 157, 0.3) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 10 !important;
+}
+
+.unified-modal-title {
+    color: #00ff9d !important;
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    margin: 0 !important;
+    font-family: 'Rajdhani', 'Poppins', sans-serif !important;
+    text-shadow: 0 0 20px rgba(0, 255, 157, 0.6) !important;
+    letter-spacing: 0.5px !important;
+}
+
+/* === CORRECCIÓN CUERPO DEL MODAL === */
+.unified-modal-body {
+    padding: 30px !important;
+    text-align: center !important;
+    min-height: 150px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.unified-modal-icon {
+    font-size: 56px !important;
+    margin-bottom: 20px !important;
+    display: block !important;
+    filter: drop-shadow(0 0 30px currentColor) !important;
+    animation: pulse 2s ease-in-out infinite !important;
+}
+
+.unified-modal-message {
+    color: #ffffff !important;
+    font-size: 18px !important;
+    line-height: 1.6 !important;
+    margin-bottom: 20px !important;
+    font-family: 'Rajdhani', 'Poppins', sans-serif !important;
+    font-weight: 400 !important;
+    max-width: 400px !important;
+}
+
+/* === CORRECCIÓN BOTONES DEL MODAL === */
+.unified-modal-actions {
+    padding: 20px 24px !important;
+    display: flex !important;
+    gap: 12px !important;
+    justify-content: center !important;
+    border-top: 1px solid rgba(0, 255, 157, 0.2) !important;
+    background: rgba(30, 30, 30, 0.6) !important;
+}
+
+.unified-modal-button {
+    padding: 14px 32px !important;
+    border-radius: 10px !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    border: none !important;
+    font-family: 'Rajdhani', 'Poppins', sans-serif !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    min-width: 140px !important;
+}
+
+.unified-modal-button.primary {
+    background: linear-gradient(135deg, #00ff9d 0%, #00d4ff 100%) !important;
+    color: #000000 !important;
+    box-shadow: 
+        0 4px 20px rgba(0, 255, 157, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+}
+
+.unified-modal-button.primary:hover {
+    transform: translateY(-2px) scale(1.05) !important;
+    box-shadow: 
+        0 8px 30px rgba(0, 255, 157, 0.7),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+}
+
+.unified-modal-button.secondary {
+    background: rgba(60, 60, 60, 0.9) !important;
+    color: #ffffff !important;
+    border: 2px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.unified-modal-button.secondary:hover {
+    background: rgba(80, 80, 80, 0.95) !important;
+    border-color: rgba(255, 255, 255, 0.4) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* === CORRECCIÓN BOTÓN CERRAR === */
+.unified-toast-close {
+    position: absolute !important;
+    top: 12px !important;
+    right: 12px !important;
+    width: 32px !important;
+    height: 32px !important;
+    border: none !important;
+    background: rgba(255, 255, 255, 0.15) !important;
+    color: #ffffff !important;
+    border-radius: 50% !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 20px !important;
+    transition: all 0.2s ease !important;
+    backdrop-filter: blur(10px) !important;
+    line-height: 1 !important;
+    padding: 0 !important;
+}
+
+.unified-toast-close:hover {
+    background: rgba(255, 68, 68, 0.3) !important;
+    transform: scale(1.1) rotate(90deg) !important;
+}
+
+.unified-modal-close {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 2px solid rgba(255, 255, 255, 0.2) !important;
+    color: #ffffff !important;
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 50% !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 20px !important;
+    transition: all 0.3s ease !important;
+    backdrop-filter: blur(10px) !important;
+    flex-shrink: 0 !important;
+}
+
+.unified-modal-close:hover {
+    background: rgba(255, 68, 68, 0.3) !important;
+    border-color: rgba(255, 68, 68, 0.5) !important;
+    transform: rotate(90deg) scale(1.1) !important;
+}
+
+/* === ANIMACIONES MEJORADAS === */
+@keyframes slideInRight {
+    from {
+        transform: translateX(120%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 0.8;
+    }
+}
+
+/* === RESPONSIVE MÓVIL === */
+@media (max-width: 640px) {
+    .unified-toast-container {
+        top: 60px !important;
+        right: 10px !important;
+        left: 10px !important;
+        width: calc(100vw - 20px) !important;
+        max-width: none !important;
+    }
+
+    .unified-toast {
+        min-width: unset !important;
+        width: 100% !important;
+        padding: 14px 45px 14px 16px !important;
+    }
+
+    .unified-modal {
+        width: 95% !important;
+        max-width: none !important;
+        margin: 10px !important;
+        max-height: 95vh !important;
+    }
+
+    .unified-modal-header {
+        padding: 16px 20px !important;
+    }
+
+    .unified-modal-title {
+        font-size: 18px !important;
+    }
+
+    .unified-modal-body {
+        padding: 20px !important;
+    }
+
+    .unified-modal-message {
+        font-size: 16px !important;
+    }
+
+    .unified-modal-actions {
+        flex-direction: column !important;
+        padding: 16px 20px !important;
+    }
+
+    .unified-modal-button {
+        width: 100% !important;
+        padding: 12px 24px !important;
+    }
+}
+
+/* === MODO OSCURO FORZADO === */
+.unified-toast,
+.unified-modal,
+.unified-modal-overlay {
+    color-scheme: dark !important;
+}
+
+/* === PREVENCIÓN DE CONFLICTOS === */
+.unified-toast-container > *,
+.unified-modal-overlay > * {
+    all: revert;
+}
+
+/* === VISIBILIDAD ASEGURADA === */
+.unified-modal-overlay.show {
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: flex !important;
+}
+
+.unified-modal-overlay.show .unified-modal {
+    transform: scale(1) translateY(0) !important;
+    opacity: 1 !important;
+}
+
+/* === TIPOS DE TOAST MEJORADOS === */
+.unified-toast.success {
+    --toast-accent: #00ff9d !important;
+    border-color: rgba(0, 255, 157, 0.4) !important;
+    background: linear-gradient(135deg, 
+        rgba(0, 255, 157, 0.15) 0%, 
+        rgba(15, 15, 15, 0.98) 100%) !important;
+}
+
+.unified-toast.error {
+    --toast-accent: #ff4444 !important;
+    border-color: rgba(255, 68, 68, 0.4) !important;
+    background: linear-gradient(135deg, 
+        rgba(255, 68, 68, 0.15) 0%, 
+        rgba(15, 15, 15, 0.98) 100%) !important;
+}
+
+.unified-toast.warning {
+    --toast-accent: #ffaa00 !important;
+    border-color: rgba(255, 170, 0, 0.4) !important;
+    background: linear-gradient(135deg, 
+        rgba(255, 170, 0, 0.15) 0%, 
+        rgba(15, 15, 15, 0.98) 100%) !important;
+}
+
+.unified-toast.info {
+    --toast-accent: #00b4d8 !important;
+    border-color: rgba(0, 180, 216, 0.4) !important;
+    background: linear-gradient(135deg, 
+        rgba(0, 180, 216, 0.15) 0%, 
+        rgba(15, 15, 15, 0.98) 100%) !important;
+}
+
+/* === PROGRESS BAR === */
+.unified-toast-progress {
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    height: 3px !important;
+    background: var(--toast-accent, #00ff9d) !important;
+    transition: width linear !important;
+    opacity: 0.8 !important;
+    border-radius: 0 0 12px 12px !important;
+}
