@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Persons Loading</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #1a1a1a; color: white; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .section { margin: 20px 0; padding: 15px; background: #333; border-radius: 8px; }
+        .success { color: #4CAF50; }
+        .error { color: #f44336; }
+        .warning { color: #ff9800; }
+        .info { color: #2196F3; }
+        .button { padding: 10px 20px; margin: 5px; background: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        .button:hover { background: #45a049; }
+        .log-entry { margin: 5px 0; padding: 5px; background: #444; border-radius: 3px; font-family: monospace; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Test Persons Loading</h1>
+        
+        <div class="section">
+            <h3>1. Firebase Status</h3>
+            <div id="firebase-status">Checking...</div>
+        </div>
+
+        <div class="section">
+            <h3>2. Storage State</h3>
+            <div id="storage-state">Checking...</div>
+        </div>
+
+        <div class="section">
+            <h3>3. Load Persons Test</h3>
+            <button class="button" onclick="testGetAllPersons()">Test getAllPersons()</button>
+            <button class="button" onclick="testDirectFirebase()">Test Direct Firebase</button>
+            <div id="persons-result" style="margin-top: 10px;"></div>
+        </div>
+
+        <div class="section">
+            <h3>4. Create Test Person</h3>
+            <button class="button" onclick="createTestPerson()">Create Test Person</button>
+            <div id="create-result" style="margin-top: 10px;"></div>
+        </div>
+
+        <div class="section">
+            <h3>5. Debug Log</h3>
+            <div id="debug-log" style="max-height: 300px; overflow-y: auto; background: #222; padding: 10px;"></div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    
+    <!-- Our Firebase Simple -->
+    <script src="js/firebase-simple.js"></script>
+
+    <script>
+        function log(message, type = 'info') {
+            const logDiv = document.getElementById('debug-log');
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${type}`;
+            const timestamp = new Date().toLocaleTimeString();
+            entry.textContent = `[${timestamp}] ${message}`;
+            logDiv.appendChild(entry);
+            logDiv.scrollTop = logDiv.scrollHeight;
+            console.log(`[${type}] ${message}`);
+        }
+
+        function checkFirebaseStatus() {
+            const statusDiv = document.getElementById('firebase-status');
+            
+            if (typeof firebase === 'undefined') {
+                statusDiv.innerHTML = '<span class="error">❌ Firebase SDK not loaded</span>';
+                log('Firebase SDK not loaded', 'error');
+                return;
+            }
+            
+            if (typeof db === 'undefined' || !db) {
+                statusDiv.innerHTML = '<span class="warning">⚠️ Firebase db not initialized</span>';
+                log('Firebase db not initialized', 'warning');
+                return;
+            }
+            
+            statusDiv.innerHTML = '<span class="success">✅ Firebase connected</span>';
+            log('Firebase connected successfully', 'success');
+        }
+
+        function checkStorageState() {
+            const stateDiv = document.getElementById('storage-state');
+            
+            if (typeof Storage === 'undefined') {
+                stateDiv.innerHTML = '<span class="error">❌ Storage not defined</span>';
+                log('Storage not defined', 'error');
+                return;
+            }
+            
+            const state = {
+                isDemo: Storage.isDemo,
+                currentPersonId: Storage.currentPersonId,
+                currentGroupId: Storage.currentGroupId,
+                cachedPersons: Storage.cachedPersons ? Storage.cachedPersons.length : 0,
+                cachedGroups: Storage.cachedGroups ? Storage.cachedGroups.length : 0
+            };
+            
+            stateDiv.innerHTML = `
+                <div>isDemo: <span class="${state.isDemo ? 'warning' : 'info'}">${state.isDemo}</span></div>
+                <div>currentPersonId: <span class="info">${state.currentPersonId || 'null'}</span></div>
+                <div>currentGroupId: <span class="info">${state.currentGroupId || 'null'}</span></div>
+                <div>cachedPersons: <span class="info">${state.cachedPersons}</span></div>
+                <div>cachedGroups: <span class="info">${state.cachedGroups}</span></div>
+            `;
+            
+            log(`Storage state: isDemo=${state.isDemo}, cachedPersons=${state.cachedPersons}`, 'info');
+        }
+
+        async function testGetAllPersons() {
+            const resultDiv = document.getElementById('persons-result');
+            resultDiv.innerHTML = '<div class="info">Loading...</div>';
+            
+            log('Testing Storage.getAllPersons()...', 'info');
+            
+            try {
+                const persons = await Storage.getAllPersons();
+                log(`getAllPersons returned ${persons.length} persons`, 'success');
+                
+                if (persons.length === 0) {
+                    resultDiv.innerHTML = '<div class="warning">⚠️ No persons found</div>';
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="success">✅ Found ${persons.length} persons:</div>
+                        ${persons.map(p => `
+                            <div class="log-entry">
+                                ${p.name} (${p.email}) - ID: ${p.id}
+                            </div>
+                        `).join('')}
+                    `;
+                }
+                
+                // Update storage state after loading
+                checkStorageState();
+                
+            } catch (error) {
+                log(`Error in getAllPersons: ${error.message}`, 'error');
+                resultDiv.innerHTML = `<div class="error">❌ Error: ${error.message}</div>`;
+            }
+        }
+
+        async function testDirectFirebase() {
+            const resultDiv = document.getElementById('persons-result');
+            resultDiv.innerHTML = '<div class="info">Loading directly from Firebase...</div>';
+            
+            if (!db) {
+                resultDiv.innerHTML = '<div class="error">❌ Firebase db not available</div>';
+                log('Cannot test direct Firebase - db not initialized', 'error');
+                return;
+            }
+            
+            try {
+                log('Querying Firebase directly...', 'info');
+                const snapshot = await db.collection('persons').get();
+                
+                const persons = [];
+                snapshot.forEach(doc => {
+                    persons.push({ id: doc.id, ...doc.data() });
+                });
+                
+                log(`Direct Firebase query returned ${persons.length} persons`, 'success');
+                
+                if (persons.length === 0) {
+                    resultDiv.innerHTML = '<div class="warning">⚠️ No persons in Firebase database</div>';
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="success">✅ Found ${persons.length} persons in Firebase:</div>
+                        ${persons.map(p => `
+                            <div class="log-entry">
+                                ${p.name} (${p.email || 'no email'}) - ID: ${p.id}
+                            </div>
+                        `).join('')}
+                    `;
+                }
+                
+            } catch (error) {
+                log(`Direct Firebase error: ${error.message}`, 'error');
+                resultDiv.innerHTML = `<div class="error">❌ Firebase Error: ${error.message}</div>`;
+            }
+        }
+
+        async function createTestPerson() {
+            const resultDiv = document.getElementById('create-result');
+            resultDiv.innerHTML = '<div class="info">Creating test person...</div>';
+            
+            const testPerson = {
+                name: `Test User ${Date.now()}`,
+                email: `test${Date.now()}@example.com`,
+                phone: '123-456-7890',
+                createdAt: new Date().toISOString()
+            };
+            
+            try {
+                log(`Creating person: ${testPerson.name}`, 'info');
+                
+                if (!db) {
+                    throw new Error('Firebase db not initialized');
+                }
+                
+                const docRef = await db.collection('persons').add(testPerson);
+                log(`Person created with ID: ${docRef.id}`, 'success');
+                
+                resultDiv.innerHTML = `
+                    <div class="success">✅ Person created successfully!</div>
+                    <div class="log-entry">
+                        Name: ${testPerson.name}<br>
+                        Email: ${testPerson.email}<br>
+                        ID: ${docRef.id}
+                    </div>
+                `;
+                
+                // Clear cache to force reload
+                Storage.cachedPersons = [];
+                
+            } catch (error) {
+                log(`Error creating person: ${error.message}`, 'error');
+                resultDiv.innerHTML = `<div class="error">❌ Error: ${error.message}</div>`;
+            }
+        }
+
+        // Initialize checks on load
+        window.addEventListener('DOMContentLoaded', () => {
+            log('Page loaded, running initial checks...', 'info');
+            setTimeout(() => {
+                checkFirebaseStatus();
+                checkStorageState();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

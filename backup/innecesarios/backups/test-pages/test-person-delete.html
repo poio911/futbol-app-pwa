@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔧 Test Person Delete - FC24</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .section {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+        .log {
+            background: #111;
+            border: 1px solid #333;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        button {
+            background: #00ff9d;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            font-weight: bold;
+        }
+        button:hover {
+            background: #00cc7d;
+        }
+        .danger { background: #ff4444; color: white; }
+        .warning { background: #ffaa00; color: black; }
+        
+        .person-item {
+            background: #222;
+            padding: 15px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border: 1px solid #444;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .person-info {
+            flex: 1;
+        }
+        
+        .step {
+            background: #2a2a2a;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border-left: 3px solid #00ff9d;
+        }
+        
+        h2 { color: #00ff9d; }
+        h3 { color: #ffaa00; }
+    </style>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Test Person Delete - Diagnostic Tool</h1>
+        
+        <div class="section">
+            <h2>🔍 Current Persons in Database</h2>
+            <div id="persons-count">Loading...</div>
+            <div id="persons-list"></div>
+            <button onclick="loadPersons()">🔄 Reload Persons</button>
+        </div>
+
+        <div class="section">
+            <h2>🧪 Step-by-Step Delete Test</h2>
+            <p>This will test the complete person deletion process step by step</p>
+            <button onclick="stepByStepDeleteTest()" class="warning">🔬 Run Step-by-Step Test</button>
+            <div id="test-steps"></div>
+        </div>
+
+        <div class="section">
+            <h2>🗑️ Mass Delete Test</h2>
+            <p>This will simulate the admin-cleanup mass delete process</p>
+            <button onclick="massDeleteTest()" class="danger">💥 Test Mass Delete</button>
+        </div>
+
+        <div class="section">
+            <h2>📊 Cache vs Database Comparison</h2>
+            <button onclick="compareCacheVsDatabase()">🔍 Compare Cache vs DB</button>
+            <div id="comparison-results"></div>
+        </div>
+
+        <div class="section">
+            <h2>📝 Detailed Logs</h2>
+            <button onclick="clearLogs()">🧹 Clear Logs</button>
+            <div class="log" id="log"></div>
+        </div>
+    </div>
+
+    <script src="js/firebase-simple.js"></script>
+    
+    <script>
+        let currentPersons = [];
+
+        function log(message, type = 'info') {
+            const logElement = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            const color = type === 'error' ? '#ff4444' : type === 'success' ? '#44ff44' : type === 'warning' ? '#ffaa00' : '#ccc';
+            logElement.innerHTML += `<div style="color: ${color}">[${timestamp}] ${message}</div>`;
+            logElement.scrollTop = logElement.scrollHeight;
+            console.log(message);
+        }
+
+        function clearLogs() {
+            document.getElementById('log').innerHTML = '';
+        }
+
+        function addStep(message, type = 'info') {
+            const stepsContainer = document.getElementById('test-steps');
+            const color = type === 'error' ? '#ff4444' : type === 'success' ? '#44ff44' : type === 'warning' ? '#ffaa00' : '#00ff9d';
+            const icon = type === 'error' ? '❌' : type === 'success' ? '✅' : type === 'warning' ? '⚠️' : '🔍';
+            
+            const stepDiv = document.createElement('div');
+            stepDiv.className = 'step';
+            stepDiv.style.borderLeftColor = color;
+            stepDiv.innerHTML = `${icon} ${message}`;
+            stepsContainer.appendChild(stepDiv);
+        }
+
+        async function loadPersons() {
+            log('🔄 Loading persons from Firebase...', 'info');
+            
+            try {
+                // Clear cache first
+                Storage.cachedPersons = [];
+                
+                // Load from Firebase
+                await Storage.loadPersonsFromFirebase();
+                currentPersons = Storage.getPersons();
+                
+                log(`📊 Found ${currentPersons.length} persons in Firebase`, 'info');
+                
+                // Display persons
+                const countDiv = document.getElementById('persons-count');
+                countDiv.innerHTML = `<h3>Total Persons: ${currentPersons.length}</h3>`;
+                
+                const listDiv = document.getElementById('persons-list');
+                if (currentPersons.length === 0) {
+                    listDiv.innerHTML = '<div style="color: #888; padding: 20px; text-align: center;">No persons found</div>';
+                } else {
+                    const html = currentPersons.map(person => `
+                        <div class="person-item">
+                            <div class="person-info">
+                                <strong>${person.name}</strong> - ${person.email}<br>
+                                <small>ID: ${person.id}</small>
+                            </div>
+                            <button onclick="deleteSinglePerson('${person.id}')" class="danger">Delete</button>
+                        </div>
+                    `).join('');
+                    listDiv.innerHTML = html;
+                }
+                
+            } catch (error) {
+                log('❌ Error loading persons: ' + error.message, 'error');
+            }
+        }
+
+        async function deleteSinglePerson(personId) {
+            log(`🗑️ Deleting single person: ${personId}`, 'info');
+            
+            try {
+                const success = await Storage.deletePerson(personId);
+                
+                if (success) {
+                    log('✅ Person deleted successfully', 'success');
+                    await loadPersons(); // Reload to verify
+                } else {
+                    log('❌ Person deletion failed', 'error');
+                }
+                
+            } catch (error) {
+                log('❌ Error deleting person: ' + error.message, 'error');
+            }
+        }
+
+        async function stepByStepDeleteTest() {
+            document.getElementById('test-steps').innerHTML = '';
+            
+            addStep('Starting step-by-step delete test...', 'info');
+            
+            try {
+                // Step 1: Create test person
+                addStep('Step 1: Creating test person...', 'info');
+                const testPerson = {
+                    id: 'step-test-person-' + Date.now(),
+                    name: 'Step Test Person',
+                    email: 'steptest@test.com',
+                    isTest: true
+                };
+                
+                const created = await Storage.addPerson(testPerson);
+                if (created) {
+                    addStep(`✅ Test person created: ${testPerson.id}`, 'success');
+                } else {
+                    addStep('❌ Failed to create test person', 'error');
+                    return;
+                }
+                
+                // Step 2: Verify person exists in cache
+                addStep('Step 2: Checking cache...', 'info');
+                await Storage.loadPersonsFromFirebase();
+                let cachePersons = Storage.getPersons();
+                let foundInCache = cachePersons.find(p => p.id === testPerson.id);
+                if (foundInCache) {
+                    addStep(`✅ Person found in cache: ${foundInCache.name}`, 'success');
+                } else {
+                    addStep('⚠️ Person not found in cache', 'warning');
+                }
+                
+                // Step 3: Verify person exists in Firebase directly
+                addStep('Step 3: Checking Firebase directly...', 'info');
+                try {
+                    const doc = await db.collection('persons').doc(testPerson.id).get();
+                    if (doc.exists) {
+                        addStep(`✅ Person exists in Firebase: ${doc.data().name}`, 'success');
+                    } else {
+                        addStep('❌ Person not found in Firebase', 'error');
+                    }
+                } catch (error) {
+                    addStep('❌ Error checking Firebase: ' + error.message, 'error');
+                }
+                
+                // Step 4: Delete person
+                addStep('Step 4: Deleting person...', 'info');
+                const deleteSuccess = await Storage.deletePerson(testPerson.id);
+                if (deleteSuccess) {
+                    addStep('✅ Delete function returned success', 'success');
+                } else {
+                    addStep('❌ Delete function returned failure', 'error');
+                }
+                
+                // Step 5: Verify deletion in cache
+                addStep('Step 5: Checking cache after deletion...', 'info');
+                let newCachePersons = Storage.getPersons();
+                let stillInCache = newCachePersons.find(p => p.id === testPerson.id);
+                if (!stillInCache) {
+                    addStep('✅ Person removed from cache', 'success');
+                } else {
+                    addStep('❌ Person still in cache!', 'error');
+                }
+                
+                // Step 6: Verify deletion in Firebase
+                addStep('Step 6: Checking Firebase after deletion...', 'info');
+                try {
+                    const doc = await db.collection('persons').doc(testPerson.id).get();
+                    if (!doc.exists) {
+                        addStep('✅ Person removed from Firebase', 'success');
+                    } else {
+                        addStep('❌ Person still exists in Firebase!', 'error');
+                    }
+                } catch (error) {
+                    addStep('❌ Error checking Firebase: ' + error.message, 'error');
+                }
+                
+                // Step 7: Reload and final verification
+                addStep('Step 7: Final verification with fresh load...', 'info');
+                Storage.cachedPersons = []; // Clear cache
+                await Storage.loadPersonsFromFirebase();
+                let finalPersons = Storage.getPersons();
+                let finalCheck = finalPersons.find(p => p.id === testPerson.id);
+                if (!finalCheck) {
+                    addStep('✅ FINAL VERIFICATION: Person is completely deleted', 'success');
+                } else {
+                    addStep('❌ FINAL VERIFICATION: Person still exists!', 'error');
+                }
+                
+                addStep('Test completed!', 'info');
+                
+            } catch (error) {
+                addStep('❌ Test failed with error: ' + error.message, 'error');
+            }
+        }
+
+        async function massDeleteTest() {
+            log('🔬 Starting mass delete test...', 'info');
+            
+            try {
+                // First, create multiple test persons
+                log('Creating 3 test persons...', 'info');
+                const testPersons = [];
+                
+                for (let i = 1; i <= 3; i++) {
+                    const testPerson = {
+                        id: `mass-test-person-${Date.now()}-${i}`,
+                        name: `Mass Test Person ${i}`,
+                        email: `masstest${i}@test.com`,
+                        isTest: true
+                    };
+                    
+                    const created = await Storage.addPerson(testPerson);
+                    if (created) {
+                        testPersons.push(testPerson);
+                        log(`✅ Created test person ${i}: ${testPerson.id}`, 'success');
+                    } else {
+                        log(`❌ Failed to create test person ${i}`, 'error');
+                    }
+                }
+                
+                if (testPersons.length === 0) {
+                    log('❌ No test persons created, aborting mass delete test', 'error');
+                    return;
+                }
+                
+                // Wait a moment
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // Simulate admin-cleanup mass delete process
+                log(`🗑️ Starting mass deletion of ${testPersons.length} persons...`, 'info');
+                
+                let deleted = 0;
+                for (const person of testPersons) {
+                    log(`Deleting person: ${person.id}`, 'info');
+                    const success = await Storage.deletePerson(person.id);
+                    if (success) {
+                        deleted++;
+                        log(`✅ Deleted: ${person.name}`, 'success');
+                    } else {
+                        log(`❌ Failed to delete: ${person.name}`, 'error');
+                    }
+                }
+                
+                log(`📊 Mass delete completed: ${deleted}/${testPersons.length} deleted`, deleted === testPersons.length ? 'success' : 'warning');
+                
+                // Reload and verify
+                log('🔄 Reloading data to verify mass deletion...', 'info');
+                await loadPersons();
+                
+                let stillExisting = 0;
+                for (const testPerson of testPersons) {
+                    const stillExists = Storage.getPersonById(testPerson.id);
+                    if (stillExists) {
+                        stillExisting++;
+                        log(`❌ Person still exists: ${testPerson.id}`, 'error');
+                    }
+                }
+                
+                if (stillExisting === 0) {
+                    log('✅ MASS DELETE SUCCESS: All test persons completely removed', 'success');
+                } else {
+                    log(`❌ MASS DELETE INCOMPLETE: ${stillExisting} persons still exist`, 'error');
+                }
+                
+            } catch (error) {
+                log('❌ Mass delete test failed: ' + error.message, 'error');
+            }
+        }
+
+        async function compareCacheVsDatabase() {
+            log('🔍 Comparing cache vs database...', 'info');
+            
+            try {
+                // Get from cache
+                const cachePersons = Storage.getPersons();
+                log(`📊 Cache has ${cachePersons.length} persons`, 'info');
+                
+                // Get directly from Firebase
+                const snapshot = await db.collection('persons').get();
+                const dbPersons = [];
+                snapshot.forEach(doc => {
+                    dbPersons.push({ id: doc.id, ...doc.data() });
+                });
+                log(`📊 Firebase has ${dbPersons.length} persons`, 'info');
+                
+                // Compare
+                const resultsDiv = document.getElementById('comparison-results');
+                let html = `
+                    <h3>Comparison Results</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div>
+                            <h4>Cache (${cachePersons.length} persons)</h4>
+                            ${cachePersons.map(p => `<div>• ${p.name} (${p.id})</div>`).join('') || '<div style="color: #888;">Empty</div>'}
+                        </div>
+                        <div>
+                            <h4>Firebase (${dbPersons.length} persons)</h4>
+                            ${dbPersons.map(p => `<div>• ${p.name} (${p.id})</div>`).join('') || '<div style="color: #888;">Empty</div>'}
+                        </div>
+                    </div>
+                `;
+                
+                if (cachePersons.length !== dbPersons.length) {
+                    html += `<div style="color: #ff4444; margin-top: 15px;">⚠️ MISMATCH: Cache has ${cachePersons.length} persons but Firebase has ${dbPersons.length}</div>`;
+                    log(`❌ MISMATCH DETECTED: Cache(${cachePersons.length}) vs Firebase(${dbPersons.length})`, 'error');
+                } else {
+                    html += `<div style="color: #44ff44; margin-top: 15px;">✅ MATCH: Both cache and Firebase have ${cachePersons.length} persons</div>`;
+                    log(`✅ MATCH: Both sources have ${cachePersons.length} persons`, 'success');
+                }
+                
+                resultsDiv.innerHTML = html;
+                
+            } catch (error) {
+                log('❌ Error comparing cache vs database: ' + error.message, 'error');
+            }
+        }
+
+        // Auto-load on page load
+        window.addEventListener('load', async () => {
+            log('🚀 Person Delete Diagnostic Tool loaded', 'info');
+            
+            setTimeout(async () => {
+                await loadPersons();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

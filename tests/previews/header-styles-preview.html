@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Header Styles Preview - Player Card Style</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        :root {
+            --primary: #00ff9d;
+            --secondary: #ff00e6;
+            --dark: #1a1a2e;
+            --dark-light: #16213e;
+            --text: #ffffff;
+            --text-light: #e0e6ed;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .preview-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .preview-title {
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--primary);
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .options-grid {
+            display: grid;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .option-card {
+            background: rgba(26, 26, 46, 0.8);
+            border: 1px solid rgba(0, 255, 157, 0.2);
+            border-radius: 20px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .option-title {
+            color: var(--primary);
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* OPCIÓN 1: EA SPORTS CARD STYLE HEADER */
+        .header-option-1 {
+            position: relative;
+            height: 80px;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            border: 2px solid #00ff9d;
+            border-radius: 15px;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .header-left-1 {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-card-mini {
+            background: linear-gradient(135deg, rgba(0, 255, 157, 0.2) 0%, rgba(0, 216, 255, 0.2) 100%);
+            border: 1px solid var(--primary);
+            border-radius: 12px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 120px;
+        }
+
+        .user-avatar-mini {
+            width: 35px;
+            height: 35px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--dark);
+            font-size: 14px;
+        }
+
+        .user-info-mini {
+            flex: 1;
+        }
+
+        .user-name-mini {
+            font-size: 13px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .user-position-mini {
+            background: var(--primary);
+            color: var(--dark);
+            font-size: 9px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        .user-ovr-large {
+            background: linear-gradient(135deg, #ffd700 0%, #ff8c00 100%);
+            color: #1a1a2e;
+            font-size: 24px;
+            font-weight: 900;
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+            border: 2px solid #ffd700;
+        }
+
+        /* OPCIÓN 2: FIFA CARD STYLE HEADER */
+        .header-option-2 {
+            position: relative;
+            height: 90px;
+            background: linear-gradient(45deg, #0f1419 0%, #1a2332 50%, #0f1419 100%);
+            border: 3px solid;
+            border-image: linear-gradient(45deg, #00ff9d 0%, #ff00e6 50%, #00ff9d 100%) 1;
+            border-radius: 20px;
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            overflow: hidden;
+        }
+
+        .header-option-2::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%2300ff9d" stroke-width="0.5" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            pointer-events: none;
+        }
+
+        .fifa-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            z-index: 2;
+        }
+
+        .fifa-player-card {
+            background: linear-gradient(135deg, rgba(0, 255, 157, 0.15) 0%, rgba(255, 0, 230, 0.15) 100%);
+            border: 2px solid var(--primary);
+            border-radius: 15px;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+        }
+
+        .fifa-rating {
+            background: linear-gradient(135deg, #ffd700 0%, #ff8c00 100%);
+            color: #000;
+            font-size: 20px;
+            font-weight: 900;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 8px rgba(255, 215, 0, 0.4);
+        }
+
+        /* OPCIÓN 3: COMPACT RADAR STYLE HEADER */
+        .header-option-3 {
+            height: 85px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border: 2px solid var(--primary);
+            border-radius: 18px;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        .radar-mini {
+            width: 50px;
+            height: 50px;
+            position: relative;
+        }
+
+        .radar-mini svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .radar-grid {
+            fill: none;
+            stroke: rgba(0, 255, 157, 0.2);
+            stroke-width: 0.5;
+        }
+
+        .radar-area {
+            fill: rgba(0, 255, 157, 0.3);
+            stroke: var(--primary);
+            stroke-width: 1;
+        }
+
+        /* OPCIÓN 4: TAG-BASED HEADER */
+        .header-option-4 {
+            height: 95px;
+            background: linear-gradient(135deg, #0f1419 0%, #1a2332 100%);
+            border: 2px solid var(--primary);
+            border-radius: 16px;
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .user-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        .user-tag {
+            background: linear-gradient(135deg, rgba(0, 255, 157, 0.2) 0%, rgba(0, 216, 255, 0.2) 100%);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            font-size: 10px;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 8px;
+            text-transform: uppercase;
+        }
+
+        .notifications-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .notification-bell {
+            position: relative;
+            background: rgba(0, 255, 157, 0.1);
+            border: 1px solid var(--primary);
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .notification-bell:hover {
+            background: rgba(0, 255, 157, 0.2);
+            transform: scale(1.05);
+        }
+
+        .notification-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff4757;
+            color: white;
+            font-size: 11px;
+            font-weight: 700;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .dropdown-preview {
+            margin-top: 15px;
+            background: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%);
+            border: 2px solid var(--primary);
+            border-radius: 15px;
+            padding: 15px;
+            max-width: 300px;
+        }
+
+        .dropdown-item-preview {
+            padding: 12px 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            color: var(--text-light);
+            border-radius: 8px;
+            margin-bottom: 5px;
+        }
+
+        .dropdown-item-preview:hover {
+            background: rgba(0, 255, 157, 0.1);
+            color: white;
+        }
+
+        .controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            background: var(--primary);
+            color: var(--dark);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #00cc7d;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="preview-container">
+        <h1 class="preview-title">🎮 Header Styles Preview - Basado en Player Cards</h1>
+        
+        <!-- OPCIÓN 1: EA SPORTS CARD STYLE -->
+        <div class="option-card">
+            <h2 class="option-title">
+                <i class='bx bx-star'></i>
+                Opción 1: EA Sports Card Style
+            </h2>
+            <div class="header-option-1">
+                <div class="header-left-1">
+                    <div class="user-card-mini">
+                        <div class="user-avatar-mini">P</div>
+                        <div class="user-info-mini">
+                            <div class="user-name-mini">Pela</div>
+                            <div class="user-position-mini">MED</div>
+                        </div>
+                    </div>
+                    <div style="color: rgba(255,255,255,0.7); font-size: 14px;">
+                        <i class='bx bx-football'></i> Fútbol en el Galpón
+                    </div>
+                </div>
+                
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div class="user-ovr-large">56</div>
+                    
+                    <div class="notifications-section">
+                        <div class="notification-bell">
+                            <i class='bx bx-bell'></i>
+                            <div class="notification-count">3</div>
+                        </div>
+                        
+                        <div style="cursor: pointer; color: var(--primary);">
+                            <i class='bx bx-menu'></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dropdown-preview">
+                <div class="dropdown-item-preview">
+                    <i class='bx bx-user'></i>
+                    <span>Mi Perfil</span>
+                </div>
+                <div class="dropdown-item-preview">
+                    <i class='bx bx-stats'></i>
+                    <span>Mis Estadísticas</span>
+                </div>
+                <div class="dropdown-item-preview">
+                    <i class='bx bx-cog'></i>
+                    <span>Configuración</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- OPCIÓN 2: FIFA CARD STYLE -->
+        <div class="option-card">
+            <h2 class="option-title">
+                <i class='bx bx-trophy'></i>
+                Opción 2: FIFA Ultimate Team Style
+            </h2>
+            <div class="header-option-2">
+                <div class="fifa-left">
+                    <div class="fifa-player-card">
+                        <div class="fifa-rating">56</div>
+                        <div>
+                            <div style="font-weight: 600; font-size: 16px; color: white;">Pela</div>
+                            <div style="font-size: 12px; color: var(--primary); font-weight: 600;">MED • Fútbol en el Galpón</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="notifications-section">
+                    <div class="notification-bell">
+                        <i class='bx bx-bell'></i>
+                        <div class="notification-count">3</div>
+                    </div>
+                    
+                    <div style="cursor: pointer; color: var(--primary); font-size: 24px;">
+                        <i class='bx bx-dots-vertical-rounded'></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- OPCIÓN 3: COMPACT RADAR STYLE -->
+        <div class="option-card">
+            <h2 class="option-title">
+                <i class='bx bx-radar'></i>
+                Opción 3: Compact Radar Style
+            </h2>
+            <div class="header-option-3">
+                <div style="display: flex; align-items: center; gap: 20px;">
+                    <div class="radar-mini">
+                        <svg viewBox="0 0 60 60">
+                            <polygon points="30,5 50,20 50,40 30,55 10,40 10,20" class="radar-grid"/>
+                            <polygon points="30,15 35,22 35,38 30,45 25,38 25,22" class="radar-area"/>
+                        </svg>
+                    </div>
+                    
+                    <div>
+                        <div style="font-weight: 600; font-size: 18px; color: white;">Pela</div>
+                        <div style="font-size: 12px; color: var(--primary); font-weight: 600;">MED • OVR 56</div>
+                        <div class="user-tags">
+                            <span class="user-tag">Técnico</span>
+                            <span class="user-tag">Creativo</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="notifications-section">
+                    <div class="notification-bell">
+                        <i class='bx bx-bell'></i>
+                        <div class="notification-count">3</div>
+                    </div>
+                    
+                    <div style="cursor: pointer; color: var(--primary);">
+                        <i class='bx bx-user-circle' style="font-size: 32px;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- OPCIÓN 4: TAG-BASED HEADER -->
+        <div class="option-card">
+            <h2 class="option-title">
+                <i class='bx bx-purchase-tag'></i>
+                Opción 4: Tag-Based Style
+            </h2>
+            <div class="header-option-4">
+                <div style="display: flex; align-items: center; gap: 20px;">
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <div style="
+                            width: 50px; height: 50px; 
+                            background: linear-gradient(135deg, var(--primary) 0%, #00d8ff 100%);
+                            border-radius: 12px; display: flex; align-items: center; justify-content: center;
+                            color: var(--dark); font-weight: 900; font-size: 18px;
+                        ">P</div>
+                        
+                        <div>
+                            <div style="font-weight: 600; font-size: 18px; color: white;">Pela</div>
+                            <div style="display: flex; gap: 8px; margin-top: 4px;">
+                                <span class="user-tag">MED</span>
+                                <span class="user-tag">56 OVR</span>
+                                <span class="user-tag">Técnico</span>
+                                <span class="user-tag">Creativo</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="notifications-section">
+                    <div class="notification-bell">
+                        <i class='bx bx-bell'></i>
+                        <div class="notification-count">3</div>
+                    </div>
+                    
+                    <div style="cursor: pointer; color: var(--primary);">
+                        <i class='bx bx-menu' style="font-size: 24px;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="btn" onclick="window.close()">Cerrar Preview</button>
+        <button class="btn" onclick="location.reload()">Recargar</button>
+    </div>
+</body>
+</html>

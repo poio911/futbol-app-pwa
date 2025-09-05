@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Status Check</title>
+    <style>
+        body { font-family: monospace; padding: 20px; background: #1a1a1a; color: #00ff00; }
+        .status { margin: 10px 0; }
+        .error { color: #ff4444; }
+        .success { color: #44ff44; }
+        .info { color: #4444ff; }
+    </style>
+</head>
+<body>
+    <h1>🔥 Firebase Integration Status Check</h1>
+    <div id="output"></div>
+
+    <script type="module">
+        const output = document.getElementById('output');
+        
+        function log(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `status ${type}`;
+            div.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            output.appendChild(div);
+            console.log(message);
+        }
+
+        try {
+            log('🚀 Starting Firebase integration test...', 'info');
+            
+            // Test Firebase config import
+            import('./js/firebase-config.js').then(() => {
+                log('✅ Firebase config loaded successfully', 'success');
+            }).catch(err => {
+                log(`❌ Firebase config error: ${err.message}`, 'error');
+            });
+            
+            // Test Firebase storage import
+            import('./js/firebase-storage.js').then(() => {
+                log('✅ Firebase storage loaded successfully', 'success');
+            }).catch(err => {
+                log(`❌ Firebase storage error: ${err.message}`, 'error');
+            });
+            
+            // Test storage wrapper import
+            import('./js/storage-wrapper.js').then(module => {
+                log('✅ Storage wrapper loaded successfully', 'success');
+                
+                // Test demo mode
+                const Storage = module.default;
+                Storage.setCurrentPerson('demo-person-1');
+                Storage.setCurrentGroup('demo-group-1');
+                
+                const players = Storage.getPlayers();
+                log(`✅ Demo players loaded: ${players.length} players`, 'success');
+                
+                // Test first player name
+                if (players.length > 0 && players[0].name) {
+                    log(`✅ First player name: "${players[0].name}"`, 'success');
+                } else {
+                    log('❌ No player names found!', 'error');
+                }
+                
+                // Test team generation
+                if (players.length >= 2) {
+                    import('./js/utils.js').then(utilsModule => {
+                        const Utils = utilsModule.default;
+                        try {
+                            const teams = Utils.balanceTeams(players);
+                            log(`✅ Teams generated successfully: ${teams.teamA.players.length} vs ${teams.teamB.players.length}`, 'success');
+                            
+                            // Test match creation
+                            const match = {
+                                id: Date.now().toString(),
+                                date: new Date().toISOString(),
+                                createdAt: new Date().toISOString(),
+                                teamA: teams.teamA,
+                                teamB: teams.teamB,
+                                difference: teams.difference,
+                                status: 'pending',
+                                format: '5v5',
+                                selectedPlayers: teams.teamA.players.concat(teams.teamB.players).map(p => p.id),
+                                result: null,
+                                evaluations: []
+                            };
+                            
+                            Storage.addMatch(match).then(success => {
+                                if (success) {
+                                    log('✅ Test match created successfully', 'success');
+                                    
+                                    const matches = Storage.getMatches();
+                                    log(`✅ Matches retrieved: ${matches.length} matches`, 'success');
+                                    
+                                    if (matches.length > 0) {
+                                        const testMatch = matches[0];
+                                        const testPlayers = [...testMatch.teamA.players, ...testMatch.teamB.players];
+                                        
+                                        if (testPlayers.length > 0 && testPlayers[0].name) {
+                                            log(`✅ EVALUATION TEST: Player names in match: "${testPlayers[0].name}"`, 'success');
+                                            log('🎉 ALL TESTS PASSED! The system should work correctly.', 'success');
+                                        } else {
+                                            log('❌ EVALUATION TEST FAILED: No player names in matches!', 'error');
+                                        }
+                                    }
+                                } else {
+                                    log('❌ Failed to create test match', 'error');
+                                }
+                            });
+                            
+                        } catch (utilsError) {
+                            log(`❌ Utils error: ${utilsError.message}`, 'error');
+                        }
+                    });
+                }
+                
+            }).catch(err => {
+                log(`❌ Storage wrapper error: ${err.message}`, 'error');
+            });
+            
+        } catch (error) {
+            log(`❌ Critical error: ${error.message}`, 'error');
+        }
+    </script>
+</body>
+</html>

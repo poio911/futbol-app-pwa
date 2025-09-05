@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Vista Mejorada de Jugadores</title>
+    
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-storage-compat.js"></script>
+    
+    <!-- Core styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/players-view-enhanced.css">
+    
+    <style>
+        :root {
+            --primary: #00ff9d;
+            --secondary: #ff00e6;
+            --dark: #0a0a0a;
+            --darker: #050505;
+            --card-bg: rgba(25, 25, 25, 0.7);
+            --text-light: #e0e0e0;
+            --text-secondary: rgba(255, 255, 255, 0.6);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 255, 157, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 0, 230, 0.1) 0%, transparent 20%),
+                linear-gradient(to bottom, var(--dark), var(--darker));
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            color: var(--primary);
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            font-size: 2rem;
+        }
+        
+        .test-controls {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .test-controls button {
+            background: var(--primary);
+            color: var(--dark);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: all 0.3s;
+        }
+        
+        .test-controls button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 255, 157, 0.3);
+        }
+        
+        .status-message {
+            text-align: center;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .status-message.success {
+            background: rgba(0, 255, 157, 0.1);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            display: block;
+        }
+        
+        .status-message.error {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid #ff0000;
+            color: #ff6666;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏟️ Vista Mejorada de Jugadores - Test</h1>
+        
+        <div class="test-controls">
+            <button onclick="loadMockData()">Cargar Datos de Prueba</button>
+            <button onclick="loadFirebaseData()">Cargar desde Firebase</button>
+            <button onclick="clearView()">Limpiar Vista</button>
+        </div>
+        
+        <div id="status-message" class="status-message"></div>
+        
+        <!-- Players List Container -->
+        <div id="players-list">
+            <p style="color: var(--text-secondary); text-align: center; padding: 40px;">
+                Haz clic en "Cargar Datos de Prueba" o "Cargar desde Firebase" para ver los jugadores
+            </p>
+        </div>
+    </div>
+    
+    <!-- Load Firebase config -->
+    <script src="js/firebase-simple.js"></script>
+    
+    <!-- Load Enhanced Players View -->
+    <script src="js/players-view-enhanced.js"></script>
+    
+    <script>
+        // Mock data for testing (using Firebase format)
+        const mockPlayers = [
+            {
+                id: '1',
+                name: 'Lionel Messi',
+                position: 'DEL',
+                attributes: { pac: 85, sho: 92, pas: 91, dri: 95, def: 35, phy: 65 },
+                ovr: 91,
+                matchesPlayed: 142,
+                goals: 98,
+                assists: 67
+            },
+            {
+                id: '2',
+                name: 'Virgil van Dijk',
+                position: 'DEF',
+                attributes: { pac: 77, sho: 60, pas: 71, dri: 72, def: 92, phy: 86 },
+                ovr: 89,
+                matchesPlayed: 89,
+                goals: 12,
+                assists: 8
+            },
+            {
+                id: '3',
+                name: 'Kevin De Bruyne',
+                position: 'MED',
+                attributes: { pac: 76, sho: 86, pas: 93, dri: 88, def: 64, phy: 78 },
+                ovr: 91,
+                matchesPlayed: 108,
+                goals: 45,
+                assists: 73
+            },
+            {
+                id: '4',
+                name: 'Manuel Neuer',
+                position: 'POR',
+                attributes: { pac: 43, sho: 25, pas: 91, dri: 88, def: 52, phy: 83 },
+                ovr: 89,
+                matchesPlayed: 95,
+                goals: 0,
+                assists: 2
+            },
+            {
+                id: '5',
+                name: 'Cristiano Ronaldo',
+                position: 'DEL',
+                attributes: { pac: 81, sho: 93, pas: 78, dri: 85, def: 32, phy: 77 },
+                ovr: 88,
+                matchesPlayed: 156,
+                goals: 112,
+                assists: 42
+            },
+            {
+                id: '6',
+                name: 'Sergio Ramos',
+                position: 'DEF',
+                attributes: { pac: 71, sho: 63, pas: 66, dri: 52, def: 87, phy: 84 },
+                ovr: 84,
+                matchesPlayed: 120,
+                goals: 18,
+                assists: 5
+            }
+        ];
+        
+        // Load mock data
+        function loadMockData() {
+            showStatus('Cargando datos de prueba...', 'success');
+            
+            if (typeof PlayersViewEnhanced !== 'undefined') {
+                PlayersViewEnhanced.displayPlayers(mockPlayers);
+                showStatus(`${mockPlayers.length} jugadores cargados correctamente`, 'success');
+            } else {
+                showStatus('Error: PlayersViewEnhanced no está disponible', 'error');
+            }
+        }
+        
+        // Load from Firebase
+        async function loadFirebaseData() {
+            showStatus('Conectando con Firebase...', 'success');
+            
+            try {
+                if (typeof Storage !== 'undefined' && Storage.loadPlayersFromFirebase) {
+                    await Storage.loadPlayersFromFirebase();
+                    const players = Storage.getPlayers();
+                    
+                    if (players && players.length > 0) {
+                        PlayersViewEnhanced.displayPlayers(players);
+                        showStatus(`${players.length} jugadores cargados desde Firebase`, 'success');
+                    } else {
+                        showStatus('No se encontraron jugadores en Firebase', 'error');
+                    }
+                } else {
+                    showStatus('Storage no está disponible', 'error');
+                }
+            } catch (error) {
+                showStatus(`Error al cargar desde Firebase: ${error.message}`, 'error');
+                console.error(error);
+            }
+        }
+        
+        // Clear view
+        function clearView() {
+            document.getElementById('players-list').innerHTML = `
+                <p style="color: var(--text-secondary); text-align: center; padding: 40px;">
+                    Haz clic en "Cargar Datos de Prueba" o "Cargar desde Firebase" para ver los jugadores
+                </p>
+            `;
+            showStatus('Vista limpiada', 'success');
+        }
+        
+        // Show status message
+        function showStatus(message, type) {
+            const statusEl = document.getElementById('status-message');
+            statusEl.textContent = message;
+            statusEl.className = `status-message ${type}`;
+            
+            setTimeout(() => {
+                statusEl.className = 'status-message';
+            }, 3000);
+        }
+        
+        // Auto-load mock data on page load for testing
+        window.addEventListener('load', () => {
+            console.log('🎮 Test page loaded');
+            console.log('PlayersViewEnhanced available:', typeof PlayersViewEnhanced !== 'undefined');
+            
+            // Auto-load mock data after a short delay
+            setTimeout(() => {
+                loadMockData();
+            }, 500);
+        });
+    </script>
+</body>
+</html>

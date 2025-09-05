@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔧 Admin Panel DEBUG - Verificar Fix</title>
+    
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    
+    <style>
+        body { font-family: monospace; background: #0a0a0a; color: #00ff9d; padding: 20px; }
+        pre { background: #111; padding: 15px; border: 1px solid #333; overflow: auto; }
+        button { background: #00ff9d; color: #000; padding: 10px 20px; border: none; cursor: pointer; margin: 5px; }
+        .test { background: rgba(255,255,255,0.1); padding: 15px; margin: 10px 0; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <h1>🔧 Admin Panel DEBUG</h1>
+    <p>Verificando si el fix de atributos está funcionando</p>
+    
+    <button onclick="testPlayerStats()">Test Helper Function</button>
+    <button onclick="loadPelaData()">Load Real Pela Data</button>
+    
+    <div id="results"></div>
+
+    <script>
+        // Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyAes7EVn8hQswS8XgvDMJfN6U4IT_ZL_WY",
+            authDomain: "mil-disculpis.firebaseapp.com",
+            databaseURL: "https://mil-disculpis-default-rtdb.firebaseio.com",
+            projectId: "mil-disculpis",
+            storageBucket: "mil-disculpis.firebasestorage.app",
+            messagingSenderId: "5614567933",
+            appId: "1:5614567933:web:0dce7bf37b8325c0861994",
+            measurementId: "G-EMLP4TKXKR"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        
+        // COPY THE EXACT FUNCTION FROM admin.html
+        function getPlayerStats(player) {
+            console.log('🔍 getPlayerStats called with:', player);
+            
+            // PRIORITY 1: Direct stats (NEW UNIFIED STRUCTURE)
+            if (player.pac !== undefined || player.sho !== undefined) {
+                console.log('✅ Using DIRECT STATS (new structure)');
+                const stats = {
+                    pac: player.pac || 0,
+                    sho: player.sho || 0,
+                    pas: player.pas || 0,
+                    dri: player.dri || 0,
+                    def: player.def || 0,
+                    phy: player.phy || 0
+                };
+                stats.ovr = player.ovr || ((stats.pac + stats.sho + stats.pas + stats.dri + stats.def + stats.phy) / 6);
+                console.log('📊 Returning direct stats:', stats);
+                return stats;
+            }
+            
+            // PRIORITY 2: Nested attributes (LEGACY STRUCTURE)
+            if (player.attributes && Object.keys(player.attributes).length > 0) {
+                console.log('⚠️ Using ATTRIBUTES (legacy structure)');
+                const stats = {
+                    pac: player.attributes.pac || 0,
+                    sho: player.attributes.sho || 0,
+                    pas: player.attributes.pas || 0,
+                    dri: player.attributes.dri || 0,
+                    def: player.attributes.def || 0,
+                    phy: player.attributes.phy || 0
+                };
+                stats.ovr = player.ovr || ((stats.pac + stats.sho + stats.pas + stats.dri + stats.def + stats.phy) / 6);
+                console.log('📊 Returning attributes stats:', stats);
+                return stats;
+            }
+            
+            // PRIORITY 3: Default values
+            console.log('❌ Using DEFAULT VALUES');
+            const stats = { pac: 0, sho: 0, pas: 0, dri: 0, def: 0, phy: 0 };
+            stats.ovr = player.ovr || 0;
+            return stats;
+        }
+        
+        function testPlayerStats() {
+            const resultsDiv = document.getElementById('results');
+            
+            // Simulate Pela's data structure
+            const testPlayer = {
+                displayName: 'Test Player',
+                ovr: 80,
+                // Direct fields (should be used)
+                pac: 75, sho: 80, pas: 78, dri: 76, def: 72, phy: 74,
+                // Legacy attributes (should be ignored)
+                attributes: {
+                    pac: 71, sho: 54, pas: 53, dri: 51, def: 53, phy: 61
+                }
+            };
+            
+            console.log('🧪 Testing with:', testPlayer);
+            const result = getPlayerStats(testPlayer);
+            
+            resultsDiv.innerHTML = `
+                <div class="test">
+                    <h3>🧪 Test Results</h3>
+                    <h4>Input:</h4>
+                    <pre>${JSON.stringify(testPlayer, null, 2)}</pre>
+                    <h4>Output from getPlayerStats():</h4>
+                    <pre>${JSON.stringify(result, null, 2)}</pre>
+                    <h4>Expected vs Actual:</h4>
+                    <p><strong>Expected PAC:</strong> 75 (direct) | <strong>Got:</strong> ${result.pac}</p>
+                    <p><strong>Should ignore attributes PAC:</strong> 71</p>
+                    ${result.pac === 75 ? '<p style="color: lime;">✅ CORRECT - Using direct stats</p>' : '<p style="color: red;">❌ WRONG - Not using direct stats</p>'}
+                </div>
+            `;
+        }
+        
+        async function loadPelaData() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML += '<div class="test"><h3>🔍 Loading Real Pela Data...</h3></div>';
+            
+            try {
+                const snapshot = await db.collection('futbol_users')
+                    .where('email', '==', 'poio911@hotmail.com')
+                    .get();
+                
+                if (snapshot.empty) {
+                    resultsDiv.innerHTML += '<p>❌ Pela not found</p>';
+                    return;
+                }
+                
+                snapshot.forEach(doc => {
+                    const pelaData = doc.data();
+                    console.log('🔍 Real Pela data:', pelaData);
+                    
+                    const stats = getPlayerStats(pelaData);
+                    
+                    resultsDiv.innerHTML += `
+                        <div class="test">
+                            <h3>🎯 Real Pela Data Analysis</h3>
+                            <h4>Raw Firebase Data:</h4>
+                            <pre>${JSON.stringify(pelaData, null, 2)}</pre>
+                            <h4>Processed by getPlayerStats():</h4>
+                            <pre>${JSON.stringify(stats, null, 2)}</pre>
+                            <h4>Analysis:</h4>
+                            <p><strong>Has direct fields?</strong> ${pelaData.pac !== undefined ? 'YES' : 'NO'}</p>
+                            <p><strong>Has attributes?</strong> ${pelaData.attributes ? 'YES' : 'NO'}</p>
+                            <p><strong>Function used:</strong> ${pelaData.pac !== undefined ? 'Direct fields (CORRECT)' : pelaData.attributes ? 'Attributes (FALLBACK)' : 'Defaults'}</p>
+                        </div>
+                    `;
+                });
+                
+            } catch (error) {
+                resultsDiv.innerHTML += `<div class="test"><h3>❌ Error: ${error.message}</h3></div>`;
+            }
+        }
+    </script>
+</body>
+</html>

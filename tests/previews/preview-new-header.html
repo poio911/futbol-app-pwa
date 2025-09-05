@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preview - Nuevo Header Completo</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00ff9d;
+            --secondary: #ff00e6;
+            --dark: #0a0a0a;
+            --darker: #050505;
+            --card-bg: rgba(25, 25, 25, 0.7);
+            --text-light: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 255, 157, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 0, 230, 0.1) 0%, transparent 20%),
+                linear-gradient(to bottom, var(--dark), var(--darker));
+            padding-top: 80px; /* Espacio para header fijo */
+        }
+
+        /* NUEVO HEADER COMPLETO */
+        .new-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 255, 157, 0.1);
+            z-index: 99999;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Sin logo - espacio libre */
+
+        /* Next Match Info */
+        .next-match {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex: 1;
+            justify-content: flex-start;
+        }
+
+        .match-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 16px;
+            background: rgba(0, 255, 157, 0.1);
+            border: 1px solid rgba(0, 255, 157, 0.3);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .match-info:hover {
+            background: rgba(0, 255, 157, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .match-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: white;
+        }
+
+        .match-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .match-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 2px;
+        }
+
+        .match-datetime {
+            font-size: 12px;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .no-match {
+            color: #9CA3AF;
+            font-size: 14px;
+            font-style: italic;
+        }
+
+        /* Right Section */
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        /* Notifications */
+        .notification-bell {
+            position: relative;
+            width: 44px;
+            height: 44px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .notification-bell:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            background: #EF4444;
+            color: white;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 10px;
+            min-width: 18px;
+            text-align: center;
+            border: 2px solid #1a2332;
+        }
+
+        /* User Profile */
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            min-width: 200px;
+        }
+
+        .user-profile:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .user-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 16px;
+            color: white;
+            overflow: hidden;
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .user-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .user-details {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 2px;
+        }
+
+        .user-position {
+            background: var(--primary);
+            color: var(--dark);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .user-ovr {
+            color: var(--secondary);
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .user-specialty {
+            color: #9CA3AF;
+            font-size: 11px;
+        }
+
+        .dropdown-arrow {
+            color: #9CA3AF;
+            transition: transform 0.3s ease;
+        }
+
+        .user-profile.active .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        /* Dropdown Menu */
+        .profile-dropdown {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            background: #1F2937;
+            border: 1px solid #374151;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            min-width: 220px;
+            display: none;
+            overflow: hidden;
+            z-index: 999999;
+        }
+
+        .profile-dropdown.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        .dropdown-item {
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+        }
+
+        .dropdown-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .dropdown-item i {
+            font-size: 18px;
+            width: 18px;
+            color: #9CA3AF;
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background: #374151;
+            margin: 8px 0;
+        }
+
+        .dropdown-item.logout {
+            color: #EF4444;
+        }
+
+        .dropdown-item.logout i {
+            color: #EF4444;
+        }
+
+        /* Notification Dropdown */
+        .notification-dropdown {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: -8px;
+            background: #1F2937;
+            border: 1px solid #374151;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            width: 360px;
+            max-height: 400px;
+            display: none;
+            overflow: hidden;
+            z-index: 999999;
+        }
+
+        .notification-dropdown.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        .notification-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid #374151;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .mark-all-read {
+            color: #10B981;
+            font-size: 12px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .notification-list {
+            max-height: 320px;
+            overflow-y: auto;
+        }
+
+        .notification-item {
+            padding: 16px 20px;
+            border-bottom: 1px solid rgba(55, 65, 81, 0.5);
+            display: flex;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .notification-item:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .notification-item.unread {
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .notification-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-text {
+            font-size: 14px;
+            line-height: 1.4;
+            margin-bottom: 4px;
+        }
+
+        .notification-time {
+            font-size: 12px;
+            color: #9CA3AF;
+        }
+
+        /* Match Toggle Button for Mobile */
+        .match-toggle {
+            display: none;
+            width: 32px;
+            height: 32px;
+            background: rgba(0, 255, 157, 0.1);
+            border: 1px solid rgba(0, 255, 157, 0.3);
+            border-radius: 8px;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .match-toggle:hover {
+            background: rgba(0, 255, 157, 0.2);
+        }
+
+        .match-toggle.active {
+            background: var(--primary);
+            color: var(--dark);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                gap: 8px;
+            }
+            
+            /* Mostrar botón toggle en mobile */
+            .match-toggle {
+                display: flex;
+            }
+            
+            /* Ocultar partido por defecto en mobile */
+            .next-match {
+                position: absolute;
+                top: 100%;
+                left: 16px;
+                right: 16px;
+                background: rgba(31, 41, 55, 0.98);
+                border: 1px solid #374151;
+                border-radius: 12px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+                display: none;
+                z-index: 999998;
+                animation: slideDown 0.3s ease;
+            }
+            
+            .next-match.expanded {
+                display: flex;
+                padding: 12px;
+            }
+            
+            .match-info {
+                padding: 8px 12px;
+                gap: 12px;
+                background: rgba(16, 185, 129, 0.1);
+                width: 100%;
+            }
+            
+            .match-icon {
+                width: 32px;
+                height: 32px;
+                font-size: 16px;
+            }
+            
+            .match-title {
+                font-size: 14px;
+            }
+            
+            .match-datetime {
+                font-size: 12px;
+            }
+            
+            .user-details {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 2px;
+            }
+            
+            /* Mantener info de usuario completa en mobile */
+            .user-info {
+                display: flex;
+                flex-direction: column;
+            }
+            
+            .user-name {
+                font-size: 13px;
+            }
+            
+            .user-details span {
+                font-size: 11px;
+            }
+            
+            .notification-dropdown {
+                width: 300px;
+                right: -20px;
+            }
+            
+            /* Header más compacto en mobile */
+            .new-header {
+                height: 60px;
+                padding: 0 16px;
+            }
+            
+            .header-right {
+                gap: 12px;
+            }
+        }
+
+        /* Animations */
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Demo Content */
+        .demo-content {
+            padding: 40px 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .demo-section {
+            background: var(--card-bg);
+            padding: 32px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(0, 255, 157, 0.1);
+        }
+
+        .mobile-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--dark);
+            border: none;
+            padding: 12px 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 4px 20px rgba(0, 255, 157, 0.3);
+            z-index: 999999;
+        }
+
+        .mobile-toggle:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        /* Forzar vista mobile */
+        body.mobile-view .new-header {
+            height: 60px;
+            padding: 0 16px;
+        }
+
+        body.mobile-view .header-container {
+            gap: 8px;
+        }
+
+        body.mobile-view .match-toggle {
+            display: flex;
+        }
+
+        body.mobile-view .next-match {
+            position: absolute;
+            top: 100%;
+            left: 16px;
+            right: 16px;
+            background: rgba(31, 41, 55, 0.98);
+            border: 1px solid #374151;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 999998;
+            flex: initial;
+        }
+
+        body.mobile-view .next-match.expanded {
+            display: flex;
+            padding: 12px;
+        }
+
+        body.mobile-view .match-info {
+            padding: 8px 12px;
+            gap: 12px;
+            background: rgba(16, 185, 129, 0.1);
+            width: 100%;
+        }
+
+        body.mobile-view .match-icon {
+            width: 32px;
+            height: 32px;
+            font-size: 16px;
+        }
+
+        body.mobile-view .match-title {
+            font-size: 14px;
+        }
+
+        body.mobile-view .match-datetime {
+            font-size: 12px;
+        }
+
+        body.mobile-view .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        body.mobile-view .user-name {
+            font-size: 13px;
+        }
+
+        body.mobile-view .user-details span {
+            font-size: 11px;
+        }
+
+        body.mobile-view .header-right {
+            gap: 12px;
+        }
+    </style>
+</head>
+<body>
+    <!-- NUEVO HEADER COMPLETO -->
+    <header class="new-header">
+        <div class="header-container">
+            <!-- Sin logo - espacio libre -->
+
+            <!-- Next Match Info -->
+            <div class="next-match">
+                <div class="match-info">
+                    <div class="match-icon">
+                        <i class='bx bx-football'></i>
+                    </div>
+                    <div class="match-details">
+                        <div class="match-title">Clásico del Miércoles</div>
+                        <div class="match-datetime">Miércoles 13 Feb • 19:00</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Si no hay próximo partido:
+            <div class="next-match">
+                <div class="no-match">No hay partidos programados</div>
+            </div>
+            -->
+
+            <!-- Match Toggle Button (solo visible en mobile) -->
+            <div class="match-toggle" onclick="toggleMatchInfo()">
+                <i class='bx bx-calendar'></i>
+            </div>
+
+            <!-- Right Section -->
+            <div class="header-right">
+                <!-- Notifications -->
+                <div class="notification-bell" onclick="toggleNotifications()">
+                    <i class='bx bx-bell'></i>
+                    <div class="notification-badge">7</div>
+
+                    <!-- Notification Dropdown -->
+                    <div class="notification-dropdown" id="notificationDropdown">
+                        <div class="notification-header">
+                            <div class="notification-title">Notificaciones</div>
+                            <div class="mark-all-read">Marcar todas como leídas</div>
+                        </div>
+                        <div class="notification-list">
+                            <div class="notification-item unread">
+                                <div class="notification-icon" style="background: rgba(16, 185, 129, 0.2); color: #10B981;">
+                                    <i class='bx bx-football'></i>
+                                </div>
+                                <div class="notification-content">
+                                    <div class="notification-text">Nuevo partido creado: "Clásico del Miércoles"</div>
+                                    <div class="notification-time">Hace 5 minutos</div>
+                                </div>
+                            </div>
+                            <div class="notification-item unread">
+                                <div class="notification-icon" style="background: rgba(251, 191, 36, 0.2); color: #FBBF24;">
+                                    <i class='bx bx-star'></i>
+                                </div>
+                                <div class="notification-content">
+                                    <div class="notification-text">Tu evaluación ha sido completada por Carlos</div>
+                                    <div class="notification-time">Hace 15 minutos</div>
+                                </div>
+                            </div>
+                            <div class="notification-item">
+                                <div class="notification-icon" style="background: rgba(59, 130, 246, 0.2); color: #3B82F6;">
+                                    <i class='bx bx-group'></i>
+                                </div>
+                                <div class="notification-content">
+                                    <div class="notification-text">Nuevo jugador añadido al grupo: Miguel</div>
+                                    <div class="notification-time">Hace 2 horas</div>
+                                </div>
+                            </div>
+                            <div class="notification-item">
+                                <div class="notification-icon" style="background: rgba(168, 85, 247, 0.2); color: #A855F7;">
+                                    <i class='bx bx-trophy'></i>
+                                </div>
+                                <div class="notification-content">
+                                    <div class="notification-text">¡Has subido al puesto #3 del ranking!</div>
+                                    <div class="notification-time">Hace 1 día</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- User Profile -->
+                <div class="user-profile" onclick="toggleProfileMenu()">
+                    <div class="user-avatar">
+                        <!-- <img src="avatar.jpg" alt="User"> -->
+                        P
+                    </div>
+                    <div class="user-info">
+                        <div class="user-name">
+                            Pela
+                            <span class="user-position">MED</span>
+                        </div>
+                        <div class="user-details">
+                            <span class="user-ovr">80 OVR</span>
+                            <span class="user-specialty">🎨 Creativo</span>
+                        </div>
+                    </div>
+                    <i class='bx bx-chevron-down dropdown-arrow'></i>
+
+                    <!-- Profile Dropdown -->
+                    <div class="profile-dropdown" id="profileDropdown">
+                        <div class="dropdown-item">
+                            <i class='bx bx-user'></i>
+                            <span>Mi Perfil</span>
+                        </div>
+                        <div class="dropdown-item">
+                            <i class='bx bx-stats'></i>
+                            <span>Mis Estadísticas</span>
+                        </div>
+                        <div class="dropdown-item">
+                            <i class='bx bx-cog'></i>
+                            <span>Configuración</span>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-item logout">
+                            <i class='bx bx-log-out'></i>
+                            <span>Cerrar Sesión</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Demo Content -->
+    <div class="demo-content">
+        <div class="demo-section">
+            <h2 style="color: var(--primary); margin-bottom: 16px;">🎯 Preview del Nuevo Header</h2>
+            <p style="color: #9CA3AF; line-height: 1.6;">Este es el preview del nuevo header completo que incluirá:</p>
+            <ul style="color: #E5E7EB; margin: 16px 0; padding-left: 20px;">
+                <li><strong>Diseño limpio</strong> - Sin logo, más espacio para contenido</li>
+                <li><strong>Próximo partido</strong> - Muestra el siguiente partido programado</li>
+                <li><strong>Sistema de notificaciones</strong> - Campana con badge y dropdown completo</li>
+                <li><strong>Perfil de usuario</strong> - Con posición, OVR, especialidad y menú desplegable</li>
+                <li><strong>Diseño responsive</strong> - Adaptable a móviles</li>
+                <li><strong>Efectos y animaciones</strong> - Transiciones suaves</li>
+            </ul>
+        </div>
+
+        <div class="demo-section">
+            <h3 style="color: var(--secondary); margin-bottom: 16px;">⚡ Funcionalidades</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; color: #E5E7EB;">
+                <div>
+                    <strong>🔔 Notificaciones:</strong><br>
+                    - Badge con contador<br>
+                    - Dropdown con lista<br>
+                    - Marcar como leídas<br>
+                    - Iconos por categoría
+                </div>
+                <div>
+                    <strong>👤 Perfil Usuario:</strong><br>
+                    - Avatar personalizable<br>
+                    - Posición y OVR<br>
+                    - Especialidad del jugador<br>
+                    - Menú con opciones
+                </div>
+                <div>
+                    <strong>⚽ Próximo Partido:</strong><br>
+                    - Título del partido<br>
+                    - Fecha y hora<br>
+                    - Icono interactivo<br>
+                    - Estado "sin partidos"
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Toggle Button -->
+    <button class="mobile-toggle" onclick="toggleMobileView()">📱 Vista Mobile</button>
+
+    <script>
+        function toggleNotifications() {
+            const dropdown = document.getElementById('notificationDropdown');
+            const profileDropdown = document.getElementById('profileDropdown');
+            
+            // Cerrar perfil si está abierto
+            profileDropdown.classList.remove('active');
+            document.querySelector('.user-profile').classList.remove('active');
+            
+            dropdown.classList.toggle('active');
+            event.stopPropagation();
+        }
+
+        function toggleProfileMenu() {
+            const profileDropdown = document.getElementById('profileDropdown');
+            const notificationDropdown = document.getElementById('notificationDropdown');
+            const userProfile = document.querySelector('.user-profile');
+            
+            // Cerrar notificaciones si están abiertas
+            notificationDropdown.classList.remove('active');
+            
+            profileDropdown.classList.toggle('active');
+            userProfile.classList.toggle('active');
+            event.stopPropagation();
+        }
+
+        // Cerrar dropdowns al hacer click fuera
+        document.addEventListener('click', function() {
+            document.getElementById('notificationDropdown').classList.remove('active');
+            document.getElementById('profileDropdown').classList.remove('active');
+            document.querySelector('.user-profile').classList.remove('active');
+        });
+
+        // Prevenir que clicks en dropdown cierren el menú
+        document.querySelectorAll('.notification-dropdown, .profile-dropdown').forEach(dropdown => {
+            dropdown.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        });
+
+        // Toggle Mobile View
+        function toggleMobileView() {
+            const body = document.body;
+            const button = document.querySelector('.mobile-toggle');
+            
+            body.classList.toggle('mobile-view');
+            
+            if (body.classList.contains('mobile-view')) {
+                button.textContent = '💻 Vista Desktop';
+            } else {
+                button.textContent = '📱 Vista Mobile';
+            }
+        }
+
+        // Toggle Match Info (solo en mobile)
+        function toggleMatchInfo() {
+            const matchInfo = document.querySelector('.next-match');
+            const toggleButton = document.querySelector('.match-toggle');
+            
+            matchInfo.classList.toggle('expanded');
+            toggleButton.classList.toggle('active');
+            
+            event.stopPropagation();
+        }
+
+        // Cerrar match info al hacer click fuera
+        document.addEventListener('click', function() {
+            const matchInfo = document.querySelector('.next-match');
+            const toggleButton = document.querySelector('.match-toggle');
+            
+            if (matchInfo.classList.contains('expanded')) {
+                matchInfo.classList.remove('expanded');
+                toggleButton.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

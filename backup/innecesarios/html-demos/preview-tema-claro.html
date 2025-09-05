@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preview - Tema Claro Profesional | App.futbol</title>
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ========================================
+           SISTEMA DE VARIABLES UNIFICADO - TEMA CLARO PROFESIONAL
+           ======================================== */
+        :root {
+            /* Colores principales */
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --primary-light: #dbeafe;
+            --secondary: #64748b;
+            --secondary-hover: #475569;
+            --accent: #06b6d4;
+            --accent-hover: #0891b2;
+            
+            /* Estados */
+            --success: #10b981;
+            --success-light: #d1fae5;
+            --warning: #f59e0b;
+            --warning-light: #fef3c7;
+            --danger: #ef4444;
+            --danger-light: #fee2e2;
+            --info: #3b82f6;
+            --info-light: #dbeafe;
+            
+            /* Backgrounds */
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --bg-card: #ffffff;
+            --bg-overlay: rgba(0, 0, 0, 0.5);
+            
+            /* Borders */
+            --border-color: #e2e8f0;
+            --border-hover: #cbd5e1;
+            --border-focus: #2563eb;
+            --border-radius-sm: 6px;
+            --border-radius-md: 8px;
+            --border-radius-lg: 12px;
+            --border-radius-xl: 16px;
+            
+            /* Text */
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            --text-disabled: #94a3b8;
+            --text-inverse: #ffffff;
+            
+            /* Shadows */
+            --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1), 0 8px 10px rgba(0, 0, 0, 0.04);
+            
+            /* Espaciado */
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+            --spacing-2xl: 48px;
+            --spacing-3xl: 64px;
+            
+            /* Transiciones */
+            --transition-fast: 150ms ease-in-out;
+            --transition-normal: 250ms ease-in-out;
+            --transition-slow: 350ms ease-in-out;
+            
+            /* Typography */
+            --font-family-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-size-xs: 0.75rem;
+            --font-size-sm: 0.875rem;
+            --font-size-base: 1rem;
+            --font-size-lg: 1.125rem;
+            --font-size-xl: 1.25rem;
+            --font-size-2xl: 1.5rem;
+            --font-size-3xl: 1.875rem;
+            --font-size-4xl: 2.25rem;
+        }
+
+        /* ========================================
+           RESET Y BASE
+           ======================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family-primary);
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: var(--font-size-base);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ========================================
+           COMPONENTES UNIFICADOS
+           ======================================== */
+
+        /* Headers */
+        .header {
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            padding: var(--spacing-md) 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-lg);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: var(--font-size-xl);
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        /* Navegación */
+        .nav {
+            display: flex;
+            gap: var(--spacing-sm);
+            background: var(--bg-primary);
+            padding: var(--spacing-sm);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-sm);
+            margin: var(--spacing-lg) 0;
+        }
+
+        .nav-btn {
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 1px solid var(--border-color);
+            background: var(--bg-primary);
+            color: var(--text-secondary);
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            font-weight: 500;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+
+        .nav-btn:hover {
+            background: var(--bg-tertiary);
+            border-color: var(--border-hover);
+            color: var(--text-primary);
+        }
+
+        .nav-btn.active {
+            background: var(--primary);
+            color: var(--text-inverse);
+            border-color: var(--primary);
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition-fast);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-md);
+            border-color: var(--border-hover);
+        }
+
+        .card-header {
+            margin-bottom: var(--spacing-md);
+            padding-bottom: var(--spacing-md);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-title {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .card-subtitle {
+            color: var(--text-muted);
+            font-size: var(--font-size-sm);
+        }
+
+        /* Botones */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--border-radius-sm);
+            font-weight: 500;
+            font-size: var(--font-size-sm);
+            text-decoration: none;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            line-height: 1.5;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--text-inverse);
+            border-color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            border-color: var(--primary-hover);
+        }
+
+        .btn-secondary {
+            background: var(--bg-primary);
+            color: var(--text-secondary);
+            border-color: var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-tertiary);
+            border-color: var(--border-hover);
+            color: var(--text-primary);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: var(--text-inverse);
+            border-color: var(--success);
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: var(--text-inverse);
+            border-color: var(--warning);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: var(--text-inverse);
+            border-color: var(--danger);
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            font-size: var(--font-size-xs);
+            font-weight: 600;
+            border-radius: var(--border-radius-sm);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .badge-success {
+            background: var(--success-light);
+            color: var(--success);
+        }
+
+        .badge-warning {
+            background: var(--warning-light);
+            color: var(--warning);
+        }
+
+        .badge-danger {
+            background: var(--danger-light);
+            color: var(--danger);
+        }
+
+        .badge-info {
+            background: var(--info-light);
+            color: var(--info);
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: var(--spacing-xs);
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-sm);
+            font-size: var(--font-size-base);
+            transition: all var(--transition-fast);
+            background: var(--bg-primary);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--border-focus);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition-fast);
+        }
+
+        .stat-card:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .stat-number {
+            font-size: var(--font-size-3xl);
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+        }
+
+        /* Table */
+        .table-container {
+            background: var(--bg-card);
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th {
+            background: var(--bg-tertiary);
+            padding: var(--spacing-md);
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .table td {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: middle;
+        }
+
+        .table tr:hover {
+            background: var(--bg-secondary);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-lg);
+        }
+
+        .section {
+            margin-bottom: var(--spacing-3xl);
+        }
+
+        .section-title {
+            font-size: var(--font-size-2xl);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-lg);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 var(--spacing-md);
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav {
+                flex-direction: column;
+                gap: var(--spacing-xs);
+            }
+            
+            .header-content {
+                padding: 0 var(--spacing-md);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="#" class="logo">
+                <i class='bx bx-football'></i>
+                App.futbol
+            </a>
+            <div style="display: flex; gap: var(--spacing-md);">
+                <span class="badge badge-success">Versión 2.1</span>
+                <button class="btn btn-secondary">
+                    <i class='bx bx-user'></i>
+                    Usuario
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="nav">
+            <button class="nav-btn active">
+                <i class='bx bx-home'></i>
+                Dashboard
+            </button>
+            <button class="nav-btn">
+                <i class='bx bx-group'></i>
+                Jugadores
+            </button>
+            <button class="nav-btn">
+                <i class='bx bx-trophy'></i>
+                Partidos
+            </button>
+            <button class="nav-btn">
+                <i class='bx bx-star'></i>
+                Evaluaciones
+            </button>
+            <button class="nav-btn">
+                <i class='bx bx-history'></i>
+                Historial
+            </button>
+        </nav>
+
+        <!-- Dashboard Section -->
+        <section class="section">
+            <h2 class="section-title">
+                <i class='bx bx-dashboard'></i>
+                Dashboard General
+            </h2>
+            
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">24</div>
+                    <div class="stat-label">Jugadores Activos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">8</div>
+                    <div class="stat-label">Partidos Jugados</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">156</div>
+                    <div class="stat-label">Evaluaciones</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">2</div>
+                    <div class="stat-label">Partidos Pendientes</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Players Section -->
+        <section class="section">
+            <h2 class="section-title">
+                <i class='bx bx-group'></i>
+                Gestión de Jugadores
+            </h2>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Jugadores Registrados</div>
+                    <div class="card-subtitle">Administra los jugadores del sistema</div>
+                </div>
+                
+                <div style="display: flex; gap: var(--spacing-sm); margin-bottom: var(--spacing-md);">
+                    <button class="btn btn-primary">
+                        <i class='bx bx-plus'></i>
+                        Añadir Jugador
+                    </button>
+                    <button class="btn btn-secondary">
+                        <i class='bx bx-filter'></i>
+                        Filtros
+                    </button>
+                    <button class="btn btn-secondary">
+                        <i class='bx bx-export'></i>
+                        Exportar
+                    </button>
+                </div>
+
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Jugador</th>
+                                <th>Posición</th>
+                                <th>OVR</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div style="display: flex; align-items: center; gap: var(--spacing-sm);">
+                                        <div style="width: 32px; height: 32px; background: var(--primary-light); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                            <i class='bx bx-user' style="color: var(--primary);"></i>
+                                        </div>
+                                        <div>
+                                            <div style="font-weight: 600;">Juan Pérez</div>
+                                            <div style="font-size: var(--font-size-sm); color: var(--text-muted);">juan@email.com</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="badge badge-info">MED</span>
+                                </td>
+                                <td>
+                                    <strong style="color: var(--primary);">85</strong>
+                                </td>
+                                <td>
+                                    <span class="badge badge-success">Activo</span>
+                                </td>
+                                <td>
+                                    <div style="display: flex; gap: var(--spacing-xs);">
+                                        <button class="btn btn-secondary" style="padding: var(--spacing-xs);">
+                                            <i class='bx bx-edit'></i>
+                                        </button>
+                                        <button class="btn btn-secondary" style="padding: var(--spacing-xs);">
+                                            <i class='bx bx-show'></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="display: flex; align-items: center; gap: var(--spacing-sm);">
+                                        <div style="width: 32px; height: 32px; background: var(--primary-light); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                            <i class='bx bx-user' style="color: var(--primary);"></i>
+                                        </div>
+                                        <div>
+                                            <div style="font-weight: 600;">María González</div>
+                                            <div style="font-size: var(--font-size-sm); color: var(--text-muted);">maria@email.com</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="badge badge-warning">DEL</span>
+                                </td>
+                                <td>
+                                    <strong style="color: var(--primary);">78</strong>
+                                </td>
+                                <td>
+                                    <span class="badge badge-success">Activo</span>
+                                </td>
+                                <td>
+                                    <div style="display: flex; gap: var(--spacing-xs);">
+                                        <button class="btn btn-secondary" style="padding: var(--spacing-xs);">
+                                            <i class='bx bx-edit'></i>
+                                        </button>
+                                        <button class="btn btn-secondary" style="padding: var(--spacing-xs);">
+                                            <i class='bx bx-show'></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Matches Section -->
+        <section class="section">
+            <h2 class="section-title">
+                <i class='bx bx-trophy'></i>
+                Últimos Partidos
+            </h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--spacing-md);">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Los Tigres vs Los Leones</div>
+                        <div class="card-subtitle">15 de Agosto, 2025</div>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-md);">
+                        <div style="text-align: center;">
+                            <div style="font-size: var(--font-size-2xl); font-weight: 700; color: var(--primary);">3</div>
+                            <div style="font-size: var(--font-size-sm); color: var(--text-muted);">Los Tigres</div>
+                        </div>
+                        <div style="font-size: var(--font-size-lg); color: var(--text-muted); font-weight: 600;">VS</div>
+                        <div style="text-align: center;">
+                            <div style="font-size: var(--font-size-2xl); font-weight: 700; color: var(--primary);">1</div>
+                            <div style="font-size: var(--font-size-sm); color: var(--text-muted);">Los Leones</div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: var(--spacing-sm);">
+                        <button class="btn btn-secondary" style="flex: 1;">
+                            <i class='bx bx-show'></i>
+                            Ver Detalles
+                        </button>
+                        <button class="btn btn-primary" style="flex: 1;">
+                            <i class='bx bx-star'></i>
+                            Evaluar
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Águilas FC vs Cóndores</div>
+                        <div class="card-subtitle">12 de Agosto, 2025</div>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-md);">
+                        <div style="text-align: center;">
+                            <div style="font-size: var(--font-size-2xl); font-weight: 700; color: var(--primary);">2</div>
+                            <div style="font-size: var(--font-size-sm); color: var(--text-muted);">Águilas FC</div>
+                        </div>
+                        <div style="font-size: var(--font-size-lg); color: var(--text-muted); font-weight: 600;">VS</div>
+                        <div style="text-align: center;">
+                            <div style="font-size: var(--font-size-2xl); font-weight: 700; color: var(--primary);">2</div>
+                            <div style="font-size: var(--font-size-sm); color: var(--text-muted);">Cóndores</div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: var(--spacing-sm);">
+                        <button class="btn btn-secondary" style="flex: 1;">
+                            <i class='bx bx-show'></i>
+                            Ver Detalles
+                        </button>
+                        <button class="btn btn-warning" style="flex: 1;">
+                            <i class='bx bx-time'></i>
+                            Pendiente
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Form Example -->
+        <section class="section">
+            <h2 class="section-title">
+                <i class='bx bx-edit'></i>
+                Ejemplo de Formulario
+            </h2>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Crear Nuevo Partido</div>
+                    <div class="card-subtitle">Configura un nuevo partido entre equipos</div>
+                </div>
+                
+                <form>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-md);">
+                        <div class="form-group">
+                            <label class="form-label">Equipo A</label>
+                            <input type="text" class="form-input" placeholder="Nombre del equipo A">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Equipo B</label>
+                            <input type="text" class="form-input" placeholder="Nombre del equipo B">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Fecha del Partido</label>
+                        <input type="datetime-local" class="form-input">
+                    </div>
+                    
+                    <div style="display: flex; gap: var(--spacing-sm); justify-content: flex-end;">
+                        <button type="button" class="btn btn-secondary">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class='bx bx-check'></i>
+                            Crear Partido
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </div>
+
+    <footer style="text-align: center; padding: var(--spacing-2xl) var(--spacing-lg); color: var(--text-muted); border-top: 1px solid var(--border-color); margin-top: var(--spacing-3xl);">
+        <p>© 2025 App.futbol - Sistema de Gestión de Partidos | Preview del Tema Claro Profesional</p>
+    </footer>
+</body>
+</html>

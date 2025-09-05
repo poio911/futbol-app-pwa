@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 Migración Masiva - Unificar Todos los Jugadores</title>
+    
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a, #1a1a2e);
+            color: white;
+            padding: 20px;
+            margin: 0;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.05);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(0,255,157,0.3);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #00ff9d;
+            margin-bottom: 30px;
+        }
+        
+        .section {
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            border-left: 4px solid #00ff9d;
+        }
+        
+        button {
+            background: linear-gradient(45deg, #00ff9d, #00d4aa);
+            color: #0a0a0a;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 5px;
+            transition: all 0.3s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,255,157,0.3);
+        }
+        
+        .danger {
+            background: linear-gradient(45deg, #ff4444, #cc3333) !important;
+            color: white !important;
+        }
+        
+        .warning {
+            background: linear-gradient(45deg, #ffaa00, #cc8800) !important;
+            color: white !important;
+        }
+        
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .stat-card {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #00ff9d;
+        }
+        
+        .stat-label {
+            font-size: 0.9em;
+            color: #b0b0b0;
+        }
+        
+        .progress {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            height: 20px;
+            margin: 10px 0;
+        }
+        
+        .progress-bar {
+            background: linear-gradient(45deg, #00ff9d, #00d4aa);
+            height: 100%;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #0a0a0a;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        
+        pre {
+            background: #000;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            border: 1px solid #333;
+        }
+        
+        .player-list {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #333;
+            border-radius: 8px;
+            background: #000;
+        }
+        
+        .player-item {
+            padding: 10px;
+            border-bottom: 1px solid #333;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr auto;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .player-item.migrated {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 3px solid #10b981;
+        }
+        
+        .player-item.error {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 3px solid #ef4444;
+        }
+        
+        .status {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        
+        .status.needs-migration {
+            background: #ffaa00;
+            color: #000;
+        }
+        
+        .status.migrated {
+            background: #10b981;
+            color: white;
+        }
+        
+        .status.both-structures {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        .status.error {
+            background: #ef4444;
+            color: white;
+        }
+        
+        .log-output {
+            background: #000;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            border: 1px solid #333;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Migración Masiva - Sistema Unificado de Jugadores</h1>
+        <p style="text-align: center; color: #b0b0b0;">Migrar todos los jugadores de estructura "attributes" a campos directos</p>
+        
+        <!-- Fase 1: Análisis -->
+        <div class="section">
+            <h2>📊 Fase 1: Análisis de Jugadores</h2>
+            <p>Analizar la estructura de datos actual de todos los jugadores</p>
+            
+            <button onclick="analyzeAllPlayers()">🔍 Analizar Todos los Jugadores</button>
+            <button onclick="showDetailedReport()" disabled id="reportBtn">📋 Ver Reporte Detallado</button>
+            
+            <div class="stats" id="analysis-stats"></div>
+            <div id="analysis-results"></div>
+        </div>
+        
+        <!-- Fase 2: Migración -->
+        <div class="section">
+            <h2>🔄 Fase 2: Migración Masiva</h2>
+            <p>Migrar jugadores que necesitan unificación</p>
+            
+            <button class="warning" onclick="startMassMigration()" disabled id="migrateBtn">⚡ Iniciar Migración Masiva</button>
+            <button class="danger" onclick="forceCleanMigration()" disabled id="forceBtn">🔥 Migración Forzada (Eliminar attributes)</button>
+            
+            <div id="migration-progress"></div>
+            <div class="log-output" id="migration-log" style="display: none;">Esperando migración...</div>
+        </div>
+        
+        <!-- Fase 3: Verificación -->
+        <div class="section">
+            <h2>✅ Fase 3: Verificación Final</h2>
+            <p>Verificar que todos los jugadores tengan la estructura unificada</p>
+            
+            <button onclick="verifyMigration()" disabled id="verifyBtn">🎯 Verificar Migración Completa</button>
+            <div id="verification-results"></div>
+        </div>
+        
+        <!-- Fase 4: Limpieza Opcional -->
+        <div class="section">
+            <h2>🧹 Fase 4: Limpieza (Opcional)</h2>
+            <p>Eliminar estructura antigua "attributes" después de verificar que todo funciona</p>
+            
+            <button class="danger" onclick="cleanupAttributes()" disabled id="cleanupBtn">🗑️ Eliminar Estructura Antigua</button>
+            <div id="cleanup-results"></div>
+        </div>
+    </div>
+
+    <script>
+        // Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyAes7EVn8hQswS8XgvDMJfN6U4IT_ZL_WY",
+            authDomain: "mil-disculpis.firebaseapp.com",
+            databaseURL: "https://mil-disculpis-default-rtdb.firebaseio.com",
+            projectId: "mil-disculpis",
+            storageBucket: "mil-disculpis.firebasestorage.app",
+            messagingSenderId: "5614567933",
+            appId: "1:5614567933:web:0dce7bf37b8325c0861994",
+            measurementId: "G-EMLP4TKXKR"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        
+        let allPlayers = [];
+        let playersNeedingMigration = [];
+        let migrationResults = [];
+        
+        function log(message, type = 'info') {
+            const logOutput = document.getElementById('migration-log');
+            logOutput.style.display = 'block';
+            const timestamp = new Date().toLocaleTimeString();
+            const emoji = type === 'error' ? '❌' : type === 'success' ? '✅' : type === 'warning' ? '⚠️' : 'ℹ️';
+            logOutput.textContent += `[${timestamp}] ${emoji} ${message}\n`;
+            logOutput.scrollTop = logOutput.scrollHeight;
+            console.log(`[MIGRATION] ${message}`);
+        }
+        
+        async function analyzeAllPlayers() {
+            log('🔍 Iniciando análisis de todos los jugadores...', 'info');
+            
+            const statsDiv = document.getElementById('analysis-stats');
+            const resultsDiv = document.getElementById('analysis-results');
+            
+            statsDiv.innerHTML = '<div class="stat-card"><div class="stat-number">⏳</div><div class="stat-label">Analizando...</div></div>';
+            resultsDiv.innerHTML = '';
+            
+            try {
+                const snapshot = await db.collection('futbol_users').get();
+                allPlayers = [];
+                
+                let needsMigration = 0;
+                let bothStructures = 0;
+                let onlyDirect = 0;
+                let onlyAttributes = 0;
+                let noAttributes = 0;
+                
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    const player = {
+                        id: doc.id,
+                        ref: doc.ref,
+                        ...data
+                    };
+                    
+                    // Analyze structure
+                    const hasDirectStats = data.pac !== undefined;
+                    const hasAttributes = data.attributes && Object.keys(data.attributes).length > 0;
+                    
+                    if (hasDirectStats && hasAttributes) {
+                        player.status = 'both-structures';
+                        bothStructures++;
+                    } else if (!hasDirectStats && hasAttributes) {
+                        player.status = 'needs-migration';
+                        needsMigration++;
+                        playersNeedingMigration.push(player);
+                    } else if (hasDirectStats && !hasAttributes) {
+                        player.status = 'migrated';
+                        onlyDirect++;
+                    } else {
+                        player.status = 'no-attributes';
+                        noAttributes++;
+                    }
+                    
+                    allPlayers.push(player);
+                });
+                
+                log(`✅ Análisis completado: ${allPlayers.length} jugadores encontrados`, 'success');
+                log(`📊 Necesitan migración: ${needsMigration}`, 'warning');
+                log(`📊 Ambas estructuras: ${bothStructures}`, 'info');
+                log(`📊 Solo directos: ${onlyDirect}`, 'success');
+                log(`📊 Sin atributos: ${noAttributes}`, 'info');
+                
+                // Update stats display
+                statsDiv.innerHTML = `
+                    <div class="stat-card">
+                        <div class="stat-number">${allPlayers.length}</div>
+                        <div class="stat-label">Total Jugadores</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" style="color: #ffaa00;">${needsMigration}</div>
+                        <div class="stat-label">Necesitan Migración</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" style="color: #3b82f6;">${bothStructures}</div>
+                        <div class="stat-label">Ambas Estructuras</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" style="color: #10b981;">${onlyDirect}</div>
+                        <div class="stat-label">Ya Unificados</div>
+                    </div>
+                `;
+                
+                // Enable buttons
+                document.getElementById('reportBtn').disabled = false;
+                if (needsMigration > 0 || bothStructures > 0) {
+                    document.getElementById('migrateBtn').disabled = false;
+                    document.getElementById('forceBtn').disabled = false;
+                }
+                
+                resultsDiv.innerHTML = `
+                    <div style="margin-top: 20px;">
+                        <h4>📋 Resumen del Análisis</h4>
+                        <ul>
+                            <li><strong>${needsMigration} jugadores</strong> necesitan migración urgente (solo tienen "attributes")</li>
+                            <li><strong>${bothStructures} jugadores</strong> tienen ambas estructuras (requieren limpieza)</li>
+                            <li><strong>${onlyDirect} jugadores</strong> ya están unificados correctamente</li>
+                            <li><strong>${noAttributes} jugadores</strong> no tienen atributos definidos</li>
+                        </ul>
+                        ${needsMigration > 0 ? '<p style="color: #ffaa00;"><strong>⚠️ Recomendación:</strong> Ejecutar migración masiva para unificar todos los jugadores</p>' : ''}
+                    </div>
+                `;
+                
+            } catch (error) {
+                log(`❌ Error en análisis: ${error.message}`, 'error');
+                resultsDiv.innerHTML = `<div style="color: #ff4444;">Error: ${error.message}</div>`;
+            }
+        }
+        
+        function showDetailedReport() {
+            if (allPlayers.length === 0) {
+                alert('Primero ejecuta el análisis');
+                return;
+            }
+            
+            const reportWindow = window.open('', '_blank');
+            let reportHTML = `
+                <html>
+                <head>
+                    <title>Reporte Detallado - Migración de Jugadores</title>
+                    <style>
+                        body { font-family: monospace; background: #111; color: #0f0; padding: 20px; }
+                        table { width: 100%; border-collapse: collapse; }
+                        th, td { border: 1px solid #333; padding: 8px; text-align: left; }
+                        .needs-migration { background: rgba(255,170,0,0.2); }
+                        .both-structures { background: rgba(59,130,246,0.2); }
+                        .migrated { background: rgba(16,185,129,0.2); }
+                        .no-attributes { background: rgba(107,114,128,0.2); }
+                    </style>
+                </head>
+                <body>
+                    <h1>📊 Reporte Detallado - Estado de Jugadores</h1>
+                    <table>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>OVR</th>
+                            <th>Campos Directos</th>
+                            <th>Attributes</th>
+                            <th>Estado</th>
+                            <th>Acción Requerida</th>
+                        </tr>
+            `;
+            
+            allPlayers.forEach(player => {
+                const hasDirectStats = player.pac !== undefined;
+                const hasAttributes = player.attributes && Object.keys(player.attributes).length > 0;
+                
+                const directStats = hasDirectStats ? `PAC:${player.pac}, SHO:${player.sho}` : 'NO';
+                const attrStats = hasAttributes ? `PAC:${player.attributes.pac}, SHO:${player.attributes.sho}` : 'NO';
+                
+                let action = 'Ninguna';
+                if (player.status === 'needs-migration') action = 'MIGRAR URGENTE';
+                if (player.status === 'both-structures') action = 'Limpiar duplicados';
+                
+                reportHTML += `
+                    <tr class="${player.status}">
+                        <td>${player.displayName || player.name || 'Sin nombre'}</td>
+                        <td>${player.email || 'Sin email'}</td>
+                        <td>${player.ovr || 'N/A'}</td>
+                        <td>${directStats}</td>
+                        <td>${attrStats}</td>
+                        <td>${player.status}</td>
+                        <td><strong>${action}</strong></td>
+                    </tr>
+                `;
+            });
+            
+            reportHTML += `
+                    </table>
+                </body>
+                </html>
+            `;
+            
+            reportWindow.document.write(reportHTML);
+        }
+        
+        async function startMassMigration() {
+            if (playersNeedingMigration.length === 0) {
+                alert('No hay jugadores que necesiten migración');
+                return;
+            }
+            
+            if (!confirm(`¿Migrar ${playersNeedingMigration.length} jugadores de "attributes" a campos directos?\n\nEsto actualizará Firebase permanentemente.`)) {
+                return;
+            }
+            
+            log(`🚀 Iniciando migración masiva de ${playersNeedingMigration.length} jugadores...`, 'info');
+            
+            const progressDiv = document.getElementById('migration-progress');
+            progressDiv.innerHTML = `
+                <div class="progress">
+                    <div class="progress-bar" id="progress-bar" style="width: 0%">0%</div>
+                </div>
+                <p id="progress-text">Iniciando migración...</p>
+            `;
+            
+            migrationResults = [];
+            let processed = 0;
+            
+            for (const player of playersNeedingMigration) {
+                try {
+                    // Calculate OVR from attributes
+                    const attrs = player.attributes;
+                    const newOVR = (attrs.pac + attrs.sho + attrs.pas + attrs.dri + attrs.def + attrs.phy) / 6;
+                    
+                    const updateData = {
+                        // Copy attributes to direct fields
+                        pac: attrs.pac,
+                        sho: attrs.sho,
+                        pas: attrs.pas,
+                        dri: attrs.dri,
+                        def: attrs.def,
+                        phy: attrs.phy,
+                        // Update OVR to match
+                        ovr: Math.round(newOVR * 10) / 10,
+                        // Add migration metadata
+                        migratedAt: Date.now(),
+                        migratedBy: 'mass-migration-tool',
+                        migrationVersion: '1.0'
+                    };
+                    
+                    await player.ref.update(updateData);
+                    
+                    migrationResults.push({
+                        player: player.displayName || player.name || 'Sin nombre',
+                        status: 'success',
+                        ovr: updateData.ovr,
+                        data: updateData
+                    });
+                    
+                    log(`✅ ${player.displayName || player.name}: Migrado exitosamente (OVR: ${updateData.ovr})`, 'success');
+                    
+                } catch (error) {
+                    migrationResults.push({
+                        player: player.displayName || player.name || 'Sin nombre',
+                        status: 'error',
+                        error: error.message
+                    });
+                    
+                    log(`❌ ${player.displayName || player.name}: Error - ${error.message}`, 'error');
+                }
+                
+                processed++;
+                const progress = Math.round((processed / playersNeedingMigration.length) * 100);
+                document.getElementById('progress-bar').style.width = progress + '%';
+                document.getElementById('progress-bar').textContent = progress + '%';
+                document.getElementById('progress-text').textContent = `Procesando ${processed}/${playersNeedingMigration.length}: ${player.displayName || player.name}`;
+                
+                // Small delay to prevent overwhelming Firebase
+                await new Promise(resolve => setTimeout(resolve, 100));
+            }
+            
+            const successful = migrationResults.filter(r => r.status === 'success').length;
+            const failed = migrationResults.filter(r => r.status === 'error').length;
+            
+            log(`🎉 Migración masiva completada: ${successful} exitosos, ${failed} fallidos`, 'success');
+            
+            document.getElementById('progress-text').innerHTML = `
+                <strong>✅ Migración Completada</strong><br>
+                Exitosos: ${successful} | Fallidos: ${failed}<br>
+                <em>Todos los jugadores ahora deberían mostrar atributos consistentes en el admin</em>
+            `;
+            
+            // Enable verification
+            document.getElementById('verifyBtn').disabled = false;
+        }
+        
+        async function verifyMigration() {
+            log('🎯 Verificando migración completa...', 'info');
+            
+            const resultsDiv = document.getElementById('verification-results');
+            resultsDiv.innerHTML = '<p>🔍 Verificando todos los jugadores...</p>';
+            
+            try {
+                const snapshot = await db.collection('futbol_users').get();
+                let totalPlayers = 0;
+                let fullyMigrated = 0;
+                let stillNeedMigration = 0;
+                let bothStructures = 0;
+                
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    totalPlayers++;
+                    
+                    const hasDirectStats = data.pac !== undefined;
+                    const hasAttributes = data.attributes && Object.keys(data.attributes).length > 0;
+                    
+                    if (hasDirectStats && !hasAttributes) {
+                        fullyMigrated++;
+                    } else if (!hasDirectStats && hasAttributes) {
+                        stillNeedMigration++;
+                    } else if (hasDirectStats && hasAttributes) {
+                        bothStructures++;
+                    }
+                });
+                
+                const success = stillNeedMigration === 0;
+                
+                resultsDiv.innerHTML = `
+                    <div style="padding: 20px; border-radius: 8px; background: ${success ? 'rgba(16,185,129,0.2)' : 'rgba(255,170,0,0.2)'}; border: 1px solid ${success ? '#10b981' : '#ffaa00'};">
+                        <h3>${success ? '🎉 Migración Exitosa' : '⚠️ Migración Parcial'}</h3>
+                        <div class="stats">
+                            <div class="stat-card">
+                                <div class="stat-number">${totalPlayers}</div>
+                                <div class="stat-label">Total Jugadores</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" style="color: #10b981;">${fullyMigrated}</div>
+                                <div class="stat-label">Completamente Migrados</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" style="color: #ffaa00;">${stillNeedMigration}</div>
+                                <div class="stat-label">Aún Necesitan Migración</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" style="color: #3b82f6;">${bothStructures}</div>
+                                <div class="stat-label">Ambas Estructuras</div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 15px;">
+                            ${success 
+                                ? '<p><strong>✅ Todos los jugadores están unificados!</strong><br>Ahora puedes hacer hard refresh (Ctrl+F5) en el admin para ver los cambios.</p>' 
+                                : '<p><strong>⚠️ Algunos jugadores aún necesitan migración.</strong><br>Ejecuta el análisis nuevamente y repite la migración.</p>'
+                            }
+                            ${bothStructures > 0 ? '<p><em>Nota: Jugadores con ambas estructuras están funcionando correctamente, pero puedes limpiar la estructura antigua opcionalmente.</em></p>' : ''}
+                        </div>
+                    </div>
+                `;
+                
+                if (success) {
+                    document.getElementById('cleanupBtn').disabled = false;
+                }
+                
+                log(`✅ Verificación completada: ${fullyMigrated}/${totalPlayers} migrados correctamente`, success ? 'success' : 'warning');
+                
+            } catch (error) {
+                log(`❌ Error en verificación: ${error.message}`, 'error');
+                resultsDiv.innerHTML = `<div style="color: #ff4444;">Error: ${error.message}</div>`;
+            }
+        }
+        
+        async function cleanupAttributes() {
+            if (!confirm('¿Eliminar permanentemente la estructura "attributes" de todos los jugadores?\n\nEsto es IRREVERSIBLE. Solo hazlo si estás seguro que la migración funciona correctamente.')) {
+                return;
+            }
+            
+            log('🧹 Iniciando limpieza de estructura antigua...', 'warning');
+            
+            try {
+                const snapshot = await db.collection('futbol_users').get();
+                let cleaned = 0;
+                
+                const batch = db.batch();
+                
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    if (data.attributes) {
+                        batch.update(doc.ref, {
+                            attributes: firebase.firestore.FieldValue.delete(),
+                            cleanedAt: Date.now()
+                        });
+                        cleaned++;
+                    }
+                });
+                
+                await batch.commit();
+                
+                log(`🧹 Limpieza completada: ${cleaned} jugadores limpiados`, 'success');
+                
+                document.getElementById('cleanup-results').innerHTML = `
+                    <div style="padding: 15px; background: rgba(16,185,129,0.2); border: 1px solid #10b981; border-radius: 8px;">
+                        <h4>✅ Limpieza Completada</h4>
+                        <p><strong>${cleaned} jugadores</strong> ya no tienen la estructura "attributes" antigua.</p>
+                        <p>Todos los jugadores ahora usan únicamente la estructura unificada (campos directos).</p>
+                    </div>
+                `;
+                
+            } catch (error) {
+                log(`❌ Error en limpieza: ${error.message}`, 'error');
+                document.getElementById('cleanup-results').innerHTML = `<div style="color: #ff4444;">Error: ${error.message}</div>`;
+            }
+        }
+        
+        // Auto-start analysis on load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                log('🔄 Herramienta de migración masiva iniciada', 'info');
+                log('👉 Haz clic en "Analizar Todos los Jugadores" para comenzar', 'info');
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

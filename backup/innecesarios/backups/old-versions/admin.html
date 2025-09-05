@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - FC24 Team Manager</title>
+    
+    <!-- BoxIcons CSS -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            color: #ffffff;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+        }
+
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .admin-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(0, 255, 157, 0.1) 0%, rgba(255, 0, 230, 0.1) 100%);
+            border-radius: 15px;
+            border: 1px solid rgba(0, 255, 157, 0.3);
+        }
+
+        .admin-header h1 {
+            color: #00ff9d;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .admin-header p {
+            color: #cccccc;
+            font-size: 1.1rem;
+        }
+
+        .section {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.05) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .section h2 {
+            color: #00ff9d;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .input-group label {
+            font-size: 0.9rem;
+            color: #cccccc;
+        }
+
+        select, input {
+            padding: 10px;
+            background: #1a1a1a;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 0.95rem;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: #00ff9d;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #00ff9d 0%, #00cc7d 100%);
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 255, 157, 0.3);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%);
+            color: #fff;
+        }
+
+        .btn-danger:hover {
+            box-shadow: 0 8px 20px rgba(255, 68, 68, 0.3);
+        }
+
+        .data-grid {
+            display: grid;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .data-item {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.1) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .data-item:hover {
+            border-color: rgba(0, 255, 157, 0.3);
+        }
+
+        .item-info {
+            flex: 1;
+        }
+
+        .item-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+
+        .item-details {
+            font-size: 0.9rem;
+            color: #cccccc;
+        }
+
+        .item-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #cccccc;
+        }
+
+        .status {
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .status.success {
+            background: rgba(0, 255, 157, 0.1);
+            border: 1px solid rgba(0, 255, 157, 0.3);
+            color: #00ff9d;
+        }
+
+        .status.error {
+            background: rgba(255, 68, 68, 0.1);
+            border: 1px solid rgba(255, 68, 68, 0.3);
+            color: #ff4444;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(0, 255, 157, 0.1) 0%, rgba(0, 255, 157, 0.05) 100%);
+            border: 1px solid rgba(0, 255, 157, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #00ff9d;
+        }
+
+        .stat-label {
+            color: #cccccc;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .data-item {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1><i class='bx bx-shield-alt-2'></i> Panel de Administración</h1>
+            <p>Gestión avanzada de jugadores, grupos y partidos</p>
+        </div>
+
+        <div id="status-message"></div>
+
+        <!-- Stats Overview -->
+        <div class="section">
+            <h2><i class='bx bx-bar-chart-alt-2'></i> Estadísticas Generales</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="total-groups">0</div>
+                    <div class="stat-label">Grupos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="total-players">0</div>
+                    <div class="stat-label">Jugadores</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="total-matches">0</div>
+                    <div class="stat-label">Partidos</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Group Selection -->
+        <div class="section">
+            <h2><i class='bx bx-group'></i> Seleccionar Grupo</h2>
+            <div class="controls">
+                <div class="input-group">
+                    <label>Grupo:</label>
+                    <select id="group-select">
+                        <option value="">Seleccionar grupo...</option>
+                    </select>
+                </div>
+                <button class="btn" onclick="loadGroupData()">
+                    <i class='bx bx-refresh'></i> Cargar Datos
+                </button>
+                <button class="btn" onclick="debugAllGroups()" style="background: linear-gradient(135deg, #ff9500 0%, #ff7700 100%);">
+                    <i class='bx bx-bug'></i> Debug Grupos
+                </button>
+            </div>
+        </div>
+
+        <!-- Player Management -->
+        <div class="section">
+            <h2><i class='bx bx-user'></i> Gestión de Jugadores</h2>
+            <div class="controls">
+                <button class="btn" onclick="loadPlayers()">
+                    <i class='bx bx-refresh'></i> Actualizar Lista
+                </button>
+                <button class="btn btn-danger" onclick="deleteAllPlayers()">
+                    <i class='bx bx-trash'></i> Eliminar Todos
+                </button>
+            </div>
+            <div id="players-grid" class="data-grid">
+                <div class="loading">Selecciona un grupo para ver los jugadores</div>
+            </div>
+        </div>
+
+        <!-- Match Management -->
+        <div class="section">
+            <h2><i class='bx bx-football'></i> Gestión de Partidos</h2>
+            <div class="controls">
+                <button class="btn" onclick="loadMatches()">
+                    <i class='bx bx-refresh'></i> Actualizar Lista
+                </button>
+                <button class="btn btn-danger" onclick="deleteAllMatches()">
+                    <i class='bx bx-trash'></i> Eliminar Todos
+                </button>
+            </div>
+            <div id="matches-grid" class="data-grid">
+                <div class="loading">Selecciona un grupo para ver los partidos</div>
+            </div>
+        </div>
+
+        <!-- Danger Zone -->
+        <div class="section">
+            <h2><i class='bx bx-error'></i> Zona de Peligro</h2>
+            <p style="color: #ff4444; margin-bottom: 20px;">
+                <strong>⚠️ Atención:</strong> Estas acciones son irreversibles
+            </p>
+            <div class="controls">
+                <button class="btn btn-danger" onclick="deleteGroup()">
+                    <i class='bx bx-trash'></i> Eliminar Grupo Completo
+                </button>
+                <button class="btn btn-danger" onclick="resetAllData()">
+                    <i class='bx bx-reset'></i> Resetear Todos los Datos
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCHMlDhb4hdGrKWIhLeaBCDCbO6bVGbF_4",
+            authDomain: "mil-disculpis.firebaseapp.com",
+            projectId: "mil-disculpis",
+            storageBucket: "mil-disculpis.appspot.com",
+            messagingSenderId: "101031472100",
+            appId: "1:101031472100:web:41dad2d0b6c8ad8055e5dc",
+            measurementId: "G-ZKJQYJWE6V"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        let currentGroupId = null;
+
+        // Utility Functions
+        function showStatus(message, type = 'success') {
+            const statusEl = document.getElementById('status-message');
+            statusEl.innerHTML = `<div class="status ${type}"><i class='bx ${type === 'success' ? 'bx-check' : 'bx-x'}'></i> ${message}</div>`;
+            setTimeout(() => statusEl.innerHTML = '', 5000);
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return 'No especificado';
+            return new Date(dateString).toLocaleString('es-ES');
+        }
+
+        // Load Groups
+        async function loadGroups() {
+            try {
+                const snapshot = await db.collection('groups').get();
+                const select = document.getElementById('group-select');
+                select.innerHTML = '<option value="">Seleccionar grupo...</option>';
+                
+                let totalGroups = 0;
+                let realGroups = [];
+
+                // First pass: collect all groups and check for players
+                for (const doc of snapshot.docs) {
+                    const group = doc.data();
+                    const groupId = doc.id;
+                    
+                    // Skip demo groups
+                    if (groupId.includes('demo') || groupId.startsWith('demo-')) {
+                        continue;
+                    }
+                    
+                    // Check if group has players
+                    try {
+                        const playersSnapshot = await db.collection('groups').doc(groupId).collection('players').limit(1).get();
+                        if (!playersSnapshot.empty) {
+                            realGroups.push({
+                                id: groupId,
+                                name: group.name || groupId,
+                                data: group
+                            });
+                            totalGroups++;
+                        }
+                    } catch (error) {
+                        console.log('Error checking players for group:', groupId, error);
+                    }
+                }
+
+                // Sort groups by name
+                realGroups.sort((a, b) => a.name.localeCompare(b.name));
+
+                // Add to select
+                realGroups.forEach(group => {
+                    select.innerHTML += `<option value="${group.id}">${group.name}</option>`;
+                });
+
+                document.getElementById('total-groups').textContent = totalGroups;
+
+                if (totalGroups === 0) {
+                    showStatus('No se encontraron grupos con jugadores. Asegúrate de tener grupos creados en la aplicación principal.', 'error');
+                } else {
+                    showStatus(`Encontrados ${totalGroups} grupos con jugadores`, 'success');
+                }
+            } catch (error) {
+                console.error('Error loading groups:', error);
+                showStatus('Error al cargar grupos: ' + error.message, 'error');
+            }
+        }
+
+        // Load Group Data
+        async function loadGroupData() {
+            const groupId = document.getElementById('group-select').value;
+            if (!groupId) {
+                showStatus('Por favor selecciona un grupo', 'error');
+                return;
+            }
+
+            currentGroupId = groupId;
+            showStatus('Cargando datos del grupo...', 'success');
+            
+            await Promise.all([
+                loadPlayers(),
+                loadMatches(),
+                updateStats()
+            ]);
+        }
+
+        // Update Stats
+        async function updateStats() {
+            try {
+                if (!currentGroupId) return;
+
+                const [playersSnapshot, matchesSnapshot] = await Promise.all([
+                    db.collection('groups').doc(currentGroupId).collection('players').get(),
+                    db.collection('groups').doc(currentGroupId).collection('matches').get()
+                ]);
+
+                document.getElementById('total-players').textContent = playersSnapshot.size;
+                document.getElementById('total-matches').textContent = matchesSnapshot.size;
+            } catch (error) {
+                console.error('Error updating stats:', error);
+            }
+        }
+
+        // Load Players
+        async function loadPlayers() {
+            if (!currentGroupId) {
+                document.getElementById('players-grid').innerHTML = '<div class="loading">Selecciona un grupo para ver los jugadores</div>';
+                return;
+            }
+
+            document.getElementById('players-grid').innerHTML = '<div class="loading">Cargando jugadores...</div>';
+
+            try {
+                const snapshot = await db.collection('groups').doc(currentGroupId).collection('players').get();
+                const playersGrid = document.getElementById('players-grid');
+
+                if (snapshot.empty) {
+                    playersGrid.innerHTML = '<div class="loading">No hay jugadores en este grupo</div>';
+                    return;
+                }
+
+                let html = '';
+                let playerCount = 0;
+                
+                snapshot.forEach(doc => {
+                    const player = doc.data();
+                    playerCount++;
+                    
+                    const ovr = player.ovr || 'N/A';
+                    const position = player.position || 'N/A';
+                    const createdAt = formatDate(player.createdAt);
+                    const updatedAt = formatDate(player.updatedAt);
+                    
+                    // Get attributes if available
+                    let attributesText = '';
+                    if (player.attributes) {
+                        const attrs = player.attributes;
+                        attributesText = `PAC: ${attrs.pac || 0} | SHO: ${attrs.sho || 0} | PAS: ${attrs.pas || 0} | DEF: ${attrs.def || 0} | DRI: ${attrs.dri || 0} | PHY: ${attrs.phy || 0}`;
+                    }
+
+                    html += `
+                        <div class="data-item">
+                            <div class="item-info">
+                                <div class="item-title">${player.name || 'Sin nombre'} (ID: ${doc.id})</div>
+                                <div class="item-details">
+                                    <strong>OVR: ${ovr}</strong> | Posición: ${position}<br>
+                                    ${attributesText ? attributesText + '<br>' : ''}
+                                    Creado: ${createdAt} | ${updatedAt !== createdAt ? 'Actualizado: ' + updatedAt : ''}
+                                </div>
+                            </div>
+                            <div class="item-actions">
+                                <button class="btn btn-danger btn-small" onclick="deletePlayer('${doc.id}', '${player.name}')">
+                                    <i class='bx bx-trash'></i> Eliminar
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                showStatus(`Cargados ${playerCount} jugadores del grupo`, 'success');
+
+                playersGrid.innerHTML = html;
+            } catch (error) {
+                console.error('Error loading players:', error);
+                showStatus('Error al cargar jugadores: ' + error.message, 'error');
+                document.getElementById('players-grid').innerHTML = '<div class="loading">Error al cargar jugadores</div>';
+            }
+        }
+
+        // Load Matches
+        async function loadMatches() {
+            if (!currentGroupId) {
+                document.getElementById('matches-grid').innerHTML = '<div class="loading">Selecciona un grupo para ver los partidos</div>';
+                return;
+            }
+
+            document.getElementById('matches-grid').innerHTML = '<div class="loading">Cargando partidos...</div>';
+
+            try {
+                const snapshot = await db.collection('groups').doc(currentGroupId).collection('matches').get();
+                const matchesGrid = document.getElementById('matches-grid');
+
+                if (snapshot.empty) {
+                    matchesGrid.innerHTML = '<div class="loading">No hay partidos en este grupo</div>';
+                    return;
+                }
+
+                let html = '';
+                let matchCount = 0;
+                
+                snapshot.forEach(doc => {
+                    const match = doc.data();
+                    matchCount++;
+                    
+                    const date = formatDate(match.date || match.createdAt);
+                    const status = match.status || 'unknown';
+                    const teamAScore = match.teamA?.score ?? '-';
+                    const teamBScore = match.teamB?.score ?? '-';
+                    const teamAOvr = match.teamA?.ovr || 'N/A';
+                    const teamBOvr = match.teamB?.ovr || 'N/A';
+                    const teamAPlayers = match.teamA?.players?.length || 0;
+                    const teamBPlayers = match.teamB?.players?.length || 0;
+
+                    const statusEmoji = status === 'evaluated' ? '✅' : status === 'scheduled' ? '⏰' : '❓';
+
+                    html += `
+                        <div class="data-item">
+                            <div class="item-info">
+                                <div class="item-title">${statusEmoji} Partido ${date} (ID: ${doc.id})</div>
+                                <div class="item-details">
+                                    <strong>Estado: ${status}</strong> | Resultado: ${teamAScore} - ${teamBScore}<br>
+                                    Equipo A: OVR ${teamAOvr} (${teamAPlayers} jugadores) vs Equipo B: OVR ${teamBOvr} (${teamBPlayers} jugadores)
+                                </div>
+                            </div>
+                            <div class="item-actions">
+                                <button class="btn btn-danger btn-small" onclick="deleteMatch('${doc.id}')">
+                                    <i class='bx bx-trash'></i> Eliminar
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                showStatus(`Cargados ${matchCount} partidos del grupo`, 'success');
+
+                matchesGrid.innerHTML = html;
+            } catch (error) {
+                console.error('Error loading matches:', error);
+                showStatus('Error al cargar partidos: ' + error.message, 'error');
+                document.getElementById('matches-grid').innerHTML = '<div class="loading">Error al cargar partidos</div>';
+            }
+        }
+
+        // Delete Single Player
+        async function deletePlayer(playerId, playerName) {
+            if (!confirm(`¿Estás seguro de eliminar al jugador "${playerName}"?`)) {
+                return;
+            }
+
+            try {
+                await db.collection('groups').doc(currentGroupId).collection('players').doc(playerId).delete();
+                showStatus(`Jugador "${playerName}" eliminado exitosamente`, 'success');
+                loadPlayers();
+                updateStats();
+            } catch (error) {
+                console.error('Error deleting player:', error);
+                showStatus('Error al eliminar jugador: ' + error.message, 'error');
+            }
+        }
+
+        // Delete All Players
+        async function deleteAllPlayers() {
+            if (!currentGroupId) {
+                showStatus('Selecciona un grupo primero', 'error');
+                return;
+            }
+
+            if (!confirm('¿Estás seguro de eliminar TODOS los jugadores del grupo? Esta acción es irreversible.')) {
+                return;
+            }
+
+            try {
+                const snapshot = await db.collection('groups').doc(currentGroupId).collection('players').get();
+                const batch = db.batch();
+
+                snapshot.forEach(doc => {
+                    batch.delete(doc.ref);
+                });
+
+                await batch.commit();
+                showStatus(`${snapshot.size} jugadores eliminados exitosamente`, 'success');
+                loadPlayers();
+                updateStats();
+            } catch (error) {
+                console.error('Error deleting all players:', error);
+                showStatus('Error al eliminar jugadores: ' + error.message, 'error');
+            }
+        }
+
+        // Delete Single Match
+        async function deleteMatch(matchId) {
+            if (!confirm('¿Estás seguro de eliminar este partido?')) {
+                return;
+            }
+
+            try {
+                await db.collection('groups').doc(currentGroupId).collection('matches').doc(matchId).delete();
+                showStatus('Partido eliminado exitosamente', 'success');
+                loadMatches();
+                updateStats();
+            } catch (error) {
+                console.error('Error deleting match:', error);
+                showStatus('Error al eliminar partido: ' + error.message, 'error');
+            }
+        }
+
+        // Delete All Matches
+        async function deleteAllMatches() {
+            if (!currentGroupId) {
+                showStatus('Selecciona un grupo primero', 'error');
+                return;
+            }
+
+            if (!confirm('¿Estás seguro de eliminar TODOS los partidos del grupo? Esta acción es irreversible.')) {
+                return;
+            }
+
+            try {
+                const snapshot = await db.collection('groups').doc(currentGroupId).collection('matches').get();
+                const batch = db.batch();
+
+                snapshot.forEach(doc => {
+                    batch.delete(doc.ref);
+                });
+
+                await batch.commit();
+                showStatus(`${snapshot.size} partidos eliminados exitosamente`, 'success');
+                loadMatches();
+                updateStats();
+            } catch (error) {
+                console.error('Error deleting all matches:', error);
+                showStatus('Error al eliminar partidos: ' + error.message, 'error');
+            }
+        }
+
+        // Delete Entire Group
+        async function deleteGroup() {
+            if (!currentGroupId) {
+                showStatus('Selecciona un grupo primero', 'error');
+                return;
+            }
+
+            const groupName = document.getElementById('group-select').selectedOptions[0].text;
+            if (!confirm(`¿Estás seguro de eliminar el grupo completo "${groupName}"? Esto eliminará TODOS los jugadores y partidos. Esta acción es irreversible.`)) {
+                return;
+            }
+
+            try {
+                // Delete all players
+                const playersSnapshot = await db.collection('groups').doc(currentGroupId).collection('players').get();
+                const playersPromises = playersSnapshot.docs.map(doc => doc.ref.delete());
+
+                // Delete all matches
+                const matchesSnapshot = await db.collection('groups').doc(currentGroupId).collection('matches').get();
+                const matchesPromises = matchesSnapshot.docs.map(doc => doc.ref.delete());
+
+                // Wait for all deletions
+                await Promise.all([...playersPromises, ...matchesPromises]);
+
+                // Delete group document
+                await db.collection('groups').doc(currentGroupId).delete();
+
+                showStatus(`Grupo "${groupName}" eliminado completamente`, 'success');
+                currentGroupId = null;
+                loadGroups();
+                document.getElementById('players-grid').innerHTML = '<div class="loading">Selecciona un grupo para ver los jugadores</div>';
+                document.getElementById('matches-grid').innerHTML = '<div class="loading">Selecciona un grupo para ver los partidos</div>';
+                document.getElementById('total-players').textContent = '0';
+                document.getElementById('total-matches').textContent = '0';
+            } catch (error) {
+                console.error('Error deleting group:', error);
+                showStatus('Error al eliminar grupo: ' + error.message, 'error');
+            }
+        }
+
+        // Reset All Data
+        async function resetAllData() {
+            if (!confirm('¿Estás seguro de RESETEAR TODOS LOS DATOS? Esto eliminará TODOS los grupos, jugadores y partidos. Esta acción es IRREVERSIBLE.')) {
+                return;
+            }
+
+            if (!confirm('ÚLTIMA CONFIRMACIÓN: Esto eliminará absolutamente todo. ¿Continuar?')) {
+                return;
+            }
+
+            try {
+                // Get all groups
+                const groupsSnapshot = await db.collection('groups').get();
+                
+                // Delete each group and its subcollections
+                for (const groupDoc of groupsSnapshot.docs) {
+                    const groupId = groupDoc.id;
+                    
+                    // Delete all players in group
+                    const playersSnapshot = await db.collection('groups').doc(groupId).collection('players').get();
+                    for (const playerDoc of playersSnapshot.docs) {
+                        await playerDoc.ref.delete();
+                    }
+                    
+                    // Delete all matches in group
+                    const matchesSnapshot = await db.collection('groups').doc(groupId).collection('matches').get();
+                    for (const matchDoc of matchesSnapshot.docs) {
+                        await matchDoc.ref.delete();
+                    }
+                    
+                    // Delete group
+                    await groupDoc.ref.delete();
+                }
+
+                showStatus('Todos los datos han sido eliminados', 'success');
+                currentGroupId = null;
+                loadGroups();
+                document.getElementById('players-grid').innerHTML = '<div class="loading">Selecciona un grupo para ver los jugadores</div>';
+                document.getElementById('matches-grid').innerHTML = '<div class="loading">Selecciona un grupo para ver los partidos</div>';
+                document.getElementById('total-players').textContent = '0';
+                document.getElementById('total-matches').textContent = '0';
+                document.getElementById('total-groups').textContent = '0';
+            } catch (error) {
+                console.error('Error resetting data:', error);
+                showStatus('Error al resetear datos: ' + error.message, 'error');
+            }
+        }
+
+        // Debug function to see all groups
+        async function debugAllGroups() {
+            try {
+                console.clear();
+                console.log('=== DEBUG: Analizando todos los grupos ===');
+                
+                const snapshot = await db.collection('groups').get();
+                console.log(`Total de grupos en Firebase: ${snapshot.size}`);
+                
+                for (const doc of snapshot.docs) {
+                    const groupData = doc.data();
+                    const groupId = doc.id;
+                    
+                    console.log(`\nGrupo: ${groupId}`);
+                    console.log('- Datos:', groupData);
+                    console.log('- Es demo?', groupId.includes('demo') || groupId.startsWith('demo-'));
+                    
+                    try {
+                        const playersSnapshot = await db.collection('groups').doc(groupId).collection('players').get();
+                        console.log(`- Jugadores: ${playersSnapshot.size}`);
+                        
+                        if (playersSnapshot.size > 0) {
+                            playersSnapshot.docs.slice(0, 3).forEach((playerDoc, index) => {
+                                const player = playerDoc.data();
+                                console.log(`  - Jugador ${index + 1}: ${player.name || 'Sin nombre'} (${playerDoc.id})`);
+                            });
+                        }
+                        
+                        const matchesSnapshot = await db.collection('groups').doc(groupId).collection('matches').get();
+                        console.log(`- Partidos: ${matchesSnapshot.size}`);
+                    } catch (error) {
+                        console.log('- Error al cargar subcolecciones:', error);
+                    }
+                }
+                
+                showStatus('Debug completado - revisa la consola del navegador (F12)', 'success');
+            } catch (error) {
+                console.error('Error en debug:', error);
+                showStatus('Error en debug: ' + error.message, 'error');
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadGroups();
+        });
+    </script>
+</body>
+</html>

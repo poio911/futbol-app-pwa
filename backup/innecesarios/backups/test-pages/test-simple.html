@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Simple - Player Evaluation</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #1a1a1a; color: white; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .player-card { margin: 15px 0; padding: 15px; background: #333; border-radius: 8px; }
+        .player-header { display: flex; align-items: center; margin-bottom: 15px; }
+        .player-info h4 { margin: 0; color: #4CAF50; }
+        .player-position { color: #888; font-size: 14px; }
+        .performance-tags { margin: 10px 0; }
+        .tags-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin: 15px 0; }
+        .performance-tag { 
+            padding: 8px 15px; 
+            border: 1px solid #007bff; 
+            background: transparent; 
+            color: #007bff; 
+            cursor: pointer; 
+            border-radius: 5px; 
+            transition: all 0.2s;
+            font-size: 12px;
+        }
+        .performance-tag:hover { background: rgba(0, 123, 255, 0.1); }
+        .performance-tag.selected { background: #007bff; color: white; }
+        .selected-tags-info { margin-top: 10px; padding: 10px; background: #444; border-radius: 5px; font-size: 14px; }
+        .button { padding: 10px 20px; margin: 10px 5px; background: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        .button:hover { background: #45a049; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Test Simple - Evaluación de Jugadores</h1>
+        
+        <div id="status" class="status">Inicializando sistema...</div>
+        
+        <button class="button" onclick="initializeDemo()">Activar Modo Demo</button>
+        <button class="button" onclick="generateTeams()">Generar Equipos</button>
+        <button class="button" onclick="createMatch()">Crear Partido</button>
+        <button class="button" onclick="showEvaluation()">Mostrar Evaluación</button>
+        
+        <div id="evaluation-container"></div>
+    </div>
+
+    <script>
+        // Datos de demostración
+        const demoPlayers = [
+            { id: '1', name: 'Lionel Messi', position: 'DEL', ovr: 92 },
+            { id: '2', name: 'Cristiano Ronaldo', position: 'DEL', ovr: 91 },
+            { id: '3', name: 'Kevin De Bruyne', position: 'MED', ovr: 91 },
+            { id: '4', name: 'Virgil van Dijk', position: 'DEF', ovr: 90 },
+            { id: '5', name: 'Kylian Mbappé', position: 'DEL', ovr: 90 },
+            { id: '6', name: 'Erling Haaland', position: 'DEL', ovr: 88 },
+        ];
+
+        let currentMatch = null;
+
+        // Performance tags data
+        const performanceTags = [
+            { id: 'goleador', name: 'Goleador', icon: '⚽', description: '+2 Tiro' },
+            { id: 'asistencia', name: 'Asistencia', icon: '🎯', description: '+2 Pase' },
+            { id: 'velocidad', name: 'Velocidad destacada', icon: '💨', description: '+1 Ritmo' },
+            { id: 'defensa-solida', name: 'Defensa sólida', icon: '🛡️', description: '+2 Defensa' },
+            { id: 'regate', name: 'Regate exitoso', icon: '🤹', description: '+1 Regate' },
+            { id: 'liderazgo', name: 'Liderazgo', icon: '👑', description: '+1 Pase' },
+            { id: 'jugada-clave', name: 'Jugada clave', icon: '🔑', description: '+1 Regate' },
+            { id: 'atajada', name: 'Atajada importante', icon: '🥅', description: '+2 Defensa' },
+            { id: 'mal-partido', name: 'Mal partido', icon: '😞', description: '-1 todas las stats' },
+        ];
+
+        function updateStatus(message, type = 'success') {
+            const statusEl = document.getElementById('status');
+            statusEl.textContent = message;
+            statusEl.className = `status ${type}`;
+        }
+
+        function initializeDemo() {
+            updateStatus('✅ Modo demo inicializado con ' + demoPlayers.length + ' jugadores');
+            console.log('Demo players:', demoPlayers);
+        }
+
+        function generateTeams() {
+            if (demoPlayers.length < 4) {
+                updateStatus('❌ Se necesitan al menos 4 jugadores', 'error');
+                return;
+            }
+
+            // Simple team balance
+            const shuffled = [...demoPlayers].sort(() => Math.random() - 0.5);
+            const mid = Math.ceil(shuffled.length / 2);
+            
+            const teamA = shuffled.slice(0, mid);
+            const teamB = shuffled.slice(mid);
+            
+            window.generatedTeams = {
+                teamA: { players: teamA, ovr: teamA.reduce((sum, p) => sum + p.ovr, 0) / teamA.length },
+                teamB: { players: teamB, ovr: teamB.reduce((sum, p) => sum + p.ovr, 0) / teamB.length }
+            };
+            
+            updateStatus(`✅ Equipos generados: ${teamA.length} vs ${teamB.length} jugadores`);
+            console.log('Generated teams:', window.generatedTeams);
+        }
+
+        function createMatch() {
+            if (!window.generatedTeams) {
+                updateStatus('❌ Primero genera equipos', 'error');
+                return;
+            }
+
+            currentMatch = {
+                id: Date.now().toString(),
+                date: new Date().toISOString(),
+                teamA: window.generatedTeams.teamA,
+                teamB: window.generatedTeams.teamB,
+                status: 'pending',
+                evaluations: []
+            };
+
+            updateStatus('✅ Partido creado exitosamente');
+            console.log('Match created:', currentMatch);
+        }
+
+        function showEvaluation() {
+            if (!currentMatch) {
+                updateStatus('❌ Primero crea un partido', 'error');
+                return;
+            }
+
+            const allPlayers = [...currentMatch.teamA.players, ...currentMatch.teamB.players];
+            
+            if (allPlayers.length === 0) {
+                updateStatus('❌ No se encontraron jugadores en el partido', 'error');
+                return;
+            }
+
+            updateStatus(`✅ Mostrando evaluación para ${allPlayers.length} jugadores`);
+            
+            const container = document.getElementById('evaluation-container');
+            container.innerHTML = `
+                <h2>🔥 Evaluación del Partido</h2>
+                <p><strong>Jugadores:</strong> ${allPlayers.length}</p>
+                ${allPlayers.map(player => createPlayerEvaluationCard(player)).join('')}
+                <button class="button" onclick="saveEvaluation()">💾 Guardar Evaluación</button>
+            `;
+
+            console.log('Evaluation shown for players:', allPlayers);
+        }
+
+        function createPlayerEvaluationCard(player) {
+            if (!player || !player.name) {
+                console.error('Invalid player data:', player);
+                return `<div class="error">Error: Jugador con datos inválidos</div>`;
+            }
+
+            const selectedTags = []; // Start with no tags selected
+            
+            return `
+                <div class="player-card">
+                    <div class="player-header">
+                        <div class="player-info">
+                            <h4>${player.name}</h4>
+                            <div class="player-position">${player.position} - OVR: ${player.ovr}</div>
+                        </div>
+                    </div>
+                    <div class="performance-tags">
+                        <h5>Rendimiento en el partido:</h5>
+                        <div class="tags-container" id="tags-${player.id}">
+                            ${createPerformanceTags(player.id, selectedTags)}
+                        </div>
+                        <div class="selected-tags-info" id="info-${player.id}">
+                            Sin tags seleccionados
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function createPerformanceTags(playerId, selectedTags = []) {
+            return performanceTags.map(tag => {
+                const isSelected = selectedTags.includes(tag.id);
+                return `
+                    <button class="performance-tag ${isSelected ? 'selected' : ''}" 
+                            data-tag-id="${tag.id}" 
+                            data-player-id="${playerId}"
+                            onclick="togglePerformanceTag('${playerId}', '${tag.id}')">
+                        <span class="tag-icon">${tag.icon}</span>
+                        <span class="tag-name">${tag.name}</span>
+                        <span class="tag-effect">${tag.description}</span>
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function togglePerformanceTag(playerId, tagId) {
+            console.log('🔥 Toggle tag called:', { playerId, tagId });
+            
+            const tagButton = document.querySelector(`[data-tag-id="${tagId}"][data-player-id="${playerId}"]`);
+            
+            if (!tagButton) {
+                console.error('❌ Tag button not found:', { playerId, tagId });
+                return;
+            }
+
+            const isSelected = tagButton.classList.contains('selected');
+            console.log('Tag was selected:', isSelected);
+            
+            if (isSelected) {
+                tagButton.classList.remove('selected');
+                console.log('✅ Tag deselected');
+            } else {
+                tagButton.classList.add('selected');
+                console.log('✅ Tag selected');
+            }
+            
+            // Update selected tags info
+            updateSelectedTagsInfo(playerId);
+        }
+
+        function updateSelectedTagsInfo(playerId) {
+            const selectedButtons = document.querySelectorAll(`[data-player-id="${playerId}"].selected`);
+            const selectedTags = Array.from(selectedButtons).map(btn => {
+                const tagData = performanceTags.find(t => t.id === btn.dataset.tagId);
+                return tagData ? `${tagData.icon} ${tagData.name}` : btn.dataset.tagId;
+            });
+            
+            const infoContainer = document.getElementById(`info-${playerId}`);
+            if (infoContainer) {
+                if (selectedTags.length === 0) {
+                    infoContainer.innerHTML = 'Sin tags seleccionados';
+                } else {
+                    infoContainer.innerHTML = `
+                        <strong>Tags seleccionados:</strong><br>
+                        ${selectedTags.join(', ')}
+                    `;
+                }
+            }
+            
+            console.log(`Updated tags info for player ${playerId}:`, selectedTags);
+        }
+
+        function saveEvaluation() {
+            const allSelectedTags = {};
+            
+            // Get all selected tags for all players
+            document.querySelectorAll('.performance-tag.selected').forEach(tag => {
+                const playerId = tag.dataset.playerId;
+                const tagId = tag.dataset.tagId;
+                
+                if (!allSelectedTags[playerId]) {
+                    allSelectedTags[playerId] = [];
+                }
+                allSelectedTags[playerId].push(tagId);
+            });
+
+            console.log('💾 Saving evaluation:', allSelectedTags);
+            
+            const playersWithTags = Object.keys(allSelectedTags).length;
+            const totalTags = Object.values(allSelectedTags).reduce((sum, tags) => sum + tags.length, 0);
+            
+            updateStatus(`✅ Evaluación guardada: ${playersWithTags} jugadores, ${totalTags} tags total`);
+            
+            // Show summary
+            alert(`Evaluación guardada exitosamente:\n\n${playersWithTags} jugadores evaluados\n${totalTags} performance tags asignados`);
+        }
+
+        // Auto-initialize on page load
+        setTimeout(() => {
+            initializeDemo();
+            updateStatus('✅ Sistema listo. Sigue los pasos: Generar Equipos → Crear Partido → Mostrar Evaluación');
+        }, 500);
+    </script>
+</body>
+</html>

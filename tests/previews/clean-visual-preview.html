@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preview Visual - Diseños Mejorados</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0a0e1a 0%, #1a1f2e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .main-title {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 50px;
+            background: linear-gradient(90deg, #00ff9d, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+
+        .variant-section {
+            margin-bottom: 60px;
+            background: rgba(26, 31, 46, 0.5);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(0, 255, 157, 0.1);
+        }
+
+        .variant-title {
+            font-size: 24px;
+            color: #00ff9d;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .variant-title::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: #00ff9d;
+            border-radius: 2px;
+        }
+
+        .preview-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+
+        .preview-item {
+            background: rgba(10, 14, 26, 0.8);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .preview-label {
+            font-size: 14px;
+            color: #00d4ff;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        /* ============================== */
+        /* ESTILO 1: MODERNO LIMPIO */
+        /* ============================== */
+        .style1-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, #1a1f2e 0%, #232938 100%);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .style1-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: 3px solid #00ff9d;
+            background: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #00ff9d;
+            position: relative;
+        }
+
+        .style1-ovr {
+            position: absolute;
+            bottom: -5px;
+            right: -5px;
+            background: #00ff9d;
+            color: #0a0e1a;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 14px;
+            box-shadow: 0 2px 8px rgba(0, 255, 157, 0.5);
+        }
+
+        .style1-info h3 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .style1-info p {
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        .style1-player {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: linear-gradient(135deg, #1a1f2e 0%, #232938 100%);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 255, 157, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .style1-player:hover {
+            transform: translateX(5px);
+            border-color: #00ff9d;
+            box-shadow: 0 5px 20px rgba(0, 255, 157, 0.2);
+        }
+
+        .style1-player-photo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00ff9d;
+            border: 2px solid #00ff9d;
+        }
+
+        .style1-player-info {
+            flex: 1;
+        }
+
+        .style1-player-info h4 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .style1-player-stats {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .style1-position {
+            background: rgba(0, 255, 157, 0.2);
+            color: #00ff9d;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .style1-player-ovr {
+            background: #00ff9d;
+            color: #0a0e1a;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 12px;
+        }
+
+        /* ============================== */
+        /* ESTILO 2: GRADIENTE VIBRANTE */
+        /* ============================== */
+        .style2-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        .style2-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 16px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #667eea;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .style2-ovr {
+            position: absolute;
+            bottom: -8px;
+            right: -8px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 900;
+            font-size: 14px;
+            box-shadow: 0 3px 10px rgba(240, 147, 251, 0.5);
+        }
+
+        .style2-player {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .style2-player:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .style2-player-photo {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .style2-player-info h4 {
+            color: #2c3e50;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .style2-position {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3px 12px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .style2-player-ovr {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-weight: 900;
+            font-size: 12px;
+        }
+
+        /* ============================== */
+        /* ESTILO 3: DARK MINIMAL */
+        /* ============================== */
+        .style3-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 25px;
+            background: #000000;
+            border-radius: 0;
+            border: 2px solid #ffffff;
+        }
+
+        .style3-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 0;
+            border: 2px solid #ffffff;
+            background: #000000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #ffffff;
+            position: relative;
+        }
+
+        .style3-ovr {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #ffffff;
+            color: #000000;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 14px;
+            border: 2px solid #000000;
+        }
+
+        .style3-player {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            background: #000000;
+            border: 1px solid #ffffff;
+            transition: all 0.3s ease;
+        }
+
+        .style3-player:hover {
+            background: #ffffff;
+            color: #000000;
+        }
+
+        .style3-player:hover .style3-player-info h4,
+        .style3-player:hover .style3-position,
+        .style3-player:hover .style3-player-ovr {
+            color: #000000;
+            background: #000000;
+            color: #ffffff;
+        }
+
+        .style3-player-photo {
+            width: 45px;
+            height: 45px;
+            border: 2px solid #ffffff;
+            background: #000000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+        }
+
+        .style3-position {
+            background: transparent;
+            color: #ffffff;
+            padding: 2px 10px;
+            border: 1px solid #ffffff;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .style3-player-ovr {
+            background: #ffffff;
+            color: #000000;
+            padding: 2px 8px;
+            font-weight: 900;
+            font-size: 14px;
+        }
+
+        /* ============================== */
+        /* ESTILO 4: GLASSMORPHISM PREMIUM */
+        /* ============================== */
+        .style4-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .style4-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 20px;
+            background: rgba(0, 255, 157, 0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(0, 255, 157, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #00ff9d;
+            position: relative;
+        }
+
+        .style4-ovr {
+            position: absolute;
+            bottom: -5px;
+            right: -5px;
+            background: rgba(0, 255, 157, 0.9);
+            backdrop-filter: blur(10px);
+            color: #0a0e1a;
+            width: 35px;
+            height: 35px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 14px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .style4-player {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .style4-player:hover {
+            background: rgba(0, 255, 157, 0.1);
+            border-color: rgba(0, 255, 157, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .style4-player-photo {
+            width: 50px;
+            height: 50px;
+            border-radius: 15px;
+            background: rgba(0, 255, 157, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(0, 255, 157, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00ff9d;
+        }
+
+        .style4-position {
+            background: rgba(0, 255, 157, 0.1);
+            color: #00ff9d;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            border: 1px solid rgba(0, 255, 157, 0.3);
+        }
+
+        .style4-player-ovr {
+            background: rgba(0, 255, 157, 0.2);
+            color: #00ff9d;
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 14px;
+            border: 1px solid rgba(0, 255, 157, 0.3);
+        }
+
+        /* ============================== */
+        /* ESTILO 5: NEON GLOW */
+        /* ============================== */
+        .style5-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            background: #0a0e1a;
+            border-radius: 15px;
+            border: 2px solid #00ff9d;
+            box-shadow: 
+                0 0 20px rgba(0, 255, 157, 0.5),
+                inset 0 0 20px rgba(0, 255, 157, 0.1);
+        }
+
+        .style5-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: #0a0e1a;
+            border: 2px solid #00ff9d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #00ff9d;
+            position: relative;
+            box-shadow: 
+                0 0 20px rgba(0, 255, 157, 0.8),
+                inset 0 0 10px rgba(0, 255, 157, 0.3);
+            animation: neon-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes neon-pulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 157, 0.8); }
+            50% { box-shadow: 0 0 30px rgba(0, 255, 157, 1); }
+        }
+
+        .style5-ovr {
+            position: absolute;
+            bottom: -5px;
+            right: -5px;
+            background: #00ff9d;
+            color: #0a0e1a;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 14px;
+            box-shadow: 0 0 15px rgba(0, 255, 157, 0.8);
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .style5-player {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: #0a0e1a;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 255, 157, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .style5-player::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 157, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .style5-player:hover::before {
+            left: 100%;
+        }
+
+        .style5-player:hover {
+            border-color: #00ff9d;
+            box-shadow: 0 0 20px rgba(0, 255, 157, 0.3);
+        }
+
+        .style5-player-photo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #0a0e1a;
+            border: 2px solid #00ff9d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00ff9d;
+            box-shadow: 0 0 10px rgba(0, 255, 157, 0.5);
+        }
+
+        .style5-position {
+            background: transparent;
+            color: #00ff9d;
+            padding: 3px 10px;
+            border: 1px solid #00ff9d;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: 700;
+            text-shadow: 0 0 5px rgba(0, 255, 157, 0.5);
+        }
+
+        .style5-player-ovr {
+            background: transparent;
+            color: #00ff9d;
+            width: 30px;
+            height: 30px;
+            border: 2px solid #00ff9d;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 13px;
+            text-shadow: 0 0 5px rgba(0, 255, 157, 0.8);
+        }
+
+        /* ============================== */
+        /* ESTILO 6: MATERIAL DESIGN */
+        /* ============================== */
+        .style6-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .style6-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00ff9d 0%, #00d4ff 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            position: relative;
+            box-shadow: 0 4px 10px rgba(0, 255, 157, 0.3);
+        }
+
+        .style6-ovr {
+            position: absolute;
+            bottom: -2px;
+            right: -2px;
+            background: #ff4757;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 12px;
+            box-shadow: 0 2px 5px rgba(255, 71, 87, 0.4);
+            border: 2px solid white;
+        }
+
+        .style6-info h3 {
+            color: #2c3e50;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .style6-info p {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+
+        .style6-player {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 16px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .style6-player:hover {
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+            transform: translateY(-2px);
+        }
+
+        .style6-player-photo {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00ff9d 0%, #00d4ff 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+        }
+
+        .style6-player-info h4 {
+            color: #2c3e50;
+            font-size: 16px;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .style6-position {
+            background: #f0f0f0;
+            color: #7f8c8d;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .style6-player-ovr {
+            background: #ff4757;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-weight: 900;
+            font-size: 12px;
+            min-width: 28px;
+            text-align: center;
+        }
+
+        /* Utility classes */
+        .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .player-info {
+            flex: 1;
+        }
+
+        .player-stats {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="main-title">Nuevos Diseños Visuales - Preview</h1>
+
+        <!-- ESTILO 1: MODERNO LIMPIO -->
+        <div class="variant-section">
+            <h2 class="variant-title">Estilo 1: Moderno Limpio</h2>
+            <div class="preview-row">
+                <div class="preview-item">
+                    <div class="preview-label">Header / Perfil Usuario</div>
+                    <div class="style1-header">
+                        <div class="style1-avatar">
+                            <i class='bx bx-user'></i>
+                            <div class="style1-ovr">56</div>
+                        </div>
+                        <div class="user-info">
+                            <h3>Juan Pérez</h3>
+                            <p>juan@example.com</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="preview-item">
+                    <div class="preview-label">Card de Jugador</div>
+                    <div class="style1-player">
+                        <div class="style1-player-photo">
+                            <i class='bx bx-user'></i>
+                        </div>
+                        <div class="style1-player-info">
+                            <h4>Lionel Messi</h4>
+                            <div class="style1-player-stats">
+                                <span class="style1-position">DEL</span>
+                                <div class="style1-player-ovr">91</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ESTILO 2: GRADIENTE VIBRANTE -->
+        <div class="variant-section">
+            <h2 class="variant-title">Estilo 2: Gradiente Vibrante</h2>
+            <div class="preview-row">
+                <div class="preview-item">
+                    <div class="preview-label">Header / Perfil Usuario</div>
+                    <div class="style2-header">
+                        <div class="style2-avatar">
+                            <i class='bx bx-user' style="font-size: 28px;"></i>
+                            <div class="style2-ovr">56</div>
+                        </div>
+                        <div class="user-info">
+                            <h3 style="color: white;">Juan Pérez</h3>
+                            <p style="color: rgba(255,255,255,0.8);">juan@example.com</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="preview-item">
+                    <div class="preview-label">Card de Jugador</div>
+                    <div class="style2-player">
+                        <div class="style2-player-photo">
+                            <i class='bx bx-user'></i>
+                        </div>
+                        <div class="style2-player-info">
+                            <h4>Lionel Messi</h4>
+                            <div class="player-stats">
+                                <span class="style2-position">DEL</span>
+                                <div class="style2-player-ovr">91</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ESTILO 3: DARK MINIMAL -->
+        <div class="variant-section">
+            <h2 class="variant-title">Estilo 3: Dark Minimal</h2>
+            <div class="preview-row">
+                <div class="preview-item">
+                    <div class="preview-label">Header / Perfil Usuario</div>
+                    <div class="style3-header">
+                        <div class="style3-avatar">
+                            <i class='bx bx-user'></i>
+                            <div class="style3-ovr">56</div>
+                        </div>
+                        <div class="user-info">
+                            <h3>Juan Pérez</h3>
+                            <p style="opacity: 0.7;">juan@example.com</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="preview-item">
+                    <div class="preview-label">Card de Jugador</div>
+                    <div class="style3-player">
+                        <div class="style3-player-photo">
+                            <i class='bx bx-user'></i>
+                        </div>
+                        <div class="style3-player-info">
+                            <h4 style="color: white;">Lionel Messi</h4>
+                            <div class="player-stats">
+                                <span class="style3-position">DEL</span>
+                                <div class="style3-player-ovr">91</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ESTILO 4: GLASSMORPHISM PREMIUM -->
+        <div class="variant-section">
+            <h2 class="variant-title">Estilo 4: Glassmorphism Premium</h2>
+            <div class="preview-row">
+                <div class="preview-item">
+                    <div class="preview-label">Header / Perfil Usuario</div>
+                    <div class="style4-header">
+                        <div class="style4-avatar">
+                            <i class='bx bx-user'></i>
+                            <div class="style4-ovr">56</div>
+                        </div>
+                        <div class="user-info">
+                            <h3>Juan Pérez</h3>
+                            <p style="opacity: 0.8;">juan@example.com</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="preview-item">
+                    <div class="preview-label">Card de Jugador</div>
+                    <div class="style4-player">
+                        <div class="style4-player-photo">
+                            <i class='bx bx-user'></i>
+                        </div>
+                        <div class="player-info">
+                            <h4>Lionel Messi</h4>
+                            <div class="player-stats">
+                                <span class="style4-position">DEL</span>
+                                <div class="style4-player-ovr">91</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ESTILO 5: NEON GLOW -->
+        <div class="variant-section">
+            <h2 class="variant-title">Estilo 5: Neon Glow</h2>
+            <div class="preview-row">
+                <div class="preview-item">
+                    <div class="preview-label">Header / Perfil Usuario</div>
+                    <div class="style5-header">
+                        <div class="style5-avatar">
+                            <i class='bx bx-user'></i>
+                            <div class="style5-ovr">56</div>
+                        </div>
+                        <div class="user-info">
+                            <h3 style="color: #00ff9d;">Juan Pérez</h3>
+                            <p style="opacity: 0.7;">juan@example.com</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="preview-item">
+                    <div class="preview-label">Card de Jugador</div>
+                    <div class="style5-player">
+                        <div class="style5-player-photo">
+                            <i class='bx bx-user'></i>
+                        </div>
+                        <div class="player-info">
+                            <h4 style="color: #00ff9d;">Lionel Messi</h4>
+                            <div class="player-stats">
+                                <span class="style5-position">DEL</span>
+                                <div class="style5-player-ovr">91</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ESTILO 6: MATERIAL DESIGN -->
+        <div class="variant-section">
+            <h2 class="variant-title">Estilo 6: Material Design</h2>
+            <div class="preview-row">
+                <div class="preview-item">
+                    <div class="preview-label">Header / Perfil Usuario</div>
+                    <div class="style6-header">
+                        <div class="style6-avatar">
+                            <i class='bx bx-user'></i>
+                            <div class="style6-ovr">56</div>
+                        </div>
+                        <div class="style6-info">
+                            <h3>Juan Pérez</h3>
+                            <p>juan@example.com</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="preview-item">
+                    <div class="preview-label">Card de Jugador</div>
+                    <div class="style6-player">
+                        <div class="style6-player-photo">
+                            <i class='bx bx-user'></i>
+                        </div>
+                        <div class="style6-player-info">
+                            <h4>Lionel Messi</h4>
+                            <div class="player-stats">
+                                <span class="style6-position">DEL</span>
+                                <div class="style6-player-ovr">91</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

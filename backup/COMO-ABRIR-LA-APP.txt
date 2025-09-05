@@ -1,0 +1,83 @@
+================================================
+     CÓMO ABRIR LA APLICACIÓN FÚTBOL STATS
+================================================
+
+IMPORTANTE: NO hagas doble clic en index.html
+La app necesita un servidor web para funcionar.
+
+================================================
+PASO 1: INSTALAR PYTHON (Solo la primera vez)
+================================================
+
+1. Ve a: https://www.python.org/downloads/
+2. Descarga Python para tu sistema
+3. IMPORTANTE: Durante la instalación, marca:
+   ✓ "Add Python to PATH"
+4. Reinicia tu computadora
+
+================================================
+PASO 2: INICIAR EL SERVIDOR
+================================================
+
+EN WINDOWS:
+-----------
+1. Abre la carpeta donde está la app
+2. Haz clic derecho en un espacio vacío
+3. Selecciona "Abrir en Terminal" o "Abrir PowerShell aquí"
+4. Escribe este comando y presiona Enter:
+
+   python -m http.server 8080
+
+5. Deja la ventana abierta (no la cierres)
+
+EN MAC/LINUX:
+-------------
+1. Abre Terminal
+2. Navega a la carpeta de la app:
+   cd /ruta/a/App.futbol-2
+3. Ejecuta:
+   python3 -m http.server 8080
+
+================================================
+PASO 3: ABRIR LA APLICACIÓN
+================================================
+
+1. Abre tu navegador (Chrome, Firefox, Edge)
+2. Ve a esta dirección:
+
+   http://localhost:8080
+
+3. ¡Listo! La aplicación debería funcionar
+
+================================================
+PARA CERRAR EL SERVIDOR
+================================================
+
+En la ventana del terminal/comando:
+- Presiona Ctrl + C
+- O simplemente cierra la ventana
+
+================================================
+¿PROBLEMAS?
+================================================
+
+Si dice "python no se reconoce":
+- Reinstala Python marcando "Add to PATH"
+- O prueba con: py -m http.server 8080
+
+Si el puerto 8080 está ocupado:
+- Usa otro puerto: python -m http.server 8081
+- Y abre: http://localhost:8081
+
+================================================
+ALTERNATIVA SIN PYTHON
+================================================
+
+Usa la extensión "Live Server" en VS Code:
+1. Instala Visual Studio Code
+2. Instala la extensión "Live Server"
+3. Abre la carpeta del proyecto
+4. Clic derecho en index.html
+5. Selecciona "Open with Live Server"
+
+================================================

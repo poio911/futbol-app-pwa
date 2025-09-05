@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔧 Debug Delete Functions - FC24</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .section {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+        .log {
+            background: #111;
+            border: 1px solid #333;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        button {
+            background: #00ff9d;
+            color: black;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 3px;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        button:hover {
+            background: #00cc7d;
+        }
+        .danger { background: #ff4444; color: white; }
+        .warning { background: #ffaa00; color: black; }
+        .success { background: #44ff44; color: black; }
+        
+        .test-result {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            font-family: monospace;
+        }
+        .test-result.success { background: #1a4a1a; border: 1px solid #44ff44; }
+        .test-result.error { background: #4a1a1a; border: 1px solid #ff4444; }
+        .test-result.warning { background: #4a3a1a; border: 1px solid #ffaa00; }
+        
+        .function-test {
+            background: #222;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #444;
+        }
+        
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        h2 { color: #00ff9d; }
+        h3 { color: #ffaa00; }
+    </style>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Debug Delete Functions - Firebase Diagnostic</h1>
+        
+        <div class="section">
+            <h2>🔍 Environment Check</h2>
+            <div id="environment-status">
+                <div>Loading environment information...</div>
+            </div>
+            <button onclick="checkEnvironment()">🔄 Refresh Environment Check</button>
+        </div>
+
+        <div class="section">
+            <h2>🧪 Delete Function Tests</h2>
+            <p>This will test each delete function individually with test data</p>
+            <div class="test-grid">
+                <button onclick="testDeletePlayer()" class="warning">Test Delete Player</button>
+                <button onclick="testDeleteMatch()" class="warning">Test Delete Match</button>
+                <button onclick="testDeletePerson()" class="warning">Test Delete Person</button>
+                <button onclick="testDeleteGroup()" class="danger">Test Delete Group</button>
+            </div>
+            <button onclick="runAllTests()" class="success">🔬 Run All Tests</button>
+        </div>
+
+        <div class="section">
+            <h2>📊 Test Results</h2>
+            <div id="test-results">
+                <div style="color: #888;">No tests run yet</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🛠️ Create Test Data</h2>
+            <p>Create test data to verify deletion functions work</p>
+            <div class="test-grid">
+                <button onclick="createTestPlayer()">➕ Create Test Player</button>
+                <button onclick="createTestMatch()">➕ Create Test Match</button>
+                <button onclick="createTestPerson()">➕ Create Test Person</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📝 Detailed Logs</h2>
+            <button onclick="clearLogs()">🧹 Clear Logs</button>
+            <div class="log" id="log"></div>
+        </div>
+    </div>
+
+    <script src="js/firebase-simple.js"></script>
+    
+    <script>
+        let testResults = {};
+
+        function log(message, type = 'info') {
+            const logElement = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            const color = type === 'error' ? '#ff4444' : type === 'success' ? '#44ff44' : type === 'warning' ? '#ffaa00' : '#ccc';
+            logElement.innerHTML += `<div style="color: ${color}">[${timestamp}] ${message}</div>`;
+            logElement.scrollTop = logElement.scrollHeight;
+            console.log(message);
+        }
+
+        function clearLogs() {
+            document.getElementById('log').innerHTML = '';
+        }
+
+        function addTestResult(functionName, success, message, details = '') {
+            testResults[functionName] = { success, message, details, timestamp: new Date() };
+            updateTestResultsDisplay();
+        }
+
+        function updateTestResultsDisplay() {
+            const container = document.getElementById('test-results');
+            if (Object.keys(testResults).length === 0) {
+                container.innerHTML = '<div style="color: #888;">No tests run yet</div>';
+                return;
+            }
+
+            let html = '';
+            for (const [funcName, result] of Object.entries(testResults)) {
+                const cssClass = result.success ? 'success' : 'error';
+                const icon = result.success ? '✅' : '❌';
+                html += `
+                    <div class="test-result ${cssClass}">
+                        <strong>${icon} ${funcName}</strong><br>
+                        ${result.message}<br>
+                        <small>${result.details}</small>
+                        <div style="font-size: 10px; color: #888; margin-top: 5px;">
+                            ${result.timestamp.toLocaleTimeString()}
+                        </div>
+                    </div>
+                `;
+            }
+            container.innerHTML = html;
+        }
+
+        async function checkEnvironment() {
+            log('🔍 Checking environment...', 'info');
+            
+            const envStatus = document.getElementById('environment-status');
+            let html = '<div class="function-test">';
+            
+            // Check Firebase
+            html += `<h3>🔥 Firebase Status</h3>`;
+            html += `<div>Database object: ${db ? '✅ Connected' : '❌ Not connected'}</div>`;
+            html += `<div>Current Person ID: ${Storage.currentPersonId || '❌ None'}</div>`;
+            html += `<div>Current Group ID: ${Storage.currentGroupId || '❌ None'}</div>`;
+            html += `<div>Demo mode: ${Storage.isDemo ? '⚠️ Yes' : '✅ No'}</div>`;
+            
+            // Check function existence
+            html += `<h3>🔧 Function Availability</h3>`;
+            html += `<div>deletePlayer: ${typeof Storage.deletePlayer === 'function' ? '✅' : '❌'}</div>`;
+            html += `<div>deleteMatch: ${typeof Storage.deleteMatch === 'function' ? '✅' : '❌'}</div>`;
+            html += `<div>deletePerson: ${typeof Storage.deletePerson === 'function' ? '✅' : '❌'}</div>`;
+            html += `<div>deleteGroup: ${typeof Storage.deleteGroup === 'function' ? '✅' : '❌'}</div>`;
+            
+            // Check data counts
+            try {
+                await Storage.loadPlayersFromFirebase();
+                await Storage.loadMatchesFromFirebase();
+                await Storage.loadPersonsFromFirebase();
+                
+                const players = Storage.getPlayers();
+                const matches = Storage.getMatches();
+                const persons = Storage.getPersons();
+                const groups = Storage.getGroups();
+                
+                html += `<h3>📊 Current Data Count</h3>`;
+                html += `<div>Players: ${players.length}</div>`;
+                html += `<div>Matches: ${matches.length}</div>`;
+                html += `<div>Persons: ${persons.length}</div>`;
+                html += `<div>Groups: ${groups.length}</div>`;
+                
+            } catch (error) {
+                html += `<div style="color: #ff4444;">Error loading data: ${error.message}</div>`;
+            }
+            
+            html += '</div>';
+            envStatus.innerHTML = html;
+            
+            log('✅ Environment check completed', 'success');
+        }
+
+        async function createTestPlayer() {
+            log('➕ Creating test player...', 'info');
+            
+            try {
+                if (!Storage.currentGroupId) {
+                    // Set a demo group
+                    Storage.currentGroupId = 'test-group-' + Date.now();
+                    log('Set test group ID: ' + Storage.currentGroupId, 'warning');
+                }
+                
+                const testPlayer = {
+                    id: 'test-player-' + Date.now(),
+                    name: 'Test Player ' + Math.floor(Math.random() * 1000),
+                    position: 'MED',
+                    attributes: { pac: 75, sho: 70, pas: 80, dri: 75, def: 60, phy: 70 },
+                    ovr: 75,
+                    groupId: Storage.currentGroupId,
+                    isTest: true
+                };
+                
+                const success = await Storage.addPlayer(testPlayer);
+                
+                if (success) {
+                    log('✅ Test player created: ' + testPlayer.name, 'success');
+                    return testPlayer;
+                } else {
+                    log('❌ Failed to create test player', 'error');
+                    return null;
+                }
+                
+            } catch (error) {
+                log('❌ Error creating test player: ' + error.message, 'error');
+                return null;
+            }
+        }
+
+        async function createTestMatch() {
+            log('➕ Creating test match...', 'info');
+            
+            try {
+                const testMatch = {
+                    id: 'test-match-' + Date.now(),
+                    date: new Date().toISOString(),
+                    status: 'pending',
+                    teamA: { players: ['test-1', 'test-2'], ovr: 75 },
+                    teamB: { players: ['test-3', 'test-4'], ovr: 78 },
+                    isTest: true
+                };
+                
+                const success = await Storage.addMatch(testMatch);
+                
+                if (success) {
+                    log('✅ Test match created: ' + testMatch.id, 'success');
+                    return testMatch;
+                } else {
+                    log('❌ Failed to create test match', 'error');
+                    return null;
+                }
+                
+            } catch (error) {
+                log('❌ Error creating test match: ' + error.message, 'error');
+                return null;
+            }
+        }
+
+        async function createTestPerson() {
+            log('➕ Creating test person...', 'info');
+            
+            try {
+                const testPerson = {
+                    id: 'test-person-' + Date.now(),
+                    name: 'Test Person ' + Math.floor(Math.random() * 1000),
+                    email: `test${Math.floor(Math.random() * 1000)}@test.com`,
+                    isTest: true
+                };
+                
+                const success = await Storage.addPerson(testPerson);
+                
+                if (success) {
+                    log('✅ Test person created: ' + testPerson.name, 'success');
+                    return testPerson;
+                } else {
+                    log('❌ Failed to create test person', 'error');
+                    return null;
+                }
+                
+            } catch (error) {
+                log('❌ Error creating test person: ' + error.message, 'error');
+                return null;
+            }
+        }
+
+        async function testDeletePlayer() {
+            log('🧪 Testing deletePlayer function...', 'info');
+            
+            try {
+                // First create a test player
+                const testPlayer = await createTestPlayer();
+                if (!testPlayer) {
+                    addTestResult('deletePlayer', false, 'Could not create test player to delete');
+                    return;
+                }
+                
+                // Wait a moment
+                await new Promise(resolve => setTimeout(resolve, 500));
+                
+                // Try to delete it
+                log(`🗑️ Attempting to delete player: ${testPlayer.id}`, 'info');
+                const success = await Storage.deletePlayer(testPlayer.id);
+                
+                if (success) {
+                    // Verify it's actually deleted
+                    await Storage.loadPlayersFromFirebase();
+                    const stillExists = Storage.getPlayerById(testPlayer.id);
+                    
+                    if (stillExists) {
+                        addTestResult('deletePlayer', false, 'Function returned success but player still exists', `Player ID: ${testPlayer.id}`);
+                        log('❌ Player still exists after deletion!', 'error');
+                    } else {
+                        addTestResult('deletePlayer', true, 'Successfully deleted player', `Player ID: ${testPlayer.id}`);
+                        log('✅ Player successfully deleted and verified', 'success');
+                    }
+                } else {
+                    addTestResult('deletePlayer', false, 'Delete function returned false', `Player ID: ${testPlayer.id}`);
+                    log('❌ Delete function returned false', 'error');
+                }
+                
+            } catch (error) {
+                addTestResult('deletePlayer', false, 'Exception thrown: ' + error.message);
+                log('❌ Exception in deletePlayer test: ' + error.message, 'error');
+            }
+        }
+
+        async function testDeleteMatch() {
+            log('🧪 Testing deleteMatch function...', 'info');
+            
+            try {
+                const testMatch = await createTestMatch();
+                if (!testMatch) {
+                    addTestResult('deleteMatch', false, 'Could not create test match to delete');
+                    return;
+                }
+                
+                await new Promise(resolve => setTimeout(resolve, 500));
+                
+                log(`🗑️ Attempting to delete match: ${testMatch.id}`, 'info');
+                const success = await Storage.deleteMatch(testMatch.id);
+                
+                if (success) {
+                    await Storage.loadMatchesFromFirebase();
+                    const stillExists = Storage.getMatchById(testMatch.id);
+                    
+                    if (stillExists) {
+                        addTestResult('deleteMatch', false, 'Function returned success but match still exists', `Match ID: ${testMatch.id}`);
+                        log('❌ Match still exists after deletion!', 'error');
+                    } else {
+                        addTestResult('deleteMatch', true, 'Successfully deleted match', `Match ID: ${testMatch.id}`);
+                        log('✅ Match successfully deleted and verified', 'success');
+                    }
+                } else {
+                    addTestResult('deleteMatch', false, 'Delete function returned false', `Match ID: ${testMatch.id}`);
+                    log('❌ Delete function returned false', 'error');
+                }
+                
+            } catch (error) {
+                addTestResult('deleteMatch', false, 'Exception thrown: ' + error.message);
+                log('❌ Exception in deleteMatch test: ' + error.message, 'error');
+            }
+        }
+
+        async function testDeletePerson() {
+            log('🧪 Testing deletePerson function...', 'info');
+            
+            try {
+                const testPerson = await createTestPerson();
+                if (!testPerson) {
+                    addTestResult('deletePerson', false, 'Could not create test person to delete');
+                    return;
+                }
+                
+                await new Promise(resolve => setTimeout(resolve, 500));
+                
+                log(`🗑️ Attempting to delete person: ${testPerson.id}`, 'info');
+                const success = await Storage.deletePerson(testPerson.id);
+                
+                if (success) {
+                    await Storage.loadPersonsFromFirebase();
+                    const stillExists = Storage.getPersonById(testPerson.id);
+                    
+                    if (stillExists) {
+                        addTestResult('deletePerson', false, 'Function returned success but person still exists', `Person ID: ${testPerson.id}`);
+                        log('❌ Person still exists after deletion!', 'error');
+                    } else {
+                        addTestResult('deletePerson', true, 'Successfully deleted person', `Person ID: ${testPerson.id}`);
+                        log('✅ Person successfully deleted and verified', 'success');
+                    }
+                } else {
+                    addTestResult('deletePerson', false, 'Delete function returned false', `Person ID: ${testPerson.id}`);
+                    log('❌ Delete function returned false', 'error');
+                }
+                
+            } catch (error) {
+                addTestResult('deletePerson', false, 'Exception thrown: ' + error.message);
+                log('❌ Exception in deletePerson test: ' + error.message, 'error');
+            }
+        }
+
+        async function testDeleteGroup() {
+            log('🧪 Testing deleteGroup function...', 'info');
+            
+            try {
+                // For groups, we just test if the function exists and can be called
+                // We won't actually delete a real group
+                if (typeof Storage.deleteGroup !== 'function') {
+                    addTestResult('deleteGroup', false, 'Function does not exist');
+                    return;
+                }
+                
+                // Test with a non-existent group ID
+                const fakeGroupId = 'fake-group-test-' + Date.now();
+                log(`🗑️ Testing deleteGroup with fake ID: ${fakeGroupId}`, 'info');
+                
+                const success = await Storage.deleteGroup(fakeGroupId);
+                
+                // For non-existent groups, success could be true or false depending on implementation
+                addTestResult('deleteGroup', true, 'Function exists and can be called', `Tested with fake ID: ${fakeGroupId}, returned: ${success}`);
+                log('✅ deleteGroup function exists and is callable', 'success');
+                
+            } catch (error) {
+                addTestResult('deleteGroup', false, 'Exception thrown: ' + error.message);
+                log('❌ Exception in deleteGroup test: ' + error.message, 'error');
+            }
+        }
+
+        async function runAllTests() {
+            log('🔬 Running all delete function tests...', 'info');
+            testResults = {}; // Clear previous results
+            updateTestResultsDisplay();
+            
+            await testDeletePlayer();
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            await testDeleteMatch();
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            await testDeletePerson();
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            await testDeleteGroup();
+            
+            log('🏁 All tests completed!', 'success');
+        }
+
+        // Auto-run environment check on load
+        window.addEventListener('load', async () => {
+            log('🚀 Debug Delete Functions tool loaded', 'success');
+            
+            setTimeout(async () => {
+                await checkEnvironment();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

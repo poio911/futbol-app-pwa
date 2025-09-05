@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preview - Títulos Limpios (Basado en Opción 4)</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        :root {
+            --primary: #00FF9D;
+            --secondary: #FF00E6;
+            --accent: #FFD700;
+            --text-light: #ffffff;
+            --text-dark: #2d2d2d;
+            --card-bg: rgba(20, 20, 20, 0.8);
+            --bg-primary: linear-gradient(135deg, #0F0F23 0%, #1a1a3a 50%, #2d1b4e 100%);
+            --shadow-glow: 0 0 20px rgba(0, 255, 157, 0.3);
+        }
+
+        body {
+            background: var(--bg-primary);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            color: var(--text-light);
+        }
+
+        .preview-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: var(--shadow-glow);
+        }
+
+        .preview-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .preview-header h1 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin: 0 0 10px 0;
+        }
+
+        .preview-header p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+        }
+
+        .title-option {
+            margin: 30px 0;
+            padding: 30px;
+            background: rgba(40, 40, 40, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .option-label {
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: var(--bg-primary);
+            padding: 6px 16px;
+            border-radius: 8px;
+            font-size: 1rem;
+            color: var(--accent);
+            font-weight: 700;
+            border: 1px solid var(--primary);
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .title-demo {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* OPCIÓN A: Línea simple debajo */
+        .option-a h2 {
+            font-size: 2.1rem;
+            font-weight: 700;
+            color: var(--text-light);
+            margin: 0 0 25px 0;
+            position: relative;
+        }
+
+        .option-a h2::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        /* OPCIÓN B: Línea gradient */
+        .option-b h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--text-light);
+            margin: 0 0 25px 0;
+            position: relative;
+            padding-bottom: 12px;
+        }
+
+        .option-b h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        /* OPCIÓN C: Línea lateral */
+        .option-c h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--text-light);
+            margin: 0 0 25px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .option-c h2::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        /* OPCIÓN D: Texto con sombra y sin línea */
+        .option-d h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-light);
+            margin: 0 0 25px 0;
+            text-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
+        }
+
+        /* OPCIÓN E: Con fondo sutil */
+        .option-e h2 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            color: var(--text-light);
+            margin: 0 0 25px 0;
+            padding: 12px 20px;
+            background: rgba(0, 255, 157, 0.05);
+            border: 1px solid rgba(0, 255, 157, 0.1);
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        /* OPCIÓN F: Doble línea */
+        .option-f h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--text-light);
+            margin: 0 0 25px 0;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .option-f h2::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 70px;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 1px;
+        }
+
+        .option-f h2::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 35px;
+            height: 2px;
+            background: var(--secondary);
+            border-radius: 1px;
+        }
+
+        .subtitle {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            margin: 8px 0 0 0;
+            font-style: italic;
+        }
+
+        .approve-button {
+            background: var(--primary);
+            color: var(--text-dark);
+            border: none;
+            padding: 14px 28px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 10px 8px;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .approve-button:hover {
+            background: #00d485;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 255, 157, 0.4);
+        }
+
+        .reject-button {
+            background: transparent;
+            color: #ff6b6b;
+            border: 2px solid #ff6b6b;
+            padding: 12px 26px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 10px 8px;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .reject-button:hover {
+            background: #ff6b6b;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .note {
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .current-vs-new {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .current-vs-new h3 {
+            color: var(--accent);
+            margin-top: 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="preview-container">
+        <div class="preview-header">
+            <h1>🎨 Títulos Limpios - Basado en Opción 4</h1>
+            <p>Variaciones del estilo minimalista con "Partidos Grupales"</p>
+        </div>
+
+        <div class="note">
+            <strong>📝 Cambio confirmado:</strong> "Partidos Colaborativos" → "Partidos Grupales"<br>
+            <strong>🎯 Estilo base:</strong> Limpio, sin iconos, enfoque en tipografía
+        </div>
+
+        <div class="current-vs-new">
+            <div>
+                <h3>❌ ACTUAL (Inconsistente)</h3>
+                <div style="font-size: 1.6rem; margin: 10px 0;">🤝 Partidos Colaborativos</div>
+                <div style="font-size: 1.4rem; margin: 10px 0;">⚙️ Partidos Manuales</div>
+                <div style="font-size: 1.5rem; margin: 10px 0;">👥 Gestión de Jugadores</div>
+                <p class="subtitle">Diferentes tamaños y estilos</p>
+            </div>
+            <div>
+                <h3>✅ OBJETIVO (Unificado)</h3>
+                <div style="font-size: 1.8rem; font-weight: 600; margin: 10px 0;">Partidos Grupales</div>
+                <div style="font-size: 1.8rem; font-weight: 600; margin: 10px 0;">Partidos Manuales</div>
+                <div style="font-size: 1.8rem; font-weight: 600; margin: 10px 0;">Gestión de Jugadores</div>
+                <p class="subtitle">Mismo tamaño y peso visual</p>
+            </div>
+        </div>
+
+        <div class="title-option option-a">
+            <div class="option-label">OPCIÓN A - Línea Simple</div>
+            <div class="comparison-grid">
+                <div class="title-demo">
+                    <h2>Partidos Grupales</h2>
+                    <p class="subtitle">Línea verde sutil debajo</p>
+                </div>
+                <div class="title-demo">
+                    <h2>Partidos Manuales</h2>
+                    <p class="subtitle">Consistente y limpio</p>
+                </div>
+                <div class="title-demo">
+                    <h2>Gestión de Jugadores</h2>
+                    <p class="subtitle">Mismo estilo unificado</p>
+                </div>
+                <div class="title-demo">
+                    <h2>Evaluaciones</h2>
+                    <p class="subtitle">Línea de 60px, 3px alto</p>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 25px;">
+                <button class="approve-button" onclick="approveOption('A')">✅ Implementar Opción A</button>
+                <button class="reject-button" onclick="rejectOption('A')">❌ Descartar</button>
+            </div>
+        </div>
+
+        <div class="title-option option-b">
+            <div class="option-label">OPCIÓN B - Línea Gradient</div>
+            <div class="comparison-grid">
+                <div class="title-demo">
+                    <h2>Partidos Grupales</h2>
+                    <p class="subtitle">Gradient verde-rosa</p>
+                </div>
+                <div class="title-demo">
+                    <h2>Partidos Manuales</h2>
+                    <p class="subtitle">Más colorido y moderno</p>
+                </div>
+                <div class="title-demo">
+                    <h2>Gestión de Jugadores</h2>
+                    <p class="subtitle">Línea de 80px</p>
+                </div>
+                <div class="title-demo">
+                    <h2>Evaluaciones</h2>
+                    <p class="subtitle">Efecto visual atractivo</p>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 25px;">
+                <button class="approve-button" onclick="approveOption('B')">✅ Implementar Opción B</button>
+                <button class="reject-button" onclick="rejectOption('B')">❌ Descartar</button>
+            </div>
+        </div>
+
+        <div class="title-option option-c">
+            <div class="option-label">OPCIÓN C - Línea Lateral</div>
+            <div class="comparison-grid">
+                <div class="title-demo">
+                    <h2>Partidos Grupales</h2>
+                    <p class="subtitle">Barra vertical izquierda</p>
+                </div>
+                <div class="title-demo">
+                    <h2>Partidos Manuales</h2>
+                    <p class="subtitle">Estilo editorial</p>
+                </div>
+                <div class="title-demo">
+                    <h2>Gestión de Jugadores</h2>
+                    <p class="subtitle">Diferente pero elegante</p>
+                </div>
+                <div class="title-demo">
+                    <h2>Evaluaciones</h2>
+                    <p class="subtitle">4px ancho, 40px alto</p>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 25px;">
+                <button class="approve-button" onclick="approveOption('C')">✅ Implementar Opción C</button>
+                <button class="reject-button" onclick="rejectOption('C')">❌ Descartar</button>
+            </div>
+        </div>
+
+        <div class="title-option option-d">
+            <div class="option-label">OPCIÓN D - Solo Sombra</div>
+            <div class="comparison-grid">
+                <div class="title-demo">
+                    <h2>Partidos Grupales</h2>
+                    <p class="subtitle">Glow sutil verde</p>
+                </div>
+                <div class="title-demo">
+                    <h2>Partidos Manuales</h2>
+                    <p class="subtitle">Sin líneas, solo brillo</p>
+                </div>
+                <div class="title-demo">
+                    <h2>Gestión de Jugadores</h2>
+                    <p class="subtitle">Ultra minimalista</p>
+                </div>
+                <div class="title-demo">
+                    <h2>Evaluaciones</h2>
+                    <p class="subtitle">Efecto text-shadow</p>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 25px;">
+                <button class="approve-button" onclick="approveOption('D')">✅ Implementar Opción D</button>
+                <button class="reject-button" onclick="rejectOption('D')">❌ Descartar</button>
+            </div>
+        </div>
+
+        <div class="title-option option-e">
+            <div class="option-label">OPCIÓN E - Fondo Sutil</div>
+            <div class="comparison-grid">
+                <div class="title-demo">
+                    <h2>Partidos Grupales</h2>
+                    <p class="subtitle">Background verde transparente</p>
+                </div>
+                <div class="title-demo">
+                    <h2>Partidos Manuales</h2>
+                    <p class="subtitle">Borde y fondo sutil</p>
+                </div>
+                <div class="title-demo">
+                    <h2>Gestión de Jugadores</h2>
+                    <p class="subtitle">Estilo badge</p>
+                </div>
+                <div class="title-demo">
+                    <h2>Evaluaciones</h2>
+                    <p class="subtitle">Destaca sin ser invasivo</p>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 25px;">
+                <button class="approve-button" onclick="approveOption('E')">✅ Implementar Opción E</button>
+                <button class="reject-button" onclick="rejectOption('E')">❌ Descartar</button>
+            </div>
+        </div>
+
+        <div class="title-option option-f">
+            <div class="option-label">OPCIÓN F - Doble Línea</div>
+            <div class="comparison-grid">
+                <div class="title-demo">
+                    <h2>Partidos Grupales</h2>
+                    <p class="subtitle">Línea verde + línea rosa</p>
+                </div>
+                <div class="title-demo">
+                    <h2>Partidos Manuales</h2>
+                    <p class="subtitle">Efecto escalonado</p>
+                </div>
+                <div class="title-demo">
+                    <h2>Gestión de Jugadores</h2>
+                    <p class="subtitle">Dos colores del tema</p>
+                </div>
+                <div class="title-demo">
+                    <h2>Evaluaciones</h2>
+                    <p class="subtitle">Más sofisticado</p>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 25px;">
+                <button class="approve-button" onclick="approveOption('F')">✅ Implementar Opción F</button>
+                <button class="reject-button" onclick="rejectOption('F')">❌ Descartar</button>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 50px; padding-top: 30px; border-top: 2px solid rgba(255,255,255,0.1);">
+            <p style="color: rgba(255,255,255,0.7); margin-bottom: 25px; font-size: 1.1rem;">¿Necesitas algo diferente?</p>
+            <button class="reject-button" onclick="keepCurrent()">🔄 Mantener Títulos Actuales</button>
+            <button class="approve-button" onclick="customRequest()">🎨 Solicitud Personalizada</button>
+        </div>
+    </div>
+
+    <script>
+        function approveOption(option) {
+            const descriptions = {
+                'A': 'Línea simple verde debajo de cada título',
+                'B': 'Línea gradient (verde a rosa) debajo',
+                'C': 'Barra vertical verde al lado izquierdo',
+                'D': 'Solo text-shadow verde, sin líneas',
+                'E': 'Fondo verde transparente con borde',
+                'F': 'Doble línea (verde y rosa) escalonadas'
+            };
+            
+            alert(`✅ APROBADO: Opción ${option}\n\n📝 Descripción: ${descriptions[option]}\n\n🚀 Se implementará ahora mismo con el cambio a "Partidos Grupales".`);
+        }
+
+        function rejectOption(option) {
+            console.log(`Opción ${option} descartada`);
+        }
+
+        function keepCurrent() {
+            alert('🔄 Manteniendo títulos actuales.\n\n❓ ¿Solo quieres cambiar "Colaborativos" a "Grupales" sin unificar estilos?');
+        }
+
+        function customRequest() {
+            const custom = prompt('🎨 Describe exactamente cómo quieres los títulos:\n\nEjemplo: "Solo cambiar el tamaño a 2rem, mantener emojis, agregar margen"');
+            if (custom && custom.trim()) {
+                alert(`📝 SOLICITUD PERSONALIZADA:\n"${custom}"\n\n✅ Se implementará exactamente como especificaste.`);
+            }
+        }
+    </script>
+</body>
+</html>

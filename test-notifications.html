@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Sistema de Notificaciones Unificado</title>
+    <style>
+        body {
+            background: #0a0e1b;
+            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+            padding: 20px;
+        }
+        
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(13, 17, 30, 0.95);
+            border: 1px solid rgba(0, 255, 157, 0.3);
+            border-radius: 10px;
+            padding: 30px;
+        }
+        
+        h1 {
+            color: #00ff9d;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(0, 255, 157, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(0, 255, 157, 0.2);
+        }
+        
+        .test-section h2 {
+            color: #00ff9d;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+        
+        button {
+            background: linear-gradient(90deg, #00ff9d, #00d4ff);
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 5px;
+            transition: transform 0.3s;
+        }
+        
+        button:hover {
+            transform: scale(1.05);
+        }
+        
+        .console-output {
+            background: #000;
+            color: #00ff9d;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            margin-top: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🎮 Test Sistema de Notificaciones Unificado</h1>
+        
+        <div class="test-section">
+            <h2>1. Toast Notifications</h2>
+            <button onclick="testToast('success')">✅ Success Toast</button>
+            <button onclick="testToast('error')">❌ Error Toast</button>
+            <button onclick="testToast('warning')">⚠️ Warning Toast</button>
+            <button onclick="testToast('info')">ℹ️ Info Toast</button>
+        </div>
+        
+        <div class="test-section">
+            <h2>2. Modal Dialogs</h2>
+            <button onclick="testAlert()">🔔 Test Alert</button>
+            <button onclick="testConfirm()">❓ Test Confirm</button>
+            <button onclick="testPrompt()">✏️ Test Prompt</button>
+        </div>
+        
+        <div class="test-section">
+            <h2>3. Firebase Notifications</h2>
+            <button onclick="testFirebaseNotification()">📱 Crear Notificación Firebase</button>
+            <button onclick="testActivity()">📊 Crear Actividad</button>
+            <button onclick="loadNotifications()">🔄 Cargar Notificaciones</button>
+        </div>
+        
+        <div class="test-section">
+            <h2>4. Sound Test</h2>
+            <button onclick="testSound()">🔊 Test Notification Sound</button>
+        </div>
+        
+        <div class="test-section">
+            <h2>Console Output</h2>
+            <div id="console" class="console-output"></div>
+        </div>
+    </div>
+
+    <!-- Load Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+    
+    <!-- Load Notification System -->
+    <script src="js/unified-notifications-system.js"></script>
+    
+    <!-- Fix CSS para notificaciones -->
+    <link rel="stylesheet" href="css/unified-notifications-fix.css">
+    
+    <script>
+        // Initialize Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyBq2p3tOmzUjsH9PnIQqzLdHH_igONRpjY",
+            authDomain: "fc24-ut-builder.firebaseapp.com",
+            projectId: "fc24-ut-builder",
+            storageBucket: "fc24-ut-builder.appspot.com",
+            messagingSenderId: "256033499285",
+            appId: "1:256033499285:web:e085b60f80bb931a893a76"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+        
+        // Console logging
+        function log(message, type = 'info') {
+            const console = document.getElementById('console');
+            const timestamp = new Date().toLocaleTimeString();
+            const color = type === 'error' ? '#ff4444' : type === 'success' ? '#00ff9d' : '#00d4ff';
+            console.innerHTML += `<div style="color: ${color}">[${timestamp}] ${message}</div>`;
+            console.scrollTop = console.scrollHeight;
+        }
+        
+        // Test functions
+        function testToast(type) {
+            const messages = {
+                success: 'Operación completada exitosamente',
+                error: 'Ha ocurrido un error',
+                warning: 'Advertencia: Verifica los datos',
+                info: 'Información importante'
+            };
+            
+            if (window.notificationsSystem) {
+                window.notificationsSystem.showToast(messages[type], type);
+                log(`Toast ${type} mostrado`, 'success');
+            } else {
+                log('Sistema de notificaciones no disponible', 'error');
+            }
+        }
+        
+        async function testAlert() {
+            if (window.notificationsSystem) {
+                await window.notificationsSystem.showModal({
+                    title: '🎮 Alert Test',
+                    message: 'Este es un mensaje de alerta con el tema EA SPORTS',
+                    type: 'info'
+                });
+                log('Alert modal mostrado', 'success');
+            } else {
+                log('Sistema de notificaciones no disponible', 'error');
+            }
+        }
+        
+        async function testConfirm() {
+            if (window.notificationsSystem) {
+                const result = await window.notificationsSystem.showModal({
+                    title: '❓ Confirmación',
+                    message: '¿Deseas continuar con la operación?',
+                    type: 'confirm'
+                });
+                log(`Confirm result: ${result}`, 'info');
+            } else {
+                log('Sistema de notificaciones no disponible', 'error');
+            }
+        }
+        
+        async function testPrompt() {
+            if (window.notificationsSystem) {
+                const result = await window.notificationsSystem.showModal({
+                    title: '✏️ Entrada de Datos',
+                    message: 'Ingresa tu nombre:',
+                    type: 'prompt',
+                    defaultValue: 'Jugador'
+                });
+                log(`Prompt result: ${result || 'Cancelado'}`, 'info');
+            } else {
+                log('Sistema de notificaciones no disponible', 'error');
+            }
+        }
+        
+        async function testFirebaseNotification() {
+            if (window.notificationsSystem) {
+                try {
+                    const currentUser = auth.currentUser;
+                    const userId = currentUser ? currentUser.uid : 'test_user_' + Date.now();
+                    
+                    await window.notificationsSystem.createNotification(
+                        userId,
+                        'test',
+                        '🧪 Notificación de Prueba',
+                        'Esta es una notificación de prueba del sistema unificado',
+                        { timestamp: new Date().toISOString() }
+                    );
+                    log('Notificación Firebase creada', 'success');
+                } catch (error) {
+                    log(`Error: ${error.message}`, 'error');
+                }
+            } else {
+                log('Sistema de notificaciones no disponible', 'error');
+            }
+        }
+        
+        async function testActivity() {
+            if (window.notificationsSystem) {
+                try {
+                    await window.notificationsSystem.createActivity(
+                        'test_activity',
+                        '🎮 <span>Actividad de prueba</span> creada en ' + new Date().toLocaleTimeString()
+                    );
+                    log('Actividad creada', 'success');
+                } catch (error) {
+                    log(`Error: ${error.message}`, 'error');
+                }
+            } else {
+                log('Sistema de notificaciones no disponible', 'error');
+            }
+        }
+        
+        async function loadNotifications() {
+            if (window.notificationsSystem) {
+                try {
+                    const currentUser = auth.currentUser;
+                    if (currentUser) {
+                        await window.notificationsSystem.loadUserNotifications(currentUser.uid);
+                        const count = window.notificationsSystem.notifications.length;
+                        log(`${count} notificaciones cargadas`, 'success');
+                    } else {
+                        log('Usuario no autenticado', 'warning');
+                    }
+                } catch (error) {
+                    log(`Error: ${error.message}`, 'error');
+                }
+            } else {
+                log('Sistema de notificaciones no disponible', 'error');
+            }
+        }
+        
+        function testSound() {
+            if (window.notificationsSystem) {
+                window.notificationsSystem.playNotificationSound();
+                log('Sonido de notificación reproducido', 'success');
+            } else {
+                log('Sistema de notificaciones no disponible', 'error');
+            }
+        }
+        
+        // Initial check
+        window.addEventListener('load', () => {
+            if (window.notificationsSystem) {
+                log('✅ Sistema de notificaciones cargado correctamente', 'success');
+                log('Versión: UnifiedNotificationSystem v1.0', 'info');
+            } else {
+                log('❌ Sistema de notificaciones no disponible', 'error');
+            }
+        });
+    </script>
+</body>
+</html>

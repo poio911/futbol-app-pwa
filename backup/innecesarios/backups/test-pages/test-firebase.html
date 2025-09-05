@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Firebase Integration</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; border-radius: 5px; }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+        .info { background-color: #d1ecf1; color: #0c5460; }
+        button { margin: 5px; padding: 10px 15px; cursor: pointer; }
+        .player-card { margin: 10px 0; padding: 10px; border: 1px solid #ddd; border-radius: 3px; }
+        .performance-tag { margin: 2px; padding: 5px 10px; border: 1px solid #007bff; background: white; cursor: pointer; border-radius: 3px; }
+        .performance-tag.selected { background: #007bff; color: white; }
+    </style>
+</head>
+<body>
+    <h1>Firebase Integration Test</h1>
+    
+    <div class="test-section info">
+        <h3>Estado del Sistema</h3>
+        <p id="system-status">Inicializando...</p>
+        <button onclick="testDemo()">Activar Modo Demo</button>
+        <button onclick="testFirestore()">Probar Firestore</button>
+    </div>
+
+    <div class="test-section">
+        <h3>Jugadores Disponibles</h3>
+        <div id="players-list">Cargando...</div>
+        <button onclick="refreshPlayers()">Actualizar Lista</button>
+        <button onclick="testAddPlayer()">Agregar Jugador de Prueba</button>
+    </div>
+
+    <div class="test-section">
+        <h3>Generar Equipos y Evaluar</h3>
+        <button onclick="generateTestTeams()">Generar Equipos</button>
+        <button onclick="scheduleTestMatch()">Programar Partido</button>
+        <div id="teams-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>Partidos Disponibles para Evaluación</h3>
+        <div id="matches-list">No hay partidos</div>
+        <button onclick="loadMatches()">Cargar Partidos</button>
+    </div>
+
+    <div class="test-section">
+        <h3>Simulador de Evaluación</h3>
+        <div id="evaluation-simulator"></div>
+    </div>
+
+    <script type="module">
+        // Import Firebase Storage and Wrapper
+        import FirebaseStorage from './js/firebase-storage.js';
+        import Storage from './js/storage-wrapper.js';
+        import Utils from './js/utils.js';
+
+        // Make available globally for testing
+        window.FirebaseStorage = FirebaseStorage;
+        window.Storage = Storage;
+        window.Utils = Utils;
+
+        // Initialize system status
+        document.getElementById('system-status').textContent = 'Sistema inicializado correctamente';
+
+        // Test functions
+        window.testDemo = function() {
+            console.log('Testing demo mode...');
+            Storage.setCurrentPerson('demo-person-1');
+            Storage.setCurrentGroup('demo-group-1');
+            
+            const players = Storage.getPlayers();
+            console.log('Demo players loaded:', players.length);
+            
+            document.getElementById('system-status').textContent = `Modo demo activo. ${players.length} jugadores disponibles.`;
+            document.getElementById('system-status').className = 'success';
+            
+            refreshPlayers();
+        };
+
+        window.testFirestore = async function() {
+            try {
+                const persons = await FirebaseStorage.getAllPersons();
+                console.log('Firestore test - persons:', persons.length);
+                
+                document.getElementById('system-status').textContent = `Firestore conectado. ${persons.length} personas en la base de datos.`;
+                document.getElementById('system-status').className = 'success';
+            } catch (error) {
+                console.error('Firestore test failed:', error);
+                document.getElementById('system-status').textContent = `Error de Firestore: ${error.message}`;
+                document.getElementById('system-status').className = 'error';
+            }
+        };
+
+        window.refreshPlayers = function() {
+            const players = Storage.getPlayers();
+            const container = document.getElementById('players-list');
+            
+            if (players.length === 0) {
+                container.innerHTML = '<p>No hay jugadores. Activa el modo demo para ver datos de prueba.</p>';
+                return;
+            }
+            
+            container.innerHTML = players.map(player => `
+                <div class="player-card">
+                    <strong>${player.name}</strong> - ${player.position} (OVR: ${player.ovr})
+                    <br><small>ID: ${player.id}</small>
+                </div>
+            `).join('');
+        };
+
+        window.testAddPlayer = async function() {
+            const testPlayer = {
+                name: 'Test Player ' + Date.now(),
+                position: 'MED',
+                attributes: { pac: 75, sho: 70, pas: 85, dri: 80, def: 65, phy: 75 },
+                ovr: 75,
+                photo: null
+            };
+
+            try {
+                const success = await Storage.addPlayer(testPlayer);
+                if (success) {
+                    console.log('Test player added successfully');
+                    refreshPlayers();
+                } else {
+                    console.error('Failed to add test player');
+                }
+            } catch (error) {
+                console.error('Error adding test player:', error);
+            }
+        };
+
+        window.generateTestTeams = function() {
+            const players = Storage.getPlayers();
+            
+            if (players.length < 2) {
+                document.getElementById('teams-result').innerHTML = '<p class="error">Se necesitan al menos 2 jugadores para generar equipos</p>';
+                return;
+            }
+
+            try {
+                const teams = Utils.balanceTeams(players);
+                console.log('Teams generated:', teams);
+                
+                document.getElementById('teams-result').innerHTML = `
+                    <div style="display: flex; gap: 20px;">
+                        <div style="flex: 1;">
+                            <h4>Equipo A (OVR: ${teams.teamA.ovr})</h4>
+                            ${teams.teamA.players.map(p => `<p>${p.name} - ${p.position}</p>`).join('')}
+                        </div>
+                        <div style="flex: 1;">
+                            <h4>Equipo B (OVR: ${teams.teamB.ovr})</h4>
+                            ${teams.teamB.players.map(p => `<p>${p.name} - ${p.position}</p>`).join('')}
+                        </div>
+                    </div>
+                    <p><strong>Diferencia de OVR:</strong> ${teams.difference.toFixed(1)}</p>
+                `;
+                
+                // Store teams globally for match scheduling
+                window.testTeams = teams;
+                
+            } catch (error) {
+                console.error('Error generating teams:', error);
+                document.getElementById('teams-result').innerHTML = `<p class="error">Error: ${error.message}</p>`;
+            }
+        };
+
+        window.scheduleTestMatch = async function() {
+            if (!window.testTeams) {
+                alert('Primero genera equipos');
+                return;
+            }
+
+            const match = {
+                id: Date.now().toString(),
+                date: new Date().toISOString(),
+                createdAt: new Date().toISOString(),
+                teamA: window.testTeams.teamA,
+                teamB: window.testTeams.teamB,
+                difference: window.testTeams.difference,
+                status: 'pending',
+                format: '5v5',
+                selectedPlayers: window.testTeams.teamA.players.concat(window.testTeams.teamB.players).map(p => p.id),
+                result: null,
+                evaluations: []
+            };
+
+            try {
+                const success = await Storage.addMatch(match);
+                if (success) {
+                    console.log('Test match scheduled successfully');
+                    loadMatches();
+                    alert('Partido programado exitosamente');
+                } else {
+                    alert('Error al programar partido');
+                }
+            } catch (error) {
+                console.error('Error scheduling match:', error);
+                alert('Error: ' + error.message);
+            }
+        };
+
+        window.loadMatches = function() {
+            const matches = Storage.getMatches();
+            const container = document.getElementById('matches-list');
+            
+            if (matches.length === 0) {
+                container.innerHTML = '<p>No hay partidos programados</p>';
+                return;
+            }
+            
+            container.innerHTML = matches.map(match => `
+                <div class="player-card">
+                    <strong>Partido ${match.id}</strong> - ${match.status}
+                    <br>Equipos: ${match.teamA.players.length} vs ${match.teamB.players.length}
+                    <br>Diferencia OVR: ${match.difference?.toFixed(1) || 'N/A'}
+                    <button onclick="simulateEvaluation('${match.id}')">Simular Evaluación</button>
+                </div>
+            `).join('');
+        };
+
+        window.simulateEvaluation = function(matchId) {
+            const match = Storage.getMatchById(matchId);
+            if (!match) {
+                alert('Partido no encontrado');
+                return;
+            }
+
+            console.log('Simulating evaluation for match:', match);
+            
+            // Get all players from both teams
+            const allPlayers = [...match.teamA.players, ...match.teamB.players];
+            
+            const container = document.getElementById('evaluation-simulator');
+            container.innerHTML = `
+                <h4>Evaluación del Partido ${matchId}</h4>
+                <p><strong>Jugadores encontrados:</strong> ${allPlayers.length}</p>
+                ${allPlayers.map(player => {
+                    if (!player || !player.name) {
+                        return `<div class="error">Error: Jugador sin datos - ${JSON.stringify(player)}</div>`;
+                    }
+                    
+                    return `
+                        <div class="player-card">
+                            <h5>${player.name} (${player.position} - OVR: ${player.ovr})</h5>
+                            <div style="margin: 10px 0;">
+                                <strong>Performance Tags:</strong><br>
+                                <button class="performance-tag" data-player-id="${player.id}" data-tag-id="goleador" onclick="toggleTag(this)">⚽ Goleador</button>
+                                <button class="performance-tag" data-player-id="${player.id}" data-tag-id="asistencia" onclick="toggleTag(this)">🎯 Asistencia</button>
+                                <button class="performance-tag" data-player-id="${player.id}" data-tag-id="velocidad" onclick="toggleTag(this)">💨 Velocidad</button>
+                                <button class="performance-tag" data-player-id="${player.id}" data-tag-id="defensa" onclick="toggleTag(this)">🛡️ Defensa</button>
+                            </div>
+                        </div>
+                    `;
+                }).join('')}
+                <button onclick="saveEvaluation('${matchId}')">Guardar Evaluación</button>
+            `;
+        };
+
+        window.toggleTag = function(button) {
+            button.classList.toggle('selected');
+            console.log('Tag toggled:', button.dataset.tagId, 'for player:', button.dataset.playerId, 'selected:', button.classList.contains('selected'));
+        };
+
+        window.saveEvaluation = function(matchId) {
+            const selectedTags = document.querySelectorAll('.performance-tag.selected');
+            const evaluations = {};
+            
+            selectedTags.forEach(tag => {
+                const playerId = tag.dataset.playerId;
+                const tagId = tag.dataset.tagId;
+                
+                if (!evaluations[playerId]) {
+                    evaluations[playerId] = [];
+                }
+                evaluations[playerId].push(tagId);
+            });
+            
+            console.log('Evaluation data:', evaluations);
+            alert(`Evaluación guardada para ${Object.keys(evaluations).length} jugadores con tags seleccionados`);
+        };
+
+        // Initialize on load
+        setTimeout(() => {
+            refreshPlayers();
+            loadMatches();
+        }, 500);
+
+    </script>
+</body>
+</html>

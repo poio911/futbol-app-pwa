@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servidor Local Simple</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #1a1a1a;
+            color: white;
+        }
+        h1 { color: #00ff9d; }
+        .info-box {
+            background: #2a2a2a;
+            border: 1px solid #00ff9d;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .button {
+            display: inline-block;
+            background: #00ff9d;
+            color: black;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin: 10px;
+        }
+        .button:hover {
+            opacity: 0.8;
+        }
+        .warning {
+            background: #442200;
+            border: 1px solid #ff9500;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        code {
+            background: #333;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>🚀 Configuración del Servidor Local</h1>
+    
+    <div class="info-box">
+        <h2>Estado Actual</h2>
+        <p>📍 Estás viendo esta página desde: <code id="current-url"></code></p>
+        <p id="status-message"></p>
+    </div>
+
+    <div class="warning">
+        <h3>⚠️ Necesitas un servidor web local</h3>
+        <p>La aplicación no puede funcionar abriendo archivos directamente debido a restricciones de seguridad del navegador (CORS).</p>
+    </div>
+
+    <div class="info-box">
+        <h2>Opciones para iniciar el servidor:</h2>
+        
+        <h3>Opción 1: Instalar Python (Recomendado)</h3>
+        <ol>
+            <li>Descarga Python desde: <a href="https://www.python.org/downloads/" target="_blank" style="color: #00ff9d">python.org</a></li>
+            <li>Durante la instalación, marca "Add Python to PATH"</li>
+            <li>Reinicia tu terminal/comando</li>
+            <li>Ejecuta: <code>python -m http.server 8080</code></li>
+        </ol>
+
+        <h3>Opción 2: Usar una extensión del navegador</h3>
+        <p>Instala "Web Server for Chrome" desde la Chrome Web Store</p>
+        <a href="https://chrome.google.com/webstore/detail/web-server-for-chrome/ofhbbkphhbklhfoeikjpcbhemlocgigb" 
+           target="_blank" class="button">Instalar Web Server for Chrome</a>
+
+        <h3>Opción 3: Usar un servicio online</h3>
+        <p>Puedes subir temporalmente los archivos a:</p>
+        <ul>
+            <li>GitHub Pages (gratis)</li>
+            <li>Netlify Drop (arrastrar y soltar)</li>
+            <li>Surge.sh (línea de comandos)</li>
+        </ul>
+    </div>
+
+    <div class="info-box">
+        <h2>Verificación Rápida</h2>
+        <p>Si el servidor está funcionando correctamente, deberías poder acceder a:</p>
+        <a href="http://localhost:8080" class="button">Ir a http://localhost:8080</a>
+        <a href="http://127.0.0.1:8080" class="button">Ir a http://127.0.0.1:8080</a>
+    </div>
+
+    <script>
+        // Mostrar URL actual
+        document.getElementById('current-url').textContent = window.location.href;
+        
+        // Verificar si está en file://
+        const statusMsg = document.getElementById('status-message');
+        if (window.location.protocol === 'file:') {
+            statusMsg.innerHTML = '❌ <strong>Estás abriendo el archivo directamente.</strong> Necesitas un servidor local.';
+            statusMsg.style.color = '#ff4444';
+        } else if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
+            statusMsg.innerHTML = '✅ <strong>¡Excelente!</strong> Estás usando un servidor web.';
+            statusMsg.style.color = '#00ff9d';
+            
+            // Si está en servidor, ofrecer ir a la app
+            const appLink = document.createElement('div');
+            appLink.innerHTML = `
+                <div style="margin-top: 20px; padding: 20px; background: #003322; border: 2px solid #00ff9d; border-radius: 8px;">
+                    <h3>🎉 Todo listo para usar la aplicación</h3>
+                    <a href="index.html" class="button" style="background: #00ff9d; color: black;">
+                        Abrir Fútbol Stats App
+                    </a>
+                </div>
+            `;
+            statusMsg.parentElement.appendChild(appLink);
+        }
+    </script>
+</body>
+</html>

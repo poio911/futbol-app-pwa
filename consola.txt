@@ -1,0 +1,2909 @@
+firebase-simple.js:24 ✅ Firebase initialized successfully
+firebase-simple.js:25 📊 Database connected: YES
+firebase-simple.js:2088 Firebase Simple Storage initialized
+new-header-manager.js:2237 ✅ NewHeaderManager class available globally
+new-header-manager.js:2240 ✅ NewHeaderManager cargado y listo
+collaborative-system.js?v=12.0&force=20250901:1 📜 Loading NEW collaborative-system.js (REFACTORED)...
+collaborative-system.js?v=12.0&force=20250901:1648 🌟 Creating singleton CollaborativeSystem instance...
+collaborative-system.js?v=12.0&force=20250901:20 🏗️ Creating NEW CollaborativeSystem instance...
+collaborative-system.js?v=12.0&force=20250901:45 ✅ Core data structures initialized
+collaborative-system.js?v=12.0&force=20250901:53 🚀 Initializing NEW CollaborativeSystem...
+collaborative-system.js?v=12.0&force=20250901:1651 ✅ NEW CollaborativeSystem instance created and assigned globally
+index.html:3330 🔍 After loading collaborative-system.js, CollaborativeSystem class: function
+index.html:3331 🔍 collaborativeSystem instance: object
+index.html:3451 ✅ Using original CollaborativeSystem from collaborative-system.js
+index.html:4587 🔄 Overriding TestApp.displayPlayers with EA SPORTS version
+index.html:5860 ✅ Successfully overrode TestApp.displayTeam with EA SPORTS styling
+index.html:5757 ✅ Successfully overrode TestApp.displayTeamBalance with EA SPORTS styling
+index.html:4790 🎨 Applying EA SPORTS evaluation system override
+index.html:5676 ✅ Successfully overrode evaluation system with EA SPORTS styling
+index.html:6228 Live reload enabled.
+collaborative-system-integration.js:8 🔧 Integrando sistema de evaluaciones unificadas con sistema colaborativo...
+collaborative-system-integration.js:118 ✅ Sistema colaborativo integrado con evaluaciones unificadas
+partidos-grupales-v2.js:17 🎮 Inicializando Partidos Grupales V2...
+partidos-grupales-v2.js:23 ✅ Partidos Grupales V2 inicializado
+team-generator-advanced.js:476 ✅ Sistema avanzado de generación de equipos cargado
+unified-teams-modal.js:342 ✅ Sistema unificado de modal de equipos cargado
+players-view-enhanced.js?v=4.0:9 🎮 Initializing Enhanced Players View...
+session-manager.js:24 🔐 Inicializando SessionManager...
+session-manager.js:40 ✅ SessionManager inicializado
+firebase-simple.js:530 Loading all players from futbol_users collection...
+collaborative-system.js?v=12.0&force=20250901:69 📄 DOM ready - completing initialization...
+collaborative-system.js?v=12.0&force=20250901:153 🔗 Attaching event listeners...
+collaborative-system.js?v=12.0&force=20250901:158 ✅ Create match button listener attached
+collaborative-system.js?v=12.0&force=20250901:162 ✅ Basic event listeners attached
+collaborative-system.js?v=12.0&force=20250901:310 📥 Loading all matches from Firebase...
+collaborative-system.js?v=12.0&force=20250901:80 📊 Updating state: {isLoading: true, error: null}
+collaborative-system.js?v=12.0&force=20250901:780 🎨 Rendering UI...
+collaborative-system.js?v=12.0&force=20250901:788 ✅ UI rendered successfully (unified mode)
+collaborative-system.js?v=12.0&force=20250901:318 🔗 Loading from Firebase collection: collaborative_matches
+collaborative-system.js?v=12.0&force=20250901:73 ✅ System initialization complete
+index.html:4330 🚀 DOM loaded - checking collaborative system...
+index.html:5887 🚀 App starting - AuthSystem will handle initialization...
+favicon.ico:1  GET http://127.0.0.1:5501/favicon.ico 404 (Not Found)
+auth-system.js:18 🔐 Initializing AuthSystem...
+auth-system.js:40 🔒 Auto-login disabled, showing auth screen
+auth-system.js:66 🔍 Testing Firebase Auth configuration...
+auth-system.js:107 ✅ Firebase Auth initialized successfully
+auth-system.js:75 📤 User signed out (or not signed in)
+auth-system.js:772 👤 Handling user signed out state
+new-header-manager.js:2054 🚫 Auth screen visible, header blocked
+new-header-manager.js:2036 🟡 Esperando login, reintentando en 2s...
+index.html:4587 🔄 Overriding TestApp.displayPlayers with EA SPORTS version
+index.html:5860 ✅ Successfully overrode TestApp.displayTeam with EA SPORTS styling
+index.html:5757 ✅ Successfully overrode TestApp.displayTeamBalance with EA SPORTS styling
+index.html:5903 ⚠️ Could not override all functions yet
+index.html:6109 🚀 Initializing Clean Header...
+clean-header.js:22 🚀 CleanHeader: Inicializando header limpio...
+clean-header.js:421 ✅ CleanHeader: HTML insertado
+firebase-simple.js:530 Loading all players from futbol_users collection...
+iframe.js:271  GET https://www.googleapis.com/identitytoolkit/v3/relyingparty/getProjectConfig?key=AIzaSyAes7EVn8hQswS8XgvDMJfN6U4IT_ZL_WY&cb=1757095976176 400 (Bad Request)
+k.send @ iframe.js:271
+Sm.bm @ iframe.js:370
+Zm @ iframe.js:368
+(anonymous) @ iframe.js:374
+F @ iframe.js:156
+cn @ iframe.js:374
+(anonymous) @ iframe.js:382
+a @ iframe.js:155
+(anonymous) @ iframe.js:155
+c @ iframe.js:155
+e.Pc @ iframe.js:163
+lg @ iframe.js:166
+hg @ iframe.js:166
+F.zk @ iframe.js:165
+a @ iframe.js:155
+(anonymous) @ iframe.js:155
+c @ iframe.js:155
+Qf @ iframe.js:156
+a
+Jf @ iframe.js:156
+cg @ iframe.js:162
+F.then @ iframe.js:159
+Q @ iframe.js:382
+jn @ iframe.js:374
+(anonymous) @ iframe.js:574
+is.start @ iframe.js:573
+js.start @ iframe.js:574
+ls.start @ iframe.js:576
+os @ iframe.js:578
+(anonymous) @ iframe.js:579
+aj @ iframe.js:240
+b @ iframe.js:238
+iframe.js:310 {"error":{"code":400,"message":"CONFIGURATION_NOT_FOUND","errors":[{"message":"CONFIGURATION_NOT_FOUND","domain":"global","reason":"invalid"}]}}
+ml @ iframe.js:310
+(anonymous) @ iframe.js:579
+a @ iframe.js:155
+(anonymous) @ iframe.js:155
+c @ iframe.js:155
+e.vd @ iframe.js:163
+lg @ iframe.js:166
+hg @ iframe.js:166
+F.zk @ iframe.js:165
+a @ iframe.js:155
+(anonymous) @ iframe.js:155
+c @ iframe.js:155
+Qf @ iframe.js:156
+a
+Jf @ iframe.js:156
+cg @ iframe.js:162
+k.l @ iframe.js:160
+os @ iframe.js:578
+(anonymous) @ iframe.js:579
+aj @ iframe.js:240
+b @ iframe.js:238
+auth-system.js:98 ✅ Firebase Auth configuration test passed
+index.html:4587 🔄 Overriding TestApp.displayPlayers with EA SPORTS version
+index.html:5860 ✅ Successfully overrode TestApp.displayTeam with EA SPORTS styling
+index.html:5757 ✅ Successfully overrode TestApp.displayTeamBalance with EA SPORTS styling
+firebase-simple.js:587 Loaded player: Liroy Rodriguez OVR: 50 Position: MED
+firebase-simple.js:587 Loaded player: Pela OVR: 56 Position: MED
+firebase-simple.js:587 Loaded player: Marcos Perdomo OVR: 53 Position: DEF
+firebase-simple.js:587 Loaded player: Gustavo Grinspan OVR: 53 Position: DEF
+firebase-simple.js:587 Loaded player: Pedro Da Costa OVR: 52 Position: MED
+firebase-simple.js:587 Loaded player: Alfonso Lopez OVR: 53 Position: DEL
+firebase-simple.js:587 Loaded player: Alfredo OVR: 52 Position: MED
+firebase-simple.js:587 Loaded player: Martín Patrone OVR: 53 Position: DEL
+firebase-simple.js:587 Loaded player: Dan OVR: 52 Position: DEL
+firebase-simple.js:587 Loaded player: Bruno OVR: 50 Position: MED
+firebase-simple.js:587 Loaded player: Maxi Piñero OVR: 50 Position: DEF
+firebase-simple.js:587 Loaded player: Rafa OVR: 50 Position: DEF
+firebase-simple.js:587 Loaded player: Mathi OVR: 50 Position: MED
+firebase-simple.js:587 Loaded player: Pablo G. OVR: 50 Position: DEL
+firebase-simple.js:587 Loaded player: Seba Oxígeno OVR: 50 Position: MED
+firebase-simple.js:587 Loaded player: Zorro OVR: 50 Position: DEF
+firebase-simple.js:587 Loaded player: Martín OVR: 50 Position: DEF
+firebase-simple.js:587 Loaded player: Renzo De León OVR: 50 Position: DEF
+firebase-simple.js:587 Loaded player: Test User OVR: 50 Position: MED
+firebase-simple.js:587 Loaded player: Martin Silvera OVR: 50 Position: DEF
+firebase-simple.js:590 Total players loaded from futbol_users: 20
+firebase-simple.js:677 Final player count: 20
+firebase-simple.js:505 getPlayers called - currentGroupId: null
+firebase-simple.js:511 Returning cached players: 20
+firebase-simple.js:587 Loaded player: Liroy Rodriguez OVR: 50 Position: MED
+firebase-simple.js:587 Loaded player: Pela OVR: 56 Position: MED
+firebase-simple.js:587 Loaded player: Marcos Perdomo OVR: 53 Position: DEF
+firebase-simple.js:587 Loaded player: Gustavo Grinspan OVR: 53 Position: DEF
+firebase-simple.js:587 Loaded player: Pedro Da Costa OVR: 52 Position: MED
+firebase-simple.js:587 Loaded player: Alfonso Lopez OVR: 53 Position: DEL
+firebase-simple.js:587 Loaded player: Alfredo OVR: 52 Position: MED
+firebase-simple.js:587 Loaded player: Martín Patrone OVR: 53 Position: DEL
+firebase-simple.js:587 Loaded player: Dan OVR: 52 Position: DEL
+firebase-simple.js:587 Loaded player: Bruno OVR: 50 Position: MED
+firebase-simple.js:587 Loaded player: Maxi Piñero OVR: 50 Position: DEF
+firebase-simple.js:587 Loaded player: Rafa OVR: 50 Position: DEF
+firebase-simple.js:587 Loaded player: Mathi OVR: 50 Position: MED
+firebase-simple.js:587 Loaded player: Pablo G. OVR: 50 Position: DEL
+firebase-simple.js:587 Loaded player: Seba Oxígeno OVR: 50 Position: MED
+firebase-simple.js:587 Loaded player: Zorro OVR: 50 Position: DEF
+firebase-simple.js:587 Loaded player: Martín OVR: 50 Position: DEF
+firebase-simple.js:587 Loaded player: Renzo De León OVR: 50 Position: DEF
+firebase-simple.js:587 Loaded player: Test User OVR: 50 Position: MED
+firebase-simple.js:587 Loaded player: Martin Silvera OVR: 50 Position: DEF
+firebase-simple.js:590 Total players loaded from futbol_users: 40
+firebase-simple.js:677 Final player count: 40
+clean-header.js:33 ✅ CleanHeader inicializado
+index.html:6117 ✅ Clean Header initialized successfully
+index.html:6127 🎨 Initializing enhanced footer...
+header-footer-enhanced.js?v=5.1:17 [HeaderFooter] Initializing enhanced footer only...
+header-footer-enhanced.js?v=5.1:23 [HeaderFooter] No user found, using guest mode
+initialize @ header-footer-enhanced.js?v=5.1:23
+(anonymous) @ index.html:6128
+setTimeout
+(anonymous) @ index.html:6108
+header-footer-enhanced.js?v=5.1:62 [HeaderFooter] Footer rendered successfully
+notifications-system.js?v=5.0:29 [NotificationsSystem] Initializing...
+notifications-system.js?v=5.0:35 [NotificationsSystem] No user found, will retry when user logs in
+initialize @ notifications-system.js?v=5.0:35
+initialize @ header-footer-enhanced.js?v=5.1:31
+await in initialize
+(anonymous) @ index.html:6128
+setTimeout
+(anonymous) @ index.html:6108
+collaborative-system.js?v=12.0&force=20250901:328 📊 Loaded 2 matches from Firebase
+collaborative-system.js?v=12.0&force=20250901:343 ✅ Successfully loaded 2 matches
+collaborative-system.js?v=12.0&force=20250901:80 📊 Updating state: {isLoading: false}
+collaborative-system.js?v=12.0&force=20250901:780 🎨 Rendering UI...
+collaborative-system.js?v=12.0&force=20250901:788 ✅ UI rendered successfully (unified mode)
+new-header-manager.js:2054 🚫 Auth screen visible, header blocked
+new-header-manager.js:2036 🟡 Esperando login, reintentando en 2s...
+index.html:4587 🔄 Overriding TestApp.displayPlayers with EA SPORTS version
+index.html:5860 ✅ Successfully overrode TestApp.displayTeam with EA SPORTS styling
+index.html:5757 ✅ Successfully overrode TestApp.displayTeamBalance with EA SPORTS styling
+notifications-system.js?v=5.0:199 [NotificationsSystem] Stats loaded: {matchesToday: 0, maxMatchesToday: 5, pendingEvaluations: 0, streak: 0, onlineUsers: 4, …}
+notifications-system.js?v=5.0:271 [NotificationsSystem] No current user available, cannot start realtime listeners
+startRealtimeListeners @ notifications-system.js?v=5.0:271
+initialize @ notifications-system.js?v=5.0:47
+await in initialize
+initialize @ header-footer-enhanced.js?v=5.1:31
+await in initialize
+(anonymous) @ index.html:6128
+setTimeout
+(anonymous) @ index.html:6108
+notifications-system.js?v=5.0:55 [NotificationsSystem] Initialized successfully
+header-footer-enhanced.js?v=5.1:43 [HeaderFooter] Footer initialized successfully
+collaborative-system-integration.js:126 🤖 Verificando partidos para auto-finalización...
+new-header-manager.js:2054 🚫 Auth screen visible, header blocked
+new-header-manager.js:2036 🟡 Esperando login, reintentando en 2s...
+collaborative-system-integration.js:166 ✅ Verificación de auto-finalización completada
+new-header-manager.js:2054 🚫 Auth screen visible, header blocked
+new-header-manager.js:2036 🟡 Esperando login, reintentando en 2s...
+index.ts:116  POST https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAes7EVn8hQswS8XgvDMJfN6U4IT_ZL_WY 400 (Bad Request)
+(anonymous) @ index.ts:116
+oe @ index.ts:138
+se @ index.ts:87
+ae @ index.ts:187
+returnSecureToken @ email_and_password.ts:45
+_getIdTokenResponse @ email.ts:116
+dt @ mfa_error.ts:74
+vt @ credential.ts:37
+yt @ credential.ts:69
+signInWithEmailAndPassword @ email_and_password.ts:267
+login @ auth-system.js:405
+onclick @ index.html:2117
+auth-system.js:409 Login error: FirebaseError: Firebase: Error (auth/configuration-not-found).
+    at q (assert.ts:95:55)
+    at H (assert.ts:63:9)
+    at oe (index.ts:170:7)
+    at async ae (index.ts:187:9)
+    at async vt (credential.ts:37:9)
+    at async Qr (user_credential.ts:147:5)
+    at async Object.login (auth-system.js:405:13)
+login @ auth-system.js:409
+await in login
+onclick @ index.html:2117
+auth-system.js:417 ⚠️ Firebase Auth failed, trying direct Firestore login...
+auth-system.js:436 🔍 Starting direct login for: poio911@hotmail.com
+auth-system.js:449 📊 Querying futbol_users collection for email: poio911@hotmail.com
+auth-system.js:450 🔗 Using database: Available
+auth-system.js:458 📋 Query completed. Documents found: 1
+auth-system.js:477 ✅ Found user for direct login: Pela
+auth-system.js:478 📝 User data: {uid: 'user_1756694283954_f11xjc61f', email: 'poio911@hotmail.com', displayName: 'Pela'}
+session-manager.js:47 📝 Creando nueva sesión para: Pela
+session-manager.js:73 ✅ Sesión creada: session_1757095983434_wb72ou5za
+auth-system.js:500 🔧 Hiding auth screen and initializing systems...
+auth-system.js:235 ✅ Auth screen hidden, main app shown
+auth-system.js:1251 🚀 Initializing systems with user: Pela
+new-header-manager.js:2100 🔄 Usuario logueado, inicializando header...
+new-header-manager.js:2184 📱 Mostrando pantalla de carga post-login
+auth-system.js:1258 📡 Evento userLoggedIn disparado para header
+auth-system.js:1262 🔑 AuthSystem: Setting user in TestApp: {pac: 71, def: 53, unificationVersion: '1.0', lastLogin: '2025-09-05T18:11:59.332Z', lastOVRUpdate: 1757018841246, …}
+test-app.js:4798 [TestApp] 🚀 Initializing TestApp...
+test-app.js:4798 [TestApp] Checking Firebase...
+test-app.js:4798 [TestApp] Firebase connected successfully
+test-app.js:4798 [TestApp] Match screen initialized with default date/time
+test-app.js:4798 [TestApp] ✅ Authenticated user mode
+test-app.js:84 🏠 Setting up groups for user: Pela
+test-app.js:85 🏠 User groups: ['o8ZOD6N0KEHrvweFfTAd']
+test-app.js:86 🏠 User currentGroup: o8ZOD6N0KEHrvweFfTAd
+firebase-simple.js:1376 Real mode forced for group: o8ZOD6N0KEHrvweFfTAd
+test-app.js:97 ✅ Set Storage.currentGroupId to: o8ZOD6N0KEHrvweFfTAd
+test-app.js:4798 [TestApp] Group assigned: Fútbol en el Galpón
+test-app.js:4798 [TestApp] Navigating to: dashboard
+test-app.js:4798 [TestApp] Loading initial data...
+test-app.js:4798 [TestApp] Current user: Pela
+test-app.js:4798 [TestApp] Current group: Fútbol en el Galpón
+index.html:5384 📥 LOADING DEBUG: Loading players from Firebase...
+test-app.js:4798 [TestApp] Loading players...
+firebase-simple.js:530 Loading all players from futbol_users collection...
+test-app.js:4798 [TestApp] TestApp initialized
+auth-system.js:1277 🔑 AuthSystem: Setting user in CollaborativeSystem: {pac: 71, def: 53, unificationVersion: '1.0', lastLogin: '2025-09-05T18:11:59.332Z', lastOVRUpdate: 1757018841246, …}
+collaborative-system.js?v=12.0&force=20250901:182 👤 Setting current user: Pela
+collaborative-system.js?v=12.0&force=20250901:80 📊 Updating state: {currentUser: {…}}
+collaborative-system.js?v=12.0&force=20250901:780 🎨 Rendering UI...
+collaborative-system.js?v=12.0&force=20250901:788 ✅ UI rendered successfully (unified mode)
+collaborative-system.js?v=12.0&force=20250901:208 ✅ User set successfully: Pela
+collaborative-system.js?v=12.0&force=20250901:310 📥 Loading all matches from Firebase...
+collaborative-system.js?v=12.0&force=20250901:80 📊 Updating state: {isLoading: true, error: null}
+collaborative-system.js?v=12.0&force=20250901:780 🎨 Rendering UI...
+collaborative-system.js?v=12.0&force=20250901:788 ✅ UI rendered successfully (unified mode)
+collaborative-system.js?v=12.0&force=20250901:318 🔗 Loading from Firebase collection: collaborative_matches
+auth-system.js:1292 ✨ Updating CleanHeader with user: Pela
+clean-header.js:824 🔄 CleanHeader: Actualizando usuario desde sistema externo: {pac: 71, def: 53, unificationVersion: '1.0', lastLogin: '2025-09-05T18:11:59.332Z', lastOVRUpdate: 1757018841246, …}
+clean-header.js:835 🗺️ Detectado formato Firebase Auth, mapeando...
+clean-header.js:842 ✅ Usuario actualizado correctamente: {id: 'user_1756694283954_f11xjc61f', name: 'Pela', email: 'poio911@hotmail.com', position: 'Mediocampista', ovr: 75, …}
+auth-system.js:1298 🎨 Reinitializing legacy header with user: Pela
+auth-system.js:505 💾 Updating last login timestamp...
+test-app.js:1645 📋 =============== LOADING MATCH HISTORY ===============
+test-app.js:1652 📋 ✅ History container found: <div id=​"match-history-list">​…​</div>​
+test-app.js:1657 📋 Available objects: {Storage: true, getMatches: true, db: true, currentGroup: true}
+firebase-simple.js:1085 Loading matches from futbol_matches collection...
+test-app.js:1667 📋 Method 1 - Found 0 matches from window.Storage.getMatches()
+test-app.js:1676 📋 Trying direct Firebase access...
+firebase-simple.js:587 Loaded player: Liroy Rodriguez OVR: 50 Position: MED
+firebase-simple.js:587 Loaded player: Pela OVR: 56 Position: MED
+firebase-simple.js:587 Loaded player: Marcos Perdomo OVR: 53 Position: DEF
+firebase-simple.js:587 Loaded player: Gustavo Grinspan OVR: 53 Position: DEF
+firebase-simple.js:587 Loaded player: Pedro Da Costa OVR: 52 Position: MED
+firebase-simple.js:587 Loaded player: Alfonso Lopez OVR: 53 Position: DEL
+firebase-simple.js:587 Loaded player: Alfredo OVR: 52 Position: MED
+firebase-simple.js:587 Loaded player: Martín Patrone OVR: 53 Position: DEL
+firebase-simple.js:587 Loaded player: Dan OVR: 52 Position: DEL
+firebase-simple.js:587 Loaded player: Bruno OVR: 50 Position: MED
+firebase-simple.js:587 Loaded player: Maxi Piñero OVR: 50 Position: DEF
+firebase-simple.js:587 Loaded player: Rafa OVR: 50 Position: DEF
+firebase-simple.js:587 Loaded player: Mathi OVR: 50 Position: MED
+firebase-simple.js:587 Loaded player: Pablo G. OVR: 50 Position: DEL
+firebase-simple.js:587 Loaded player: Seba Oxígeno OVR: 50 Position: MED
+firebase-simple.js:587 Loaded player: Zorro OVR: 50 Position: DEF
+firebase-simple.js:587 Loaded player: Martín OVR: 50 Position: DEF
+firebase-simple.js:587 Loaded player: Renzo De León OVR: 50 Position: DEF
+firebase-simple.js:587 Loaded player: Test User OVR: 50 Position: MED
+firebase-simple.js:587 Loaded player: Martin Silvera OVR: 50 Position: DEF
+firebase-simple.js:590 Total players loaded from futbol_users: 20
+firebase-simple.js:594 Checking legacy players in groups collection...
+collaborative-system.js?v=12.0&force=20250901:328 📊 Loaded 2 matches from Firebase
+collaborative-system.js?v=12.0&force=20250901:343 ✅ Successfully loaded 2 matches
+collaborative-system.js?v=12.0&force=20250901:80 📊 Updating state: {isLoading: false}
+collaborative-system.js?v=12.0&force=20250901:780 🎨 Rendering UI...
+collaborative-system.js?v=12.0&force=20250901:788 ✅ UI rendered successfully (unified mode)
+auth-system.js:1305 🔔 Reinitializing notifications with user: Pela
+notifications-system.js?v=5.0:29 [NotificationsSystem] Initializing...
+firebase-simple.js:1093 Loaded match from futbol_matches: match_1757082840980_zcctdfbix finished
+firebase-simple.js:1093 Loaded match from futbol_matches: match_1757031822888_9r3r57urz finished
+firebase-simple.js:1093 Loaded match from futbol_matches: match_1757018401706_zu1i6s1bn finished
+firebase-simple.js:1093 Loaded match from futbol_matches: match_1757011055361_bg8rrw1j9 finished
+firebase-simple.js:1093 Loaded match from futbol_matches: match_1757009762330_o68ga99pu finished
+firebase-simple.js:1093 Loaded match from futbol_matches: match_1756997462450_xmljk5nao finished
+firebase-simple.js:1099 Loading matches from old structure for group: o8ZOD6N0KEHrvweFfTAd
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2071 ✅ Usuario encontrado y login no visible
+new-header-manager.js:2033 🟢 Usuario logueado, inicializando header...
+new-header-manager.js:26 🚀 NewHeaderManager: Inicializando...
+new-header-manager.js:195 ✅ Header insertado en DOM: <header id=​"new-app-header" class=​"new-header">​…​</header>​flex
+new-header-manager.js:196 ✅ Elementos disponibles: {user-avatar: div#user-avatar.user-avatar, user-name-text: span#user-name-text, user-position: span#user-position.user-position, match-info: div#match-info.match-info}
+new-header-manager.js:1146 ✅ Event listeners configurados correctamente para header buttons
+new-header-manager.js:1896 ✅ Estilos del nuevo header inyectados
+new-header-manager.js:250 🔄 Verificando cache de jugadores...
+new-header-manager.js:256 🎯 currentPersonId: null
+new-header-manager.js:308 🔍 Buscando usuario por UID: user_1756694283954_f11xjc61f
+new-header-manager.js:309 🔍 Usuarios en cache: 20
+new-header-manager.js:310 🔍 Sample UIDs: (3) [{…}, {…}, {…}]
+new-header-manager.js:319 ✅ Usuario obtenido de Firebase por UID/ID: {id: 'user_1756694283954_f11xjc61f', name: 'Pela', position: 'MED', ovr: 56, attributes: {…}, …}
+new-header-manager.js:261 👤 Usuario inicial del header: {id: 'user_1756694283954_f11xjc61f', name: 'Pela', position: 'MED', ovr: 56, attributes: {…}, …}
+auth-system.js:1268 🔄 Refreshing users list...
+test-app.js:4798 [TestApp] Loading users from Firebase...
+test-app.js:133 👥 TestApp: Loading users from Firebase...
+ 🔄 Actualizando info del usuario: {id: 'user_1756694283954_f11xjc61f', name: 'Pela', position: 'MED', ovr: 56, attributes: {…}, …}
+ 🔍 DEBUG: Datos del usuario actual: {id: 'user_1756694283954_f11xjc61f', name: 'Pela', position: 'MED', ovr: 56, attributes: {…}, …}
+new-header-manager.js:563 🔍 DEBUG: OVR inicial: 56 de campos: {ovr: 56, rating: undefined, attributes: {…}}
+new-header-manager.js:572 🔍 DEBUG: OVR calculado con Storage.calculateUnifiedOVR: 56
+new-header-manager.js:576 🔍 DEBUG: OVR final que se mostrará en header: 56
+new-header-manager.js:1146 ✅ Event listeners configurados correctamente para header buttons
+new-header-manager.js:58 ✅ NewHeaderManager: Inicializado correctamente
+test-app.js:1686 📋 Found 6 matches from Firebase futbol_matches
+test-app.js:1778 🔍 Match match_1757082840980_zcctdfbix - HasTeams: [object Object], PlayersA: undefined, PlayersB: undefined
+test-app.js:1780 🔍 TeamA: Los Moderados FC Players: 0
+test-app.js:1781 🔍 TeamB: Kissinger Athletic Players: 0
+test-app.js:1778 🔍 Match match_1757031822888_9r3r57urz - HasTeams: [object Object], PlayersA: undefined, PlayersB: undefined
+test-app.js:1780 🔍 TeamA: Chomsky United Players: 0
+test-app.js:1781 🔍 TeamB: Club Gramsci Players: 0
+test-app.js:1778 🔍 Match match_1757018401706_zu1i6s1bn - HasTeams: [object Object], PlayersA: undefined, PlayersB: undefined
+test-app.js:1780 🔍 TeamA: Kropotkin FC Players: 0
+test-app.js:1781 🔍 TeamB: Los Macris Players: 0
+test-app.js:1778 🔍 Match match_1757011055361_bg8rrw1j9 - HasTeams: [object Object], PlayersA: undefined, PlayersB: undefined
+test-app.js:1780 🔍 TeamA: Los Che Guevaras Players: 0
+test-app.js:1781 🔍 TeamB: Los Chavistas Players: 0
+test-app.js:1778 🔍 Match match_1757009762330_o68ga99pu - HasTeams: [object Object], PlayersA: undefined, PlayersB: undefined
+test-app.js:1780 🔍 TeamA: Los Friedmans Players: 0
+test-app.js:1781 🔍 TeamB: Club Lenin Players: 0
+test-app.js:1778 🔍 Match match_1756997462450_xmljk5nao - HasTeams: [object Object], PlayersA: undefined, PlayersB: undefined
+test-app.js:1780 🔍 TeamA: Pinochet United Players: 0
+test-app.js:1781 🔍 TeamB: Club Lenin Players: 0
+test-app.js:1854 ✅ Loaded 6 matches in history
+firebase-simple.js:677 Final player count: 20
+firebase-simple.js:505 getPlayers called - currentGroupId: o8ZOD6N0KEHrvweFfTAd
+firebase-simple.js:511 Returning cached players: 20
+index.html:4429 🎨 Rendering players with Enhanced EA SPORTS styling
+index.html:4430 🔍 Players count: 20
+index.html:4434 ✨ Using Enhanced Players View
+players-view-enhanced.js?v=4.0:81 Stats calculated for Pela : {pac: 71, sho: 54, pas: 53, dri: 51, def: 53, …}
+players-view-enhanced.js?v=4.0:84 Tags calculated: []
+players-view-enhanced.js?v=4.0:87 Best stat calculated: {name: 'VEL', icon: 'bx bx-run', value: 71}
+players-view-enhanced.js?v=4.0:100 Creating HTML with unified helpers for: Pela MED {name: 'VEL', icon: 'bx bx-run', value: 71}
+players-view-enhanced.js?v=4.0:81 Stats calculated for Marcos Perdomo : {pac: 52, sho: 54, pas: 53, dri: 50, def: 54, …}
+players-view-enhanced.js?v=4.0:84 Tags calculated: []
+players-view-enhanced.js?v=4.0:87 Best stat calculated: {name: 'TIR', icon: 'bx bx-target-lock', value: 54}
+players-view-enhanced.js?v=4.0:100 Creating HTML with unified helpers for: Marcos Perdomo DEF {name: 'TIR', icon: 'bx bx-target-lock', value: 54}
+players-view-enhanced.js?v=4.0:81 Stats calculated for Gustavo Grinspan : {pac: 52, sho: 54, pas: 53, dri: 50, def: 54, …}
+players-view-enhanced.js?v=4.0:84 Tags calculated: []
+players-view-enhanced.js?v=4.0:87 Best stat calculated: {name: 'TIR', icon: 'bx bx-target-lock', value: 54}
+players-view-enhanced.js?v=4.0:100 Creating HTML with unified helpers for: Gustavo Grinspan DEF {name: 'TIR', icon: 'bx bx-target-lock', value: 54}
+players-view-enhanced.js?v=4.0:81 Stats calculated for Alfonso Lopez : {pac: 52, sho: 55, pas: 52, dri: 51, def: 52, …}
+players-view-enhanced.js?v=4.0:84 Tags calculated: []
+players-view-enhanced.js?v=4.0:87 Best stat calculated: {name: 'TIR', icon: 'bx bx-target-lock', value: 55}
+players-view-enhanced.js?v=4.0:100 Creating HTML with unified helpers for: Alfonso Lopez DEL {name: 'TIR', icon: 'bx bx-target-lock', value: 55}
+players-view-enhanced.js?v=4.0:81 Stats calculated for Martín Patrone : {pac: 52, sho: 55, pas: 52, dri: 51, def: 52, …}
+players-view-enhanced.js?v=4.0:84 Tags calculated: []
+players-view-enhanced.js?v=4.0:87 Best stat calculated: {name: 'TIR', icon: 'bx bx-target-lock', value: 55}
+players-view-enhanced.js?v=4.0:100 Creating HTML with unified helpers for: Martín Patrone DEL {name: 'TIR', icon: 'bx bx-target-lock', value: 55}
+players-view-enhanced.js?v=4.0:81 Stats calculated for Pedro Da Costa : {pac: 51, sho: 54, pas: 53, dri: 51, def: 53, …}
+players-view-enhanced.js?v=4.0:84 Tags calculated: []
+players-view-enhanced.js?v=4.0:87 Best stat calculated: {name: 'TIR', icon: 'bx bx-target-lock', value: 54}
+players-view-enhanced.js?v=4.0:100 Creating HTML with unified helpers for: Pedro Da Costa MED {name: 'TIR', icon: 'bx bx-target-lock', value: 54}
+players-view-enhanced.js?v=4.0:81 Stats calculated for Alfredo : {pac: 51, sho: 54, pas: 53, dri: 52, def: 53, …}
+players-view-enhanced.js?v=4.0:84 Tags calculated: []
+players-view-enhanced.js?v=4.0:87 Best stat calculated: {name: 'TIR', icon: 'bx bx-target-lock', value: 54}
+players-view-enhanced.js?v=4.0:100 Creating HTML with unified helpers for: Alfredo MED {name: 'TIR', icon: 'bx bx-target-lock', value: 54}
+players-view-enhanced.js?v=4.0:81 Stats calculated for Dan : {pac: 51, sho: 53, pas: 50, dri: 51, def: 50, …}
+players-view-enhanced.js?v=4.0:84 Tags calculated: []
+players-view-enhanced.js?v=4.0:87 Best stat calculated: {name: 'TIR', icon: 'bx bx-target-lock', value: 53}
+players-view-enhanced.js?v=4.0:100 Creating HTML with unified helpers for: Dan DEL {name: 'TIR', icon: 'bx bx-target-lock', value: 53}
+players-view-enhanced.js?v=4.0:81 Stats calculated for Liroy Rodriguez : {pac: 50, sho: 50, pas: 50, dri: 50, def: 50, …}
+players-view-enhanced.js?v=4.0:84 Tags calculated: []
+players-view-enhanced.js?v=4.0:87 Best stat calculated: {name: 'VEL', icon: 'bx bx-run', value: 50}
+players-view-enhanced.js?v=4.0:100 Creating HTML with unified helpers for: Liroy Rodriguez MED {name: 'VEL', icon: 'bx bx-run', value: 50}
+players-view-enhanced.js?v=4.0:81 Stats calculated for Bruno : {pac: 50, sho: 50, pas: 50, dri: 50, def: 50, …}
+players-view-enhanced.js?v=4.0:84 Tags calculated: []
+players-view-enhanced.js?v=4.0:87 Best stat calculated: {name: 'VEL', icon: 'bx bx-run', value: 50}
+players-view-enhanced.js?v=4.0:100 Creating HTML with unified helpers for: Bruno MED {name: 'VEL', icon: 'bx bx-run', value: 50}
+players-view-enhanced.js?v=4.0:81 Stats calculated for Maxi Piñero : {pac: 50, sho: 50, pas: 50, dri: 50, def: 50, …}
+players-view-enhanced.js?v=4.0:84 Tags calculated: []
+players-view-enhanced.js?v=4.0:87 Best stat calculated: {name: 'VEL', icon: 'bx bx-run', value: 50}
+players-view-enhanced.js?v=4.0:100 Creating HTML with unified helpers for: Maxi Piñero DEF {name: 'VEL', icon: 'bx bx-run', value: 50}
+players-view-enhanced.js?v=4.0:81 Stats calculated for Rafa : {pac: 50, sho: 50, pas: 50, dri: 50, def: 50, …}
+players-view-enhanced.js?v=4.0:84 Tags calculated: []
+players-view-enhanced.js?v=4.0:87 Best stat calculated: {name: 'VEL', icon: 'bx bx-run', value: 50}
+players-view-enhanced.js?v=4.0:100 Creating HTML with unified helpers for: Rafa DEF {name: 'VEL', icon: 'bx bx-run', value: 50}
+players-view-enhanced.js?v=4.0:81 Stats calculated for Mathi : {pac: 50, sho: 50, pas: 50, dri: 50, def: 50, …}
+players-view-enhanced.js?v=4.0:84 Tags calculated: []
+players-view-enhanced.js?v=4.0:87 Best stat calculated: {name: 'VEL', icon: 'bx bx-run', value: 50}
+players-view-enhanced.js?v=4.0:100 Creating HTML with unified helpers for: Mathi MED {name: 'VEL', icon: 'bx bx-run', value: 50}
+players-view-enhanced.js?v=4.0:81 Stats calculated for Pablo G. : {pac: 50, sho: 50, pas: 50, dri: 50, def: 50, …}
+players-view-enhanced.js?v=4.0:84 Tags calculated: []
+players-view-enhanced.js?v=4.0:87 Best stat calculated: {name: 'VEL', icon: 'bx bx-run', value: 50}
+players-view-enhanced.js?v=4.0:100 Creating HTML with unified helpers for: Pablo G. DEL {name: 'VEL', icon: 'bx bx-run', value: 50}
+players-view-enhanced.js?v=4.0:81 Stats calculated for Seba Oxígeno : {pac: 50, sho: 50, pas: 50, dri: 50, def: 50, …}
+players-view-enhanced.js?v=4.0:84 Tags calculated: []
+players-view-enhanced.js?v=4.0:87 Best stat calculated: {name: 'VEL', icon: 'bx bx-run', value: 50}
+players-view-enhanced.js?v=4.0:100 Creating HTML with unified helpers for: Seba Oxígeno MED {name: 'VEL', icon: 'bx bx-run', value: 50}
+players-view-enhanced.js?v=4.0:81 Stats calculated for Zorro : {pac: 50, sho: 50, pas: 50, dri: 50, def: 50, …}
+players-view-enhanced.js?v=4.0:84 Tags calculated: []
+players-view-enhanced.js?v=4.0:87 Best stat calculated: {name: 'VEL', icon: 'bx bx-run', value: 50}
+players-view-enhanced.js?v=4.0:100 Creating HTML with unified helpers for: Zorro DEF {name: 'VEL', icon: 'bx bx-run', value: 50}
+players-view-enhanced.js?v=4.0:81 Stats calculated for Martín : {pac: 50, sho: 50, pas: 50, dri: 50, def: 50, …}
+players-view-enhanced.js?v=4.0:84 Tags calculated: []
+players-view-enhanced.js?v=4.0:87 Best stat calculated: {name: 'VEL', icon: 'bx bx-run', value: 50}
+players-view-enhanced.js?v=4.0:100 Creating HTML with unified helpers for: Martín DEF {name: 'VEL', icon: 'bx bx-run', value: 50}
+players-view-enhanced.js?v=4.0:81 Stats calculated for Renzo De León : {pac: 50, sho: 50, pas: 50, dri: 50, def: 50, …}
+players-view-enhanced.js?v=4.0:84 Tags calculated: []
+players-view-enhanced.js?v=4.0:87 Best stat calculated: {name: 'VEL', icon: 'bx bx-run', value: 50}
+players-view-enhanced.js?v=4.0:100 Creating HTML with unified helpers for: Renzo De León DEF {name: 'VEL', icon: 'bx bx-run', value: 50}
+players-view-enhanced.js?v=4.0:81 Stats calculated for Test User : {pac: 50, sho: 50, pas: 50, dri: 50, def: 50, …}
+players-view-enhanced.js?v=4.0:84 Tags calculated: []
+players-view-enhanced.js?v=4.0:87 Best stat calculated: {name: 'VEL', icon: 'bx bx-run', value: 50}
+players-view-enhanced.js?v=4.0:100 Creating HTML with unified helpers for: Test User MED {name: 'VEL', icon: 'bx bx-run', value: 50}
+players-view-enhanced.js?v=4.0:81 Stats calculated for Martin Silvera : {pac: 50, sho: 50, pas: 50, dri: 50, def: 50, …}
+players-view-enhanced.js?v=4.0:84 Tags calculated: []
+players-view-enhanced.js?v=4.0:87 Best stat calculated: {name: 'VEL', icon: 'bx bx-run', value: 50}
+players-view-enhanced.js?v=4.0:100 Creating HTML with unified helpers for: Martin Silvera DEF {name: 'VEL', icon: 'bx bx-run', value: 50}
+test-app.js:4798 [TestApp] Loaded 20 players
+index.html:5388 📥 LOADING DEBUG: Players loaded, checking evaluation status:
+index.html:5392    ✅ Liroy Rodriguez: OVR=50, originalOVR=50, hasBeenEvaluated=false
+index.html:5392    ✅ Pela: OVR=56, originalOVR=50, hasBeenEvaluated=false
+index.html:5392    ✅ Marcos Perdomo: OVR=53, originalOVR=50, hasBeenEvaluated=false
+index.html:5392    ✅ Gustavo Grinspan: OVR=53, originalOVR=50, hasBeenEvaluated=false
+index.html:5392    ✅ Pedro Da Costa: OVR=52, originalOVR=50, hasBeenEvaluated=false
+index.html:5392    ✅ Alfonso Lopez: OVR=53, originalOVR=50, hasBeenEvaluated=false
+index.html:5392    ✅ Alfredo: OVR=52, originalOVR=50, hasBeenEvaluated=false
+index.html:5392    ✅ Martín Patrone: OVR=53, originalOVR=50, hasBeenEvaluated=false
+index.html:5392    ✅ Dan: OVR=52, originalOVR=50, hasBeenEvaluated=false
+index.html:5392    ✅ Bruno: OVR=50, originalOVR=50, hasBeenEvaluated=false
+index.html:5392    ✅ Maxi Piñero: OVR=50, originalOVR=50, hasBeenEvaluated=false
+index.html:5392    ✅ Rafa: OVR=50, originalOVR=50, hasBeenEvaluated=false
+index.html:5392    ✅ Mathi: OVR=50, originalOVR=50, hasBeenEvaluated=false
+index.html:5392    ✅ Pablo G.: OVR=50, originalOVR=50, hasBeenEvaluated=false
+index.html:5392    ✅ Seba Oxígeno: OVR=50, originalOVR=50, hasBeenEvaluated=false
+index.html:5392    ✅ Zorro: OVR=50, originalOVR=50, hasBeenEvaluated=false
+index.html:5392    ✅ Martín: OVR=50, originalOVR=50, hasBeenEvaluated=false
+index.html:5392    ✅ Renzo De León: OVR=50, originalOVR=50, hasBeenEvaluated=false
+index.html:5392    ✅ Test User: OVR=50, originalOVR=50, hasBeenEvaluated=false
+index.html:5392    ✅ Martin Silvera: OVR=50, originalOVR=50, hasBeenEvaluated=false
+firebase-simple.js:1018 Returning cached matches: 6
+test-app.js:4798 [TestApp] Loaded 6 matches
+notifications-system.js?v=5.0:95 [NotificationsSystem] Updated 20 notifications (20 unread)
+firebase-simple.js:1116 Total matches loaded from Firebase: 6
+players-view-enhanced.js?v=4.0:249 🔍 DEBUG: HTML final del card: <div class="player-card" data-player-stats="{&quot;pac&quot;:71,&quot;sho&quot;:54,&quot;pas&quot;:53,&quot;dri&quot;:51,&quot;def&quot;:53,&quot;phy&quot;:61}">
+            <div class="player-header" onclick="PlayersViewEnhanced.togglePlayerDetails('user_1756694283954_f11xjc61f')">
+                <div class="player-basic-info">
+                    <div class="player-avatar large">
+                <img src="[IMAGE_BASE64_TRUNCATED]" alt="Pela">
+            </div>
+                    <div class="player-info">
+                        <div class="player-name">Pela</div>
+                        <div class="player-details">
+                            <div class="player-position-badge pos-med">
+            <i class="bx bx-target-lock"></i>MED
+        </div>
+                            <div class="best-stat">
+            <i class="bx bx-run"></i>
+            VEL 71
+        </div>
+                            <div class="ovr-change increase">
+            <i class="bx bx-up-arrow"></i>
+            +6
+        </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="player-rating-section">
+                    <div class="ovr-badge ">56</div>
+                    <span class="expand-icon" id="icon-user_1756694283954_f11xjc61f">⌄</span>
+                </div>
+            </div>
+            
+            <div class="player-expanded-details" id="details-user_1756694283954_f11xjc61f">
+                
+                
+                <div class="radar-section">
+                    <div class="radar-container">
+                        <div class="radar-chart">
+                            <svg class="radar-svg" viewBox="0 0 180 180">
+                                <!-- Hexagon grid rings -->
+                                <g class="radar-rings">
+                                    <polygon points="90,15 141,45 141,135 90,165 39,135 39,45" class="radar-grid"></polygon>
+                                    <polygon points="90,27 129,51 129,129 90,153 51,129 51,51" class="radar-grid"></polygon>
+                                    <polygon points="90,39 117,57 117,123 90,141 63,123 63,57" class="radar-grid"></polygon>
+                                    <polygon points="90,51 105,63 105,117 90,129 75,117 75,63" class="radar-grid"></polygon>
+                                </g>
+                                
+                                <!-- Grid lines from center -->
+                                <g class="radar-spokes">
+                                    <line x1="90" y1="90" x2="90" y2="15" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="141" y2="45" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="141" y2="135" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="90" y2="165" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="39" y2="135" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="39" y2="45" class="radar-line"></line>
+                                </g>
+                                
+                                <!-- Player data polygon -->
+                                <polygon id="radar-area-user_1756694283954_f11xjc61f" class="radar-area" points="90,47.400000000000006 118.05922308261582,73.8 117.53960784034516,105.89999999999999 90,120.6 62.46039215965486,105.9 58.30347022148955,71.69999999999999"></polygon>
+                                
+                                <!-- Player data points -->
+                                <g id="radar-points-user_1756694283954_f11xjc61f"><circle cx="90" cy="47.400000000000006" r="3" class="radar-point"></circle><circle cx="118.05922308261582" cy="73.8" r="3" class="radar-point"></circle><circle cx="117.53960784034516" cy="105.89999999999999" r="3" class="radar-point"></circle><circle cx="90" cy="120.6" r="3" class="radar-point"></circle><circle cx="62.46039215965486" cy="105.9" r="3" class="radar-point"></circle><circle cx="58.30347022148955" cy="71.69999999999999" r="3" class="radar-point"></circle></g>
+                            </svg>
+                            
+                            <div class="stat-labels">
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PAC</span>
+                                    <span class="stat-label-value" id="radar-pac-user_1756694283954_f11xjc61f">71</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">SHO</span>
+                                    <span class="stat-label-value" id="radar-sho-user_1756694283954_f11xjc61f">54</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PAS</span>
+                                    <span class="stat-label-value" id="radar-pas-user_1756694283954_f11xjc61f">53</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">DRI</span>
+                                    <span class="stat-label-value" id="radar-dri-user_1756694283954_f11xjc61f">51</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">DEF</span>
+                                    <span class="stat-label-value" id="radar-def-user_1756694283954_f11xjc61f">53</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PHY</span>
+                                    <span class="stat-label-value" id="radar-phy-user_1756694283954_f11xjc61f">61</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Estadísticas de partidos ocultas temporalmente -->
+                <div class="matches-info" style="display: none;">
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Partidos</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Goles</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Asistencias</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0.00</div>
+                        <div class="matches-label">Promedio G+A</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+players-view-enhanced.js?v=4.0:254 🔍 DEBUG: Elementos encontrados:
+players-view-enhanced.js?v=4.0:255 - .player-details: SÍ
+players-view-enhanced.js?v=4.0:256 - .player-position: NO undefined
+players-view-enhanced.js?v=4.0:257 - .best-stat: SÍ 
+            
+            VEL 71
+        
+players-view-enhanced.js?v=4.0:261 🎨 .player-details computed styles: {display: 'flex', visibility: 'visible', opacity: '1', width: 'auto', height: 'auto'}
+players-view-enhanced.js?v=4.0:249 🔍 DEBUG: HTML final del card: <div class="player-card" data-player-stats="{&quot;pac&quot;:52,&quot;sho&quot;:54,&quot;pas&quot;:53,&quot;dri&quot;:50,&quot;def&quot;:54,&quot;phy&quot;:51}">
+            <div class="player-header" onclick="PlayersViewEnhanced.togglePlayerDetails('user_1756730528700_p46kqn0dq')">
+                <div class="player-basic-info">
+                    <div class="player-avatar large">
+            <span class="avatar-initials">MP</span>
+        </div>
+                    <div class="player-info">
+                        <div class="player-name">Marcos Perdomo</div>
+                        <div class="player-details">
+                            <div class="player-position-badge pos-def">
+            <i class="bx bx-shield-alt-2"></i>DEF
+        </div>
+                            <div class="best-stat">
+            <i class="bx bx-target-lock"></i>
+            TIR 54
+        </div>
+                            <div class="ovr-change increase">
+            <i class="bx bx-up-arrow"></i>
+            +3
+        </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="player-rating-section">
+                    <div class="ovr-badge ">53</div>
+                    <span class="expand-icon" id="icon-user_1756730528700_p46kqn0dq">⌄</span>
+                </div>
+            </div>
+            
+            <div class="player-expanded-details" id="details-user_1756730528700_p46kqn0dq">
+                
+                
+                <div class="radar-section">
+                    <div class="radar-container">
+                        <div class="radar-chart">
+                            <svg class="radar-svg" viewBox="0 0 180 180">
+                                <!-- Hexagon grid rings -->
+                                <g class="radar-rings">
+                                    <polygon points="90,15 141,45 141,135 90,165 39,135 39,45" class="radar-grid"></polygon>
+                                    <polygon points="90,27 129,51 129,129 90,153 51,129 51,51" class="radar-grid"></polygon>
+                                    <polygon points="90,39 117,57 117,123 90,141 63,123 63,57" class="radar-grid"></polygon>
+                                    <polygon points="90,51 105,63 105,117 90,129 75,117 75,63" class="radar-grid"></polygon>
+                                </g>
+                                
+                                <!-- Grid lines from center -->
+                                <g class="radar-spokes">
+                                    <line x1="90" y1="90" x2="90" y2="15" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="141" y2="45" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="141" y2="135" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="90" y2="165" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="39" y2="135" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="39" y2="45" class="radar-line"></line>
+                                </g>
+                                
+                                <!-- Player data polygon -->
+                                <polygon id="radar-area-user_1756730528700_p46kqn0dq" class="radar-area" points="90,58.8 118.05922308261582,73.8 117.53960784034516,105.89999999999999 90,120 61.940776917384184,106.20000000000002 63.49962264419618,74.69999999999999"></polygon>
+                                
+                                <!-- Player data points -->
+                                <g id="radar-points-user_1756730528700_p46kqn0dq"><circle cx="90" cy="58.8" r="3" class="radar-point"></circle><circle cx="118.05922308261582" cy="73.8" r="3" class="radar-point"></circle><circle cx="117.53960784034516" cy="105.89999999999999" r="3" class="radar-point"></circle><circle cx="90" cy="120" r="3" class="radar-point"></circle><circle cx="61.940776917384184" cy="106.20000000000002" r="3" class="radar-point"></circle><circle cx="63.49962264419618" cy="74.69999999999999" r="3" class="radar-point"></circle></g>
+                            </svg>
+                            
+                            <div class="stat-labels">
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PAC</span>
+                                    <span class="stat-label-value" id="radar-pac-user_1756730528700_p46kqn0dq">52</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">SHO</span>
+                                    <span class="stat-label-value" id="radar-sho-user_1756730528700_p46kqn0dq">54</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PAS</span>
+                                    <span class="stat-label-value" id="radar-pas-user_1756730528700_p46kqn0dq">53</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">DRI</span>
+                                    <span class="stat-label-value" id="radar-dri-user_1756730528700_p46kqn0dq">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">DEF</span>
+                                    <span class="stat-label-value" id="radar-def-user_1756730528700_p46kqn0dq">54</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PHY</span>
+                                    <span class="stat-label-value" id="radar-phy-user_1756730528700_p46kqn0dq">51</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Estadísticas de partidos ocultas temporalmente -->
+                <div class="matches-info" style="display: none;">
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Partidos</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Goles</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Asistencias</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0.00</div>
+                        <div class="matches-label">Promedio G+A</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+players-view-enhanced.js?v=4.0:254 🔍 DEBUG: Elementos encontrados:
+players-view-enhanced.js?v=4.0:255 - .player-details: SÍ
+players-view-enhanced.js?v=4.0:256 - .player-position: NO undefined
+players-view-enhanced.js?v=4.0:257 - .best-stat: SÍ 
+            
+            TIR 54
+        
+players-view-enhanced.js?v=4.0:261 🎨 .player-details computed styles: {display: 'flex', visibility: 'visible', opacity: '1', width: 'auto', height: 'auto'}
+players-view-enhanced.js?v=4.0:249 🔍 DEBUG: HTML final del card: <div class="player-card" data-player-stats="{&quot;pac&quot;:52,&quot;sho&quot;:54,&quot;pas&quot;:53,&quot;dri&quot;:50,&quot;def&quot;:54,&quot;phy&quot;:51}">
+            <div class="player-header" onclick="PlayersViewEnhanced.togglePlayerDetails('user_1756730683983_384n9bymh')">
+                <div class="player-basic-info">
+                    <div class="player-avatar large">
+            <span class="avatar-initials">GG</span>
+        </div>
+                    <div class="player-info">
+                        <div class="player-name">Gustavo Grinspan</div>
+                        <div class="player-details">
+                            <div class="player-position-badge pos-def">
+            <i class="bx bx-shield-alt-2"></i>DEF
+        </div>
+                            <div class="best-stat">
+            <i class="bx bx-target-lock"></i>
+            TIR 54
+        </div>
+                            <div class="ovr-change increase">
+            <i class="bx bx-up-arrow"></i>
+            +3
+        </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="player-rating-section">
+                    <div class="ovr-badge ">53</div>
+                    <span class="expand-icon" id="icon-user_1756730683983_384n9bymh">⌄</span>
+                </div>
+            </div>
+            
+            <div class="player-expanded-details" id="details-user_1756730683983_384n9bymh">
+                
+                
+                <div class="radar-section">
+                    <div class="radar-container">
+                        <div class="radar-chart">
+                            <svg class="radar-svg" viewBox="0 0 180 180">
+                                <!-- Hexagon grid rings -->
+                                <g class="radar-rings">
+                                    <polygon points="90,15 141,45 141,135 90,165 39,135 39,45" class="radar-grid"></polygon>
+                                    <polygon points="90,27 129,51 129,129 90,153 51,129 51,51" class="radar-grid"></polygon>
+                                    <polygon points="90,39 117,57 117,123 90,141 63,123 63,57" class="radar-grid"></polygon>
+                                    <polygon points="90,51 105,63 105,117 90,129 75,117 75,63" class="radar-grid"></polygon>
+                                </g>
+                                
+                                <!-- Grid lines from center -->
+                                <g class="radar-spokes">
+                                    <line x1="90" y1="90" x2="90" y2="15" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="141" y2="45" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="141" y2="135" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="90" y2="165" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="39" y2="135" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="39" y2="45" class="radar-line"></line>
+                                </g>
+                                
+                                <!-- Player data polygon -->
+                                <polygon id="radar-area-user_1756730683983_384n9bymh" class="radar-area" points="90,58.8 118.05922308261582,73.8 117.53960784034516,105.89999999999999 90,120 61.940776917384184,106.20000000000002 63.49962264419618,74.69999999999999"></polygon>
+                                
+                                <!-- Player data points -->
+                                <g id="radar-points-user_1756730683983_384n9bymh"><circle cx="90" cy="58.8" r="3" class="radar-point"></circle><circle cx="118.05922308261582" cy="73.8" r="3" class="radar-point"></circle><circle cx="117.53960784034516" cy="105.89999999999999" r="3" class="radar-point"></circle><circle cx="90" cy="120" r="3" class="radar-point"></circle><circle cx="61.940776917384184" cy="106.20000000000002" r="3" class="radar-point"></circle><circle cx="63.49962264419618" cy="74.69999999999999" r="3" class="radar-point"></circle></g>
+                            </svg>
+                            
+                            <div class="stat-labels">
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PAC</span>
+                                    <span class="stat-label-value" id="radar-pac-user_1756730683983_384n9bymh">52</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">SHO</span>
+                                    <span class="stat-label-value" id="radar-sho-user_1756730683983_384n9bymh">54</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PAS</span>
+                                    <span class="stat-label-value" id="radar-pas-user_1756730683983_384n9bymh">53</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">DRI</span>
+                                    <span class="stat-label-value" id="radar-dri-user_1756730683983_384n9bymh">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">DEF</span>
+                                    <span class="stat-label-value" id="radar-def-user_1756730683983_384n9bymh">54</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PHY</span>
+                                    <span class="stat-label-value" id="radar-phy-user_1756730683983_384n9bymh">51</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Estadísticas de partidos ocultas temporalmente -->
+                <div class="matches-info" style="display: none;">
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Partidos</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Goles</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Asistencias</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0.00</div>
+                        <div class="matches-label">Promedio G+A</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+players-view-enhanced.js?v=4.0:254 🔍 DEBUG: Elementos encontrados:
+players-view-enhanced.js?v=4.0:255 - .player-details: SÍ
+players-view-enhanced.js?v=4.0:256 - .player-position: NO undefined
+players-view-enhanced.js?v=4.0:257 - .best-stat: SÍ 
+            
+            TIR 54
+        
+players-view-enhanced.js?v=4.0:261 🎨 .player-details computed styles: {display: 'flex', visibility: 'visible', opacity: '1', width: 'auto', height: 'auto'}
+players-view-enhanced.js?v=4.0:249 🔍 DEBUG: HTML final del card: <div class="player-card" data-player-stats="{&quot;pac&quot;:52,&quot;sho&quot;:55,&quot;pas&quot;:52,&quot;dri&quot;:51,&quot;def&quot;:52,&quot;phy&quot;:51}">
+            <div class="player-header" onclick="PlayersViewEnhanced.togglePlayerDetails('user_1756731493009_27fvhdezv')">
+                <div class="player-basic-info">
+                    <div class="player-avatar large">
+            <span class="avatar-initials">AL</span>
+        </div>
+                    <div class="player-info">
+                        <div class="player-name">Alfonso Lopez</div>
+                        <div class="player-details">
+                            <div class="player-position-badge pos-del">
+            <i class="bx bx-football"></i>DEL
+        </div>
+                            <div class="best-stat">
+            <i class="bx bx-target-lock"></i>
+            TIR 55
+        </div>
+                            <div class="ovr-change increase">
+            <i class="bx bx-up-arrow"></i>
+            +3
+        </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="player-rating-section">
+                    <div class="ovr-badge ">53</div>
+                    <span class="expand-icon" id="icon-user_1756731493009_27fvhdezv">⌄</span>
+                </div>
+            </div>
+            
+            <div class="player-expanded-details" id="details-user_1756731493009_27fvhdezv">
+                
+                
+                <div class="radar-section">
+                    <div class="radar-container">
+                        <div class="radar-chart">
+                            <svg class="radar-svg" viewBox="0 0 180 180">
+                                <!-- Hexagon grid rings -->
+                                <g class="radar-rings">
+                                    <polygon points="90,15 141,45 141,135 90,165 39,135 39,45" class="radar-grid"></polygon>
+                                    <polygon points="90,27 129,51 129,129 90,153 51,129 51,51" class="radar-grid"></polygon>
+                                    <polygon points="90,39 117,57 117,123 90,141 63,123 63,57" class="radar-grid"></polygon>
+                                    <polygon points="90,51 105,63 105,117 90,129 75,117 75,63" class="radar-grid"></polygon>
+                                </g>
+                                
+                                <!-- Grid lines from center -->
+                                <g class="radar-spokes">
+                                    <line x1="90" y1="90" x2="90" y2="15" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="141" y2="45" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="141" y2="135" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="90" y2="165" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="39" y2="135" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="39" y2="45" class="radar-line"></line>
+                                </g>
+                                
+                                <!-- Player data polygon -->
+                                <polygon id="radar-area-user_1756731493009_27fvhdezv" class="radar-area" points="90,58.8 118.57883832488648,73.5 117.0199925980745,105.6 90,120.6 62.98000740192552,105.60000000000001 63.49962264419618,74.69999999999999"></polygon>
+                                
+                                <!-- Player data points -->
+                                <g id="radar-points-user_1756731493009_27fvhdezv"><circle cx="90" cy="58.8" r="3" class="radar-point"></circle><circle cx="118.57883832488648" cy="73.5" r="3" class="radar-point"></circle><circle cx="117.0199925980745" cy="105.6" r="3" class="radar-point"></circle><circle cx="90" cy="120.6" r="3" class="radar-point"></circle><circle cx="62.98000740192552" cy="105.60000000000001" r="3" class="radar-point"></circle><circle cx="63.49962264419618" cy="74.69999999999999" r="3" class="radar-point"></circle></g>
+                            </svg>
+                            
+                            <div class="stat-labels">
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PAC</span>
+                                    <span class="stat-label-value" id="radar-pac-user_1756731493009_27fvhdezv">52</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">SHO</span>
+                                    <span class="stat-label-value" id="radar-sho-user_1756731493009_27fvhdezv">55</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PAS</span>
+                                    <span class="stat-label-value" id="radar-pas-user_1756731493009_27fvhdezv">52</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">DRI</span>
+                                    <span class="stat-label-value" id="radar-dri-user_1756731493009_27fvhdezv">51</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">DEF</span>
+                                    <span class="stat-label-value" id="radar-def-user_1756731493009_27fvhdezv">52</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PHY</span>
+                                    <span class="stat-label-value" id="radar-phy-user_1756731493009_27fvhdezv">51</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Estadísticas de partidos ocultas temporalmente -->
+                <div class="matches-info" style="display: none;">
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Partidos</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Goles</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Asistencias</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0.00</div>
+                        <div class="matches-label">Promedio G+A</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+players-view-enhanced.js?v=4.0:254 🔍 DEBUG: Elementos encontrados:
+players-view-enhanced.js?v=4.0:255 - .player-details: SÍ
+players-view-enhanced.js?v=4.0:256 - .player-position: NO undefined
+players-view-enhanced.js?v=4.0:257 - .best-stat: SÍ 
+            
+            TIR 55
+        
+players-view-enhanced.js?v=4.0:261 🎨 .player-details computed styles: {display: 'flex', visibility: 'visible', opacity: '1', width: 'auto', height: 'auto'}
+players-view-enhanced.js?v=4.0:249 🔍 DEBUG: HTML final del card: <div class="player-card" data-player-stats="{&quot;pac&quot;:52,&quot;sho&quot;:55,&quot;pas&quot;:52,&quot;dri&quot;:51,&quot;def&quot;:52,&quot;phy&quot;:51}">
+            <div class="player-header" onclick="PlayersViewEnhanced.togglePlayerDetails('user_1756731867192_jbblbpvou')">
+                <div class="player-basic-info">
+                    <div class="player-avatar large">
+            <span class="avatar-initials">MP</span>
+        </div>
+                    <div class="player-info">
+                        <div class="player-name">Martín Patrone</div>
+                        <div class="player-details">
+                            <div class="player-position-badge pos-del">
+            <i class="bx bx-football"></i>DEL
+        </div>
+                            <div class="best-stat">
+            <i class="bx bx-target-lock"></i>
+            TIR 55
+        </div>
+                            <div class="ovr-change increase">
+            <i class="bx bx-up-arrow"></i>
+            +3
+        </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="player-rating-section">
+                    <div class="ovr-badge ">53</div>
+                    <span class="expand-icon" id="icon-user_1756731867192_jbblbpvou">⌄</span>
+                </div>
+            </div>
+            
+            <div class="player-expanded-details" id="details-user_1756731867192_jbblbpvou">
+                
+                
+                <div class="radar-section">
+                    <div class="radar-container">
+                        <div class="radar-chart">
+                            <svg class="radar-svg" viewBox="0 0 180 180">
+                                <!-- Hexagon grid rings -->
+                                <g class="radar-rings">
+                                    <polygon points="90,15 141,45 141,135 90,165 39,135 39,45" class="radar-grid"></polygon>
+                                    <polygon points="90,27 129,51 129,129 90,153 51,129 51,51" class="radar-grid"></polygon>
+                                    <polygon points="90,39 117,57 117,123 90,141 63,123 63,57" class="radar-grid"></polygon>
+                                    <polygon points="90,51 105,63 105,117 90,129 75,117 75,63" class="radar-grid"></polygon>
+                                </g>
+                                
+                                <!-- Grid lines from center -->
+                                <g class="radar-spokes">
+                                    <line x1="90" y1="90" x2="90" y2="15" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="141" y2="45" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="141" y2="135" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="90" y2="165" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="39" y2="135" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="39" y2="45" class="radar-line"></line>
+                                </g>
+                                
+                                <!-- Player data polygon -->
+                                <polygon id="radar-area-user_1756731867192_jbblbpvou" class="radar-area" points="90,58.8 118.57883832488648,73.5 117.0199925980745,105.6 90,120.6 62.98000740192552,105.60000000000001 63.49962264419618,74.69999999999999"></polygon>
+                                
+                                <!-- Player data points -->
+                                <g id="radar-points-user_1756731867192_jbblbpvou"><circle cx="90" cy="58.8" r="3" class="radar-point"></circle><circle cx="118.57883832488648" cy="73.5" r="3" class="radar-point"></circle><circle cx="117.0199925980745" cy="105.6" r="3" class="radar-point"></circle><circle cx="90" cy="120.6" r="3" class="radar-point"></circle><circle cx="62.98000740192552" cy="105.60000000000001" r="3" class="radar-point"></circle><circle cx="63.49962264419618" cy="74.69999999999999" r="3" class="radar-point"></circle></g>
+                            </svg>
+                            
+                            <div class="stat-labels">
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PAC</span>
+                                    <span class="stat-label-value" id="radar-pac-user_1756731867192_jbblbpvou">52</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">SHO</span>
+                                    <span class="stat-label-value" id="radar-sho-user_1756731867192_jbblbpvou">55</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PAS</span>
+                                    <span class="stat-label-value" id="radar-pas-user_1756731867192_jbblbpvou">52</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">DRI</span>
+                                    <span class="stat-label-value" id="radar-dri-user_1756731867192_jbblbpvou">51</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">DEF</span>
+                                    <span class="stat-label-value" id="radar-def-user_1756731867192_jbblbpvou">52</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PHY</span>
+                                    <span class="stat-label-value" id="radar-phy-user_1756731867192_jbblbpvou">51</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Estadísticas de partidos ocultas temporalmente -->
+                <div class="matches-info" style="display: none;">
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Partidos</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Goles</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Asistencias</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0.00</div>
+                        <div class="matches-label">Promedio G+A</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+players-view-enhanced.js?v=4.0:254 🔍 DEBUG: Elementos encontrados:
+players-view-enhanced.js?v=4.0:255 - .player-details: SÍ
+players-view-enhanced.js?v=4.0:256 - .player-position: NO undefined
+players-view-enhanced.js?v=4.0:257 - .best-stat: SÍ 
+            
+            TIR 55
+        
+players-view-enhanced.js?v=4.0:261 🎨 .player-details computed styles: {display: 'flex', visibility: 'visible', opacity: '1', width: 'auto', height: 'auto'}
+players-view-enhanced.js?v=4.0:249 🔍 DEBUG: HTML final del card: <div class="player-card" data-player-stats="{&quot;pac&quot;:51,&quot;sho&quot;:54,&quot;pas&quot;:53,&quot;dri&quot;:51,&quot;def&quot;:53,&quot;phy&quot;:51}">
+            <div class="player-header" onclick="PlayersViewEnhanced.togglePlayerDetails('user_1756731140287_b8ur4oc54')">
+                <div class="player-basic-info">
+                    <div class="player-avatar large">
+            <span class="avatar-initials">PD</span>
+        </div>
+                    <div class="player-info">
+                        <div class="player-name">Pedro Da Costa</div>
+                        <div class="player-details">
+                            <div class="player-position-badge pos-med">
+            <i class="bx bx-target-lock"></i>MED
+        </div>
+                            <div class="best-stat">
+            <i class="bx bx-target-lock"></i>
+            TIR 54
+        </div>
+                            <div class="ovr-change increase">
+            <i class="bx bx-up-arrow"></i>
+            +2
+        </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="player-rating-section">
+                    <div class="ovr-badge ">52</div>
+                    <span class="expand-icon" id="icon-user_1756731140287_b8ur4oc54">⌄</span>
+                </div>
+            </div>
+            
+            <div class="player-expanded-details" id="details-user_1756731140287_b8ur4oc54">
+                
+                
+                <div class="radar-section">
+                    <div class="radar-container">
+                        <div class="radar-chart">
+                            <svg class="radar-svg" viewBox="0 0 180 180">
+                                <!-- Hexagon grid rings -->
+                                <g class="radar-rings">
+                                    <polygon points="90,15 141,45 141,135 90,165 39,135 39,45" class="radar-grid"></polygon>
+                                    <polygon points="90,27 129,51 129,129 90,153 51,129 51,51" class="radar-grid"></polygon>
+                                    <polygon points="90,39 117,57 117,123 90,141 63,123 63,57" class="radar-grid"></polygon>
+                                    <polygon points="90,51 105,63 105,117 90,129 75,117 75,63" class="radar-grid"></polygon>
+                                </g>
+                                
+                                <!-- Grid lines from center -->
+                                <g class="radar-spokes">
+                                    <line x1="90" y1="90" x2="90" y2="15" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="141" y2="45" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="141" y2="135" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="90" y2="165" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="39" y2="135" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="39" y2="45" class="radar-line"></line>
+                                </g>
+                                
+                                <!-- Player data polygon -->
+                                <polygon id="radar-area-user_1756731140287_b8ur4oc54" class="radar-area" points="90,59.4 118.05922308261582,73.8 117.53960784034516,105.89999999999999 90,120.6 62.46039215965486,105.9 63.49962264419618,74.69999999999999"></polygon>
+                                
+                                <!-- Player data points -->
+                                <g id="radar-points-user_1756731140287_b8ur4oc54"><circle cx="90" cy="59.4" r="3" class="radar-point"></circle><circle cx="118.05922308261582" cy="73.8" r="3" class="radar-point"></circle><circle cx="117.53960784034516" cy="105.89999999999999" r="3" class="radar-point"></circle><circle cx="90" cy="120.6" r="3" class="radar-point"></circle><circle cx="62.46039215965486" cy="105.9" r="3" class="radar-point"></circle><circle cx="63.49962264419618" cy="74.69999999999999" r="3" class="radar-point"></circle></g>
+                            </svg>
+                            
+                            <div class="stat-labels">
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PAC</span>
+                                    <span class="stat-label-value" id="radar-pac-user_1756731140287_b8ur4oc54">51</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">SHO</span>
+                                    <span class="stat-label-value" id="radar-sho-user_1756731140287_b8ur4oc54">54</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PAS</span>
+                                    <span class="stat-label-value" id="radar-pas-user_1756731140287_b8ur4oc54">53</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">DRI</span>
+                                    <span class="stat-label-value" id="radar-dri-user_1756731140287_b8ur4oc54">51</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">DEF</span>
+                                    <span class="stat-label-value" id="radar-def-user_1756731140287_b8ur4oc54">53</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PHY</span>
+                                    <span class="stat-label-value" id="radar-phy-user_1756731140287_b8ur4oc54">51</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Estadísticas de partidos ocultas temporalmente -->
+                <div class="matches-info" style="display: none;">
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Partidos</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Goles</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Asistencias</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0.00</div>
+                        <div class="matches-label">Promedio G+A</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+players-view-enhanced.js?v=4.0:254 🔍 DEBUG: Elementos encontrados:
+players-view-enhanced.js?v=4.0:255 - .player-details: SÍ
+players-view-enhanced.js?v=4.0:256 - .player-position: NO undefined
+players-view-enhanced.js?v=4.0:257 - .best-stat: SÍ 
+            
+            TIR 54
+        
+players-view-enhanced.js?v=4.0:261 🎨 .player-details computed styles: {display: 'flex', visibility: 'visible', opacity: '1', width: 'auto', height: 'auto'}
+players-view-enhanced.js?v=4.0:249 🔍 DEBUG: HTML final del card: <div class="player-card" data-player-stats="{&quot;pac&quot;:51,&quot;sho&quot;:54,&quot;pas&quot;:53,&quot;dri&quot;:52,&quot;def&quot;:53,&quot;phy&quot;:51}">
+            <div class="player-header" onclick="PlayersViewEnhanced.togglePlayerDetails('user_1756731573703_ormvp1i76')">
+                <div class="player-basic-info">
+                    <div class="player-avatar large">
+                <img src="[IMAGE_BASE64_TRUNCATED]" alt="Alfredo">
+            </div>
+                    <div class="player-info">
+                        <div class="player-name">Alfredo</div>
+                        <div class="player-details">
+                            <div class="player-position-badge pos-med">
+            <i class="bx bx-target-lock"></i>MED
+        </div>
+                            <div class="best-stat">
+            <i class="bx bx-target-lock"></i>
+            TIR 54
+        </div>
+                            <div class="ovr-change increase">
+            <i class="bx bx-up-arrow"></i>
+            +2
+        </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="player-rating-section">
+                    <div class="ovr-badge ">52</div>
+                    <span class="expand-icon" id="icon-user_1756731573703_ormvp1i76">⌄</span>
+                </div>
+            </div>
+            
+            <div class="player-expanded-details" id="details-user_1756731573703_ormvp1i76">
+                
+                
+                <div class="radar-section">
+                    <div class="radar-container">
+                        <div class="radar-chart">
+                            <svg class="radar-svg" viewBox="0 0 180 180">
+                                <!-- Hexagon grid rings -->
+                                <g class="radar-rings">
+                                    <polygon points="90,15 141,45 141,135 90,165 39,135 39,45" class="radar-grid"></polygon>
+                                    <polygon points="90,27 129,51 129,129 90,153 51,129 51,51" class="radar-grid"></polygon>
+                                    <polygon points="90,39 117,57 117,123 90,141 63,123 63,57" class="radar-grid"></polygon>
+                                    <polygon points="90,51 105,63 105,117 90,129 75,117 75,63" class="radar-grid"></polygon>
+                                </g>
+                                
+                                <!-- Grid lines from center -->
+                                <g class="radar-spokes">
+                                    <line x1="90" y1="90" x2="90" y2="15" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="141" y2="45" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="141" y2="135" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="90" y2="165" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="39" y2="135" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="39" y2="45" class="radar-line"></line>
+                                </g>
+                                
+                                <!-- Player data polygon -->
+                                <polygon id="radar-area-user_1756731573703_ormvp1i76" class="radar-area" points="90,59.4 118.05922308261582,73.8 117.53960784034516,105.89999999999999 90,121.2 62.46039215965486,105.9 63.49962264419618,74.69999999999999"></polygon>
+                                
+                                <!-- Player data points -->
+                                <g id="radar-points-user_1756731573703_ormvp1i76"><circle cx="90" cy="59.4" r="3" class="radar-point"></circle><circle cx="118.05922308261582" cy="73.8" r="3" class="radar-point"></circle><circle cx="117.53960784034516" cy="105.89999999999999" r="3" class="radar-point"></circle><circle cx="90" cy="121.2" r="3" class="radar-point"></circle><circle cx="62.46039215965486" cy="105.9" r="3" class="radar-point"></circle><circle cx="63.49962264419618" cy="74.69999999999999" r="3" class="radar-point"></circle></g>
+                            </svg>
+                            
+                            <div class="stat-labels">
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PAC</span>
+                                    <span class="stat-label-value" id="radar-pac-user_1756731573703_ormvp1i76">51</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">SHO</span>
+                                    <span class="stat-label-value" id="radar-sho-user_1756731573703_ormvp1i76">54</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PAS</span>
+                                    <span class="stat-label-value" id="radar-pas-user_1756731573703_ormvp1i76">53</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">DRI</span>
+                                    <span class="stat-label-value" id="radar-dri-user_1756731573703_ormvp1i76">52</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">DEF</span>
+                                    <span class="stat-label-value" id="radar-def-user_1756731573703_ormvp1i76">53</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PHY</span>
+                                    <span class="stat-label-value" id="radar-phy-user_1756731573703_ormvp1i76">51</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Estadísticas de partidos ocultas temporalmente -->
+                <div class="matches-info" style="display: none;">
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Partidos</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Goles</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Asistencias</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0.00</div>
+                        <div class="matches-label">Promedio G+A</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+players-view-enhanced.js?v=4.0:254 🔍 DEBUG: Elementos encontrados:
+players-view-enhanced.js?v=4.0:255 - .player-details: SÍ
+players-view-enhanced.js?v=4.0:256 - .player-position: NO undefined
+players-view-enhanced.js?v=4.0:257 - .best-stat: SÍ 
+            
+            TIR 54
+        
+players-view-enhanced.js?v=4.0:261 🎨 .player-details computed styles: {display: 'flex', visibility: 'visible', opacity: '1', width: 'auto', height: 'auto'}
+players-view-enhanced.js?v=4.0:249 🔍 DEBUG: HTML final del card: <div class="player-card" data-player-stats="{&quot;pac&quot;:51,&quot;sho&quot;:53,&quot;pas&quot;:50,&quot;dri&quot;:51,&quot;def&quot;:50,&quot;phy&quot;:51}">
+            <div class="player-header" onclick="PlayersViewEnhanced.togglePlayerDetails('user_1756739211242_nr25tjah3')">
+                <div class="player-basic-info">
+                    <div class="player-avatar large">
+                <img src="[IMAGE_BASE64_TRUNCATED]" alt="Dan">
+            </div>
+                    <div class="player-info">
+                        <div class="player-name">Dan</div>
+                        <div class="player-details">
+                            <div class="player-position-badge pos-del">
+            <i class="bx bx-football"></i>DEL
+        </div>
+                            <div class="best-stat">
+            <i class="bx bx-target-lock"></i>
+            TIR 53
+        </div>
+                            <div class="ovr-change increase">
+            <i class="bx bx-up-arrow"></i>
+            +2
+        </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="player-rating-section">
+                    <div class="ovr-badge ">52</div>
+                    <span class="expand-icon" id="icon-user_1756739211242_nr25tjah3">⌄</span>
+                </div>
+            </div>
+            
+            <div class="player-expanded-details" id="details-user_1756739211242_nr25tjah3">
+                
+                
+                <div class="radar-section">
+                    <div class="radar-container">
+                        <div class="radar-chart">
+                            <svg class="radar-svg" viewBox="0 0 180 180">
+                                <!-- Hexagon grid rings -->
+                                <g class="radar-rings">
+                                    <polygon points="90,15 141,45 141,135 90,165 39,135 39,45" class="radar-grid"></polygon>
+                                    <polygon points="90,27 129,51 129,129 90,153 51,129 51,51" class="radar-grid"></polygon>
+                                    <polygon points="90,39 117,57 117,123 90,141 63,123 63,57" class="radar-grid"></polygon>
+                                    <polygon points="90,51 105,63 105,117 90,129 75,117 75,63" class="radar-grid"></polygon>
+                                </g>
+                                
+                                <!-- Grid lines from center -->
+                                <g class="radar-spokes">
+                                    <line x1="90" y1="90" x2="90" y2="15" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="141" y2="45" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="141" y2="135" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="90" y2="165" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="39" y2="135" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="39" y2="45" class="radar-line"></line>
+                                </g>
+                                
+                                <!-- Player data polygon -->
+                                <polygon id="radar-area-user_1756739211242_nr25tjah3" class="radar-area" points="90,59.4 117.53960784034516,74.1 115.98076211353316,105 90,120.6 64.01923788646684,105.00000000000001 63.49962264419618,74.69999999999999"></polygon>
+                                
+                                <!-- Player data points -->
+                                <g id="radar-points-user_1756739211242_nr25tjah3"><circle cx="90" cy="59.4" r="3" class="radar-point"></circle><circle cx="117.53960784034516" cy="74.1" r="3" class="radar-point"></circle><circle cx="115.98076211353316" cy="105" r="3" class="radar-point"></circle><circle cx="90" cy="120.6" r="3" class="radar-point"></circle><circle cx="64.01923788646684" cy="105.00000000000001" r="3" class="radar-point"></circle><circle cx="63.49962264419618" cy="74.69999999999999" r="3" class="radar-point"></circle></g>
+                            </svg>
+                            
+                            <div class="stat-labels">
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PAC</span>
+                                    <span class="stat-label-value" id="radar-pac-user_1756739211242_nr25tjah3">51</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">SHO</span>
+                                    <span class="stat-label-value" id="radar-sho-user_1756739211242_nr25tjah3">53</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PAS</span>
+                                    <span class="stat-label-value" id="radar-pas-user_1756739211242_nr25tjah3">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">DRI</span>
+                                    <span class="stat-label-value" id="radar-dri-user_1756739211242_nr25tjah3">51</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">DEF</span>
+                                    <span class="stat-label-value" id="radar-def-user_1756739211242_nr25tjah3">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PHY</span>
+                                    <span class="stat-label-value" id="radar-phy-user_1756739211242_nr25tjah3">51</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Estadísticas de partidos ocultas temporalmente -->
+                <div class="matches-info" style="display: none;">
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Partidos</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Goles</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Asistencias</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0.00</div>
+                        <div class="matches-label">Promedio G+A</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+players-view-enhanced.js?v=4.0:254 🔍 DEBUG: Elementos encontrados:
+players-view-enhanced.js?v=4.0:255 - .player-details: SÍ
+players-view-enhanced.js?v=4.0:256 - .player-position: NO undefined
+players-view-enhanced.js?v=4.0:257 - .best-stat: SÍ 
+            
+            TIR 53
+        
+players-view-enhanced.js?v=4.0:261 🎨 .player-details computed styles: {display: 'flex', visibility: 'visible', opacity: '1', width: 'auto', height: 'auto'}
+players-view-enhanced.js?v=4.0:249 🔍 DEBUG: HTML final del card: <div class="player-card" data-player-stats="{&quot;pac&quot;:50,&quot;sho&quot;:50,&quot;pas&quot;:50,&quot;dri&quot;:50,&quot;def&quot;:50,&quot;phy&quot;:50}">
+            <div class="player-header" onclick="PlayersViewEnhanced.togglePlayerDetails('sU0Nsg81phR5DBdTBkIy')">
+                <div class="player-basic-info">
+                    <div class="player-avatar large">
+                <img src="[IMAGE_BASE64_TRUNCATED]" alt="Liroy Rodriguez">
+            </div>
+                    <div class="player-info">
+                        <div class="player-name">Liroy Rodriguez</div>
+                        <div class="player-details">
+                            <div class="player-position-badge pos-med">
+            <i class="bx bx-target-lock"></i>MED
+        </div>
+                            <div class="best-stat">
+            <i class="bx bx-run"></i>
+            VEL 50
+        </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="player-rating-section">
+                    <div class="ovr-badge ">50</div>
+                    <span class="expand-icon" id="icon-sU0Nsg81phR5DBdTBkIy">⌄</span>
+                </div>
+            </div>
+            
+            <div class="player-expanded-details" id="details-sU0Nsg81phR5DBdTBkIy">
+                
+                
+                <div class="radar-section">
+                    <div class="radar-container">
+                        <div class="radar-chart">
+                            <svg class="radar-svg" viewBox="0 0 180 180">
+                                <!-- Hexagon grid rings -->
+                                <g class="radar-rings">
+                                    <polygon points="90,15 141,45 141,135 90,165 39,135 39,45" class="radar-grid"></polygon>
+                                    <polygon points="90,27 129,51 129,129 90,153 51,129 51,51" class="radar-grid"></polygon>
+                                    <polygon points="90,39 117,57 117,123 90,141 63,123 63,57" class="radar-grid"></polygon>
+                                    <polygon points="90,51 105,63 105,117 90,129 75,117 75,63" class="radar-grid"></polygon>
+                                </g>
+                                
+                                <!-- Grid lines from center -->
+                                <g class="radar-spokes">
+                                    <line x1="90" y1="90" x2="90" y2="15" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="141" y2="45" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="141" y2="135" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="90" y2="165" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="39" y2="135" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="39" y2="45" class="radar-line"></line>
+                                </g>
+                                
+                                <!-- Player data polygon -->
+                                <polygon id="radar-area-sU0Nsg81phR5DBdTBkIy" class="radar-area" points="90,60 115.98076211353316,75 115.98076211353316,105 90,120 64.01923788646684,105.00000000000001 64.01923788646684,75"></polygon>
+                                
+                                <!-- Player data points -->
+                                <g id="radar-points-sU0Nsg81phR5DBdTBkIy"><circle cx="90" cy="60" r="3" class="radar-point"></circle><circle cx="115.98076211353316" cy="75" r="3" class="radar-point"></circle><circle cx="115.98076211353316" cy="105" r="3" class="radar-point"></circle><circle cx="90" cy="120" r="3" class="radar-point"></circle><circle cx="64.01923788646684" cy="105.00000000000001" r="3" class="radar-point"></circle><circle cx="64.01923788646684" cy="75" r="3" class="radar-point"></circle></g>
+                            </svg>
+                            
+                            <div class="stat-labels">
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PAC</span>
+                                    <span class="stat-label-value" id="radar-pac-sU0Nsg81phR5DBdTBkIy">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">SHO</span>
+                                    <span class="stat-label-value" id="radar-sho-sU0Nsg81phR5DBdTBkIy">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PAS</span>
+                                    <span class="stat-label-value" id="radar-pas-sU0Nsg81phR5DBdTBkIy">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">DRI</span>
+                                    <span class="stat-label-value" id="radar-dri-sU0Nsg81phR5DBdTBkIy">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">DEF</span>
+                                    <span class="stat-label-value" id="radar-def-sU0Nsg81phR5DBdTBkIy">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PHY</span>
+                                    <span class="stat-label-value" id="radar-phy-sU0Nsg81phR5DBdTBkIy">50</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Estadísticas de partidos ocultas temporalmente -->
+                <div class="matches-info" style="display: none;">
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Partidos</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Goles</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Asistencias</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0.00</div>
+                        <div class="matches-label">Promedio G+A</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+players-view-enhanced.js?v=4.0:254 🔍 DEBUG: Elementos encontrados:
+players-view-enhanced.js?v=4.0:255 - .player-details: SÍ
+players-view-enhanced.js?v=4.0:256 - .player-position: NO undefined
+players-view-enhanced.js?v=4.0:257 - .best-stat: SÍ 
+            
+            VEL 50
+        
+players-view-enhanced.js?v=4.0:261 🎨 .player-details computed styles: {display: 'flex', visibility: 'visible', opacity: '1', width: 'auto', height: 'auto'}
+players-view-enhanced.js?v=4.0:249 🔍 DEBUG: HTML final del card: <div class="player-card" data-player-stats="{&quot;pac&quot;:50,&quot;sho&quot;:50,&quot;pas&quot;:50,&quot;dri&quot;:50,&quot;def&quot;:50,&quot;phy&quot;:50}">
+            <div class="player-header" onclick="PlayersViewEnhanced.togglePlayerDetails('user_1756775281080_4zjsitckk')">
+                <div class="player-basic-info">
+                    <div class="player-avatar large">
+            <span class="avatar-initials">B</span>
+        </div>
+                    <div class="player-info">
+                        <div class="player-name">Bruno</div>
+                        <div class="player-details">
+                            <div class="player-position-badge pos-med">
+            <i class="bx bx-target-lock"></i>MED
+        </div>
+                            <div class="best-stat">
+            <i class="bx bx-run"></i>
+            VEL 50
+        </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="player-rating-section">
+                    <div class="ovr-badge ">50</div>
+                    <span class="expand-icon" id="icon-user_1756775281080_4zjsitckk">⌄</span>
+                </div>
+            </div>
+            
+            <div class="player-expanded-details" id="details-user_1756775281080_4zjsitckk">
+                
+                
+                <div class="radar-section">
+                    <div class="radar-container">
+                        <div class="radar-chart">
+                            <svg class="radar-svg" viewBox="0 0 180 180">
+                                <!-- Hexagon grid rings -->
+                                <g class="radar-rings">
+                                    <polygon points="90,15 141,45 141,135 90,165 39,135 39,45" class="radar-grid"></polygon>
+                                    <polygon points="90,27 129,51 129,129 90,153 51,129 51,51" class="radar-grid"></polygon>
+                                    <polygon points="90,39 117,57 117,123 90,141 63,123 63,57" class="radar-grid"></polygon>
+                                    <polygon points="90,51 105,63 105,117 90,129 75,117 75,63" class="radar-grid"></polygon>
+                                </g>
+                                
+                                <!-- Grid lines from center -->
+                                <g class="radar-spokes">
+                                    <line x1="90" y1="90" x2="90" y2="15" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="141" y2="45" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="141" y2="135" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="90" y2="165" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="39" y2="135" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="39" y2="45" class="radar-line"></line>
+                                </g>
+                                
+                                <!-- Player data polygon -->
+                                <polygon id="radar-area-user_1756775281080_4zjsitckk" class="radar-area" points="90,60 115.98076211353316,75 115.98076211353316,105 90,120 64.01923788646684,105.00000000000001 64.01923788646684,75"></polygon>
+                                
+                                <!-- Player data points -->
+                                <g id="radar-points-user_1756775281080_4zjsitckk"><circle cx="90" cy="60" r="3" class="radar-point"></circle><circle cx="115.98076211353316" cy="75" r="3" class="radar-point"></circle><circle cx="115.98076211353316" cy="105" r="3" class="radar-point"></circle><circle cx="90" cy="120" r="3" class="radar-point"></circle><circle cx="64.01923788646684" cy="105.00000000000001" r="3" class="radar-point"></circle><circle cx="64.01923788646684" cy="75" r="3" class="radar-point"></circle></g>
+                            </svg>
+                            
+                            <div class="stat-labels">
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PAC</span>
+                                    <span class="stat-label-value" id="radar-pac-user_1756775281080_4zjsitckk">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">SHO</span>
+                                    <span class="stat-label-value" id="radar-sho-user_1756775281080_4zjsitckk">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PAS</span>
+                                    <span class="stat-label-value" id="radar-pas-user_1756775281080_4zjsitckk">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">DRI</span>
+                                    <span class="stat-label-value" id="radar-dri-user_1756775281080_4zjsitckk">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">DEF</span>
+                                    <span class="stat-label-value" id="radar-def-user_1756775281080_4zjsitckk">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PHY</span>
+                                    <span class="stat-label-value" id="radar-phy-user_1756775281080_4zjsitckk">50</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Estadísticas de partidos ocultas temporalmente -->
+                <div class="matches-info" style="display: none;">
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Partidos</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Goles</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Asistencias</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0.00</div>
+                        <div class="matches-label">Promedio G+A</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+players-view-enhanced.js?v=4.0:254 🔍 DEBUG: Elementos encontrados:
+players-view-enhanced.js?v=4.0:255 - .player-details: SÍ
+players-view-enhanced.js?v=4.0:256 - .player-position: NO undefined
+players-view-enhanced.js?v=4.0:257 - .best-stat: SÍ 
+            
+            VEL 50
+        
+players-view-enhanced.js?v=4.0:261 🎨 .player-details computed styles: {display: 'flex', visibility: 'visible', opacity: '1', width: 'auto', height: 'auto'}
+players-view-enhanced.js?v=4.0:249 🔍 DEBUG: HTML final del card: <div class="player-card" data-player-stats="{&quot;pac&quot;:50,&quot;sho&quot;:50,&quot;pas&quot;:50,&quot;dri&quot;:50,&quot;def&quot;:50,&quot;phy&quot;:50}">
+            <div class="player-header" onclick="PlayersViewEnhanced.togglePlayerDetails('user_1756922652904_3u32e4lb7')">
+                <div class="player-basic-info">
+                    <div class="player-avatar large">
+                <img src="[IMAGE_BASE64_TRUNCATED]" alt="Maxi Piñero">
+            </div>
+                    <div class="player-info">
+                        <div class="player-name">Maxi Piñero</div>
+                        <div class="player-details">
+                            <div class="player-position-badge pos-def">
+            <i class="bx bx-shield-alt-2"></i>DEF
+        </div>
+                            <div class="best-stat">
+            <i class="bx bx-run"></i>
+            VEL 50
+        </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="player-rating-section">
+                    <div class="ovr-badge ">50</div>
+                    <span class="expand-icon" id="icon-user_1756922652904_3u32e4lb7">⌄</span>
+                </div>
+            </div>
+            
+            <div class="player-expanded-details" id="details-user_1756922652904_3u32e4lb7">
+                
+                
+                <div class="radar-section">
+                    <div class="radar-container">
+                        <div class="radar-chart">
+                            <svg class="radar-svg" viewBox="0 0 180 180">
+                                <!-- Hexagon grid rings -->
+                                <g class="radar-rings">
+                                    <polygon points="90,15 141,45 141,135 90,165 39,135 39,45" class="radar-grid"></polygon>
+                                    <polygon points="90,27 129,51 129,129 90,153 51,129 51,51" class="radar-grid"></polygon>
+                                    <polygon points="90,39 117,57 117,123 90,141 63,123 63,57" class="radar-grid"></polygon>
+                                    <polygon points="90,51 105,63 105,117 90,129 75,117 75,63" class="radar-grid"></polygon>
+                                </g>
+                                
+                                <!-- Grid lines from center -->
+                                <g class="radar-spokes">
+                                    <line x1="90" y1="90" x2="90" y2="15" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="141" y2="45" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="141" y2="135" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="90" y2="165" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="39" y2="135" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="39" y2="45" class="radar-line"></line>
+                                </g>
+                                
+                                <!-- Player data polygon -->
+                                <polygon id="radar-area-user_1756922652904_3u32e4lb7" class="radar-area" points="90,60 115.98076211353316,75 115.98076211353316,105 90,120 64.01923788646684,105.00000000000001 64.01923788646684,75"></polygon>
+                                
+                                <!-- Player data points -->
+                                <g id="radar-points-user_1756922652904_3u32e4lb7"><circle cx="90" cy="60" r="3" class="radar-point"></circle><circle cx="115.98076211353316" cy="75" r="3" class="radar-point"></circle><circle cx="115.98076211353316" cy="105" r="3" class="radar-point"></circle><circle cx="90" cy="120" r="3" class="radar-point"></circle><circle cx="64.01923788646684" cy="105.00000000000001" r="3" class="radar-point"></circle><circle cx="64.01923788646684" cy="75" r="3" class="radar-point"></circle></g>
+                            </svg>
+                            
+                            <div class="stat-labels">
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PAC</span>
+                                    <span class="stat-label-value" id="radar-pac-user_1756922652904_3u32e4lb7">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">SHO</span>
+                                    <span class="stat-label-value" id="radar-sho-user_1756922652904_3u32e4lb7">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PAS</span>
+                                    <span class="stat-label-value" id="radar-pas-user_1756922652904_3u32e4lb7">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">DRI</span>
+                                    <span class="stat-label-value" id="radar-dri-user_1756922652904_3u32e4lb7">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">DEF</span>
+                                    <span class="stat-label-value" id="radar-def-user_1756922652904_3u32e4lb7">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PHY</span>
+                                    <span class="stat-label-value" id="radar-phy-user_1756922652904_3u32e4lb7">50</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Estadísticas de partidos ocultas temporalmente -->
+                <div class="matches-info" style="display: none;">
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Partidos</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Goles</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Asistencias</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0.00</div>
+                        <div class="matches-label">Promedio G+A</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+players-view-enhanced.js?v=4.0:254 🔍 DEBUG: Elementos encontrados:
+players-view-enhanced.js?v=4.0:255 - .player-details: SÍ
+players-view-enhanced.js?v=4.0:256 - .player-position: NO undefined
+players-view-enhanced.js?v=4.0:257 - .best-stat: SÍ 
+            
+            VEL 50
+        
+players-view-enhanced.js?v=4.0:261 🎨 .player-details computed styles: {display: 'flex', visibility: 'visible', opacity: '1', width: 'auto', height: 'auto'}
+players-view-enhanced.js?v=4.0:249 🔍 DEBUG: HTML final del card: <div class="player-card" data-player-stats="{&quot;pac&quot;:50,&quot;sho&quot;:50,&quot;pas&quot;:50,&quot;dri&quot;:50,&quot;def&quot;:50,&quot;phy&quot;:50}">
+            <div class="player-header" onclick="PlayersViewEnhanced.togglePlayerDetails('user_1756922901756_e68vho4tb')">
+                <div class="player-basic-info">
+                    <div class="player-avatar large">
+                <img src="[IMAGE_BASE64_TRUNCATED]" alt="Rafa">
+            </div>
+                    <div class="player-info">
+                        <div class="player-name">Rafa</div>
+                        <div class="player-details">
+                            <div class="player-position-badge pos-def">
+            <i class="bx bx-shield-alt-2"></i>DEF
+        </div>
+                            <div class="best-stat">
+            <i class="bx bx-run"></i>
+            VEL 50
+        </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="player-rating-section">
+                    <div class="ovr-badge ">50</div>
+                    <span class="expand-icon" id="icon-user_1756922901756_e68vho4tb">⌄</span>
+                </div>
+            </div>
+            
+            <div class="player-expanded-details" id="details-user_1756922901756_e68vho4tb">
+                
+                
+                <div class="radar-section">
+                    <div class="radar-container">
+                        <div class="radar-chart">
+                            <svg class="radar-svg" viewBox="0 0 180 180">
+                                <!-- Hexagon grid rings -->
+                                <g class="radar-rings">
+                                    <polygon points="90,15 141,45 141,135 90,165 39,135 39,45" class="radar-grid"></polygon>
+                                    <polygon points="90,27 129,51 129,129 90,153 51,129 51,51" class="radar-grid"></polygon>
+                                    <polygon points="90,39 117,57 117,123 90,141 63,123 63,57" class="radar-grid"></polygon>
+                                    <polygon points="90,51 105,63 105,117 90,129 75,117 75,63" class="radar-grid"></polygon>
+                                </g>
+                                
+                                <!-- Grid lines from center -->
+                                <g class="radar-spokes">
+                                    <line x1="90" y1="90" x2="90" y2="15" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="141" y2="45" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="141" y2="135" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="90" y2="165" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="39" y2="135" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="39" y2="45" class="radar-line"></line>
+                                </g>
+                                
+                                <!-- Player data polygon -->
+                                <polygon id="radar-area-user_1756922901756_e68vho4tb" class="radar-area" points="90,60 115.98076211353316,75 115.98076211353316,105 90,120 64.01923788646684,105.00000000000001 64.01923788646684,75"></polygon>
+                                
+                                <!-- Player data points -->
+                                <g id="radar-points-user_1756922901756_e68vho4tb"><circle cx="90" cy="60" r="3" class="radar-point"></circle><circle cx="115.98076211353316" cy="75" r="3" class="radar-point"></circle><circle cx="115.98076211353316" cy="105" r="3" class="radar-point"></circle><circle cx="90" cy="120" r="3" class="radar-point"></circle><circle cx="64.01923788646684" cy="105.00000000000001" r="3" class="radar-point"></circle><circle cx="64.01923788646684" cy="75" r="3" class="radar-point"></circle></g>
+                            </svg>
+                            
+                            <div class="stat-labels">
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PAC</span>
+                                    <span class="stat-label-value" id="radar-pac-user_1756922901756_e68vho4tb">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">SHO</span>
+                                    <span class="stat-label-value" id="radar-sho-user_1756922901756_e68vho4tb">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PAS</span>
+                                    <span class="stat-label-value" id="radar-pas-user_1756922901756_e68vho4tb">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">DRI</span>
+                                    <span class="stat-label-value" id="radar-dri-user_1756922901756_e68vho4tb">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">DEF</span>
+                                    <span class="stat-label-value" id="radar-def-user_1756922901756_e68vho4tb">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PHY</span>
+                                    <span class="stat-label-value" id="radar-phy-user_1756922901756_e68vho4tb">50</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Estadísticas de partidos ocultas temporalmente -->
+                <div class="matches-info" style="display: none;">
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Partidos</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Goles</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Asistencias</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0.00</div>
+                        <div class="matches-label">Promedio G+A</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+players-view-enhanced.js?v=4.0:254 🔍 DEBUG: Elementos encontrados:
+players-view-enhanced.js?v=4.0:255 - .player-details: SÍ
+players-view-enhanced.js?v=4.0:256 - .player-position: NO undefined
+players-view-enhanced.js?v=4.0:257 - .best-stat: SÍ 
+            
+            VEL 50
+        
+players-view-enhanced.js?v=4.0:261 🎨 .player-details computed styles: {display: 'flex', visibility: 'visible', opacity: '1', width: 'auto', height: 'auto'}
+players-view-enhanced.js?v=4.0:249 🔍 DEBUG: HTML final del card: <div class="player-card" data-player-stats="{&quot;pac&quot;:50,&quot;sho&quot;:50,&quot;pas&quot;:50,&quot;dri&quot;:50,&quot;def&quot;:50,&quot;phy&quot;:50}">
+            <div class="player-header" onclick="PlayersViewEnhanced.togglePlayerDetails('user_1756923491998_sst51rcyh')">
+                <div class="player-basic-info">
+                    <div class="player-avatar large">
+            <span class="avatar-initials">M</span>
+        </div>
+                    <div class="player-info">
+                        <div class="player-name">Mathi</div>
+                        <div class="player-details">
+                            <div class="player-position-badge pos-med">
+            <i class="bx bx-target-lock"></i>MED
+        </div>
+                            <div class="best-stat">
+            <i class="bx bx-run"></i>
+            VEL 50
+        </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="player-rating-section">
+                    <div class="ovr-badge ">50</div>
+                    <span class="expand-icon" id="icon-user_1756923491998_sst51rcyh">⌄</span>
+                </div>
+            </div>
+            
+            <div class="player-expanded-details" id="details-user_1756923491998_sst51rcyh">
+                
+                
+                <div class="radar-section">
+                    <div class="radar-container">
+                        <div class="radar-chart">
+                            <svg class="radar-svg" viewBox="0 0 180 180">
+                                <!-- Hexagon grid rings -->
+                                <g class="radar-rings">
+                                    <polygon points="90,15 141,45 141,135 90,165 39,135 39,45" class="radar-grid"></polygon>
+                                    <polygon points="90,27 129,51 129,129 90,153 51,129 51,51" class="radar-grid"></polygon>
+                                    <polygon points="90,39 117,57 117,123 90,141 63,123 63,57" class="radar-grid"></polygon>
+                                    <polygon points="90,51 105,63 105,117 90,129 75,117 75,63" class="radar-grid"></polygon>
+                                </g>
+                                
+                                <!-- Grid lines from center -->
+                                <g class="radar-spokes">
+                                    <line x1="90" y1="90" x2="90" y2="15" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="141" y2="45" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="141" y2="135" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="90" y2="165" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="39" y2="135" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="39" y2="45" class="radar-line"></line>
+                                </g>
+                                
+                                <!-- Player data polygon -->
+                                <polygon id="radar-area-user_1756923491998_sst51rcyh" class="radar-area" points="90,60 115.98076211353316,75 115.98076211353316,105 90,120 64.01923788646684,105.00000000000001 64.01923788646684,75"></polygon>
+                                
+                                <!-- Player data points -->
+                                <g id="radar-points-user_1756923491998_sst51rcyh"><circle cx="90" cy="60" r="3" class="radar-point"></circle><circle cx="115.98076211353316" cy="75" r="3" class="radar-point"></circle><circle cx="115.98076211353316" cy="105" r="3" class="radar-point"></circle><circle cx="90" cy="120" r="3" class="radar-point"></circle><circle cx="64.01923788646684" cy="105.00000000000001" r="3" class="radar-point"></circle><circle cx="64.01923788646684" cy="75" r="3" class="radar-point"></circle></g>
+                            </svg>
+                            
+                            <div class="stat-labels">
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PAC</span>
+                                    <span class="stat-label-value" id="radar-pac-user_1756923491998_sst51rcyh">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">SHO</span>
+                                    <span class="stat-label-value" id="radar-sho-user_1756923491998_sst51rcyh">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PAS</span>
+                                    <span class="stat-label-value" id="radar-pas-user_1756923491998_sst51rcyh">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">DRI</span>
+                                    <span class="stat-label-value" id="radar-dri-user_1756923491998_sst51rcyh">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">DEF</span>
+                                    <span class="stat-label-value" id="radar-def-user_1756923491998_sst51rcyh">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PHY</span>
+                                    <span class="stat-label-value" id="radar-phy-user_1756923491998_sst51rcyh">50</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Estadísticas de partidos ocultas temporalmente -->
+                <div class="matches-info" style="display: none;">
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Partidos</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Goles</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Asistencias</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0.00</div>
+                        <div class="matches-label">Promedio G+A</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+players-view-enhanced.js?v=4.0:254 🔍 DEBUG: Elementos encontrados:
+players-view-enhanced.js?v=4.0:255 - .player-details: SÍ
+players-view-enhanced.js?v=4.0:256 - .player-position: NO undefined
+players-view-enhanced.js?v=4.0:257 - .best-stat: SÍ 
+            
+            VEL 50
+        
+players-view-enhanced.js?v=4.0:261 🎨 .player-details computed styles: {display: 'flex', visibility: 'visible', opacity: '1', width: 'auto', height: 'auto'}
+players-view-enhanced.js?v=4.0:249 🔍 DEBUG: HTML final del card: <div class="player-card" data-player-stats="{&quot;pac&quot;:50,&quot;sho&quot;:50,&quot;pas&quot;:50,&quot;dri&quot;:50,&quot;def&quot;:50,&quot;phy&quot;:50}">
+            <div class="player-header" onclick="PlayersViewEnhanced.togglePlayerDetails('user_1756923536078_py60iluhd')">
+                <div class="player-basic-info">
+                    <div class="player-avatar large">
+            <span class="avatar-initials">PG</span>
+        </div>
+                    <div class="player-info">
+                        <div class="player-name">Pablo G.</div>
+                        <div class="player-details">
+                            <div class="player-position-badge pos-del">
+            <i class="bx bx-football"></i>DEL
+        </div>
+                            <div class="best-stat">
+            <i class="bx bx-run"></i>
+            VEL 50
+        </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="player-rating-section">
+                    <div class="ovr-badge ">50</div>
+                    <span class="expand-icon" id="icon-user_1756923536078_py60iluhd">⌄</span>
+                </div>
+            </div>
+            
+            <div class="player-expanded-details" id="details-user_1756923536078_py60iluhd">
+                
+                
+                <div class="radar-section">
+                    <div class="radar-container">
+                        <div class="radar-chart">
+                            <svg class="radar-svg" viewBox="0 0 180 180">
+                                <!-- Hexagon grid rings -->
+                                <g class="radar-rings">
+                                    <polygon points="90,15 141,45 141,135 90,165 39,135 39,45" class="radar-grid"></polygon>
+                                    <polygon points="90,27 129,51 129,129 90,153 51,129 51,51" class="radar-grid"></polygon>
+                                    <polygon points="90,39 117,57 117,123 90,141 63,123 63,57" class="radar-grid"></polygon>
+                                    <polygon points="90,51 105,63 105,117 90,129 75,117 75,63" class="radar-grid"></polygon>
+                                </g>
+                                
+                                <!-- Grid lines from center -->
+                                <g class="radar-spokes">
+                                    <line x1="90" y1="90" x2="90" y2="15" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="141" y2="45" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="141" y2="135" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="90" y2="165" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="39" y2="135" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="39" y2="45" class="radar-line"></line>
+                                </g>
+                                
+                                <!-- Player data polygon -->
+                                <polygon id="radar-area-user_1756923536078_py60iluhd" class="radar-area" points="90,60 115.98076211353316,75 115.98076211353316,105 90,120 64.01923788646684,105.00000000000001 64.01923788646684,75"></polygon>
+                                
+                                <!-- Player data points -->
+                                <g id="radar-points-user_1756923536078_py60iluhd"><circle cx="90" cy="60" r="3" class="radar-point"></circle><circle cx="115.98076211353316" cy="75" r="3" class="radar-point"></circle><circle cx="115.98076211353316" cy="105" r="3" class="radar-point"></circle><circle cx="90" cy="120" r="3" class="radar-point"></circle><circle cx="64.01923788646684" cy="105.00000000000001" r="3" class="radar-point"></circle><circle cx="64.01923788646684" cy="75" r="3" class="radar-point"></circle></g>
+                            </svg>
+                            
+                            <div class="stat-labels">
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PAC</span>
+                                    <span class="stat-label-value" id="radar-pac-user_1756923536078_py60iluhd">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">SHO</span>
+                                    <span class="stat-label-value" id="radar-sho-user_1756923536078_py60iluhd">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PAS</span>
+                                    <span class="stat-label-value" id="radar-pas-user_1756923536078_py60iluhd">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">DRI</span>
+                                    <span class="stat-label-value" id="radar-dri-user_1756923536078_py60iluhd">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">DEF</span>
+                                    <span class="stat-label-value" id="radar-def-user_1756923536078_py60iluhd">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PHY</span>
+                                    <span class="stat-label-value" id="radar-phy-user_1756923536078_py60iluhd">50</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Estadísticas de partidos ocultas temporalmente -->
+                <div class="matches-info" style="display: none;">
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Partidos</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Goles</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Asistencias</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0.00</div>
+                        <div class="matches-label">Promedio G+A</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+players-view-enhanced.js?v=4.0:254 🔍 DEBUG: Elementos encontrados:
+players-view-enhanced.js?v=4.0:255 - .player-details: SÍ
+players-view-enhanced.js?v=4.0:256 - .player-position: NO undefined
+players-view-enhanced.js?v=4.0:257 - .best-stat: SÍ 
+            
+            VEL 50
+        
+players-view-enhanced.js?v=4.0:261 🎨 .player-details computed styles: {display: 'flex', visibility: 'visible', opacity: '1', width: 'auto', height: 'auto'}
+players-view-enhanced.js?v=4.0:249 🔍 DEBUG: HTML final del card: <div class="player-card" data-player-stats="{&quot;pac&quot;:50,&quot;sho&quot;:50,&quot;pas&quot;:50,&quot;dri&quot;:50,&quot;def&quot;:50,&quot;phy&quot;:50}">
+            <div class="player-header" onclick="PlayersViewEnhanced.togglePlayerDetails('user_1756923832727_8cqh7x03o')">
+                <div class="player-basic-info">
+                    <div class="player-avatar large">
+            <span class="avatar-initials">SO</span>
+        </div>
+                    <div class="player-info">
+                        <div class="player-name">Seba Oxígeno</div>
+                        <div class="player-details">
+                            <div class="player-position-badge pos-med">
+            <i class="bx bx-target-lock"></i>MED
+        </div>
+                            <div class="best-stat">
+            <i class="bx bx-run"></i>
+            VEL 50
+        </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="player-rating-section">
+                    <div class="ovr-badge ">50</div>
+                    <span class="expand-icon" id="icon-user_1756923832727_8cqh7x03o">⌄</span>
+                </div>
+            </div>
+            
+            <div class="player-expanded-details" id="details-user_1756923832727_8cqh7x03o">
+                
+                
+                <div class="radar-section">
+                    <div class="radar-container">
+                        <div class="radar-chart">
+                            <svg class="radar-svg" viewBox="0 0 180 180">
+                                <!-- Hexagon grid rings -->
+                                <g class="radar-rings">
+                                    <polygon points="90,15 141,45 141,135 90,165 39,135 39,45" class="radar-grid"></polygon>
+                                    <polygon points="90,27 129,51 129,129 90,153 51,129 51,51" class="radar-grid"></polygon>
+                                    <polygon points="90,39 117,57 117,123 90,141 63,123 63,57" class="radar-grid"></polygon>
+                                    <polygon points="90,51 105,63 105,117 90,129 75,117 75,63" class="radar-grid"></polygon>
+                                </g>
+                                
+                                <!-- Grid lines from center -->
+                                <g class="radar-spokes">
+                                    <line x1="90" y1="90" x2="90" y2="15" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="141" y2="45" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="141" y2="135" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="90" y2="165" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="39" y2="135" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="39" y2="45" class="radar-line"></line>
+                                </g>
+                                
+                                <!-- Player data polygon -->
+                                <polygon id="radar-area-user_1756923832727_8cqh7x03o" class="radar-area" points="90,60 115.98076211353316,75 115.98076211353316,105 90,120 64.01923788646684,105.00000000000001 64.01923788646684,75"></polygon>
+                                
+                                <!-- Player data points -->
+                                <g id="radar-points-user_1756923832727_8cqh7x03o"><circle cx="90" cy="60" r="3" class="radar-point"></circle><circle cx="115.98076211353316" cy="75" r="3" class="radar-point"></circle><circle cx="115.98076211353316" cy="105" r="3" class="radar-point"></circle><circle cx="90" cy="120" r="3" class="radar-point"></circle><circle cx="64.01923788646684" cy="105.00000000000001" r="3" class="radar-point"></circle><circle cx="64.01923788646684" cy="75" r="3" class="radar-point"></circle></g>
+                            </svg>
+                            
+                            <div class="stat-labels">
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PAC</span>
+                                    <span class="stat-label-value" id="radar-pac-user_1756923832727_8cqh7x03o">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">SHO</span>
+                                    <span class="stat-label-value" id="radar-sho-user_1756923832727_8cqh7x03o">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PAS</span>
+                                    <span class="stat-label-value" id="radar-pas-user_1756923832727_8cqh7x03o">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">DRI</span>
+                                    <span class="stat-label-value" id="radar-dri-user_1756923832727_8cqh7x03o">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">DEF</span>
+                                    <span class="stat-label-value" id="radar-def-user_1756923832727_8cqh7x03o">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PHY</span>
+                                    <span class="stat-label-value" id="radar-phy-user_1756923832727_8cqh7x03o">50</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Estadísticas de partidos ocultas temporalmente -->
+                <div class="matches-info" style="display: none;">
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Partidos</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Goles</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Asistencias</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0.00</div>
+                        <div class="matches-label">Promedio G+A</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+players-view-enhanced.js?v=4.0:254 🔍 DEBUG: Elementos encontrados:
+players-view-enhanced.js?v=4.0:255 - .player-details: SÍ
+players-view-enhanced.js?v=4.0:256 - .player-position: NO undefined
+players-view-enhanced.js?v=4.0:257 - .best-stat: SÍ 
+            
+            VEL 50
+        
+players-view-enhanced.js?v=4.0:261 🎨 .player-details computed styles: {display: 'flex', visibility: 'visible', opacity: '1', width: 'auto', height: 'auto'}
+players-view-enhanced.js?v=4.0:249 🔍 DEBUG: HTML final del card: <div class="player-card" data-player-stats="{&quot;pac&quot;:50,&quot;sho&quot;:50,&quot;pas&quot;:50,&quot;dri&quot;:50,&quot;def&quot;:50,&quot;phy&quot;:50}">
+            <div class="player-header" onclick="PlayersViewEnhanced.togglePlayerDetails('user_1756924022814_qc5ssgjv0')">
+                <div class="player-basic-info">
+                    <div class="player-avatar large">
+                <img src="[IMAGE_BASE64_TRUNCATED]" alt="Zorro">
+            </div>
+                    <div class="player-info">
+                        <div class="player-name">Zorro</div>
+                        <div class="player-details">
+                            <div class="player-position-badge pos-def">
+            <i class="bx bx-shield-alt-2"></i>DEF
+        </div>
+                            <div class="best-stat">
+            <i class="bx bx-run"></i>
+            VEL 50
+        </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="player-rating-section">
+                    <div class="ovr-badge ">50</div>
+                    <span class="expand-icon" id="icon-user_1756924022814_qc5ssgjv0">⌄</span>
+                </div>
+            </div>
+            
+            <div class="player-expanded-details" id="details-user_1756924022814_qc5ssgjv0">
+                
+                
+                <div class="radar-section">
+                    <div class="radar-container">
+                        <div class="radar-chart">
+                            <svg class="radar-svg" viewBox="0 0 180 180">
+                                <!-- Hexagon grid rings -->
+                                <g class="radar-rings">
+                                    <polygon points="90,15 141,45 141,135 90,165 39,135 39,45" class="radar-grid"></polygon>
+                                    <polygon points="90,27 129,51 129,129 90,153 51,129 51,51" class="radar-grid"></polygon>
+                                    <polygon points="90,39 117,57 117,123 90,141 63,123 63,57" class="radar-grid"></polygon>
+                                    <polygon points="90,51 105,63 105,117 90,129 75,117 75,63" class="radar-grid"></polygon>
+                                </g>
+                                
+                                <!-- Grid lines from center -->
+                                <g class="radar-spokes">
+                                    <line x1="90" y1="90" x2="90" y2="15" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="141" y2="45" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="141" y2="135" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="90" y2="165" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="39" y2="135" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="39" y2="45" class="radar-line"></line>
+                                </g>
+                                
+                                <!-- Player data polygon -->
+                                <polygon id="radar-area-user_1756924022814_qc5ssgjv0" class="radar-area" points="90,60 115.98076211353316,75 115.98076211353316,105 90,120 64.01923788646684,105.00000000000001 64.01923788646684,75"></polygon>
+                                
+                                <!-- Player data points -->
+                                <g id="radar-points-user_1756924022814_qc5ssgjv0"><circle cx="90" cy="60" r="3" class="radar-point"></circle><circle cx="115.98076211353316" cy="75" r="3" class="radar-point"></circle><circle cx="115.98076211353316" cy="105" r="3" class="radar-point"></circle><circle cx="90" cy="120" r="3" class="radar-point"></circle><circle cx="64.01923788646684" cy="105.00000000000001" r="3" class="radar-point"></circle><circle cx="64.01923788646684" cy="75" r="3" class="radar-point"></circle></g>
+                            </svg>
+                            
+                            <div class="stat-labels">
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PAC</span>
+                                    <span class="stat-label-value" id="radar-pac-user_1756924022814_qc5ssgjv0">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">SHO</span>
+                                    <span class="stat-label-value" id="radar-sho-user_1756924022814_qc5ssgjv0">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PAS</span>
+                                    <span class="stat-label-value" id="radar-pas-user_1756924022814_qc5ssgjv0">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">DRI</span>
+                                    <span class="stat-label-value" id="radar-dri-user_1756924022814_qc5ssgjv0">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">DEF</span>
+                                    <span class="stat-label-value" id="radar-def-user_1756924022814_qc5ssgjv0">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PHY</span>
+                                    <span class="stat-label-value" id="radar-phy-user_1756924022814_qc5ssgjv0">50</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Estadísticas de partidos ocultas temporalmente -->
+                <div class="matches-info" style="display: none;">
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Partidos</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Goles</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Asistencias</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0.00</div>
+                        <div class="matches-label">Promedio G+A</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+players-view-enhanced.js?v=4.0:254 🔍 DEBUG: Elementos encontrados:
+players-view-enhanced.js?v=4.0:255 - .player-details: SÍ
+players-view-enhanced.js?v=4.0:256 - .player-position: NO undefined
+players-view-enhanced.js?v=4.0:257 - .best-stat: SÍ 
+            
+            VEL 50
+        
+players-view-enhanced.js?v=4.0:261 🎨 .player-details computed styles: {display: 'flex', visibility: 'visible', opacity: '1', width: 'auto', height: 'auto'}
+players-view-enhanced.js?v=4.0:249 🔍 DEBUG: HTML final del card: <div class="player-card" data-player-stats="{&quot;pac&quot;:50,&quot;sho&quot;:50,&quot;pas&quot;:50,&quot;dri&quot;:50,&quot;def&quot;:50,&quot;phy&quot;:50}">
+            <div class="player-header" onclick="PlayersViewEnhanced.togglePlayerDetails('user_1756924064796_p7kn34xd3')">
+                <div class="player-basic-info">
+                    <div class="player-avatar large">
+                <img src="[IMAGE_BASE64_TRUNCATED]" alt="Martín">
+            </div>
+                    <div class="player-info">
+                        <div class="player-name">Martín</div>
+                        <div class="player-details">
+                            <div class="player-position-badge pos-def">
+            <i class="bx bx-shield-alt-2"></i>DEF
+        </div>
+                            <div class="best-stat">
+            <i class="bx bx-run"></i>
+            VEL 50
+        </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="player-rating-section">
+                    <div class="ovr-badge ">50</div>
+                    <span class="expand-icon" id="icon-user_1756924064796_p7kn34xd3">⌄</span>
+                </div>
+            </div>
+            
+            <div class="player-expanded-details" id="details-user_1756924064796_p7kn34xd3">
+                
+                
+                <div class="radar-section">
+                    <div class="radar-container">
+                        <div class="radar-chart">
+                            <svg class="radar-svg" viewBox="0 0 180 180">
+                                <!-- Hexagon grid rings -->
+                                <g class="radar-rings">
+                                    <polygon points="90,15 141,45 141,135 90,165 39,135 39,45" class="radar-grid"></polygon>
+                                    <polygon points="90,27 129,51 129,129 90,153 51,129 51,51" class="radar-grid"></polygon>
+                                    <polygon points="90,39 117,57 117,123 90,141 63,123 63,57" class="radar-grid"></polygon>
+                                    <polygon points="90,51 105,63 105,117 90,129 75,117 75,63" class="radar-grid"></polygon>
+                                </g>
+                                
+                                <!-- Grid lines from center -->
+                                <g class="radar-spokes">
+                                    <line x1="90" y1="90" x2="90" y2="15" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="141" y2="45" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="141" y2="135" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="90" y2="165" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="39" y2="135" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="39" y2="45" class="radar-line"></line>
+                                </g>
+                                
+                                <!-- Player data polygon -->
+                                <polygon id="radar-area-user_1756924064796_p7kn34xd3" class="radar-area" points="90,60 115.98076211353316,75 115.98076211353316,105 90,120 64.01923788646684,105.00000000000001 64.01923788646684,75"></polygon>
+                                
+                                <!-- Player data points -->
+                                <g id="radar-points-user_1756924064796_p7kn34xd3"><circle cx="90" cy="60" r="3" class="radar-point"></circle><circle cx="115.98076211353316" cy="75" r="3" class="radar-point"></circle><circle cx="115.98076211353316" cy="105" r="3" class="radar-point"></circle><circle cx="90" cy="120" r="3" class="radar-point"></circle><circle cx="64.01923788646684" cy="105.00000000000001" r="3" class="radar-point"></circle><circle cx="64.01923788646684" cy="75" r="3" class="radar-point"></circle></g>
+                            </svg>
+                            
+                            <div class="stat-labels">
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PAC</span>
+                                    <span class="stat-label-value" id="radar-pac-user_1756924064796_p7kn34xd3">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">SHO</span>
+                                    <span class="stat-label-value" id="radar-sho-user_1756924064796_p7kn34xd3">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PAS</span>
+                                    <span class="stat-label-value" id="radar-pas-user_1756924064796_p7kn34xd3">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">DRI</span>
+                                    <span class="stat-label-value" id="radar-dri-user_1756924064796_p7kn34xd3">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">DEF</span>
+                                    <span class="stat-label-value" id="radar-def-user_1756924064796_p7kn34xd3">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PHY</span>
+                                    <span class="stat-label-value" id="radar-phy-user_1756924064796_p7kn34xd3">50</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Estadísticas de partidos ocultas temporalmente -->
+                <div class="matches-info" style="display: none;">
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Partidos</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Goles</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Asistencias</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0.00</div>
+                        <div class="matches-label">Promedio G+A</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+players-view-enhanced.js?v=4.0:254 🔍 DEBUG: Elementos encontrados:
+players-view-enhanced.js?v=4.0:255 - .player-details: SÍ
+players-view-enhanced.js?v=4.0:256 - .player-position: NO undefined
+players-view-enhanced.js?v=4.0:257 - .best-stat: SÍ 
+            
+            VEL 50
+        
+players-view-enhanced.js?v=4.0:261 🎨 .player-details computed styles: {display: 'flex', visibility: 'visible', opacity: '1', width: 'auto', height: 'auto'}
+players-view-enhanced.js?v=4.0:249 🔍 DEBUG: HTML final del card: <div class="player-card" data-player-stats="{&quot;pac&quot;:50,&quot;sho&quot;:50,&quot;pas&quot;:50,&quot;dri&quot;:50,&quot;def&quot;:50,&quot;phy&quot;:50}">
+            <div class="player-header" onclick="PlayersViewEnhanced.togglePlayerDetails('user_1756952147723_w4x51ltas')">
+                <div class="player-basic-info">
+                    <div class="player-avatar large">
+            <span class="avatar-initials">RD</span>
+        </div>
+                    <div class="player-info">
+                        <div class="player-name">Renzo De León</div>
+                        <div class="player-details">
+                            <div class="player-position-badge pos-def">
+            <i class="bx bx-shield-alt-2"></i>DEF
+        </div>
+                            <div class="best-stat">
+            <i class="bx bx-run"></i>
+            VEL 50
+        </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="player-rating-section">
+                    <div class="ovr-badge ">50</div>
+                    <span class="expand-icon" id="icon-user_1756952147723_w4x51ltas">⌄</span>
+                </div>
+            </div>
+            
+            <div class="player-expanded-details" id="details-user_1756952147723_w4x51ltas">
+                
+                
+                <div class="radar-section">
+                    <div class="radar-container">
+                        <div class="radar-chart">
+                            <svg class="radar-svg" viewBox="0 0 180 180">
+                                <!-- Hexagon grid rings -->
+                                <g class="radar-rings">
+                                    <polygon points="90,15 141,45 141,135 90,165 39,135 39,45" class="radar-grid"></polygon>
+                                    <polygon points="90,27 129,51 129,129 90,153 51,129 51,51" class="radar-grid"></polygon>
+                                    <polygon points="90,39 117,57 117,123 90,141 63,123 63,57" class="radar-grid"></polygon>
+                                    <polygon points="90,51 105,63 105,117 90,129 75,117 75,63" class="radar-grid"></polygon>
+                                </g>
+                                
+                                <!-- Grid lines from center -->
+                                <g class="radar-spokes">
+                                    <line x1="90" y1="90" x2="90" y2="15" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="141" y2="45" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="141" y2="135" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="90" y2="165" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="39" y2="135" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="39" y2="45" class="radar-line"></line>
+                                </g>
+                                
+                                <!-- Player data polygon -->
+                                <polygon id="radar-area-user_1756952147723_w4x51ltas" class="radar-area" points="90,60 115.98076211353316,75 115.98076211353316,105 90,120 64.01923788646684,105.00000000000001 64.01923788646684,75"></polygon>
+                                
+                                <!-- Player data points -->
+                                <g id="radar-points-user_1756952147723_w4x51ltas"><circle cx="90" cy="60" r="3" class="radar-point"></circle><circle cx="115.98076211353316" cy="75" r="3" class="radar-point"></circle><circle cx="115.98076211353316" cy="105" r="3" class="radar-point"></circle><circle cx="90" cy="120" r="3" class="radar-point"></circle><circle cx="64.01923788646684" cy="105.00000000000001" r="3" class="radar-point"></circle><circle cx="64.01923788646684" cy="75" r="3" class="radar-point"></circle></g>
+                            </svg>
+                            
+                            <div class="stat-labels">
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PAC</span>
+                                    <span class="stat-label-value" id="radar-pac-user_1756952147723_w4x51ltas">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">SHO</span>
+                                    <span class="stat-label-value" id="radar-sho-user_1756952147723_w4x51ltas">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PAS</span>
+                                    <span class="stat-label-value" id="radar-pas-user_1756952147723_w4x51ltas">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">DRI</span>
+                                    <span class="stat-label-value" id="radar-dri-user_1756952147723_w4x51ltas">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">DEF</span>
+                                    <span class="stat-label-value" id="radar-def-user_1756952147723_w4x51ltas">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PHY</span>
+                                    <span class="stat-label-value" id="radar-phy-user_1756952147723_w4x51ltas">50</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Estadísticas de partidos ocultas temporalmente -->
+                <div class="matches-info" style="display: none;">
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Partidos</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Goles</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Asistencias</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0.00</div>
+                        <div class="matches-label">Promedio G+A</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+players-view-enhanced.js?v=4.0:254 🔍 DEBUG: Elementos encontrados:
+players-view-enhanced.js?v=4.0:255 - .player-details: SÍ
+players-view-enhanced.js?v=4.0:256 - .player-position: NO undefined
+players-view-enhanced.js?v=4.0:257 - .best-stat: SÍ 
+            
+            VEL 50
+        
+players-view-enhanced.js?v=4.0:261 🎨 .player-details computed styles: {display: 'flex', visibility: 'visible', opacity: '1', width: 'auto', height: 'auto'}
+players-view-enhanced.js?v=4.0:249 🔍 DEBUG: HTML final del card: <div class="player-card" data-player-stats="{&quot;pac&quot;:50,&quot;sho&quot;:50,&quot;pas&quot;:50,&quot;dri&quot;:50,&quot;def&quot;:50,&quot;phy&quot;:50}">
+            <div class="player-header" onclick="PlayersViewEnhanced.togglePlayerDetails('user_1756994224007_0cwdzbw1y')">
+                <div class="player-basic-info">
+                    <div class="player-avatar large">
+            <span class="avatar-initials">TU</span>
+        </div>
+                    <div class="player-info">
+                        <div class="player-name">Test User</div>
+                        <div class="player-details">
+                            <div class="player-position-badge pos-med">
+            <i class="bx bx-target-lock"></i>MED
+        </div>
+                            <div class="best-stat">
+            <i class="bx bx-run"></i>
+            VEL 50
+        </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="player-rating-section">
+                    <div class="ovr-badge ">50</div>
+                    <span class="expand-icon" id="icon-user_1756994224007_0cwdzbw1y">⌄</span>
+                </div>
+            </div>
+            
+            <div class="player-expanded-details" id="details-user_1756994224007_0cwdzbw1y">
+                
+                
+                <div class="radar-section">
+                    <div class="radar-container">
+                        <div class="radar-chart">
+                            <svg class="radar-svg" viewBox="0 0 180 180">
+                                <!-- Hexagon grid rings -->
+                                <g class="radar-rings">
+                                    <polygon points="90,15 141,45 141,135 90,165 39,135 39,45" class="radar-grid"></polygon>
+                                    <polygon points="90,27 129,51 129,129 90,153 51,129 51,51" class="radar-grid"></polygon>
+                                    <polygon points="90,39 117,57 117,123 90,141 63,123 63,57" class="radar-grid"></polygon>
+                                    <polygon points="90,51 105,63 105,117 90,129 75,117 75,63" class="radar-grid"></polygon>
+                                </g>
+                                
+                                <!-- Grid lines from center -->
+                                <g class="radar-spokes">
+                                    <line x1="90" y1="90" x2="90" y2="15" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="141" y2="45" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="141" y2="135" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="90" y2="165" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="39" y2="135" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="39" y2="45" class="radar-line"></line>
+                                </g>
+                                
+                                <!-- Player data polygon -->
+                                <polygon id="radar-area-user_1756994224007_0cwdzbw1y" class="radar-area" points="90,60 115.98076211353316,75 115.98076211353316,105 90,120 64.01923788646684,105.00000000000001 64.01923788646684,75"></polygon>
+                                
+                                <!-- Player data points -->
+                                <g id="radar-points-user_1756994224007_0cwdzbw1y"><circle cx="90" cy="60" r="3" class="radar-point"></circle><circle cx="115.98076211353316" cy="75" r="3" class="radar-point"></circle><circle cx="115.98076211353316" cy="105" r="3" class="radar-point"></circle><circle cx="90" cy="120" r="3" class="radar-point"></circle><circle cx="64.01923788646684" cy="105.00000000000001" r="3" class="radar-point"></circle><circle cx="64.01923788646684" cy="75" r="3" class="radar-point"></circle></g>
+                            </svg>
+                            
+                            <div class="stat-labels">
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PAC</span>
+                                    <span class="stat-label-value" id="radar-pac-user_1756994224007_0cwdzbw1y">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">SHO</span>
+                                    <span class="stat-label-value" id="radar-sho-user_1756994224007_0cwdzbw1y">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PAS</span>
+                                    <span class="stat-label-value" id="radar-pas-user_1756994224007_0cwdzbw1y">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">DRI</span>
+                                    <span class="stat-label-value" id="radar-dri-user_1756994224007_0cwdzbw1y">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">DEF</span>
+                                    <span class="stat-label-value" id="radar-def-user_1756994224007_0cwdzbw1y">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PHY</span>
+                                    <span class="stat-label-value" id="radar-phy-user_1756994224007_0cwdzbw1y">50</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Estadísticas de partidos ocultas temporalmente -->
+                <div class="matches-info" style="display: none;">
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Partidos</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Goles</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Asistencias</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0.00</div>
+                        <div class="matches-label">Promedio G+A</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+players-view-enhanced.js?v=4.0:254 🔍 DEBUG: Elementos encontrados:
+players-view-enhanced.js?v=4.0:255 - .player-details: SÍ
+players-view-enhanced.js?v=4.0:256 - .player-position: NO undefined
+players-view-enhanced.js?v=4.0:257 - .best-stat: SÍ 
+            
+            VEL 50
+        
+players-view-enhanced.js?v=4.0:261 🎨 .player-details computed styles: {display: 'flex', visibility: 'visible', opacity: '1', width: 'auto', height: 'auto'}
+players-view-enhanced.js?v=4.0:249 🔍 DEBUG: HTML final del card: <div class="player-card" data-player-stats="{&quot;pac&quot;:50,&quot;sho&quot;:50,&quot;pas&quot;:50,&quot;dri&quot;:50,&quot;def&quot;:50,&quot;phy&quot;:50}">
+            <div class="player-header" onclick="PlayersViewEnhanced.togglePlayerDetails('user_1756999077126_gvv3qdjmz')">
+                <div class="player-basic-info">
+                    <div class="player-avatar large">
+            <span class="avatar-initials">MS</span>
+        </div>
+                    <div class="player-info">
+                        <div class="player-name">Martin Silvera</div>
+                        <div class="player-details">
+                            <div class="player-position-badge pos-def">
+            <i class="bx bx-shield-alt-2"></i>DEF
+        </div>
+                            <div class="best-stat">
+            <i class="bx bx-run"></i>
+            VEL 50
+        </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="player-rating-section">
+                    <div class="ovr-badge ">50</div>
+                    <span class="expand-icon" id="icon-user_1756999077126_gvv3qdjmz">⌄</span>
+                </div>
+            </div>
+            
+            <div class="player-expanded-details" id="details-user_1756999077126_gvv3qdjmz">
+                
+                
+                <div class="radar-section">
+                    <div class="radar-container">
+                        <div class="radar-chart">
+                            <svg class="radar-svg" viewBox="0 0 180 180">
+                                <!-- Hexagon grid rings -->
+                                <g class="radar-rings">
+                                    <polygon points="90,15 141,45 141,135 90,165 39,135 39,45" class="radar-grid"></polygon>
+                                    <polygon points="90,27 129,51 129,129 90,153 51,129 51,51" class="radar-grid"></polygon>
+                                    <polygon points="90,39 117,57 117,123 90,141 63,123 63,57" class="radar-grid"></polygon>
+                                    <polygon points="90,51 105,63 105,117 90,129 75,117 75,63" class="radar-grid"></polygon>
+                                </g>
+                                
+                                <!-- Grid lines from center -->
+                                <g class="radar-spokes">
+                                    <line x1="90" y1="90" x2="90" y2="15" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="141" y2="45" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="141" y2="135" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="90" y2="165" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="39" y2="135" class="radar-line"></line>
+                                    <line x1="90" y1="90" x2="39" y2="45" class="radar-line"></line>
+                                </g>
+                                
+                                <!-- Player data polygon -->
+                                <polygon id="radar-area-user_1756999077126_gvv3qdjmz" class="radar-area" points="90,60 115.98076211353316,75 115.98076211353316,105 90,120 64.01923788646684,105.00000000000001 64.01923788646684,75"></polygon>
+                                
+                                <!-- Player data points -->
+                                <g id="radar-points-user_1756999077126_gvv3qdjmz"><circle cx="90" cy="60" r="3" class="radar-point"></circle><circle cx="115.98076211353316" cy="75" r="3" class="radar-point"></circle><circle cx="115.98076211353316" cy="105" r="3" class="radar-point"></circle><circle cx="90" cy="120" r="3" class="radar-point"></circle><circle cx="64.01923788646684" cy="105.00000000000001" r="3" class="radar-point"></circle><circle cx="64.01923788646684" cy="75" r="3" class="radar-point"></circle></g>
+                            </svg>
+                            
+                            <div class="stat-labels">
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PAC</span>
+                                    <span class="stat-label-value" id="radar-pac-user_1756999077126_gvv3qdjmz">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">SHO</span>
+                                    <span class="stat-label-value" id="radar-sho-user_1756999077126_gvv3qdjmz">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PAS</span>
+                                    <span class="stat-label-value" id="radar-pas-user_1756999077126_gvv3qdjmz">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">DRI</span>
+                                    <span class="stat-label-value" id="radar-dri-user_1756999077126_gvv3qdjmz">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">DEF</span>
+                                    <span class="stat-label-value" id="radar-def-user_1756999077126_gvv3qdjmz">50</span>
+                                </div>
+                                <div class="stat-label-positioned">
+                                    <span class="stat-label-name">PHY</span>
+                                    <span class="stat-label-value" id="radar-phy-user_1756999077126_gvv3qdjmz">50</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Estadísticas de partidos ocultas temporalmente -->
+                <div class="matches-info" style="display: none;">
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Partidos</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Goles</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0</div>
+                        <div class="matches-label">Asistencias</div>
+                    </div>
+                    <div class="matches-stat">
+                        <div class="matches-number">0.00</div>
+                        <div class="matches-label">Promedio G+A</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+players-view-enhanced.js?v=4.0:254 🔍 DEBUG: Elementos encontrados:
+players-view-enhanced.js?v=4.0:255 - .player-details: SÍ
+players-view-enhanced.js?v=4.0:256 - .player-position: NO undefined
+players-view-enhanced.js?v=4.0:257 - .best-stat: SÍ 
+            
+            VEL 50
+        
+players-view-enhanced.js?v=4.0:261 🎨 .player-details computed styles: {display: 'flex', visibility: 'visible', opacity: '1', width: 'auto', height: 'auto'}
+auth-system.js:510 ✅ Direct login completed successfully
+new-header-manager.js:2100 🔄 Usuario logueado, inicializando header...
+new-header-manager.js:2184 📱 Mostrando pantalla de carga post-login
+auth-system.js:517 📡 Evento userLoggedIn disparado
+new-header-manager.js:22 🔄 NewHeaderManager: Ya inicializado
+new-header-manager.js:2191 ✅ Ocultando pantalla de carga
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+notifications-system.js?v=5.0:199 [NotificationsSystem] Stats loaded: {matchesToday: 0, maxMatchesToday: 5, pendingEvaluations: 0, streak: 0, onlineUsers: 7, …}
+notifications-system.js?v=5.0:55 [NotificationsSystem] Initialized successfully
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:22 🔄 NewHeaderManager: Ya inicializado
+new-header-manager.js:2191 ✅ Ocultando pantalla de carga
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+notifications-system.js?v=5.0:199 [NotificationsSystem] Stats loaded: {matchesToday: 0, maxMatchesToday: 5, pendingEvaluations: 0, streak: 0, onlineUsers: 7, …}
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal
+new-header-manager.js:2220 ✅ Login no visible, permitir inicialización normal

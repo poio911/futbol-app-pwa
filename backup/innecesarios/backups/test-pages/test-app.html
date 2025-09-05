@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - FC MIL DISCULPIS</title>
+    
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #1a1a1a;
+            color: white;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #444;
+            border-radius: 8px;
+        }
+        .success { color: #00ff9d; }
+        .error { color: #ff4444; }
+        .warning { color: #ffa500; }
+        h1 { color: #00ff9d; }
+        button {
+            background: #00ff9d;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔧 Test de Funcionamiento - Fútbol Stats</h1>
+    
+    <div class="test-section">
+        <h2>1. Estado de Firebase</h2>
+        <div id="firebase-status">Verificando...</div>
+    </div>
+    
+    <div class="test-section">
+        <h2>2. Prueba de Conexión</h2>
+        <button onclick="testFirebaseConnection()">Probar Conexión</button>
+        <div id="connection-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>3. Prueba de Lectura de Datos</h2>
+        <button onclick="testReadData()">Leer Jugadores</button>
+        <div id="read-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>4. Archivos Cargados</h2>
+        <div id="files-status"></div>
+    </div>
+
+    <script>
+        // Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyAes7EVn8hQswS8XgvDMJfN6U4IT_ZL_WY",
+            authDomain: "mil-disculpis.firebaseapp.com",
+            databaseURL: "https://mil-disculpis-default-rtdb.firebaseio.com",
+            projectId: "mil-disculpis",
+            storageBucket: "mil-disculpis.firebasestorage.app",
+            messagingSenderId: "5614567933",
+            appId: "1:5614567933:web:0dce7bf37b8325c0861994",
+            measurementId: "G-EMLP4TKXKR"
+        };
+
+        let app, db;
+        
+        // Test Firebase initialization
+        try {
+            app = firebase.initializeApp(firebaseConfig);
+            db = firebase.firestore();
+            document.getElementById('firebase-status').innerHTML = 
+                '<span class="success">✅ Firebase inicializado correctamente</span>';
+        } catch (error) {
+            document.getElementById('firebase-status').innerHTML = 
+                '<span class="error">❌ Error: ' + error.message + '</span>';
+        }
+
+        // Test Firebase connection
+        async function testFirebaseConnection() {
+            const resultDiv = document.getElementById('connection-result');
+            resultDiv.innerHTML = 'Probando...';
+            
+            try {
+                // Try to read from a collection
+                const snapshot = await db.collection('test').limit(1).get();
+                resultDiv.innerHTML = '<span class="success">✅ Conexión exitosa a Firestore</span>';
+            } catch (error) {
+                resultDiv.innerHTML = '<span class="error">❌ Error de conexión: ' + error.message + '</span>';
+            }
+        }
+
+        // Test reading data
+        async function testReadData() {
+            const resultDiv = document.getElementById('read-result');
+            resultDiv.innerHTML = 'Leyendo datos...';
+            
+            try {
+                const groupId = 'group-demo-1';
+                const snapshot = await db.collection('groups').doc(groupId)
+                    .collection('players').limit(5).get();
+                
+                if (snapshot.empty) {
+                    resultDiv.innerHTML = '<span class="warning">⚠️ No hay jugadores en la base de datos</span>';
+                } else {
+                    let html = '<span class="success">✅ Jugadores encontrados:</span><ul>';
+                    snapshot.forEach(doc => {
+                        const player = doc.data();
+                        html += `<li>${player.name} - ${player.position} - OVR: ${player.ovr}</li>`;
+                    });
+                    html += '</ul>';
+                    resultDiv.innerHTML = html;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = '<span class="error">❌ Error leyendo datos: ' + error.message + '</span>';
+            }
+        }
+
+        // Check loaded files
+        const filesStatus = document.getElementById('files-status');
+        filesStatus.innerHTML = `
+            <p>Firebase App: ${typeof firebase !== 'undefined' ? '✅ Cargado' : '❌ No cargado'}</p>
+            <p>Firestore: ${typeof firebase !== 'undefined' && firebase.firestore ? '✅ Cargado' : '❌ No cargado'}</p>
+            <p>Navegador: ${navigator.userAgent}</p>
+        `;
+    </script>
+</body>
+</html>

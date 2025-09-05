@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🗂️ Test Supabase Storage Integration</title>
+    <style>
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .section {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+        .log {
+            background: #111;
+            border: 1px solid #333;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        button {
+            background: #00ff9d;
+            color: black;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 5px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        button:hover {
+            background: #00cc7d;
+        }
+        button:disabled {
+            background: #666;
+            color: #999;
+            cursor: not-allowed;
+        }
+        .danger { background: #ff4444; color: white; }
+        .warning { background: #ffaa00; color: black; }
+        .success { background: #44ff44; color: black; }
+        
+        .upload-area {
+            border: 2px dashed #555;
+            padding: 40px;
+            text-align: center;
+            border-radius: 8px;
+            margin: 20px 0;
+            background: #222;
+        }
+        .upload-area.dragover {
+            border-color: #00ff9d;
+            background: #2a2a2a;
+        }
+        .preview-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .preview-item {
+            background: #222;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #444;
+        }
+        .preview-item img {
+            max-width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .stat-card {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #444;
+        }
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .status-ready { background: #44ff44; }
+        .status-loading { background: #ffaa00; }
+        .status-error { background: #ff4444; }
+        
+        h1 { color: #00ff9d; }
+        h2 { color: #ffaa00; }
+        h3 { color: #ccc; }
+        .file-info {
+            font-size: 12px;
+            color: #888;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🗂️ Test Supabase Storage Integration</h1>
+        
+        <div class="section">
+            <h2>📊 System Status</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Supabase SDK</h3>
+                    <div id="supabase-sdk-status">
+                        <span class="status-indicator status-loading"></span>
+                        Loading...
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <h3>Storage Manager</h3>
+                    <div id="storage-manager-status">
+                        <span class="status-indicator status-loading"></span>
+                        Initializing...
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <h3>Buckets</h3>
+                    <div id="buckets-status">
+                        <span class="status-indicator status-loading"></span>
+                        Checking...
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <h3>Utils Integration</h3>
+                    <div id="utils-status">
+                        <span class="status-indicator status-loading"></span>
+                        Verifying...
+                    </div>
+                </div>
+            </div>
+            <button onclick="checkSystemStatus()">🔄 Refresh Status</button>
+        </div>
+
+        <div class="section">
+            <h2>📤 Upload Tests</h2>
+            <div class="upload-area" id="upload-area">
+                <h3>📷 Drag & Drop Images Here</h3>
+                <p>Or click to select files</p>
+                <input type="file" id="file-input" accept="image/*" multiple style="display: none;">
+                <div class="file-info">
+                    Supported: JPG, PNG, GIF, WebP • Max: 10MB each
+                </div>
+            </div>
+            
+            <div style="margin: 20px 0;">
+                <button onclick="testPlayerPhotoUpload()">👨‍⚽ Test Player Photo</button>
+                <button onclick="testPersonAvatarUpload()">👤 Test Person Avatar</button>
+                <button onclick="testBulkUpload()" class="warning">📚 Test Bulk Upload</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🖼️ Upload Results</h2>
+            <div class="preview-container" id="preview-container">
+                <!-- Uploaded images will appear here -->
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🗑️ Storage Management</h2>
+            <button onclick="getStorageStats()" class="success">📊 Get Storage Stats</button>
+            <button onclick="listAllFiles()">📂 List All Files</button>
+            <button onclick="cleanupTestFiles()" class="danger">🧹 Cleanup Test Files</button>
+            <div id="storage-stats" class="log"></div>
+        </div>
+
+        <div class="section">
+            <h2>🔧 Advanced Tests</h2>
+            <button onclick="testImageOptimization()">🎨 Test Image Optimization</button>
+            <button onclick="testErrorHandling()" class="warning">⚠️ Test Error Handling</button>
+            <button onclick="testFallbackMechanism()">🔄 Test Base64 Fallback</button>
+        </div>
+
+        <div class="section">
+            <h2>📝 Detailed Logs</h2>
+            <button onclick="clearLogs()">🧹 Clear Logs</button>
+            <div class="log" id="log"></div>
+        </div>
+    </div>
+
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Our modules -->
+    <script src="js/utils.js"></script>
+    <script src="js/supabase-storage.js"></script>
+    
+    <script>
+        let uploadedFiles = [];
+
+        function log(message, type = 'info') {
+            const logElement = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            const colors = {
+                'info': '#00ff9d',
+                'success': '#44ff44',
+                'warning': '#ffaa00',
+                'error': '#ff4444'
+            };
+            const color = colors[type] || '#ccc';
+            
+            logElement.innerHTML += `<div style="color: ${color}; margin: 2px 0;">[${timestamp}] ${message}</div>`;
+            logElement.scrollTop = logElement.scrollHeight;
+            console.log(`[${type}] ${message}`);
+        }
+
+        function clearLogs() {
+            document.getElementById('log').innerHTML = '';
+        }
+
+        function updateStatus(elementId, status, message) {
+            const element = document.getElementById(elementId);
+            const indicators = element.querySelectorAll('.status-indicator');
+            indicators.forEach(ind => {
+                ind.className = `status-indicator status-${status}`;
+            });
+            element.innerHTML = `<span class="status-indicator status-${status}"></span>${message}`;
+        }
+
+        async function checkSystemStatus() {
+            log('🔍 Checking system status...', 'info');
+
+            // Check Supabase SDK
+            if (typeof supabase !== 'undefined') {
+                updateStatus('supabase-sdk-status', 'ready', 'SDK Loaded ✅');
+                log('✅ Supabase SDK loaded successfully', 'success');
+            } else {
+                updateStatus('supabase-sdk-status', 'error', 'SDK Missing ❌');
+                log('❌ Supabase SDK not found', 'error');
+            }
+
+            // Check Storage Manager
+            if (typeof SupabaseStorage !== 'undefined') {
+                updateStatus('storage-manager-status', SupabaseStorage.isReady ? 'ready' : 'loading', 
+                    SupabaseStorage.isReady ? 'Ready ✅' : 'Initializing...');
+                log(`📦 Storage Manager: ${SupabaseStorage.isReady ? 'Ready' : 'Initializing'}`, 
+                    SupabaseStorage.isReady ? 'success' : 'warning');
+            } else {
+                updateStatus('storage-manager-status', 'error', 'Not Found ❌');
+                log('❌ SupabaseStorage not found', 'error');
+            }
+
+            // Check Utils
+            if (typeof Utils !== 'undefined' && typeof Utils.isValidImageFile === 'function') {
+                updateStatus('utils-status', 'ready', 'Utils Ready ✅');
+                log('✅ Utils integration verified', 'success');
+            } else {
+                updateStatus('utils-status', 'error', 'Utils Missing ❌');
+                log('❌ Utils not properly loaded', 'error');
+            }
+
+            // Check buckets if Storage is ready
+            if (SupabaseStorage && SupabaseStorage.isReady) {
+                try {
+                    await new Promise(resolve => setTimeout(resolve, 1000)); // Wait for initialization
+                    updateStatus('buckets-status', 'ready', 'Buckets Ready ✅');
+                    log('✅ Storage buckets verified', 'success');
+                } catch (error) {
+                    updateStatus('buckets-status', 'error', 'Bucket Error ❌');
+                    log(`❌ Bucket error: ${error.message}`, 'error');
+                }
+            } else {
+                updateStatus('buckets-status', 'loading', 'Waiting for Storage...');
+            }
+        }
+
+        // File upload handling
+        const uploadArea = document.getElementById('upload-area');
+        const fileInput = document.getElementById('file-input');
+
+        uploadArea.addEventListener('click', () => fileInput.click());
+        
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+        
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+        
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const files = Array.from(e.dataTransfer.files);
+            handleFileUpload(files);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            const files = Array.from(e.target.files);
+            handleFileUpload(files);
+        });
+
+        async function handleFileUpload(files) {
+            log(`📤 Starting upload of ${files.length} file(s)`, 'info');
+            
+            for (const file of files) {
+                if (!Utils.isValidImageFile(file)) {
+                    log(`❌ Invalid file: ${file.name}`, 'error');
+                    continue;
+                }
+                
+                try {
+                    log(`⏳ Uploading: ${file.name}`, 'info');
+                    const testId = 'test-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+                    const url = await SupabaseStorage.uploadPlayerPhoto(testId, file);
+                    
+                    uploadedFiles.push({
+                        name: file.name,
+                        url: url,
+                        type: 'player',
+                        testId: testId
+                    });
+                    
+                    addPreviewItem(file.name, url, 'player');
+                    log(`✅ Uploaded: ${file.name} → ${url}`, 'success');
+                    
+                } catch (error) {
+                    log(`❌ Failed to upload ${file.name}: ${error.message}`, 'error');
+                }
+            }
+        }
+
+        function addPreviewItem(fileName, url, type) {
+            const container = document.getElementById('preview-container');
+            const item = document.createElement('div');
+            item.className = 'preview-item';
+            
+            const isSupabaseUrl = SupabaseStorage.isSupabaseUrl(url);
+            const sourceText = isSupabaseUrl ? 'Supabase Storage' : 'Base64 Fallback';
+            const typeIcon = type === 'player' ? '👨‍⚽' : '👤';
+            
+            item.innerHTML = `
+                <img src="${url}" alt="${fileName}" loading="lazy">
+                <h4>${typeIcon} ${fileName}</h4>
+                <div class="file-info">
+                    Source: ${sourceText}<br>
+                    Type: ${type}<br>
+                    <small>${url.substring(0, 50)}...</small>
+                </div>
+                <button onclick="deletePreviewItem(this, '${url}', '${type}')" class="danger" style="width: 100%; margin-top: 10px;">🗑️ Delete</button>
+            `;
+            
+            container.appendChild(item);
+        }
+
+        async function deletePreviewItem(button, url, type) {
+            try {
+                const success = await SupabaseStorage.deleteImage(url, type);
+                if (success) {
+                    button.parentElement.remove();
+                    log(`✅ Deleted image: ${url}`, 'success');
+                } else {
+                    log(`⚠️ Could not delete: ${url}`, 'warning');
+                }
+            } catch (error) {
+                log(`❌ Delete failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function testPlayerPhotoUpload() {
+            log('🧪 Testing player photo upload...', 'info');
+            
+            // Create a test canvas image
+            const canvas = document.createElement('canvas');
+            canvas.width = 200;
+            canvas.height = 200;
+            const ctx = canvas.getContext('2d');
+            
+            // Draw a simple test image
+            ctx.fillStyle = '#00ff9d';
+            ctx.fillRect(0, 0, 200, 200);
+            ctx.fillStyle = '#000';
+            ctx.font = '20px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('PLAYER', 100, 90);
+            ctx.fillText('TEST', 100, 120);
+            ctx.fillText(new Date().toLocaleTimeString(), 100, 150);
+            
+            // Convert to blob and test upload
+            canvas.toBlob(async (blob) => {
+                const file = new File([blob], 'test-player.png', { type: 'image/png' });
+                try {
+                    const testId = 'test-player-' + Date.now();
+                    const url = await SupabaseStorage.uploadPlayerPhoto(testId, file);
+                    addPreviewItem('Test Player Photo', url, 'player');
+                    log('✅ Player photo test completed', 'success');
+                } catch (error) {
+                    log(`❌ Player photo test failed: ${error.message}`, 'error');
+                }
+            }, 'image/png');
+        }
+
+        async function testPersonAvatarUpload() {
+            log('🧪 Testing person avatar upload...', 'info');
+            
+            // Create a test canvas image
+            const canvas = document.createElement('canvas');
+            canvas.width = 150;
+            canvas.height = 150;
+            const ctx = canvas.getContext('2d');
+            
+            // Draw a simple avatar
+            ctx.fillStyle = '#ffaa00';
+            ctx.beginPath();
+            ctx.arc(75, 75, 70, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = '#000';
+            ctx.font = '16px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('AVATAR', 75, 70);
+            ctx.fillText('TEST', 75, 90);
+            
+            // Convert to blob and test upload
+            canvas.toBlob(async (blob) => {
+                const file = new File([blob], 'test-avatar.png', { type: 'image/png' });
+                try {
+                    const testId = 'test-person-' + Date.now();
+                    const url = await SupabaseStorage.uploadPersonAvatar(testId, file);
+                    addPreviewItem('Test Person Avatar', url, 'person');
+                    log('✅ Person avatar test completed', 'success');
+                } catch (error) {
+                    log(`❌ Person avatar test failed: ${error.message}`, 'error');
+                }
+            }, 'image/png');
+        }
+
+        async function getStorageStats() {
+            log('📊 Getting storage statistics...', 'info');
+            try {
+                const stats = await SupabaseStorage.getStorageStats();
+                const statsDiv = document.getElementById('storage-stats');
+                statsDiv.innerHTML = '<pre>' + JSON.stringify(stats, null, 2) + '</pre>';
+                log('✅ Storage stats retrieved', 'success');
+            } catch (error) {
+                log(`❌ Failed to get stats: ${error.message}`, 'error');
+            }
+        }
+
+        async function cleanupTestFiles() {
+            if (!confirm('¿Are you sure you want to delete all test files?')) return;
+            
+            log('🧹 Starting cleanup of test files...', 'warning');
+            let deleted = 0;
+            
+            for (const file of uploadedFiles) {
+                try {
+                    const success = await SupabaseStorage.deleteImage(file.url, file.type);
+                    if (success) deleted++;
+                } catch (error) {
+                    log(`❌ Failed to delete ${file.name}`, 'error');
+                }
+            }
+            
+            // Clear preview container
+            document.getElementById('preview-container').innerHTML = '';
+            uploadedFiles = [];
+            
+            log(`✅ Cleanup completed: ${deleted} files deleted`, 'success');
+        }
+
+        async function testImageOptimization() {
+            log('🎨 Testing image optimization...', 'info');
+            
+            if (uploadedFiles.length === 0) {
+                log('⚠️ No uploaded files to optimize', 'warning');
+                return;
+            }
+            
+            const file = uploadedFiles[0];
+            if (!SupabaseStorage.isSupabaseUrl(file.url)) {
+                log('⚠️ Selected file is not from Supabase', 'warning');
+                return;
+            }
+            
+            const optimizations = [
+                { width: 100, height: 100, quality: 60 },
+                { width: 300, quality: 80 },
+                { height: 200, quality: 90 }
+            ];
+            
+            for (const opt of optimizations) {
+                const optimizedUrl = SupabaseStorage.getOptimizedUrl(file.url, opt);
+                log(`🖼️ Optimized (${opt.width || 'auto'}x${opt.height || 'auto'}, Q${opt.quality}): ${optimizedUrl}`, 'info');
+            }
+            
+            log('✅ Image optimization test completed', 'success');
+        }
+
+        // Initialize on page load
+        window.addEventListener('load', async () => {
+            log('🚀 Supabase Storage Test loaded', 'info');
+            
+            // Wait a moment for modules to initialize
+            setTimeout(() => {
+                checkSystemStatus();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preview - Títulos Unificados</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        :root {
+            --primary: #00FF9D;
+            --secondary: #FF00E6;
+            --accent: #FFD700;
+            --text-light: #ffffff;
+            --text-dark: #2d2d2d;
+            --card-bg: rgba(20, 20, 20, 0.8);
+            --bg-primary: linear-gradient(135deg, #0F0F23 0%, #1a1a3a 50%, #2d1b4e 100%);
+            --shadow-glow: 0 0 20px rgba(0, 255, 157, 0.3);
+        }
+
+        body {
+            background: var(--bg-primary);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            color: var(--text-light);
+        }
+
+        .preview-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: var(--shadow-glow);
+        }
+
+        .preview-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .preview-header h1 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin: 0 0 10px 0;
+        }
+
+        .preview-header p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+        }
+
+        .title-option {
+            margin: 30px 0;
+            padding: 25px;
+            background: rgba(40, 40, 40, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .option-label {
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: var(--bg-primary);
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* Estilos actuales originales */
+        .current-style h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--text-light);
+            margin: 0 0 20px 0;
+            display: inline-block;
+        }
+
+        /* Opción 1: Solo unificar tamaño manteniendo emojis */
+        .option-1 h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-light);
+            margin: 0 0 25px 0;
+            display: inline-block;
+        }
+
+        /* Opción 2: Emojis + mejor espaciado */
+        .option-2 h2 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            color: var(--text-light);
+            margin: 0 0 25px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Opción 3: BoxIcons sutiles */
+        .option-3 h2 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            color: var(--text-light);
+            margin: 0 0 25px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .option-3 h2 i {
+            font-size: 1.6rem;
+            color: var(--primary);
+            opacity: 0.8;
+        }
+
+        /* Opción 4: Solo texto, sin iconos */
+        .option-4 h2 {
+            font-size: 2.1rem;
+            font-weight: 700;
+            color: var(--text-light);
+            margin: 0 0 25px 0;
+            position: relative;
+        }
+
+        .option-4 h2::before {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .subtitle {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+            margin: 10px 0 0 0;
+            line-height: 1.4;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .approve-button {
+            background: var(--primary);
+            color: var(--text-dark);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
+        }
+
+        .approve-button:hover {
+            background: #00d485;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 255, 157, 0.3);
+        }
+
+        .reject-button {
+            background: transparent;
+            color: #ff4757;
+            border: 1px solid #ff4757;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
+        }
+
+        .reject-button:hover {
+            background: #ff4757;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="preview-container">
+        <div class="preview-header">
+            <h1>🎨 Preview: Títulos Unificados</h1>
+            <p>Comparación de opciones para unificar los títulos de secciones</p>
+        </div>
+
+        <div class="title-option current-style">
+            <div class="option-label">ACTUAL (Inconsistente)</div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div>
+                    <h2>🤝 Partidos Colaborativos</h2>
+                    <p class="subtitle">Se ve más grande (44% del ancho)</p>
+                </div>
+                <div>
+                    <h2>⚙️ Partidos Manuales</h2>
+                    <p class="subtitle">Se ve más chico (37% del ancho)</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="title-option option-1">
+            <div class="option-label">OPCIÓN 1: Solo Unificar Tamaño</div>
+            <div class="comparison-grid">
+                <div>
+                    <h2>🤝 Partidos Colaborativos</h2>
+                    <p class="subtitle">Mantiene emojis originales</p>
+                </div>
+                <div>
+                    <h2>⚙️ Partidos Manuales</h2>
+                    <p class="subtitle">Solo cambia el tamaño</p>
+                </div>
+                <div>
+                    <h2>👥 Gestión de Jugadores</h2>
+                    <p class="subtitle">Todos mismo tamaño</p>
+                </div>
+                <div>
+                    <h2>⭐ Evaluaciones</h2>
+                    <p class="subtitle">Consistencia visual</p>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="approve-button" onclick="approveOption(1)">👍 Aprobar Opción 1</button>
+                <button class="reject-button" onclick="rejectOption(1)">👎 Rechazar</button>
+            </div>
+        </div>
+
+        <div class="title-option option-2">
+            <div class="option-label">OPCIÓN 2: Emojis + Mejor Espaciado</div>
+            <div class="comparison-grid">
+                <div>
+                    <h2>🤝 Partidos Colaborativos</h2>
+                    <p class="subtitle">Flex layout para mejor alineación</p>
+                </div>
+                <div>
+                    <h2>⚙️ Partidos Manuales</h2>
+                    <p class="subtitle">Espaciado uniforme</p>
+                </div>
+                <div>
+                    <h2>👥 Gestión de Jugadores</h2>
+                    <p class="subtitle">Gap consistente</p>
+                </div>
+                <div>
+                    <h2>⭐ Evaluaciones</h2>
+                    <p class="subtitle">Alineación perfecta</p>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="approve-button" onclick="approveOption(2)">👍 Aprobar Opción 2</button>
+                <button class="reject-button" onclick="rejectOption(2)">👎 Rechazar</button>
+            </div>
+        </div>
+
+        <div class="title-option option-3">
+            <div class="option-label">OPCIÓN 3: BoxIcons Sutiles</div>
+            <div class="comparison-grid">
+                <div>
+                    <h2><i class='bx bx-football'></i> Partidos Colaborativos</h2>
+                    <p class="subtitle">Iconos profesionales sutiles</p>
+                </div>
+                <div>
+                    <h2><i class='bx bx-cog'></i> Partidos Manuales</h2>
+                    <p class="subtitle">Colores más suaves</p>
+                </div>
+                <div>
+                    <h2><i class='bx bx-group'></i> Gestión de Jugadores</h2>
+                    <p class="subtitle">Menos llamativos</p>
+                </div>
+                <div>
+                    <h2><i class='bx bx-star'></i> Evaluaciones</h2>
+                    <p class="subtitle">Consistencia con menú</p>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="approve-button" onclick="approveOption(3)">👍 Aprobar Opción 3</button>
+                <button class="reject-button" onclick="rejectOption(3)">👎 Rechazar</button>
+            </div>
+        </div>
+
+        <div class="title-option option-4">
+            <div class="option-label">OPCIÓN 4: Solo Texto + Línea</div>
+            <div class="comparison-grid">
+                <div>
+                    <h2>Partidos Colaborativos</h2>
+                    <p class="subtitle">Limpio y minimalista</p>
+                </div>
+                <div>
+                    <h2>Partidos Manuales</h2>
+                    <p class="subtitle">Sin iconos, solo línea</p>
+                </div>
+                <div>
+                    <h2>Gestión de Jugadores</h2>
+                    <p class="subtitle">Enfoque en tipografía</p>
+                </div>
+                <div>
+                    <h2>Evaluaciones</h2>
+                    <p class="subtitle">Elegante y simple</p>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="approve-button" onclick="approveOption(4)">👍 Aprobar Opción 4</button>
+                <button class="reject-button" onclick="rejectOption(4)">👎 Rechazar</button>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.1);">
+            <p style="color: rgba(255,255,255,0.6); margin-bottom: 20px;">¿Ninguna te gusta? También puedes:</p>
+            <button class="reject-button" onclick="keepCurrent()">🔄 Mantener Como Está</button>
+            <button class="reject-button" onclick="customRequest()">✨ Pedir Cambio Personalizado</button>
+        </div>
+    </div>
+
+    <script>
+        function approveOption(option) {
+            alert(`✅ Opción ${option} aprobada!\n\nSe aplicarán estos cambios al proyecto.`);
+        }
+
+        function rejectOption(option) {
+            console.log(`Opción ${option} rechazada`);
+        }
+
+        function keepCurrent() {
+            alert('🔄 Manteniendo títulos actuales sin cambios.');
+        }
+
+        function customRequest() {
+            const custom = prompt('✨ Describe cómo te gustaría que se vean los títulos:');
+            if (custom) {
+                alert(`📝 Solicitud personalizada: "${custom}"\n\nSe implementará según tu especificación.`);
+            }
+        }
+    </script>
+</body>
+</html>

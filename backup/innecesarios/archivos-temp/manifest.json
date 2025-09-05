@@ -1,0 +1,153 @@
+{
+  "name": "Fútbol Stats",
+  "short_name": "Fútbol Stats",
+  "description": "Gestiona tus equipos de fútbol, jugadores y partidos con estadísticas avanzadas",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#00ff9d",
+  "orientation": "portrait",
+  "scope": "/",
+  "lang": "es",
+  "dir": "ltr",
+  "categories": ["sports", "games", "productivity"],
+  "icons": [
+    {
+      "src": "/icons/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/dashboard.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "label": "Dashboard principal"
+    },
+    {
+      "src": "/screenshots/players.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "label": "Gestión de jugadores"
+    },
+    {
+      "src": "/screenshots/match.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "label": "Creación de partidos"
+    },
+    {
+      "src": "/screenshots/stats.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "label": "Estadísticas avanzadas"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Agregar Jugador",
+      "short_name": "Nuevo Jugador",
+      "description": "Registrar un nuevo jugador",
+      "url": "/?screen=register",
+      "icons": [
+        {
+          "src": "/icons/add-player.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Crear Partido",
+      "short_name": "Partido",
+      "description": "Generar equipos para un partido",
+      "url": "/?screen=matches",
+      "icons": [
+        {
+          "src": "/icons/match.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Ver Estadísticas",
+      "short_name": "Stats",
+      "description": "Ver estadísticas y gráficos",
+      "url": "/?screen=advanced-stats",
+      "icons": [
+        {
+          "src": "/icons/stats.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "share_target": {
+    "action": "/share",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url",
+      "files": [
+        {
+          "name": "image",
+          "accept": ["image/*"]
+        }
+      ]
+    }
+  },
+  "prefer_related_applications": false,
+  "related_applications": [],
+  "features": [
+    "Cross Platform",
+    "Offline Capable",
+    "Push Notifications",
+    "Background Sync",
+    "Add to Home Screen"
+  ]
+}

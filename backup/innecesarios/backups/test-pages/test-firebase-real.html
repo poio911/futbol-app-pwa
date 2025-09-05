@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Firebase Real Data</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #1a1a1a; color: white; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .section { margin: 20px 0; padding: 15px; background: #333; border-radius: 8px; }
+        .success { color: #4CAF50; }
+        .error { color: #f44336; }
+        .warning { color: #ff9800; }
+        .button { padding: 10px 20px; margin: 5px; background: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        .button:hover { background: #45a049; }
+        .data-item { margin: 5px 0; padding: 5px; background: #444; border-radius: 3px; font-size: 14px; }
+        .input-group { margin: 10px 0; }
+        .input-group input, .input-group select { padding: 8px; margin: 5px; border-radius: 3px; border: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔥 Firebase Real Data Test</h1>
+        
+        <div class="section">
+            <h3>Estado de Conexión</h3>
+            <div id="connection-status">Conectando...</div>
+            <button class="button" onclick="testConnection()">Probar Conexión</button>
+        </div>
+
+        <div class="section">
+            <h3>Personas en Firestore</h3>
+            <div id="persons-list">Cargando...</div>
+            <button class="button" onclick="loadPersons()">Cargar Personas</button>
+            
+            <div class="input-group">
+                <h4>Crear Nueva Persona:</h4>
+                <input type="text" id="person-name" placeholder="Nombre de la persona">
+                <input type="email" id="person-email" placeholder="Email">
+                <button class="button" onclick="createTestPerson()">Crear Persona</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Grupos en Firestore</h3>
+            <div id="groups-list">Cargando...</div>
+            <button class="button" onclick="loadGroups()">Cargar Grupos</button>
+            
+            <div class="input-group">
+                <h4>Crear Nuevo Grupo:</h4>
+                <input type="text" id="group-name" placeholder="Nombre del grupo">
+                <input type="text" id="group-desc" placeholder="Descripción">
+                <button class="button" onclick="createTestGroup()">Crear Grupo</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Jugadores en Grupo Seleccionado</h3>
+            <div class="input-group">
+                <select id="group-selector">
+                    <option value="">Seleccionar grupo...</option>
+                </select>
+                <button class="button" onclick="selectGroup()">Seleccionar Grupo</button>
+            </div>
+            <div id="players-list">Selecciona un grupo primero</div>
+            <button class="button" onclick="loadPlayers()">Cargar Jugadores</button>
+            
+            <div class="input-group">
+                <h4>Crear Jugador de Prueba:</h4>
+                <input type="text" id="player-name" placeholder="Nombre del jugador">
+                <select id="player-position">
+                    <option value="DEL">Delantero</option>
+                    <option value="MED">Mediocampista</option>
+                    <option value="DEF">Defensor</option>
+                    <option value="POR">Portero</option>
+                </select>
+                <button class="button" onclick="createTestPlayer()">Crear Jugador</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Partidos en Grupo Seleccionado</h3>
+            <div id="matches-list">Selecciona un grupo primero</div>
+            <button class="button" onclick="loadMatches()">Cargar Partidos</button>
+            
+            <div class="input-group">
+                <h4>Crear Partido de Prueba:</h4>
+                <button class="button" onclick="createTestMatch()">Crear Partido</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Logs de Debug</h3>
+            <div id="debug-logs" style="max-height: 200px; overflow-y: auto; background: #222; padding: 10px; font-family: monospace; font-size: 12px;"></div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    
+    <!-- Our Firebase Simple -->
+    <script src="js/firebase-simple.js"></script>
+
+    <script>
+        let selectedGroupId = null;
+        
+        function log(message, type = 'info') {
+            const debugLogs = document.getElementById('debug-logs');
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.className = type;
+            logEntry.textContent = `[${timestamp}] ${message}`;
+            debugLogs.appendChild(logEntry);
+            debugLogs.scrollTop = debugLogs.scrollHeight;
+            console.log(message);
+        }
+
+        function updateStatus(message, type = 'success') {
+            const statusEl = document.getElementById('connection-status');
+            statusEl.textContent = message;
+            statusEl.className = type;
+        }
+
+        async function testConnection() {
+            try {
+                log('Testing Firebase connection...');
+                
+                if (typeof firebase === 'undefined') {
+                    throw new Error('Firebase SDK not loaded');
+                }
+                
+                if (!Storage.db) {
+                    throw new Error('Firestore database not initialized');
+                }
+                
+                // Try a simple read operation
+                const testDoc = await Storage.db.collection('_test').limit(1).get();
+                
+                updateStatus('✅ Firebase conectado correctamente', 'success');
+                log('✅ Firebase connection successful');
+                
+            } catch (error) {
+                updateStatus('❌ Error de conexión: ' + error.message, 'error');
+                log('❌ Firebase connection failed: ' + error.message, 'error');
+            }
+        }
+
+        async function loadPersons() {
+            try {
+                log('Loading persons from Firebase...');
+                const persons = await Storage.getAllPersons();
+                
+                const container = document.getElementById('persons-list');
+                
+                if (persons.length === 0) {
+                    container.innerHTML = '<div class="warning">No hay personas en la base de datos</div>';
+                } else {
+                    container.innerHTML = persons.map(person => `
+                        <div class="data-item">
+                            <strong>${person.name}</strong> - ${person.email} 
+                            <small>(ID: ${person.id})</small>
+                        </div>
+                    `).join('');
+                }
+                
+                log(`✅ Loaded ${persons.length} persons from Firebase`);
+                
+            } catch (error) {
+                log('❌ Error loading persons: ' + error.message, 'error');
+            }
+        }
+
+        async function loadGroups() {
+            try {
+                log('Loading groups from Firebase...');
+                await Storage.loadGroupsFromFirebase();
+                const groups = Storage.cachedGroups;
+                
+                const container = document.getElementById('groups-list');
+                const selector = document.getElementById('group-selector');
+                
+                if (groups.length === 0) {
+                    container.innerHTML = '<div class="warning">No hay grupos en la base de datos</div>';
+                    selector.innerHTML = '<option value="">No hay grupos disponibles</option>';
+                } else {
+                    container.innerHTML = groups.map(group => `
+                        <div class="data-item">
+                            <strong>${group.name}</strong> - ${group.description || 'Sin descripción'} 
+                            <small>(ID: ${group.id})</small>
+                            <br><small>Miembros: ${group.members ? group.members.length : 0}</small>
+                        </div>
+                    `).join('');
+                    
+                    selector.innerHTML = '<option value="">Seleccionar grupo...</option>' +
+                        groups.map(group => `<option value="${group.id}">${group.name}</option>`).join('');
+                }
+                
+                log(`✅ Loaded ${groups.length} groups from Firebase`);
+                
+            } catch (error) {
+                log('❌ Error loading groups: ' + error.message, 'error');
+            }
+        }
+
+        function selectGroup() {
+            const selector = document.getElementById('group-selector');
+            selectedGroupId = selector.value;
+            
+            if (selectedGroupId) {
+                Storage.setCurrentGroup(selectedGroupId);
+                log(`✅ Selected group: ${selectedGroupId}`);
+                loadPlayers();
+            } else {
+                log('❌ No group selected', 'warning');
+            }
+        }
+
+        async function loadPlayers() {
+            if (!selectedGroupId) {
+                document.getElementById('players-list').innerHTML = '<div class="warning">Selecciona un grupo primero</div>';
+                return;
+            }
+
+            try {
+                log(`Loading players from group: ${selectedGroupId}`);
+                await Storage.loadPlayersFromFirebase();
+                const players = Storage.cachedPlayers;
+                
+                const container = document.getElementById('players-list');
+                
+                if (players.length === 0) {
+                    container.innerHTML = '<div class="warning">No hay jugadores en este grupo</div>';
+                } else {
+                    container.innerHTML = players.map(player => `
+                        <div class="data-item">
+                            <strong>${player.name}</strong> - ${player.position} (OVR: ${player.ovr}) 
+                            <small>(ID: ${player.id})</small>
+                        </div>
+                    `).join('');
+                }
+                
+                log(`✅ Loaded ${players.length} players from Firebase`);
+                
+            } catch (error) {
+                log('❌ Error loading players: ' + error.message, 'error');
+            }
+        }
+
+        async function createTestPerson() {
+            const name = document.getElementById('person-name').value.trim();
+            const email = document.getElementById('person-email').value.trim();
+            
+            if (!name || !email) {
+                log('❌ Please fill in both name and email', 'error');
+                return;
+            }
+
+            try {
+                log(`Creating person: ${name} (${email})`);
+                const person = await Storage.createPerson({ name, email });
+                
+                if (person) {
+                    log(`✅ Person created: ${person.name} with ID: ${person.id}`);
+                    document.getElementById('person-name').value = '';
+                    document.getElementById('person-email').value = '';
+                    loadPersons();
+                } else {
+                    log('❌ Failed to create person', 'error');
+                }
+                
+            } catch (error) {
+                log('❌ Error creating person: ' + error.message, 'error');
+            }
+        }
+
+        async function createTestGroup() {
+            const name = document.getElementById('group-name').value.trim();
+            const description = document.getElementById('group-desc').value.trim();
+            
+            if (!name) {
+                log('❌ Please enter a group name', 'error');
+                return;
+            }
+
+            try {
+                log(`Creating group: ${name}`);
+                const group = await Storage.createGroup({ name, description });
+                
+                if (group) {
+                    log(`✅ Group created: ${group.name} with ID: ${group.id}`);
+                    document.getElementById('group-name').value = '';
+                    document.getElementById('group-desc').value = '';
+                    loadGroups();
+                } else {
+                    log('❌ Failed to create group', 'error');
+                }
+                
+            } catch (error) {
+                log('❌ Error creating group: ' + error.message, 'error');
+            }
+        }
+
+        async function createTestPlayer() {
+            if (!selectedGroupId) {
+                log('❌ Please select a group first', 'error');
+                return;
+            }
+
+            const name = document.getElementById('player-name').value.trim();
+            const position = document.getElementById('player-position').value;
+            
+            if (!name) {
+                log('❌ Please enter a player name', 'error');
+                return;
+            }
+
+            try {
+                log(`Creating player: ${name} (${position})`);
+                
+                // Generate random attributes
+                const attributes = {
+                    pac: Math.floor(Math.random() * 30) + 70, // 70-99
+                    sho: Math.floor(Math.random() * 30) + 70,
+                    pas: Math.floor(Math.random() * 30) + 70,
+                    dri: Math.floor(Math.random() * 30) + 70,
+                    def: Math.floor(Math.random() * 30) + 70,
+                    phy: Math.floor(Math.random() * 30) + 70
+                };
+                
+                const ovr = Math.round((attributes.pac + attributes.sho + attributes.pas + attributes.dri + attributes.def + attributes.phy) / 6);
+                
+                const playerData = {
+                    name,
+                    position,
+                    attributes,
+                    ovr,
+                    photo: null
+                };
+                
+                const success = await Storage.addPlayer(playerData);
+                
+                if (success) {
+                    log(`✅ Player created: ${name} (OVR: ${ovr})`);
+                    document.getElementById('player-name').value = '';
+                    loadPlayers();
+                } else {
+                    log('❌ Failed to create player', 'error');
+                }
+                
+            } catch (error) {
+                log('❌ Error creating player: ' + error.message, 'error');
+            }
+        }
+
+        async function loadMatches() {
+            if (!selectedGroupId) {
+                document.getElementById('matches-list').innerHTML = '<div class="warning">Selecciona un grupo primero</div>';
+                return;
+            }
+
+            try {
+                log(`Loading matches from group: ${selectedGroupId}`);
+                await Storage.loadMatchesFromFirebase();
+                const matches = Storage.cachedMatches;
+                
+                const container = document.getElementById('matches-list');
+                
+                if (matches.length === 0) {
+                    container.innerHTML = '<div class="warning">No hay partidos en este grupo</div>';
+                } else {
+                    container.innerHTML = matches.map(match => `
+                        <div class="data-item">
+                            <strong>Partido ${match.id}</strong> - ${match.status || 'pending'}
+                            <br><small>Equipos: ${match.teamA?.players?.length || 0} vs ${match.teamB?.players?.length || 0} jugadores</small>
+                            <br><small>Creado: ${new Date(match.createdAt).toLocaleString()}</small>
+                        </div>
+                    `).join('');
+                }
+                
+                log(`✅ Loaded ${matches.length} matches from Firebase`);
+                
+            } catch (error) {
+                log('❌ Error loading matches: ' + error.message, 'error');
+            }
+        }
+
+        async function createTestMatch() {
+            if (!selectedGroupId) {
+                log('❌ Please select a group first', 'error');
+                return;
+            }
+
+            if (Storage.cachedPlayers.length < 4) {
+                log('❌ Need at least 4 players to create a test match', 'error');
+                return;
+            }
+
+            try {
+                log('Creating test match...');
+                
+                // Simple team division
+                const players = [...Storage.cachedPlayers];
+                const mid = Math.ceil(players.length / 2);
+                const teamA = players.slice(0, mid);
+                const teamB = players.slice(mid);
+                
+                const matchData = {
+                    date: new Date().toISOString(),
+                    createdAt: new Date().toISOString(),
+                    teamA: {
+                        players: teamA,
+                        ovr: Math.round(teamA.reduce((sum, p) => sum + p.ovr, 0) / teamA.length)
+                    },
+                    teamB: {
+                        players: teamB,
+                        ovr: Math.round(teamB.reduce((sum, p) => sum + p.ovr, 0) / teamB.length)
+                    },
+                    difference: 0,
+                    status: 'pending',
+                    format: '5v5',
+                    result: null,
+                    evaluations: []
+                };
+                
+                const success = await Storage.addMatch(matchData);
+                
+                if (success) {
+                    log(`✅ Test match created with ${teamA.length} vs ${teamB.length} players`);
+                    loadMatches();
+                } else {
+                    log('❌ Failed to create test match', 'error');
+                }
+                
+            } catch (error) {
+                log('❌ Error creating test match: ' + error.message, 'error');
+            }
+        }
+
+        // Initialize
+        setTimeout(() => {
+            testConnection();
+            loadPersons();
+            loadGroups();
+        }, 1000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug - Estructura de Jugadores</title>
+    
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background: #0a0a0a;
+            color: #00ff9d;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .player-data {
+            background: rgba(26, 31, 46, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #00ff9d;
+        }
+        
+        .btn {
+            background: #00ff9d;
+            color: #0a0a0a;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            font-weight: bold;
+        }
+        
+        .btn:hover {
+            background: #00d4aa;
+        }
+        
+        pre {
+            background: #000;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+        
+        h1, h2 {
+            color: #ff00e6;
+        }
+        
+        .warning {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #f59e0b;
+            margin: 10px 0;
+        }
+        
+        .success {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #10b981;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Debug - Estructura de Jugadores</h1>
+        <p>Investigando inconsistencias en los atributos mostrados</p>
+        
+        <div>
+            <button class="btn" onclick="debugFirebase()">🔥 Conectar Firebase</button>
+            <button class="btn" onclick="debugPela()">👤 Debug Pela</button>
+            <button class="btn" onclick="debugAllPlayers()">👥 Debug Todos los Jugadores</button>
+            <button class="btn" onclick="debugOVRCalculation()">📊 Debug Cálculo OVR</button>
+        </div>
+        
+        <div id="results"></div>
+    </div>
+
+    <script src="js/firebase-simple.js"></script>
+    <script>
+        let debugDb = null;
+        
+        function log(message, type = 'info') {
+            const results = document.getElementById('results');
+            const className = type === 'error' ? 'warning' : (type === 'success' ? 'success' : 'player-data');
+            results.innerHTML += `<div class="${className}"><strong>[${new Date().toLocaleTimeString()}]</strong> ${message}</div>`;
+        }
+        
+        async function debugFirebase() {
+            try {
+                if (!firebase?.apps?.length) {
+                    throw new Error('Firebase no inicializado');
+                }
+                
+                debugDb = firebase.firestore();
+                log('✅ Firebase conectado correctamente', 'success');
+                
+                const testQuery = await debugDb.collection('futbol_users').limit(1).get();
+                log(`📊 Colección futbol_users accesible: ${testQuery.size} documentos encontrados`, 'success');
+                
+            } catch (error) {
+                log(`❌ Error conectando Firebase: ${error.message}`, 'error');
+            }
+        }
+        
+        async function debugPela() {
+            try {
+                if (!debugDb) {
+                    await debugFirebase();
+                }
+                
+                log('🔍 Buscando jugador Pela...', 'info');
+                
+                // Buscar por email
+                const emailQuery = await debugDb.collection('futbol_users')
+                    .where('email', '==', 'poio911@hotmail.com')
+                    .get();
+                
+                if (emailQuery.empty) {
+                    log('❌ No se encontró Pela por email', 'error');
+                    return;
+                }
+                
+                emailQuery.forEach(doc => {
+                    const data = doc.data();
+                    log(`👤 Jugador encontrado: ${data.displayName || data.name}`, 'success');
+                    
+                    log('<h3>📋 Estructura completa del jugador:</h3><pre>' + JSON.stringify(data, null, 2) + '</pre>', 'info');
+                    
+                    // Analizar estructura de atributos
+                    log('<h3>🔍 Análisis de Atributos:</h3>', 'info');
+                    
+                    if (data.attributes) {
+                        log(`📦 ESTRUCTURA ANIDADA (attributes):`, 'info');
+                        log(`<pre>attributes: ${JSON.stringify(data.attributes, null, 2)}</pre>`, 'info');
+                        
+                        const avgNested = Object.values(data.attributes).reduce((a, b) => a + b, 0) / 6;
+                        log(`📊 OVR calculado desde attributes: ${avgNested.toFixed(2)}`, 'info');
+                    }
+                    
+                    const directAttrs = {
+                        pac: data.pac,
+                        sho: data.sho,
+                        pas: data.pas,
+                        dri: data.dri,
+                        def: data.def,
+                        phy: data.phy
+                    };
+                    
+                    const hasDirectAttrs = Object.values(directAttrs).some(val => val !== undefined);
+                    
+                    if (hasDirectAttrs) {
+                        log(`📦 ESTRUCTURA DIRECTA:`, 'info');
+                        log(`<pre>${JSON.stringify(directAttrs, null, 2)}</pre>`, 'info');
+                        
+                        const validDirectAttrs = Object.values(directAttrs).filter(val => val !== undefined && val !== null);
+                        if (validDirectAttrs.length === 6) {
+                            const avgDirect = validDirectAttrs.reduce((a, b) => a + b, 0) / 6;
+                            log(`📊 OVR calculado desde campos directos: ${avgDirect.toFixed(2)}`, 'info');
+                        }
+                    }
+                    
+                    log(`🎯 OVR almacenado: ${data.ovr}`, 'info');
+                    
+                    // Verificar inconsistencias
+                    if (data.attributes && hasDirectAttrs) {
+                        log('⚠️ PROBLEMA: El jugador tiene AMBAS estructuras', 'error');
+                        log('Esto puede causar inconsistencias en la visualización', 'error');
+                        
+                        const attrsMatch = ['pac', 'sho', 'pas', 'dri', 'def', 'phy'].every(attr => 
+                            data.attributes[attr] === data[attr]
+                        );
+                        
+                        if (attrsMatch) {
+                            log('✅ Los valores coinciden entre ambas estructuras', 'success');
+                        } else {
+                            log('❌ Los valores NO coinciden entre estructuras', 'error');
+                        }
+                    }
+                });
+                
+            } catch (error) {
+                log(`❌ Error debugging Pela: ${error.message}`, 'error');
+            }
+        }
+        
+        async function debugAllPlayers() {
+            try {
+                if (!debugDb) {
+                    await debugFirebase();
+                }
+                
+                log('🔍 Analizando todos los jugadores...', 'info');
+                
+                const snapshot = await debugDb.collection('futbol_users').get();
+                log(`📊 Jugadores encontrados: ${snapshot.size}`, 'success');
+                
+                let bothStructures = 0;
+                let onlyNested = 0;
+                let onlyDirect = 0;
+                let noAttributes = 0;
+                let ovrMismatches = 0;
+                
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    const hasNested = !!data.attributes;
+                    const hasDirect = ['pac', 'sho', 'pas', 'dri', 'def', 'phy'].some(attr => data[attr] !== undefined);
+                    
+                    if (hasNested && hasDirect) {
+                        bothStructures++;
+                    } else if (hasNested) {
+                        onlyNested++;
+                    } else if (hasDirect) {
+                        onlyDirect++;
+                    } else {
+                        noAttributes++;
+                    }
+                    
+                    // Verificar OVR
+                    if (data.ovr) {
+                        let calculatedOVR = 0;
+                        if (hasNested) {
+                            calculatedOVR = Object.values(data.attributes).reduce((a, b) => a + b, 0) / 6;
+                        } else if (hasDirect) {
+                            const directValues = ['pac', 'sho', 'pas', 'dri', 'def', 'phy']
+                                .map(attr => data[attr])
+                                .filter(val => val !== undefined);
+                            calculatedOVR = directValues.reduce((a, b) => a + b, 0) / directValues.length;
+                        }
+                        
+                        if (Math.abs(data.ovr - calculatedOVR) > 1) {
+                            ovrMismatches++;
+                        }
+                    }
+                });
+                
+                log('<h3>📈 Resumen del Análisis:</h3>', 'info');
+                log(`📦 Ambas estructuras: <strong>${bothStructures}</strong>`, 'info');
+                log(`📂 Solo anidada (attributes): <strong>${onlyNested}</strong>`, 'info');
+                log(`📋 Solo directa: <strong>${onlyDirect}</strong>`, 'info');
+                log(`❌ Sin atributos: <strong>${noAttributes}</strong>`, 'info');
+                log(`⚠️ OVR no coincide: <strong>${ovrMismatches}</strong>`, ovrMismatches > 0 ? 'error' : 'success');
+                
+            } catch (error) {
+                log(`❌ Error en debug de todos los jugadores: ${error.message}`, 'error');
+            }
+        }
+        
+        async function debugOVRCalculation() {
+            try {
+                log('🔍 Debug del cálculo de OVR...', 'info');
+                
+                // Mostrar cómo el admin calcula OVR
+                log('<h3>💡 Método actual del admin:</h3>', 'info');
+                log('<pre>OVR = (pac + sho + pas + dri + def + phy) / 6</pre>', 'info');
+                
+                // Mostrar posibles problemas
+                log('<h3>⚠️ Problemas potenciales:</h3>', 'info');
+                log('1. Si un jugador tiene ambas estructuras, ¿cuál usa el admin?', 'info');
+                log('2. Si faltan valores (undefined/null), ¿se incluyen en el cálculo?', 'info');
+                log('3. El sistema unified usa campos directos, pero ¿y si el admin lee de attributes?', 'info');
+                
+            } catch (error) {
+                log(`❌ Error en debug OVR: ${error.message}`, 'error');
+            }
+        }
+        
+        // Auto-inicializar
+        window.addEventListener('load', () => {
+            setTimeout(debugFirebase, 1000);
+        });
+    </script>
+</body>
+</html>

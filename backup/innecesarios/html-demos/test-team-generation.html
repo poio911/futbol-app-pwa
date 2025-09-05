@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Generación de Equipos</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; max-width: 800px; margin: 0 auto; }
+        button { padding: 10px 20px; margin: 10px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        .log { background: #f0f0f0; padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { color: green; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test de Generación Automática de Equipos</h1>
+    
+    <div>
+        <button onclick="createTestMatch()">1. Crear Partido de Prueba</button>
+        <button onclick="addTestPlayers()">2. Agregar 10 Jugadores de Prueba</button>
+        <button onclick="viewGeneratedTeams()">3. Ver Equipos Generados</button>
+    </div>
+    
+    <div id="output"></div>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    
+    <script>
+        // Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyAes7EVn8hQswS8XgvDMJfN6U4IT_ZL_WY",
+            authDomain: "mil-disculpis.firebaseapp.com",
+            projectId: "mil-disculpis",
+            storageBucket: "mil-disculpis.appspot.com",
+            messagingSenderId: "549972244073",
+            appId: "1:549972244073:web:c89c3b7be95e6b02d396e6"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        
+        let testMatchId = null;
+        
+        function log(message, type = 'log') {
+            const output = document.getElementById('output');
+            const div = document.createElement('div');
+            div.className = `log ${type}`;
+            div.innerHTML = `${new Date().toLocaleTimeString()}: ${message}`;
+            output.appendChild(div);
+            console.log(message);
+        }
+        
+        async function createTestMatch() {
+            try {
+                testMatchId = 'test_match_' + Date.now();
+                
+                const matchData = {
+                    id: testMatchId,
+                    organizer: {
+                        uid: 'test_organizer',
+                        displayName: 'Organizador Test',
+                        email: 'organizador@test.com'
+                    },
+                    title: 'Partido de Prueba - Generación de Equipos',
+                    date: new Date().toISOString().split('T')[0],
+                    time: '20:00',
+                    location: 'Cancha de Prueba',
+                    maxPlayers: 10,
+                    description: 'Partido para probar la generación automática de equipos',
+                    registeredPlayers: [],
+                    status: 'open',
+                    createdAt: new Date().toISOString(),
+                    groupId: 'o8ZOD6N0KEHrvweFfTAd'
+                };
+                
+                await db.collection('collaborative_matches').doc(testMatchId).set(matchData);
+                log(`✅ Partido creado: ${testMatchId}`, 'success');
+                
+            } catch (error) {
+                log(`❌ Error creando partido: ${error.message}`, 'error');
+            }
+        }
+        
+        async function addTestPlayers() {
+            if (!testMatchId) {
+                log('❌ Primero crea un partido de prueba', 'error');
+                return;
+            }
+            
+            try {
+                // Crear 10 jugadores de prueba con diferentes OVRs y posiciones
+                const testPlayers = [
+                    { name: 'Juan Portero', position: 'POR', ovr: 55 },
+                    { name: 'Carlos Defensa', position: 'DEF', ovr: 52 },
+                    { name: 'Miguel Defensa', position: 'DEF', ovr: 58 },
+                    { name: 'Pedro Medio', position: 'MED', ovr: 60 },
+                    { name: 'Luis Medio', position: 'MED', ovr: 48 },
+                    { name: 'Diego Medio', position: 'MED', ovr: 51 },
+                    { name: 'Andrés Delantero', position: 'DEL', ovr: 65 },
+                    { name: 'Roberto Delantero', position: 'DEL', ovr: 45 },
+                    { name: 'Pablo Medio', position: 'MED', ovr: 54 },
+                    { name: 'Fernando Defensa', position: 'DEF', ovr: 49 }
+                ];
+                
+                // Obtener el partido actual
+                const matchDoc = await db.collection('collaborative_matches').doc(testMatchId).get();
+                const match = matchDoc.data();
+                
+                // Agregar jugadores al partido
+                for (let i = 0; i < testPlayers.length; i++) {
+                    const player = testPlayers[i];
+                    match.registeredPlayers.push({
+                        uid: `test_player_${i}`,
+                        displayName: player.name,
+                        position: player.position,
+                        ovr: player.ovr,
+                        registeredAt: new Date().toISOString()
+                    });
+                    
+                    log(`➕ Agregado: ${player.name} (${player.position}) - OVR: ${player.ovr}`);
+                }
+                
+                // Si llegamos a 10 jugadores, generar equipos
+                if (match.registeredPlayers.length >= 10) {
+                    log('🎯 10 jugadores alcanzados! Generando equipos...', 'success');
+                    
+                    // Cambiar estado a full
+                    match.status = 'full';
+                    
+                    // Llamar a la lógica de generación de equipos
+                    await generateTeamsForMatch(match);
+                }
+                
+                // Guardar el partido actualizado
+                await db.collection('collaborative_matches').doc(testMatchId).set(match);
+                log('✅ Partido actualizado con jugadores y equipos', 'success');
+                
+            } catch (error) {
+                log(`❌ Error agregando jugadores: ${error.message}`, 'error');
+            }
+        }
+        
+        async function generateTeamsForMatch(match) {
+            const players = match.registeredPlayers.map(p => ({
+                name: p.displayName,
+                position: p.position,
+                ovr: p.ovr,
+                uid: p.uid
+            }));
+            
+            // Algoritmo mejorado de balanceo
+            players.sort((a, b) => b.ovr - a.ovr);
+            
+            const goalkeepers = players.filter(p => p.position === 'POR');
+            const defenders = players.filter(p => p.position === 'DEF');
+            const midfielders = players.filter(p => p.position === 'MED');
+            const forwards = players.filter(p => p.position === 'DEL');
+            
+            const team1 = [];
+            const team2 = [];
+            let team1OVR = 0;
+            let team2OVR = 0;
+            
+            // Distribuir porteros
+            for (let i = 0; i < goalkeepers.length; i++) {
+                if (i % 2 === 0) {
+                    team1.push(goalkeepers[i]);
+                    team1OVR += goalkeepers[i].ovr;
+                } else {
+                    team2.push(goalkeepers[i]);
+                    team2OVR += goalkeepers[i].ovr;
+                }
+            }
+            
+            // Distribuir otros jugadores
+            const otherPlayers = [...defenders, ...midfielders, ...forwards];
+            
+            for (const player of otherPlayers) {
+                if (team1OVR <= team2OVR && team1.length < 5) {
+                    team1.push(player);
+                    team1OVR += player.ovr;
+                } else if (team2.length < 5) {
+                    team2.push(player);
+                    team2OVR += player.ovr;
+                } else {
+                    if (team1.length < 5) {
+                        team1.push(player);
+                        team1OVR += player.ovr;
+                    } else {
+                        team2.push(player);
+                        team2OVR += player.ovr;
+                    }
+                }
+            }
+            
+            const team1Avg = Math.round(team1OVR / team1.length);
+            const team2Avg = Math.round(team2OVR / team2.length);
+            
+            match.teams = {
+                team1: {
+                    players: team1,
+                    avgOVR: team1Avg,
+                    totalOVR: team1OVR
+                },
+                team2: {
+                    players: team2,
+                    avgOVR: team2Avg,
+                    totalOVR: team2OVR
+                },
+                generatedAt: new Date().toISOString(),
+                balanceDiff: Math.abs(team1Avg - team2Avg)
+            };
+            
+            // Generar asignaciones de evaluación
+            match.evaluationAssignments = generateEvaluationAssignments(players);
+            
+            log(`⚽ Equipo 1 (AVG: ${team1Avg}): ${team1.map(p => p.name).join(', ')}`);
+            log(`⚽ Equipo 2 (AVG: ${team2Avg}): ${team2.map(p => p.name).join(', ')}`);
+            log(`⚖️ Diferencia de balance: ${match.teams.balanceDiff} OVR`);
+        }
+        
+        function generateEvaluationAssignments(players) {
+            const assignments = {};
+            const evaluationCount = {};
+            
+            players.forEach(p => {
+                assignments[p.uid] = [];
+                evaluationCount[p.uid] = 0;
+            });
+            
+            for (const evaluator of players) {
+                let availableToEvaluate = players
+                    .filter(p => p.uid !== evaluator.uid)
+                    .sort((a, b) => evaluationCount[a.uid] - evaluationCount[b.uid]);
+                
+                for (let i = 0; i < 2 && i < availableToEvaluate.length; i++) {
+                    const playerToEvaluate = availableToEvaluate[i];
+                    assignments[evaluator.uid].push({
+                        uid: playerToEvaluate.uid,
+                        name: playerToEvaluate.name,
+                        position: playerToEvaluate.position
+                    });
+                    evaluationCount[playerToEvaluate.uid]++;
+                }
+            }
+            
+            log('📝 Asignaciones de evaluación generadas');
+            return assignments;
+        }
+        
+        async function viewGeneratedTeams() {
+            if (!testMatchId) {
+                log('❌ No hay partido de prueba creado', 'error');
+                return;
+            }
+            
+            try {
+                const matchDoc = await db.collection('collaborative_matches').doc(testMatchId).get();
+                const match = matchDoc.data();
+                
+                if (!match.teams) {
+                    log('❌ Los equipos aún no han sido generados', 'error');
+                    return;
+                }
+                
+                log('=== EQUIPOS GENERADOS ===', 'success');
+                log(`📊 Equipo 1 (AVG OVR: ${match.teams.team1.avgOVR}):`);
+                match.teams.team1.players.forEach(p => {
+                    log(`  • ${p.name} - ${p.position} (OVR: ${p.ovr})`);
+                });
+                
+                log(`📊 Equipo 2 (AVG OVR: ${match.teams.team2.avgOVR}):`);
+                match.teams.team2.players.forEach(p => {
+                    log(`  • ${p.name} - ${p.position} (OVR: ${p.ovr})`);
+                });
+                
+                log(`⚖️ Diferencia de balance: ${match.teams.balanceDiff} OVR`, 'success');
+                
+                // Mostrar algunas asignaciones de evaluación
+                log('=== MUESTRA DE EVALUACIONES ===');
+                const samplePlayer = match.teams.team1.players[0];
+                if (match.evaluationAssignments && match.evaluationAssignments[samplePlayer.uid]) {
+                    log(`${samplePlayer.name} debe evaluar a:`);
+                    match.evaluationAssignments[samplePlayer.uid].forEach(p => {
+                        log(`  • ${p.name} (${p.position})`);
+                    });
+                }
+                
+            } catch (error) {
+                log(`❌ Error viendo equipos: ${error.message}`, 'error');
+            }
+        }
+    </script>
+</body>
+</html>

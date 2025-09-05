@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estilos Unificados - Player Cards & Header</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        :root {
+            --primary: #00ff9d;
+            --secondary: #ff00e6;
+            --dark: #1a1a2e;
+            --dark-light: #16213e;
+            --dark-lighter: #2c3e50;
+            --text: #ffffff;
+            --text-light: #e0e6ed;
+            --text-muted: #8892b0;
+            --accent-blue: #00d8ff;
+            --gradient-main: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            --card-bg: rgba(26, 26, 46, 0.9);
+            --card-border: rgba(0, 255, 157, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--gradient-main);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .preview-container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .preview-title {
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--primary);
+            font-size: 32px;
+            font-weight: 600;
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            color: var(--accent-blue);
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .variants-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+        }
+
+        .variant-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+        }
+
+        .variant-title {
+            color: var(--primary);
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* =========================== */
+        /* COMPONENTES UNIFICADOS BASE */
+        /* =========================== */
+
+        /* OVR Styles - 3 Variantes */
+        .ovr-variant-1 {
+            background: linear-gradient(135deg, #ffd700 0%, #ff8c00 100%);
+            color: #1a1a2e;
+            font-weight: 900;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 
+                0 4px 12px rgba(255, 215, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            border: 2px solid #ffd700;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .ovr-variant-2 {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent-blue) 100%);
+            color: var(--dark);
+            font-weight: 800;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 
+                0 3px 10px rgba(0, 255, 157, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            border: 1px solid var(--primary);
+            position: relative;
+        }
+
+        .ovr-variant-2::before {
+            content: '';
+            position: absolute;
+            inset: 2px;
+            background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.1) 100%);
+            border-radius: 8px;
+            pointer-events: none;
+        }
+
+        .ovr-variant-3 {
+            background: var(--dark-lighter);
+            color: var(--primary);
+            font-weight: 700;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--primary);
+            box-shadow: 
+                0 0 10px rgba(0, 255, 157, 0.3),
+                inset 0 0 20px rgba(0, 255, 157, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ovr-variant-3::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            height: 40%;
+            background: linear-gradient(180deg, rgba(0, 255, 157, 0.2) 0%, transparent 100%);
+            pointer-events: none;
+        }
+
+        /* Position Styles - 3 Variantes */
+        .position-variant-1 {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-radius: 6px;
+            padding: 4px 8px;
+            letter-spacing: 0.5px;
+            border: 1px solid;
+            text-align: center;
+            min-width: 35px;
+        }
+
+        .position-variant-2 {
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            border-radius: 12px;
+            padding: 3px 10px;
+            letter-spacing: 1px;
+            text-align: center;
+            min-width: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .position-variant-2::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .position-variant-3 {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            border-radius: 8px;
+            padding: 6px 12px;
+            letter-spacing: 0.5px;
+            text-align: center;
+            min-width: 45px;
+            border: 2px solid;
+            background: transparent;
+        }
+
+        /* Avatar/Image Styles - 3 Variantes */
+        .avatar-variant-1 {
+            border-radius: 50%;
+            border: 3px solid var(--primary);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent-blue) 100%);
+            color: var(--dark);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 255, 157, 0.3);
+        }
+
+        .avatar-variant-2 {
+            border-radius: 12px;
+            border: 2px solid var(--primary);
+            background: var(--dark-lighter);
+            color: var(--primary);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 
+                0 2px 8px rgba(0, 0, 0, 0.3),
+                inset 0 0 20px rgba(0, 255, 157, 0.1);
+        }
+
+        .avatar-variant-3 {
+            border-radius: 8px;
+            border: 1px solid var(--card-border);
+            background: linear-gradient(135deg, var(--dark) 0%, var(--dark-light) 100%);
+            color: var(--text);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .avatar-variant-3::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 30%;
+            background: linear-gradient(180deg, rgba(0, 255, 157, 0.1) 0%, transparent 100%);
+        }
+
+        /* Colores por posición */
+        .position-del { 
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            border-color: #ff4757;
+        }
+        .position-med { 
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent-blue) 100%);
+            color: var(--dark);
+            border-color: #00cc7d;
+        }
+        .position-def { 
+            background: linear-gradient(135deg, #4834d4 0%, #686de0 100%);
+            color: white;
+            border-color: #3742fa;
+        }
+        .position-por { 
+            background: linear-gradient(135deg, #ffa502 0%, #ff6348 100%);
+            color: white;
+            border-color: #ff9500;
+        }
+
+        /* =========================== */
+        /* PLAYER CARDS VARIANTS */
+        /* =========================== */
+
+        .player-card-variant {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+        }
+
+        .player-card-variant:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 255, 157, 0.15);
+        }
+
+        .player-header-variant {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .player-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .player-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .player-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .player-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        /* =========================== */
+        /* HEADER VARIANTS */
+        /* =========================== */
+
+        .header-variant {
+            height: 75px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 0 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            backdrop-filter: blur(10px);
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-info-header {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .user-name-header {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .notification-btn {
+            position: relative;
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 255, 157, 0.1);
+            border: 1px solid var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--primary);
+        }
+
+        .notification-btn:hover {
+            background: rgba(0, 255, 157, 0.2);
+            transform: scale(1.05);
+        }
+
+        .notification-count-badge {
+            position: absolute;
+            top: -3px;
+            right: -3px;
+            width: 16px;
+            height: 16px;
+            background: #ff4757;
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Size variants */
+        .size-small { width: 35px; height: 35px; font-size: 14px; }
+        .size-medium { width: 45px; height: 45px; font-size: 16px; }
+        .size-large { width: 55px; height: 55px; font-size: 20px; }
+
+        .size-small.ovr-variant-1, .size-small.ovr-variant-2, .size-small.ovr-variant-3 { font-size: 12px; }
+        .size-medium.ovr-variant-1, .size-medium.ovr-variant-2, .size-medium.ovr-variant-3 { font-size: 16px; }
+        .size-large.ovr-variant-1, .size-large.ovr-variant-2, .size-large.ovr-variant-3 { font-size: 22px; }
+
+        .controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .btn {
+            background: var(--primary);
+            color: var(--dark);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .component-showcase {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .showcase-title {
+            color: var(--accent-blue);
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .component-item {
+            text-align: center;
+        }
+
+        .component-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="preview-container">
+        <h1 class="preview-title">🎨 Estilos Unificados - Player Cards & Header</h1>
+
+        <!-- COMPONENTES BASE -->
+        <div class="section">
+            <h2 class="section-title">
+                <i class='bx bx-palette'></i>
+                Componentes Base Unificados
+            </h2>
+            
+            <div class="variants-grid">
+                <!-- OVR Styles -->
+                <div class="variant-card">
+                    <h3 class="variant-title">
+                        <i class='bx bx-bar-chart-alt-2'></i>
+                        Estilos de OVR
+                    </h3>
+                    
+                    <div class="component-showcase">
+                        <div class="showcase-title">OVR para Headers</div>
+                        <div class="component-grid">
+                            <div class="component-item">
+                                <div class="ovr-variant-1 size-medium">56</div>
+                                <div class="component-label">Dorado FIFA</div>
+                            </div>
+                            <div class="component-item">
+                                <div class="ovr-variant-2 size-medium">56</div>
+                                <div class="component-label">Tema App</div>
+                            </div>
+                            <div class="component-item">
+                                <div class="ovr-variant-3 size-medium">56</div>
+                                <div class="component-label">Neon Tech</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="component-showcase">
+                        <div class="showcase-title">OVR para Player Cards</div>
+                        <div class="component-grid">
+                            <div class="component-item">
+                                <div class="ovr-variant-1 size-large">56</div>
+                                <div class="component-label">Dorado FIFA</div>
+                            </div>
+                            <div class="component-item">
+                                <div class="ovr-variant-2 size-large">56</div>
+                                <div class="component-label">Tema App</div>
+                            </div>
+                            <div class="component-item">
+                                <div class="ovr-variant-3 size-large">56</div>
+                                <div class="component-label">Neon Tech</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Position Styles -->
+                <div class="variant-card">
+                    <h3 class="variant-title">
+                        <i class='bx bx-target-lock'></i>
+                        Estilos de Posición
+                    </h3>
+                    
+                    <div class="component-showcase">
+                        <div class="showcase-title">Posiciones para Header</div>
+                        <div style="display: flex; gap: 10px; justify-content: center; margin-bottom: 15px;">
+                            <div class="position-variant-1 position-med">MED</div>
+                            <div class="position-variant-1 position-del">DEL</div>
+                            <div class="position-variant-1 position-def">DEF</div>
+                        </div>
+                        <div style="display: flex; gap: 10px; justify-content: center; margin-bottom: 15px;">
+                            <div class="position-variant-2 position-med">MED</div>
+                            <div class="position-variant-2 position-del">DEL</div>
+                            <div class="position-variant-2 position-def">DEF</div>
+                        </div>
+                        <div style="display: flex; gap: 10px; justify-content: center;">
+                            <div class="position-variant-3 position-med">MED</div>
+                            <div class="position-variant-3 position-del">DEL</div>
+                            <div class="position-variant-3 position-def">DEF</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Avatar Styles -->
+                <div class="variant-card">
+                    <h3 class="variant-title">
+                        <i class='bx bx-user-circle'></i>
+                        Estilos de Avatar
+                    </h3>
+                    
+                    <div class="component-showcase">
+                        <div class="showcase-title">Avatares para Header</div>
+                        <div class="component-grid">
+                            <div class="component-item">
+                                <div class="avatar-variant-1 size-medium">P</div>
+                                <div class="component-label">Circular</div>
+                            </div>
+                            <div class="component-item">
+                                <div class="avatar-variant-2 size-medium">P</div>
+                                <div class="component-label">Cuadrado</div>
+                            </div>
+                            <div class="component-item">
+                                <div class="avatar-variant-3 size-medium">P</div>
+                                <div class="component-label">Elegante</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="component-showcase">
+                        <div class="showcase-title">Avatares para Cards</div>
+                        <div class="component-grid">
+                            <div class="component-item">
+                                <div class="avatar-variant-1 size-large">P</div>
+                                <div class="component-label">Circular</div>
+                            </div>
+                            <div class="component-item">
+                                <div class="avatar-variant-2 size-large">P</div>
+                                <div class="component-label">Cuadrado</div>
+                            </div>
+                            <div class="component-item">
+                                <div class="avatar-variant-3 size-large">P</div>
+                                <div class="component-label">Elegante</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- HEADERS UNIFICADOS -->
+        <div class="section">
+            <h2 class="section-title">
+                <i class='bx bx-layout'></i>
+                Headers con Estilos Unificados
+            </h2>
+            
+            <div class="variants-grid">
+                <!-- Header Variant 1 -->
+                <div class="variant-card">
+                    <h3 class="variant-title">
+                        <i class='bx bx-crown'></i>
+                        Header Variant 1: Dorado FIFA
+                    </h3>
+                    
+                    <div class="header-variant">
+                        <div class="header-left">
+                            <div class="avatar-variant-1 size-medium">P</div>
+                            <div class="user-info-header">
+                                <div class="user-name-header">Pela</div>
+                                <div class="position-variant-1 position-med">MED</div>
+                            </div>
+                        </div>
+                        
+                        <div class="header-right">
+                            <div class="ovr-variant-1 size-medium">56</div>
+                            <div class="notification-btn">
+                                <i class='bx bx-bell'></i>
+                                <div class="notification-count-badge">3</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Header Variant 2 -->
+                <div class="variant-card">
+                    <h3 class="variant-title">
+                        <i class='bx bx-palette'></i>
+                        Header Variant 2: Tema App
+                    </h3>
+                    
+                    <div class="header-variant">
+                        <div class="header-left">
+                            <div class="avatar-variant-2 size-medium">P</div>
+                            <div class="user-info-header">
+                                <div class="user-name-header">Pela</div>
+                                <div class="position-variant-2 position-med">MED</div>
+                            </div>
+                        </div>
+                        
+                        <div class="header-right">
+                            <div class="ovr-variant-2 size-medium">56</div>
+                            <div class="notification-btn">
+                                <i class='bx bx-bell'></i>
+                                <div class="notification-count-badge">3</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Header Variant 3 -->
+                <div class="variant-card">
+                    <h3 class="variant-title">
+                        <i class='bx bx-chip'></i>
+                        Header Variant 3: Neon Tech
+                    </h3>
+                    
+                    <div class="header-variant">
+                        <div class="header-left">
+                            <div class="avatar-variant-3 size-medium">P</div>
+                            <div class="user-info-header">
+                                <div class="user-name-header">Pela</div>
+                                <div class="position-variant-3 position-med">MED</div>
+                            </div>
+                        </div>
+                        
+                        <div class="header-right">
+                            <div class="ovr-variant-3 size-medium">56</div>
+                            <div class="notification-btn">
+                                <i class='bx bx-bell'></i>
+                                <div class="notification-count-badge">3</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PLAYER CARDS UNIFICADAS -->
+        <div class="section">
+            <h2 class="section-title">
+                <i class='bx bx-id-card'></i>
+                Player Cards con Estilos Unificados
+            </h2>
+            
+            <div class="variants-grid">
+                <!-- Player Card Variant 1 -->
+                <div class="variant-card">
+                    <h3 class="variant-title">
+                        <i class='bx bx-crown'></i>
+                        Player Card 1: Dorado FIFA
+                    </h3>
+                    
+                    <div class="player-card-variant">
+                        <div class="player-header-variant">
+                            <div class="player-left">
+                                <div class="avatar-variant-1 size-large">P</div>
+                                <div class="player-info">
+                                    <div class="player-name">Pela</div>
+                                    <div class="position-variant-1 position-med">MEDIOCAMPISTA</div>
+                                </div>
+                            </div>
+                            <div class="player-right">
+                                <div class="ovr-variant-1 size-large">56</div>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; gap: 8px;">
+                            <span style="background: rgba(0,255,157,0.2); color: var(--primary); padding: 3px 8px; border-radius: 6px; font-size: 11px;">Técnico</span>
+                            <span style="background: rgba(0,216,255,0.2); color: var(--accent-blue); padding: 3px 8px; border-radius: 6px; font-size: 11px;">Creativo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Player Card Variant 2 -->
+                <div class="variant-card">
+                    <h3 class="variant-title">
+                        <i class='bx bx-palette'></i>
+                        Player Card 2: Tema App
+                    </h3>
+                    
+                    <div class="player-card-variant">
+                        <div class="player-header-variant">
+                            <div class="player-left">
+                                <div class="avatar-variant-2 size-large">P</div>
+                                <div class="player-info">
+                                    <div class="player-name">Pela</div>
+                                    <div class="position-variant-2 position-med">MEDIOCAMPISTA</div>
+                                </div>
+                            </div>
+                            <div class="player-right">
+                                <div class="ovr-variant-2 size-large">56</div>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; gap: 8px;">
+                            <span style="background: rgba(0,255,157,0.2); color: var(--primary); padding: 3px 8px; border-radius: 6px; font-size: 11px;">Técnico</span>
+                            <span style="background: rgba(0,216,255,0.2); color: var(--accent-blue); padding: 3px 8px; border-radius: 6px; font-size: 11px;">Creativo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Player Card Variant 3 -->
+                <div class="variant-card">
+                    <h3 class="variant-title">
+                        <i class='bx bx-chip'></i>
+                        Player Card 3: Neon Tech
+                    </h3>
+                    
+                    <div class="player-card-variant">
+                        <div class="player-header-variant">
+                            <div class="player-left">
+                                <div class="avatar-variant-3 size-large">P</div>
+                                <div class="player-info">
+                                    <div class="player-name">Pela</div>
+                                    <div class="position-variant-3 position-med">MEDIOCAMPISTA</div>
+                                </div>
+                            </div>
+                            <div class="player-right">
+                                <div class="ovr-variant-3 size-large">56</div>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; gap: 8px;">
+                            <span style="background: rgba(0,255,157,0.2); color: var(--primary); padding: 3px 8px; border-radius: 6px; font-size: 11px;">Técnico</span>
+                            <span style="background: rgba(0,216,255,0.2); color: var(--accent-blue); padding: 3px 8px; border-radius: 6px; font-size: 11px;">Creativo</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="btn" onclick="window.close()">Cerrar</button>
+        <button class="btn" onclick="location.reload()">Reload</button>
+    </div>
+</body>
+</html>

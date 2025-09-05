@@ -1,0 +1,981 @@
+console.log('📜 Loading NEW collaborative-system.js (REFACTORED)...');
+
+/**
+ * 🔧 COLLABORATIVE FOOTBALL SYSTEM - REFACTORED VERSION
+ * 
+ * CLEAN ARCHITECTURE WITH:
+ * - Clear data structures
+ * - Proper state management  
+ * - Organizer permissions
+ * - Guest player system
+ * - Team generation
+ * - Evaluation system
+ * 
+ * Author: Claude Code Assistant
+ * Date: 2025-09-01
+ */
+
+class CollaborativeSystem {
+    constructor() {
+        console.log('🏗️ Creating NEW CollaborativeSystem instance...');
+        
+        // ✅ PHASE 1: CORE DATA STRUCTURES
+        this.state = {
+            currentUser: null,
+            matches: new Map(), // Single source of truth for ALL matches
+            isLoading: false,
+            error: null
+        };
+        
+        // ✅ PHASE 1: CONFIGURATION
+        this.config = {
+            maxPlayers: 10,        // Players needed to start a match
+            maxTotal: 14,          // Max players including substitutes
+            minTeamSize: 5,        // Players per team
+            evaluationsPerPlayer: 2 // How many teammates each player evaluates
+        };
+        
+        // ✅ PHASE 1: INTERNAL FLAGS
+        this.flags = {
+            initialized: false,
+            listenersAttached: false,
+            isCreatingMatch: false
+        };
+        
+        console.log('✅ Core data structures initialized');
+        this.init();
+    }
+
+    /**
+     * ✅ PHASE 1: INITIALIZATION
+     */
+    init() {
+        console.log('🚀 Initializing NEW CollaborativeSystem...');
+        
+        if (this.flags.initialized) {
+            console.log('⚠️ System already initialized');
+            return;
+        }
+        
+        // Wait for DOM
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => this.onDOMReady());
+        } else {
+            this.onDOMReady();
+        }
+    }
+    
+    onDOMReady() {
+        console.log('📄 DOM ready - completing initialization...');
+        this.attachEventListeners();
+        this.loadAllMatches();
+        this.flags.initialized = true;
+        console.log('✅ System initialization complete');
+    }
+
+    /**
+     * ✅ PHASE 1: STATE MANAGEMENT
+     */
+    setState(newState) {
+        console.log('📊 Updating state:', newState);
+        this.state = { ...this.state, ...newState };
+        this.renderUI();
+    }
+    
+    getState() {
+        return { ...this.state };
+    }
+    
+    /**
+     * ✅ PHASE 1: MATCH DATA MANAGEMENT
+     */
+    addMatch(match, skipRender = false) {
+        console.log(`📥 Adding match to state: ${match.id}`);
+        this.state.matches.set(match.id, match);
+        if (!skipRender) {
+            this.renderUI();
+        }
+    }
+    
+    getMatch(matchId) {
+        return this.state.matches.get(matchId);
+    }
+    
+    getAllMatches() {
+        return Array.from(this.state.matches.values());
+    }
+    
+    getAvailableMatches() {
+        const currentUserId = this.state.currentUser?.uid;
+        return this.getAllMatches().filter(match => {
+            // Show if: open status AND (not registered OR is organizer)
+            if (match.status !== 'open') return false;
+            
+            const isRegistered = this.isUserRegistered(match, currentUserId);
+            const isOrganizer = this.isUserOrganizer(match, currentUserId);
+            
+            // Show if not registered (can join) OR if organizer (can manage)
+            return !isRegistered || isOrganizer;
+        });
+    }
+    
+    getUserMatches() {
+        const currentUserId = this.state.currentUser?.uid;
+        if (!currentUserId) return [];
+        
+        return this.getAllMatches().filter(match => 
+            this.isUserRegistered(match, currentUserId)
+        );
+    }
+
+    /**
+     * ✅ PHASE 1: USER UTILITY FUNCTIONS
+     */
+    isUserRegistered(match, userId) {
+        if (!match.registeredPlayers || !userId) return false;
+        return match.registeredPlayers.some(player => player.uid === userId);
+    }
+    
+    isUserOrganizer(match, userId) {
+        if (!match.organizer || !userId) return false;
+        return match.organizer.uid === userId;
+    }
+
+    /**
+     * ✅ PHASE 1: BASIC EVENT LISTENERS (will expand in Phase 2)
+     */
+    attachEventListeners() {
+        if (this.flags.listenersAttached) {
+            console.log('⚠️ Event listeners already attached');
+            return;
+        }
+        
+        console.log('🔗 Attaching event listeners...');
+        
+        const createBtn = document.getElementById('create-match-btn');
+        if (createBtn) {
+            createBtn.addEventListener('click', () => this.showCreateMatchModal());
+            console.log('✅ Create match button listener attached');
+        }
+        
+        this.flags.listenersAttached = true;
+        console.log('✅ Basic event listeners attached');
+    }
+    
+    // ✅ BUG FIX 1: Add missing reinitializeEventListeners method
+    reinitializeEventListeners() {
+        console.log('🔄 Re-initializing event listeners...');
+        this.flags.listenersAttached = false;
+        this.attachEventListeners();
+    }
+    
+    // ✅ EMERGENCY FIX 1: Add missing loadMatches alias
+    loadMatches() {
+        console.log('🔄 loadMatches called - delegating to loadAllMatches');
+        return this.loadAllMatches();
+    }
+
+    /**
+     * ✅ PHASE 2: USER AUTHENTICATION & ORGANIZER LOGIC
+     */
+    setCurrentUser(user) {
+        console.log('👤 Setting current user:', user?.displayName || 'null');
+        
+        if (!user) {
+            this.setState({ currentUser: null });
+            return;
+        }
+        
+        // Validate user object
+        if (!user.uid || !user.displayName) {
+            console.error('❌ Invalid user object:', user);
+            this.setState({ error: 'Invalid user data' });
+            return;
+        }
+        
+        // Normalize user object
+        const normalizedUser = {
+            uid: user.uid,
+            displayName: user.displayName,
+            email: user.email || null,
+            photo: user.photo || null,
+            position: user.position || 'MED',
+            ovr: user.ovr || 50,
+            currentGroup: user.currentGroup || 'o8ZOD6N0KEHrvweFfTAd'
+        };
+        
+        this.setState({ currentUser: normalizedUser });
+        console.log('✅ User set successfully:', normalizedUser.displayName);
+        
+        // Reload matches with new user context
+        this.loadAllMatches();
+    }
+    
+    /**
+     * ✅ PHASE 2: ORGANIZER PERMISSION CHECKS
+     */
+    canUserCreateMatch(userId = null) {
+        const user = userId || this.state.currentUser?.uid;
+        return !!user; // Any authenticated user can create matches
+    }
+    
+    canUserJoinMatch(match, userId = null) {
+        const user = userId || this.state.currentUser?.uid;
+        if (!user) return false;
+        
+        // Can't join if already registered
+        if (this.isUserRegistered(match, user)) return false;
+        
+        // Can't join if match is full (unless organizer adding guests)
+        if (match.registeredPlayers.length >= this.config.maxTotal) return false;
+        
+        // Can join if match is open
+        return match.status === 'open';
+    }
+    
+    canUserInviteGuests(match, userId = null) {
+        const user = userId || this.state.currentUser?.uid;
+        if (!user) return false;
+        
+        // Only organizers can invite guests
+        if (!this.isUserOrganizer(match, user)) return false;
+        
+        // Can't invite if match is already at max capacity
+        if (match.registeredPlayers.length >= this.config.maxTotal) return false;
+        
+        return true;
+    }
+    
+    canUserDeleteMatch(match, userId = null) {
+        const user = userId || this.state.currentUser?.uid;
+        if (!user) return false;
+        
+        // Only organizers can delete matches
+        return this.isUserOrganizer(match, user);
+    }
+    
+    canUserLeaveMatch(match, userId = null) {
+        const user = userId || this.state.currentUser?.uid;
+        if (!user) return false;
+        
+        // Must be registered to leave
+        if (!this.isUserRegistered(match, user)) return false;
+        
+        // Can always leave (even organizers)
+        return true;
+    }
+    
+    canUserViewTeams(match, userId = null) {
+        const user = userId || this.state.currentUser?.uid;
+        if (!user) return false;
+        
+        // Can view if registered in match and teams are generated
+        return this.isUserRegistered(match, user) && !!match.teams;
+    }
+    
+    canUserFinalizeMatch(match, userId = null) {
+        const user = userId || this.state.currentUser?.uid;
+        if (!user) return false;
+        
+        // Only organizers can finalize
+        if (!this.isUserOrganizer(match, user)) return false;
+        
+        // Must have teams generated and be full
+        return match.status === 'full' && !!match.teams && 
+               match.registeredPlayers.length >= this.config.maxPlayers;
+    }
+    
+    /**
+     * ✅ PHASE 2: USER CONTEXT HELPERS
+     */
+    getCurrentUser() {
+        return this.state.currentUser;
+    }
+    
+    isCurrentUserRegistered(match) {
+        const userId = this.state.currentUser?.uid;
+        return this.isUserRegistered(match, userId);
+    }
+    
+    isCurrentUserOrganizer(match) {
+        const userId = this.state.currentUser?.uid;
+        return this.isUserOrganizer(match, userId);
+    }
+    
+    async loadAllMatches() {
+        console.log('📥 Loading all matches from Firebase...');
+        this.setState({ isLoading: true, error: null });
+        
+        try {
+            let matches = [];
+            
+            // Load from Firebase
+            if (typeof db !== 'undefined' && db) {
+                console.log('🔗 Loading from Firebase collection: collaborative_matches');
+                const snapshot = await db.collection('collaborative_matches')
+                    .where('status', 'in', ['open', 'full'])
+                    .get();
+                    
+                matches = snapshot.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data()
+                }));
+                
+                console.log(`📊 Loaded ${matches.length} matches from Firebase`);
+            } else {
+                // Fallback to localStorage
+                console.log('🔗 Loading from localStorage fallback');
+                matches = JSON.parse(localStorage.getItem('collaborative_matches') || '[]')
+                    .filter(match => match.status === 'open' || match.status === 'full');
+                console.log(`📊 Loaded ${matches.length} matches from localStorage`);
+            }
+            
+            // Clear existing matches and add new ones
+            this.state.matches.clear();
+            matches.forEach(match => {
+                this.state.matches.set(match.id, match);
+            });
+            
+            console.log(`✅ Successfully loaded ${matches.length} matches`);
+            this.setState({ isLoading: false });
+            
+        } catch (error) {
+            console.error('❌ Error loading matches:', error);
+            this.setState({ isLoading: false, error: error.message });
+        }
+    }
+    
+    /**
+     * ✅ PHASE 3: MATCH CREATION & LIFECYCLE MANAGEMENT
+     */
+showCreateMatchModal() {        console.log('🎯 Opening create match modal...');                // Remove any existing modal first        const existingModal = document.getElementById('create-match-modal');        if (existingModal) {            console.log('⚠️ Removing existing modal...');            existingModal.remove();        }
+        
+        if (!this.canUserCreateMatch()) {
+            alert('❌ Debes estar autenticado para crear un partido');
+            return;
+        }
+        
+        // Create modal HTML
+        const modalHTML = `
+            <div id="create-match-modal" class="modal" style="
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 1000;
+            ">
+                <div class="modal-content" style="
+                    background: white; padding: 30px; border-radius: 12px; width: 90%; max-width: 500px;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                ">
+                    <h2 style="margin: 0 0 20px 0; color: #333;">⚽ Crear Nuevo Partido</h2>
+                    <form id="create-match-form" onsubmit="return false;">
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Título del partido:</label>
+                            <input type="text" name="title" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" />
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Fecha:</label>
+                            <input type="date" name="date" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" />
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Hora:</label>
+                            <input type="time" name="time" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" />
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Ubicación:</label>
+                            <input type="text" name="location" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" />
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Formato:</label>
+                            <select name="format" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                <option value="">Selecciona formato...</option>
+                                <option value="5v5">⚽ Fútbol 5 (10 jugadores)</option>
+                                <option value="7v7">🏟️ Fútbol 7 (14 jugadores)</option>
+                            </select>
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Descripción (opcional):</label>
+                            <textarea name="description" rows="3" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;"></textarea>
+                        </div>
+                        <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                            <button type="button" onclick="collaborativeSystem.closeCreateMatchModal()" style="
+                                background: #6c757d; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;
+                            ">Cancelar</button>
+                            <button type="submit" style="
+                                background: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;
+                            ">Crear Partido</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        `;
+        
+        // Add modal to DOM
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+        
+        // Attach form listener
+        const form = document.getElementById('create-match-form');
+        if (form) {
+            console.log('🔗 Attaching form submit listener...');
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('📝 Form submitted!');
+                this.handleCreateMatch(e);
+            });
+        } else {
+            console.error('❌ Create match form not found!');
+        }
+        
+        // Close on outside click
+        const modal = document.getElementById('create-match-modal');
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) this.closeCreateMatchModal();
+            
+            // Reload matches to show the new one
+            this.loadAllMatches();
+        });
+        
+        console.log('✅ Create match modal opened');
+    }
+    
+    closeCreateMatchModal() {
+        const modal = document.getElementById('create-match-modal');
+        if (modal) {
+            modal.remove();
+            console.log('✅ Create match modal closed');
+        }
+    }
+    
+    async handleCreateMatch(event) {
+        console.log('🚀 handleCreateMatch called!');
+        event.preventDefault();
+        
+        if (this.flags.isCreatingMatch) {
+            console.log('⏳ Match creation already in progress...');
+            return;
+        }
+        
+        this.flags.isCreatingMatch = true;
+        console.log('🏗️ Creating new match...');
+        
+        try {
+            const formData = new FormData(event.target);
+            const currentUser = this.state.currentUser;
+            
+            // Validate current user
+            if (!currentUser) {
+                throw new Error('No current user found');
+            }
+            
+            // Get match format and calculate max players
+            const format = formData.get('format');
+            const maxPlayers = format === '7v7' ? 14 : 10;
+            const maxTotal = format === '7v7' ? 18 : 14; // Allow extra substitutes
+            
+            // Create match object
+            const matchData = {
+                id: this.generateMatchId(),
+                title: formData.get('title').trim(),
+                date: formData.get('date'),
+                time: formData.get('time'),
+                location: formData.get('location').trim(),
+                description: formData.get('description')?.trim() || '',
+                format: format, // '5v5' or '7v7'
+                
+                // Match configuration
+                maxPlayers: maxPlayers,
+                maxTotal: maxTotal,
+                status: 'open',
+                
+                // Organizer info
+                organizer: {
+                    uid: currentUser.uid,
+                    displayName: currentUser.displayName,
+                    email: currentUser.email
+                },
+                
+                // Players arrays
+                registeredPlayers: [], // Will be populated when users join
+                guestPlayers: [],       // Invited non-registered players
+                
+                // Match state
+                teams: null,
+                evaluationAssignments: null,
+                evaluations: [],
+                
+                // Metadata
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString(),
+                groupId: currentUser.currentGroup
+            };
+            
+            // Validate required fields
+            if (!matchData.title || !matchData.date || !matchData.time || !matchData.location || !matchData.format) {
+                throw new Error('Por favor completa todos los campos obligatorios');
+            }
+            
+            // Validate date is not in the past
+            const matchDateTime = new Date(`${matchData.date}T${matchData.time}`);
+            if (matchDateTime < new Date()) {
+                throw new Error('La fecha y hora del partido no puede ser en el pasado');
+            }
+            
+            console.log('💾 Saving match to Firebase...');
+            await this.saveMatchToFirebase(matchData);
+            
+            // Add to local state immediately (skip auto-render)
+            this.addMatch(matchData, true);
+            
+            // Force UI refresh to show the new match
+            console.log('🔄 Forcing UI refresh after match creation...');
+            this.renderUI();
+            
+            this.closeCreateMatchModal();
+            
+            // Reload matches to show the new one
+            this.loadAllMatches();
+            alert(`✅ ¡Partido "${matchData.title}" creado exitosamente!`);
+            
+            console.log('✅ Match created successfully and displayed:', matchData.id);
+            
+        } catch (error) {
+            console.error('❌ Error creating match:', error);
+            alert(`❌ Error al crear el partido: ${error.message}`);
+        } finally {
+            this.flags.isCreatingMatch = false;
+        }
+    }
+    
+    generateMatchId() {
+        const timestamp = Date.now();
+        const randomStr = Math.random().toString(36).substring(2, 15);
+        return `match_${timestamp}_${randomStr}`;
+    }
+    
+    async saveMatchToFirebase(matchData) {
+        console.log('💾 Saving match to Firebase...', matchData.id);
+        
+        try {
+            // Use the existing Firebase connection (db is global)
+            if (typeof db !== 'undefined' && db) {
+                await db.collection('collaborative_matches').doc(matchData.id).set(matchData);
+                console.log('✅ Match saved to Firebase successfully');
+            } else {
+                // Fallback to localStorage if Firebase is not available
+                console.log('⚠️ Firebase not available, using localStorage fallback');
+                const matches = JSON.parse(localStorage.getItem('collaborative_matches') || '[]');
+                const existingIndex = matches.findIndex(m => m.id === matchData.id);
+                if (existingIndex >= 0) {
+                    matches[existingIndex] = matchData;
+                } else {
+                    matches.push(matchData);
+                }
+                localStorage.setItem('collaborative_matches', JSON.stringify(matches));
+                console.log('✅ Match saved to localStorage');
+            }
+        } catch (error) {
+            console.error('❌ Error saving match:', error);
+            throw error;
+        }
+    }
+    
+    /**
+     * ✅ PHASE 3: MATCH JOINING/LEAVING
+     */
+    async joinMatch(matchId) {
+        console.log(`🏃 User attempting to join match: ${matchId}`);
+        
+        const match = this.getMatch(matchId);
+        if (!match) {
+            alert('❌ Error: No se pudo encontrar el partido');
+            return;
+        }
+        
+        const currentUser = this.state.currentUser;
+        if (!currentUser) {
+            alert('❌ Debes estar autenticado para unirte a un partido');
+            return;
+        }
+        
+        if (!this.canUserJoinMatch(match)) {
+            alert('❌ No puedes unirte a este partido');
+            return;
+        }
+        
+        try {
+            // Add user to registered players
+            const playerData = {
+                uid: currentUser.uid,
+                displayName: currentUser.displayName,
+                position: currentUser.position,
+                ovr: currentUser.ovr,
+                email: currentUser.email,
+                registeredAt: new Date().toISOString(),
+                isGuest: false
+            };
+            
+            match.registeredPlayers.push(playerData);
+            match.updatedAt = new Date().toISOString();
+            
+            // Check if match should be marked as full and generate teams
+            if (match.registeredPlayers.length >= this.config.maxPlayers) {
+                match.status = 'full';
+                await this.generateTeamsForMatch(match);
+                console.log('🏆 Match is now full - teams generated!');
+            }
+            
+            // Save to Firebase
+            await this.saveMatchToFirebase(match);
+            
+            // Update local state
+            this.addMatch(match, true);
+            
+            // Force UI refresh
+            this.renderUI();
+            
+            alert('✅ ¡Te uniste al partido exitosamente!');
+            console.log('✅ User joined match successfully');
+            
+        } catch (error) {
+            console.error('❌ Error joining match:', error);
+            alert('❌ Error al unirse al partido. Intenta de nuevo.');
+        }
+    }
+    
+    async leaveMatch(matchId) {
+        console.log(`🚪 User attempting to leave match: ${matchId}`);
+        
+        const match = this.getMatch(matchId);
+        if (!match) {
+            alert('❌ Error: No se pudo encontrar el partido');
+            return;
+        }
+        
+        const currentUser = this.state.currentUser;
+        if (!currentUser || !this.canUserLeaveMatch(match)) {
+            alert('❌ No puedes salir de este partido');
+            return;
+        }
+        
+        if (!confirm('⚠️ ¿Estás seguro de que quieres salir de este partido?')) {
+            return;
+        }
+        
+        try {
+            // Remove user from registered players
+            match.registeredPlayers = match.registeredPlayers.filter(
+                player => player.uid !== currentUser.uid
+            );
+            
+            // Update match status if needed
+            if (match.status === 'full' && match.registeredPlayers.length < this.config.maxPlayers) {
+                match.status = 'open';
+                match.teams = null; // Clear teams since we're below minimum
+                match.evaluationAssignments = null;
+            }
+            
+            match.updatedAt = new Date().toISOString();
+            
+            // Save to Firebase
+            await this.saveMatchToFirebase(match);
+            
+            // Update local state
+            this.addMatch(match, true);
+            
+            // Force UI refresh
+            this.renderUI();
+            
+            alert('✅ Saliste del partido exitosamente');
+            console.log('✅ User left match successfully');
+            
+        } catch (error) {
+            console.error('❌ Error leaving match:', error);
+            alert('❌ Error al salir del partido. Intenta de nuevo.');
+        }
+    }
+    
+    async deleteMatch(matchId) {
+        console.log(`🗑️ User attempting to delete match: ${matchId}`);
+        
+        const match = this.getMatch(matchId);
+        if (!match) {
+            alert('❌ Error: No se pudo encontrar el partido');
+            return;
+        }
+        
+        if (!this.canUserDeleteMatch(match)) {
+            alert('❌ No tienes permisos para borrar este partido');
+            return;
+        }
+        
+        if (!confirm(`⚠️ ¿Estás seguro de que quieres borrar el partido "${match.title}"? Esta acción no se puede deshacer.`)) {
+            return;
+        }
+        
+        try {
+            // Delete from Firebase
+            if (typeof db !== 'undefined' && db) {
+                console.log('🗑️ Deleting from Firebase:', matchId);
+                await db.collection('collaborative_matches').doc(matchId).delete();
+                console.log('✅ Match deleted from Firebase');
+            } else {
+                // Delete from localStorage
+                console.log('🗑️ Deleting from localStorage:', matchId);
+                const matches = JSON.parse(localStorage.getItem('collaborative_matches') || '[]');
+                const filteredMatches = matches.filter(m => m.id !== matchId);
+                localStorage.setItem('collaborative_matches', JSON.stringify(filteredMatches));
+                console.log('✅ Match deleted from localStorage');
+            }
+            
+            // Remove from local state
+            this.state.matches.delete(matchId);
+            this.renderUI();
+            
+            alert('✅ Partido borrado exitosamente');
+            console.log('✅ Match deleted successfully');
+            
+        } catch (error) {
+            console.error('❌ Error deleting match:', error);
+            alert('❌ Error al borrar el partido. Intenta de nuevo.');
+        }
+    }
+    
+    // ✅ BUG FIX 3: BASIC UI RENDERING
+    renderUI() {
+        console.log('🎨 Rendering UI...');
+        
+        const availableContainer = document.getElementById('available-matches');
+        const userContainer = document.getElementById('user-matches');
+        
+        if (!availableContainer || !userContainer) {
+            console.log('⚠️ UI containers not found - skipping render');
+            return;
+        }
+        
+        try {
+            this.renderAvailableMatches();
+            this.renderUserMatches();
+            console.log('✅ UI rendered successfully');
+        } catch (error) {
+            console.error('❌ Error rendering UI:', error);
+        }
+    }
+    
+    renderAvailableMatches() {
+        const container = document.getElementById('available-matches');
+        if (!container) return;
+        
+        const availableMatches = this.getAvailableMatches();
+        console.log('🎨 Rendering available matches:', availableMatches.length);
+        
+        if (availableMatches.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state" style="text-align: center; padding: 40px; color: #666;">
+                    <h3>📅 No hay partidos disponibles</h3>
+                    <p>¡Sé el primero en crear uno!</p>
+                </div>
+            `;
+            return;
+        }
+        
+        container.innerHTML = availableMatches.map(match => this.renderMatchCard(match, 'available')).join('');
+    }
+    
+    renderUserMatches() {
+        const container = document.getElementById('user-matches');
+        if (!container) return;
+        
+        const userMatches = this.getUserMatches();
+        console.log('🎨 Rendering user matches:', userMatches.length);
+        
+        if (userMatches.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state" style="text-align: center; padding: 40px; color: #666;">
+                    <h3>⚽ No estás anotado en ningún partido</h3>
+                    <p>¡Explora los partidos disponibles arriba!</p>
+                </div>
+            `;
+            return;
+        }
+        
+        container.innerHTML = userMatches.map(match => this.renderMatchCard(match, 'user')).join('');
+    }
+    
+    renderMatchCard(match, type) {
+        const currentUser = this.state.currentUser;
+        const isOrganizer = this.isCurrentUserOrganizer(match);
+        const isRegistered = this.isCurrentUserRegistered(match);
+        
+        // Ensure registeredPlayers is an array
+        if (!match.registeredPlayers) {
+            match.registeredPlayers = [];
+        }
+        
+        // Format date and time
+        const matchDate = new Date(`${match.date}T${match.time}`);
+        const dateStr = matchDate.toLocaleDateString('es-ES', { 
+            weekday: 'short', 
+            day: 'numeric', 
+            month: 'short' 
+        });
+        const timeStr = matchDate.toLocaleTimeString('es-ES', { 
+            hour: '2-digit', 
+            minute: '2-digit' 
+        });
+        
+        // Status display
+        const statusText = match.status === 'open' ? 'Abierto' : 
+                          match.status === 'full' ? 'Completo' : 'Cerrado';
+        const statusColor = match.status === 'open' ? '#28a745' : 
+                           match.status === 'full' ? '#007bff' : '#6c757d';
+        
+        // Generate action buttons based on context and permissions
+        let buttons = '';
+        
+        if (type === 'available' && !isRegistered && this.canUserJoinMatch(match)) {
+            buttons += `<button onclick="collaborativeSystem.joinMatch('${match.id}')" 
+                               style="background: #28a745; color: white; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; margin-right: 10px;">
+                            🏃 Anotarse
+                        </button>`;
+        }
+        
+        if (type === 'user') {
+            if (this.canUserLeaveMatch(match)) {
+                buttons += `<button onclick="collaborativeSystem.leaveMatch('${match.id}')" 
+                                   style="background: #dc3545; color: white; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; margin-right: 10px;">
+                                🚪 Salir
+                            </button>`;
+            }
+            
+            if (this.canUserInviteGuests(match)) {
+                buttons += `<button onclick="collaborativeSystem.showInviteGuestsModal('${match.id}')" 
+                                   style="background: #007bff; color: white; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; margin-right: 10px;">
+                                🎭 Invitar
+                            </button>`;
+            }
+            
+            if (this.canUserViewTeams(match)) {
+                buttons += `<button onclick="collaborativeSystem.showTeamsModal('${match.id}')" 
+                                   style="background: #17a2b8; color: white; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; margin-right: 10px;">
+                                ⚽ Ver Equipos
+                            </button>`;
+            }
+        }
+        
+        if (isOrganizer && this.canUserDeleteMatch(match)) {
+            buttons += `<button onclick="collaborativeSystem.deleteMatch('${match.id}')" 
+                               style="background: #e74c3c; color: white; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer;">
+                            🗑️ Borrar
+                        </button>`;
+        }
+        
+        return `
+            <div class="match-card" style="
+                border: 1px solid #ddd; border-radius: 8px; padding: 20px; margin-bottom: 15px; 
+                background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                ${isOrganizer ? 'border-left: 4px solid #007bff;' : ''}
+            ">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
+                    <div>
+                        <h3 style="margin: 0 0 5px 0; color: #333;">
+                            ${match.title} ${isOrganizer ? '<span style="color: #007bff; font-size: 0.8em;">(Organizador)</span>' : ''}
+                        </h3>
+                        <span style="background: ${statusColor}; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.85em;">
+                            ${statusText}
+                        </span>
+                    </div>
+                    <div style="text-align: right; color: #666; font-size: 0.9em;">
+                        <div>🏟️ ${match.format || '5v5'}</div>
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 15px;">
+                    <div>
+                        <div style="color: #666; font-size: 0.85em; margin-bottom: 3px;">📅 Fecha y hora</div>
+                        <div style="font-weight: 600;">${dateStr} a las ${timeStr}</div>
+                    </div>
+                    <div>
+                        <div style="color: #666; font-size: 0.85em; margin-bottom: 3px;">📍 Ubicación</div>
+                        <div style="font-weight: 600;">${match.location}</div>
+                    </div>
+                    <div>
+                        <div style="color: #666; font-size: 0.85em; margin-bottom: 3px;">👥 Jugadores</div>
+                        <div style="font-weight: 600;">${match.registeredPlayers.length}/${match.maxPlayers || 10}</div>
+                    </div>
+                    <div>
+                        <div style="color: #666; font-size: 0.85em; margin-bottom: 3px;">👤 Organiza</div>
+                        <div style="font-weight: 600;">${match.organizer?.displayName || 'Desconocido'}</div>
+                    </div>
+                </div>
+                
+                ${match.description ? `
+                    <div style="background: #f8f9fa; padding: 10px; border-radius: 5px; margin-bottom: 15px; font-style: italic;">
+                        ${match.description}
+                    </div>
+                ` : ''}
+                
+                ${buttons ? `
+                    <div style="border-top: 1px solid #eee; padding-top: 15px;">
+                        ${buttons}
+                    </div>
+                ` : ''}
+            </div>
+        `;
+    }
+    
+    // Placeholder methods for buttons that will be implemented in later phases
+    showInviteGuestsModal(matchId) {
+        console.log('🎭 Show invite guests modal (Phase 4):', matchId);
+        alert('🚧 Función de invitar jugadores en desarrollo (Fase 4)');
+    }
+    
+    showTeamsModal(matchId) {
+        console.log('⚽ Show teams modal (Phase 5):', matchId);  
+        alert('🚧 Función de ver equipos en desarrollo (Fase 5)');
+    }
+    
+    // ✅ PHASE 5 PREVIEW: Basic team generation (placeholder)
+    async generateTeamsForMatch(match) {
+        console.log('⚽ Generating teams for match:', match.title);
+        
+        const players = match.registeredPlayers.filter(p => !p.isGuest);
+        if (players.length < (match.format === '7v7' ? 14 : 10)) {
+            console.log('⚠️ Not enough players for team generation');
+            return;
+        }
+        
+        // Simple team balancing - will be enhanced in Phase 5
+        const team1 = [];
+        const team2 = [];
+        
+        // Sort by OVR and alternate assignment
+        players.sort((a, b) => (b.ovr || 50) - (a.ovr || 50));
+        
+        for (let i = 0; i < players.length; i++) {
+            if (i % 2 === 0) {
+                team1.push(players[i]);
+            } else {
+                team2.push(players[i]);
+            }
+        }
+        
+        const team1Avg = Math.round(team1.reduce((sum, p) => sum + (p.ovr || 50), 0) / team1.length);
+        const team2Avg = Math.round(team2.reduce((sum, p) => sum + (p.ovr || 50), 0) / team2.length);
+        
+        match.teams = {
+            team1: { players: team1, avgOVR: team1Avg },
+            team2: { players: team2, avgOVR: team2Avg },
+            generatedAt: new Date().toISOString()
+        };
+        
+        console.log(`✅ Teams generated: Team 1 (${team1Avg} OVR) vs Team 2 (${team2Avg} OVR)`);
+    }
+}
+
+// ✅ PHASE 1: SINGLETON INSTANCE CREATION
+console.log('🌟 Creating singleton CollaborativeSystem instance...');
+if (!window.collaborativeSystem) {
+    window.collaborativeSystem = new CollaborativeSystem();
+    console.log('✅ NEW CollaborativeSystem instance created and assigned globally');
+} else {
+    console.log('⚠️ CollaborativeSystem instance already exists, reusing existing');
+}

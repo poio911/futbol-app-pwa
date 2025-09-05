@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificar Sistema de Notificaciones</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #0a0e1b;
+            color: white;
+        }
+        .status {
+            padding: 20px;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+        .success {
+            background: #00ff9d20;
+            border: 2px solid #00ff9d;
+        }
+        .error {
+            background: #ff000020;
+            border: 2px solid #ff0000;
+        }
+        pre {
+            background: black;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Verificación del Sistema de Notificaciones</h1>
+    <div id="status"></div>
+    <div id="console"></div>
+    
+    <!-- Load the notification system -->
+    <script src="js/unified-notifications-system.js"></script>
+    
+    <script>
+        const statusDiv = document.getElementById('status');
+        const consoleDiv = document.getElementById('console');
+        
+        function log(message, isError = false) {
+            const entry = document.createElement('div');
+            entry.style.color = isError ? '#ff0000' : '#00ff9d';
+            entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            consoleDiv.appendChild(entry);
+            console.log(message);
+        }
+        
+        // Check immediately
+        log('Iniciando verificación...');
+        
+        // Check for syntax errors
+        window.addEventListener('error', (e) => {
+            log(`ERROR: ${e.message} (Línea: ${e.lineno}, Columna: ${e.colno})`, true);
+            statusDiv.innerHTML = `
+                <div class="status error">
+                    <h2>❌ Error al cargar el sistema</h2>
+                    <p>Mensaje: ${e.message}</p>
+                    <p>Archivo: ${e.filename}</p>
+                    <p>Línea: ${e.lineno}, Columna: ${e.colno}</p>
+                </div>
+            `;
+        });
+        
+        // Check after DOM loads
+        document.addEventListener('DOMContentLoaded', () => {
+            log('DOM cargado, verificando sistema...');
+            
+            setTimeout(() => {
+                if (typeof UnifiedNotificationSystem !== 'undefined') {
+                    log('✅ Clase UnifiedNotificationSystem encontrada');
+                    
+                    if (window.unifiedNotifications) {
+                        log('✅ Instancia global unifiedNotifications disponible');
+                        
+                        if (window.notificationsSystem) {
+                            log('✅ Alias notificationsSystem disponible');
+                            
+                            statusDiv.innerHTML = `
+                                <div class="status success">
+                                    <h2>✅ Sistema de Notificaciones Cargado Correctamente</h2>
+                                    <p>Todas las verificaciones pasaron exitosamente.</p>
+                                    <button onclick="testNotification()">Probar Notificación</button>
+                                </div>
+                            `;
+                            
+                            // Log available methods
+                            log('Métodos disponibles:');
+                            const methods = Object.getOwnPropertyNames(Object.getPrototypeOf(window.notificationsSystem));
+                            methods.forEach(method => {
+                                if (typeof window.notificationsSystem[method] === 'function') {
+                                    log(`  - ${method}()`);
+                                }
+                            });
+                        } else {
+                            log('❌ Alias notificationsSystem NO disponible', true);
+                        }
+                    } else {
+                        log('❌ Instancia global unifiedNotifications NO disponible', true);
+                        log('Intentando crear instancia manualmente...', true);
+                        
+                        try {
+                            window.unifiedNotifications = new UnifiedNotificationSystem();
+                            window.notificationsSystem = window.unifiedNotifications;
+                            log('✅ Instancia creada manualmente');
+                        } catch (e) {
+                            log(`Error al crear instancia: ${e.message}`, true);
+                        }
+                    }
+                } else {
+                    log('❌ Clase UnifiedNotificationSystem NO encontrada', true);
+                    statusDiv.innerHTML = `
+                        <div class="status error">
+                            <h2>❌ Sistema no disponible</h2>
+                            <p>La clase UnifiedNotificationSystem no se pudo cargar.</p>
+                        </div>
+                    `;
+                }
+            }, 1000);
+        });
+        
+        function testNotification() {
+            if (window.notificationsSystem) {
+                window.notificationsSystem.showToast('¡Sistema funcionando correctamente!', 'success');
+            } else {
+                alert('Sistema no disponible');
+            }
+        }
+    </script>
+</body>
+</html>

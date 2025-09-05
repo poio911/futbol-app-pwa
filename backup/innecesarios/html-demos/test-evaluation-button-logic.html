@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Lógica Botón Evaluación</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #1a1a1a;
+            color: #fff;
+            padding: 20px;
+            margin: 0;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .test-section {
+            background: #2a2a2a;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .test-result {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        .success { background: rgba(34, 197, 94, 0.2); border-left: 4px solid #22c55e; }
+        .error { background: rgba(239, 68, 68, 0.2); border-left: 4px solid #ef4444; }
+        .info { background: rgba(59, 130, 246, 0.2); border-left: 4px solid #3b82f6; }
+        .warning { background: rgba(245, 158, 11, 0.2); border-left: 4px solid #f59e0b; }
+        button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background: #2563eb; }
+        .status-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .status-table th, .status-table td {
+            border: 1px solid #444;
+            padding: 8px;
+            text-align: left;
+        }
+        .status-table th {
+            background: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🔍 Diagnóstico - Lógica Botón Evaluación</h1>
+        
+        <div class="test-section">
+            <h2>📊 Estado Actual del Sistema</h2>
+            <button onclick="checkSystemState()">🔍 Verificar Estado Actual</button>
+            <button onclick="testButtonLogic()">🎯 Probar Lógica de Botones</button>
+            <button onclick="testFirebaseQueries()">🔥 Test Consultas Firebase</button>
+            <div id="system-state"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>🎮 Simulación de Estados</h2>
+            <button onclick="simulateEvaluationStates()">🎭 Simular Estados de Evaluación</button>
+            <div id="simulation-results"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>🔧 Resultados de Diagnóstico</h2>
+            <div id="diagnostic-results"></div>
+        </div>
+    </div>
+
+    <!-- Scripts necesarios -->
+    <script src="js/firebase-simple.js"></script>
+    <script src="js/unified-evaluation-system.js"></script>
+    <script src="js/evaluation-ui.js"></script>
+
+    <script>
+        let diagnosticResults = [];
+
+        function logResult(type, message, data = null) {
+            const timestamp = new Date().toLocaleTimeString();
+            diagnosticResults.push({ type, message, data, timestamp });
+            
+            const container = document.getElementById('diagnostic-results');
+            const resultDiv = document.createElement('div');
+            resultDiv.className = `test-result ${type}`;
+            resultDiv.innerHTML = `
+                <strong>[${timestamp}]</strong> ${message}
+                ${data ? `<pre style="margin-top: 8px; font-size: 12px;">${JSON.stringify(data, null, 2)}</pre>` : ''}
+            `;
+            container.appendChild(resultDiv);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        async function checkSystemState() {
+            logResult('info', '🔍 Verificando estado del sistema...');
+            
+            try {
+                // Verificar Storage
+                const currentPlayer = Storage?.getCurrentPerson();
+                logResult('success', '✅ Storage disponible', {
+                    currentPlayer: currentPlayer?.id || 'No player',
+                    currentPlayerName: currentPlayer?.name || 'No name'
+                });
+
+                // Verificar UnifiedEvaluationSystem
+                if (window.UnifiedEvaluationSystem) {
+                    logResult('success', '✅ UnifiedEvaluationSystem disponible');
+                    
+                    // Obtener evaluaciones
+                    const evaluations = window.UnifiedEvaluationSystem.evaluations || [];
+                    logResult('info', `📊 Evaluaciones encontradas: ${evaluations.length}`, 
+                        evaluations.map(e => ({
+                            matchId: e.matchId,
+                            assignments: Object.keys(e.assignments || {}).length,
+                            completed: Object.values(e.assignments || {}).filter(a => a.completed).length
+                        }))
+                    );
+
+                } else {
+                    logResult('error', '❌ UnifiedEvaluationSystem no disponible');
+                }
+
+                // Verificar EvaluationUI
+                if (window.evaluationUI) {
+                    logResult('success', '✅ EvaluationUI disponible');
+                } else {
+                    logResult('warning', '⚠️ EvaluationUI no disponible');
+                }
+
+            } catch (error) {
+                logResult('error', '❌ Error verificando sistema', { error: error.message });
+            }
+        }
+
+        async function testButtonLogic() {
+            logResult('info', '🎯 Probando lógica de botones...');
+            
+            try {
+                const currentPlayer = Storage?.getCurrentPerson();
+                if (!currentPlayer) {
+                    logResult('error', '❌ No hay jugador actual');
+                    return;
+                }
+
+                const evaluations = window.UnifiedEvaluationSystem?.evaluations || [];
+                
+                for (const evaluation of evaluations) {
+                    logResult('info', `🔍 Probando evaluación: ${evaluation.matchId}`);
+                    
+                    // Test hasUserPendingEvaluations
+                    const canEvaluate = await window.evaluationUI.hasUserPendingEvaluations(
+                        evaluation.matchId, 
+                        currentPlayer.id
+                    );
+                    
+                    // Verificar assignments directamente
+                    const assignment = evaluation.assignments?.[currentPlayer.id];
+                    const directCheck = assignment && !assignment.completed;
+                    
+                    logResult('info', `📊 Resultado para ${evaluation.matchId}`, {
+                        matchId: evaluation.matchId,
+                        canEvaluate,
+                        directCheck,
+                        assignment: assignment || 'No assignment',
+                        playerId: currentPlayer.id
+                    });
+                    
+                    if (canEvaluate !== directCheck) {
+                        logResult('warning', '⚠️ Inconsistencia detectada!', {
+                            canEvaluate,
+                            directCheck,
+                            explanation: 'hasUserPendingEvaluations no coincide con verificación directa'
+                        });
+                    }
+                }
+
+            } catch (error) {
+                logResult('error', '❌ Error probando lógica', { error: error.message });
+            }
+        }
+
+        async function testFirebaseQueries() {
+            logResult('info', '🔥 Probando consultas Firebase...');
+            
+            try {
+                const currentPlayer = Storage?.getCurrentPerson();
+                if (!currentPlayer) {
+                    logResult('error', '❌ No hay jugador actual');
+                    return;
+                }
+
+                const evaluations = window.UnifiedEvaluationSystem?.evaluations || [];
+                
+                for (const evaluation of evaluations) {
+                    try {
+                        // Llamada directa a getEvaluationData
+                        const evalData = await window.UnifiedEvaluationSystem.getEvaluationData(
+                            evaluation.matchId, 
+                            currentPlayer.id
+                        );
+                        
+                        logResult('success', `✅ Firebase respuesta para ${evaluation.matchId}`, {
+                            matchId: evaluation.matchId,
+                            hasData: !!evalData,
+                            playersToEvaluate: evalData?.playersToEvaluate?.length || 0
+                        });
+                        
+                    } catch (firebaseError) {
+                        logResult('warning', `⚠️ Firebase error para ${evaluation.matchId}`, {
+                            matchId: evaluation.matchId,
+                            error: firebaseError.message,
+                            interpretation: firebaseError.message.includes('No tienes evaluaciones pendientes') 
+                                ? 'Usuario ya evaluó' 
+                                : 'Error técnico'
+                        });
+                    }
+                }
+
+            } catch (error) {
+                logResult('error', '❌ Error probando Firebase', { error: error.message });
+            }
+        }
+
+        async function simulateEvaluationStates() {
+            logResult('info', '🎭 Simulando estados de evaluación...');
+            
+            const container = document.getElementById('simulation-results');
+            container.innerHTML = `
+                <h3>📊 Tabla de Estados</h3>
+                <table class="status-table">
+                    <thead>
+                        <tr>
+                            <th>Match ID</th>
+                            <th>Can Evaluate (Function)</th>
+                            <th>Direct Check</th>
+                            <th>Button Should Be</th>
+                            <th>Current Button State</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="status-table-body">
+                        <tr><td colspan="6">Cargando...</td></tr>
+                    </tbody>
+                </table>
+            `;
+
+            try {
+                const currentPlayer = Storage?.getCurrentPerson();
+                const evaluations = window.UnifiedEvaluationSystem?.evaluations || [];
+                const tbody = document.getElementById('status-table-body');
+                tbody.innerHTML = '';
+
+                for (const evaluation of evaluations) {
+                    const canEvaluate = await window.evaluationUI.hasUserPendingEvaluations(
+                        evaluation.matchId, 
+                        currentPlayer.id
+                    );
+                    
+                    const assignment = evaluation.assignments?.[currentPlayer.id];
+                    const directCheck = assignment && !assignment.completed;
+                    
+                    const buttonElement = document.getElementById(`eval-btn-${evaluation.matchId}`);
+                    const currentButtonText = buttonElement?.textContent || 'No encontrado';
+                    
+                    const shouldBeText = canEvaluate ? '🎯 Evaluar Ahora' : '✅ Evaluación Completada';
+                    const isCorrect = currentButtonText.includes(canEvaluate ? 'Evaluar' : 'Completada');
+                    
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${evaluation.matchId.slice(-8)}</td>
+                        <td style="color: ${canEvaluate ? '#22c55e' : '#ef4444'}">${canEvaluate}</td>
+                        <td style="color: ${directCheck ? '#22c55e' : '#ef4444'}">${directCheck}</td>
+                        <td>${shouldBeText}</td>
+                        <td>${currentButtonText}</td>
+                        <td style="color: ${isCorrect ? '#22c55e' : '#ef4444'}">
+                            ${isCorrect ? '✅ Correcto' : '❌ Incorrecto'}
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                    
+                    if (!isCorrect) {
+                        logResult('error', `❌ Estado incorrecto para ${evaluation.matchId}`, {
+                            expected: shouldBeText,
+                            actual: currentButtonText,
+                            canEvaluate,
+                            directCheck
+                        });
+                    }
+                }
+
+            } catch (error) {
+                logResult('error', '❌ Error en simulación', { error: error.message });
+            }
+        }
+
+        // Auto-ejecutar al cargar
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                checkSystemState();
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

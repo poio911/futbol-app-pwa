@@ -1,0 +1,482 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App.futbol - Documentación Completa</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .section {
+            background: white;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .section-header {
+            background: #3498db;
+            color: white;
+            padding: 1rem 2rem;
+        }
+        .section-content {
+            padding: 2rem;
+        }
+        .screenshot {
+            max-width: 100%;
+            border-radius: 4px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin: 1rem 0;
+        }
+        .interaction {
+            background: #f8f9fa;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 4px solid #3498db;
+            border-radius: 4px;
+        }
+        .error {
+            border-left-color: #e74c3c;
+            background: #fdf2f2;
+        }
+        .success {
+            border-left-color: #27ae60;
+        }
+        .toc {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        .toc ul {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+        .toc li {
+            margin: 0.5rem 0;
+        }
+        .toc a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        .toc a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>App.futbol - Documentación Completa</h1>
+        <p>Documentación automática generada el 2/9/2025, 4:38:25 p. m.</p>
+    </div>
+
+    <div class="toc">
+        <h2>📑 Índice de Contenidos</h2>
+        <ul>
+            
+                <li><a href="#section-0">App Principal - Inicio</a></li>
+            
+                <li><a href="#section-1">App Principal - Jugadores</a></li>
+            
+                <li><a href="#section-2">App Principal - Partidos</a></li>
+            
+                <li><a href="#section-3">App Principal - Evaluaciones</a></li>
+            
+                <li><a href="#section-4">App Principal - Historial</a></li>
+            
+                <li><a href="#section-5">CPanel - Dashboard</a></li>
+            
+                <li><a href="#section-6">CPanel - Gestión de Jugadores</a></li>
+            
+                <li><a href="#section-7">CPanel - Gestión de Partidos</a></li>
+            
+                <li><a href="#section-8">CPanel - Gestión de Evaluaciones</a></li>
+            
+                <li><a href="#section-9">CPanel - Herramientas de Limpieza</a></li>
+            
+                <li><a href="#section-10">Admin Panel - Gestión General</a></li>
+            
+        </ul>
+    </div>
+
+    
+        <div class="section" id="section-0">
+            <div class="section-header">
+                <h2>App Principal - Inicio</h2>
+            </div>
+            <div class="section-content">
+                <p>Pantalla principal de la aplicación de fútbol</p>
+                <p><strong>URL:</strong> <code>http://localhost:5500/test-app.html</code></p>
+                
+                
+                    <div>
+                        <h4>Vista inicial</h4>
+                        <p>Vista inicial de App Principal - Inicio</p>
+                        <img src="screenshots/app-principal---inicio-inicial.png" alt="Vista inicial" class="screenshot">
+                    </div>
+                
+
+                
+                    <h3>💫 Interacciones Documentadas</h3>
+                    
+                        <div class="interaction success">
+                            <h4>Carga inicial ✅</h4>
+                            <p>Esperar que la aplicación cargue completamente</p>
+                            
+                            <img src="screenshots/app-principal---inicio-1-carga-inicial.png" alt="Carga inicial" class="screenshot">
+                        </div>
+                    
+                        <div class="interaction error">
+                            <h4>Menú hamburguesa ❌</h4>
+                            <p>Abrir menú de navegación principal</p>
+                            <p><strong>Error:</strong> page.click: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('.menu-toggle, #menu-toggle, .hamburger-menu')[22m
+</p>
+                            
+                        </div>
+                    
+                
+
+                
+            </div>
+        </div>
+    
+        <div class="section" id="section-1">
+            <div class="section-header">
+                <h2>App Principal - Jugadores</h2>
+            </div>
+            <div class="section-content">
+                <p>Gestión y visualización de jugadores</p>
+                <p><strong>URL:</strong> <code>http://localhost:5500/test-app.html</code></p>
+                
+                
+                    <div>
+                        <h4>Vista inicial</h4>
+                        <p>Vista inicial de App Principal - Jugadores</p>
+                        <img src="screenshots/app-principal---jugadores-inicial.png" alt="Vista inicial" class="screenshot">
+                    </div>
+                
+
+                
+                    <h3>💫 Interacciones Documentadas</h3>
+                    
+                        <div class="interaction error">
+                            <h4>Navegar a Jugadores ❌</h4>
+                            <p>Cambiar a la pantalla de jugadores</p>
+                            <p><strong>Error:</strong> page.evaluate: ReferenceError: TestApp is not defined
+    at eval (eval at evaluate (:291:30), <anonymous>:1:1)
+    at eval (<anonymous>)
+    at UtilityScript.evaluate (<anonymous>:291:30)
+    at UtilityScript.<anonymous> (<anonymous>:1:44)</p>
+                            
+                        </div>
+                    
+                        <div class="interaction error">
+                            <h4>undefined ❌</h4>
+                            <p>undefined</p>
+                            <p><strong>Error:</strong> Cannot read properties of undefined (reading 'toLowerCase')</p>
+                            
+                        </div>
+                    
+                        <div class="interaction error">
+                            <h4>Botón Añadir Jugador ❌</h4>
+                            <p>Abrir formulario para añadir nuevo jugador</p>
+                            <p><strong>Error:</strong> page.click: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('#add-player-btn')[22m
+</p>
+                            
+                        </div>
+                    
+                
+
+                
+            </div>
+        </div>
+    
+        <div class="section" id="section-2">
+            <div class="section-header">
+                <h2>App Principal - Partidos</h2>
+            </div>
+            <div class="section-content">
+                <p>Gestión de partidos y configuración de equipos</p>
+                <p><strong>URL:</strong> <code>http://localhost:5500/test-app.html</code></p>
+                
+                
+                    <div>
+                        <h4>Vista inicial</h4>
+                        <p>Vista inicial de App Principal - Partidos</p>
+                        <img src="screenshots/app-principal---partidos-inicial.png" alt="Vista inicial" class="screenshot">
+                    </div>
+                
+
+                
+                    <h3>💫 Interacciones Documentadas</h3>
+                    
+                        <div class="interaction error">
+                            <h4>Navegar a Partidos ❌</h4>
+                            <p>Cambiar a la pantalla de partidos</p>
+                            <p><strong>Error:</strong> page.evaluate: ReferenceError: TestApp is not defined
+    at eval (eval at evaluate (:291:30), <anonymous>:1:1)
+    at eval (<anonymous>)
+    at UtilityScript.evaluate (<anonymous>:291:30)
+    at UtilityScript.<anonymous> (<anonymous>:1:44)</p>
+                            
+                        </div>
+                    
+                        <div class="interaction error">
+                            <h4>undefined ❌</h4>
+                            <p>undefined</p>
+                            <p><strong>Error:</strong> Cannot read properties of undefined (reading 'toLowerCase')</p>
+                            
+                        </div>
+                    
+                        <div class="interaction error">
+                            <h4>Crear Partido Manual ❌</h4>
+                            <p>Iniciar creación de partido manual</p>
+                            <p><strong>Error:</strong> page.click: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('#create-manual-match')[22m
+</p>
+                            
+                        </div>
+                    
+                
+
+                
+            </div>
+        </div>
+    
+        <div class="section" id="section-3">
+            <div class="section-header">
+                <h2>App Principal - Evaluaciones</h2>
+            </div>
+            <div class="section-content">
+                <p>Sistema de evaluaciones de jugadores</p>
+                <p><strong>URL:</strong> <code>http://localhost:5500/test-app.html</code></p>
+                
+                
+                    <div>
+                        <h4>Vista inicial</h4>
+                        <p>Vista inicial de App Principal - Evaluaciones</p>
+                        <img src="screenshots/app-principal---evaluaciones-inicial.png" alt="Vista inicial" class="screenshot">
+                    </div>
+                
+
+                
+                    <h3>💫 Interacciones Documentadas</h3>
+                    
+                        <div class="interaction error">
+                            <h4>Navegar a Evaluaciones ❌</h4>
+                            <p>Cambiar a la pantalla de evaluaciones</p>
+                            <p><strong>Error:</strong> page.evaluate: ReferenceError: TestApp is not defined
+    at eval (eval at evaluate (:291:30), <anonymous>:1:1)
+    at eval (<anonymous>)
+    at UtilityScript.evaluate (<anonymous>:291:30)
+    at UtilityScript.<anonymous> (<anonymous>:1:44)</p>
+                            
+                        </div>
+                    
+                        <div class="interaction error">
+                            <h4>undefined ❌</h4>
+                            <p>undefined</p>
+                            <p><strong>Error:</strong> Cannot read properties of undefined (reading 'toLowerCase')</p>
+                            
+                        </div>
+                    
+                
+
+                
+            </div>
+        </div>
+    
+        <div class="section" id="section-4">
+            <div class="section-header">
+                <h2>App Principal - Historial</h2>
+            </div>
+            <div class="section-content">
+                <p>Historial de partidos y estadísticas</p>
+                <p><strong>URL:</strong> <code>http://localhost:5500/test-app.html</code></p>
+                
+                
+                    <div>
+                        <h4>Vista inicial</h4>
+                        <p>Vista inicial de App Principal - Historial</p>
+                        <img src="screenshots/app-principal---historial-inicial.png" alt="Vista inicial" class="screenshot">
+                    </div>
+                
+
+                
+                    <h3>💫 Interacciones Documentadas</h3>
+                    
+                        <div class="interaction error">
+                            <h4>Navegar a Historial ❌</h4>
+                            <p>Cambiar a la pantalla de historial</p>
+                            <p><strong>Error:</strong> page.evaluate: ReferenceError: TestApp is not defined
+    at eval (eval at evaluate (:291:30), <anonymous>:1:1)
+    at eval (<anonymous>)
+    at UtilityScript.evaluate (<anonymous>:291:30)
+    at UtilityScript.<anonymous> (<anonymous>:1:44)</p>
+                            
+                        </div>
+                    
+                        <div class="interaction error">
+                            <h4>undefined ❌</h4>
+                            <p>undefined</p>
+                            <p><strong>Error:</strong> Cannot read properties of undefined (reading 'toLowerCase')</p>
+                            
+                        </div>
+                    
+                
+
+                
+            </div>
+        </div>
+    
+        <div class="section" id="section-5">
+            <div class="section-header">
+                <h2>CPanel - Dashboard</h2>
+            </div>
+            <div class="section-content">
+                <p>Panel de control administrativo - Vista general</p>
+                <p><strong>URL:</strong> <code>http://localhost:5500/cpanel.html</code></p>
+                
+                
+
+                
+
+                <div class="interaction error"><strong>Error:</strong> page.goto: Timeout 30000ms exceeded.
+Call log:
+[2m  - navigating to "http://localhost:5500/cpanel.html", waiting until "networkidle"[22m
+</div>
+            </div>
+        </div>
+    
+        <div class="section" id="section-6">
+            <div class="section-header">
+                <h2>CPanel - Gestión de Jugadores</h2>
+            </div>
+            <div class="section-content">
+                <p>Administración completa de jugadores</p>
+                <p><strong>URL:</strong> <code>http://localhost:5500/cpanel.html</code></p>
+                
+                
+
+                
+
+                <div class="interaction error"><strong>Error:</strong> page.goto: Timeout 30000ms exceeded.
+Call log:
+[2m  - navigating to "http://localhost:5500/cpanel.html", waiting until "networkidle"[22m
+</div>
+            </div>
+        </div>
+    
+        <div class="section" id="section-7">
+            <div class="section-header">
+                <h2>CPanel - Gestión de Partidos</h2>
+            </div>
+            <div class="section-content">
+                <p>Administración completa de partidos</p>
+                <p><strong>URL:</strong> <code>http://localhost:5500/cpanel.html</code></p>
+                
+                
+
+                
+
+                <div class="interaction error"><strong>Error:</strong> page.goto: Timeout 30000ms exceeded.
+Call log:
+[2m  - navigating to "http://localhost:5500/cpanel.html", waiting until "networkidle"[22m
+</div>
+            </div>
+        </div>
+    
+        <div class="section" id="section-8">
+            <div class="section-header">
+                <h2>CPanel - Gestión de Evaluaciones</h2>
+            </div>
+            <div class="section-content">
+                <p>Administración del sistema de evaluaciones</p>
+                <p><strong>URL:</strong> <code>http://localhost:5500/cpanel.html</code></p>
+                
+                
+
+                
+
+                <div class="interaction error"><strong>Error:</strong> page.goto: Timeout 30000ms exceeded.
+Call log:
+[2m  - navigating to "http://localhost:5500/cpanel.html", waiting until "networkidle"[22m
+</div>
+            </div>
+        </div>
+    
+        <div class="section" id="section-9">
+            <div class="section-header">
+                <h2>CPanel - Herramientas de Limpieza</h2>
+            </div>
+            <div class="section-content">
+                <p>Herramientas de administración y limpieza de datos</p>
+                <p><strong>URL:</strong> <code>http://localhost:5500/cpanel.html</code></p>
+                
+                
+
+                
+
+                <div class="interaction error"><strong>Error:</strong> page.goto: Timeout 30000ms exceeded.
+Call log:
+[2m  - navigating to "http://localhost:5500/cpanel.html", waiting until "networkidle"[22m
+</div>
+            </div>
+        </div>
+    
+        <div class="section" id="section-10">
+            <div class="section-header">
+                <h2>Admin Panel - Gestión General</h2>
+            </div>
+            <div class="section-content">
+                <p>Panel de administración general del sistema</p>
+                <p><strong>URL:</strong> <code>http://localhost:5500/admin.html</code></p>
+                
+                
+
+                
+
+                <div class="interaction error"><strong>Error:</strong> page.goto: Timeout 30000ms exceeded.
+Call log:
+[2m  - navigating to "http://localhost:5500/admin.html", waiting until "networkidle"[22m
+</div>
+            </div>
+        </div>
+    
+
+    <div class="section">
+        <div class="section-header">
+            <h2>📊 Resumen de Documentación</h2>
+        </div>
+        <div class="section-content">
+            <ul>
+                <li><strong>Secciones documentadas:</strong> 11</li>
+                <li><strong>Screenshots generadas:</strong> 6</li>
+                <li><strong>Interacciones probadas:</strong> 12</li>
+                <li><strong>Generado el:</strong> 2/9/2025, 4:38:25 p. m.</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
+        

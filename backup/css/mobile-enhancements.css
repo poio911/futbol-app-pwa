@@ -1,0 +1,505 @@
+/* ======================== */
+/* MOBILE ENHANCEMENTS CSS */
+/* ======================== */
+
+/* Mobile Device Specific */
+.mobile-device {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+/* Refresh Indicator */
+.refresh-indicator {
+    position: fixed;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 40px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--bg-color);
+    font-size: 1.5rem;
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 10000;
+    pointer-events: none;
+}
+
+.refresh-indicator.ready {
+    background: var(--green);
+}
+
+.refresh-indicator.refreshing {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: translateX(-50%) rotate(360deg); }
+}
+
+/* Swipe Animations */
+.slide-out-left {
+    animation: slideOutLeft 0.3s ease-out;
+}
+
+.slide-out-right {
+    animation: slideOutRight 0.3s ease-out;
+}
+
+.slide-in-left {
+    animation: slideInLeft 0.3s ease-out;
+}
+
+.slide-in-right {
+    animation: slideInRight 0.3s ease-out;
+}
+
+@keyframes slideOutLeft {
+    to {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+}
+
+@keyframes slideOutRight {
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Context Menu Mobile */
+.context-menu-mobile {
+    background: var(--bg-color);
+    border: 1px solid var(--primary-color);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+    min-width: 150px;
+    z-index: 10000;
+    animation: contextMenuAppear 0.2s ease;
+}
+
+@keyframes contextMenuAppear {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -90%) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -100%) scale(1);
+    }
+}
+
+.context-menu-item {
+    padding: 12px 16px;
+    color: var(--text-color);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: background 0.2s ease;
+}
+
+.context-menu-item:last-child {
+    border-bottom: none;
+}
+
+.context-menu-item:active {
+    background: rgba(0, 255, 157, 0.2);
+}
+
+/* Keyboard Open Adjustments */
+.keyboard-open {
+    padding-bottom: 0;
+}
+
+.keyboard-open .nav-bar {
+    display: none;
+}
+
+/* Landscape Mode */
+@media (orientation: landscape) and (max-width: 768px) {
+    .landscape .container {
+        padding: 10px;
+    }
+    
+    .landscape .nav-bar {
+        padding: 5px 0;
+    }
+    
+    .landscape .nav-item {
+        font-size: 0.7rem;
+    }
+    
+    .landscape .nav-item i {
+        font-size: 1.2rem;
+    }
+}
+
+/* Improved Mobile Cards */
+@media (max-width: 768px) {
+    /* Compact Player Cards */
+    .player-card {
+        height: 300px !important;
+        margin-bottom: 15px;
+    }
+    
+    .player-photo {
+        width: 70px !important;
+        height: 70px !important;
+        margin-top: 60px !important;
+    }
+    
+    .player-ovr {
+        font-size: 2.2rem !important;
+        top: 15px !important;
+        right: 15px !important;
+    }
+    
+    .player-position {
+        font-size: 0.8rem !important;
+        top: 15px !important;
+        left: 15px !important;
+        padding: 4px 10px !important;
+    }
+    
+    .player-name {
+        font-size: 0.85rem !important;
+        margin-top: 10px !important;
+    }
+    
+    .player-stats {
+        gap: 15px !important;
+    }
+    
+    .player-stat {
+        min-width: 50px !important;
+    }
+    
+    .player-stat-value {
+        font-size: 1rem !important;
+    }
+    
+    .player-stat-label {
+        font-size: 0.65rem !important;
+    }
+    
+    /* Grid Optimization */
+    .player-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 12px !important;
+        padding: 10px !important;
+    }
+    
+    /* Dashboard Cards */
+    .dashboard-card {
+        padding: 15px !important;
+        margin-bottom: 15px;
+    }
+    
+    .dashboard-main-grid {
+        grid-template-columns: 1fr !important;
+        gap: 15px !important;
+    }
+    
+    .dashboard-quick-actions {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 10px !important;
+    }
+    
+    .quick-action-btn {
+        padding: 15px 10px !important;
+        font-size: 0.85rem !important;
+    }
+    
+    .quick-action-btn i {
+        font-size: 1.8rem !important;
+    }
+    
+    /* Forms Mobile */
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="number"],
+    select,
+    textarea {
+        font-size: 16px !important; /* Previene zoom en iOS */
+        padding: 12px !important;
+        min-height: 44px;
+    }
+    
+    .stat-slider {
+        margin-bottom: 20px;
+    }
+    
+    input[type="range"] {
+        min-height: 44px;
+        -webkit-appearance: none;
+    }
+    
+    input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 30px;
+        height: 30px;
+        background: var(--primary-color);
+        border-radius: 50%;
+        cursor: pointer;
+    }
+    
+    /* Buttons Mobile */
+    .btn {
+        min-height: 44px;
+        font-size: 1rem;
+        padding: 12px 20px;
+    }
+    
+    .btn-icon {
+        min-width: 44px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* Navigation Improvements */
+    .nav-bar {
+        height: 60px;
+        padding: 8px 0;
+    }
+    
+    .nav-item {
+        min-width: 44px;
+        min-height: 44px;
+        padding: 5px;
+    }
+    
+    .nav-item span {
+        font-size: 0.75rem;
+    }
+    
+    /* Modals Mobile */
+    .modal-content {
+        width: 95%;
+        max-width: none;
+        margin: 20px auto;
+        max-height: calc(100vh - 40px);
+        overflow-y: auto;
+    }
+    
+    /* Stats Screen Mobile */
+    .stats-tabs {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 10px;
+    }
+    
+    .stats-tab {
+        flex-shrink: 0;
+        min-width: 100px;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .stats-card canvas {
+        max-height: 250px !important;
+    }
+    
+    /* Evaluation Mobile */
+    .evaluation-container {
+        padding: 10px !important;
+    }
+    
+    .performance-tags-grid {
+        gap: 8px !important;
+    }
+    
+    .performance-tag label {
+        height: 40px !important;
+        font-size: 0.75rem !important;
+    }
+    
+    /* Match Cards Mobile */
+    .team-display {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .team-card {
+        padding: 15px !important;
+    }
+    
+    .team-player-item {
+        padding: 8px !important;
+    }
+    
+    .team-player-photo {
+        width: 40px !important;
+        height: 40px !important;
+    }
+}
+
+/* Reduce Motion */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Small Devices Extra Optimizations */
+@media (max-width: 380px) {
+    .container {
+        padding: 10px !important;
+    }
+    
+    .player-card {
+        height: 280px !important;
+    }
+    
+    .player-photo {
+        width: 60px !important;
+        height: 60px !important;
+    }
+    
+    .player-ovr {
+        font-size: 1.8rem !important;
+    }
+    
+    .dashboard-quick-actions {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .stats-card {
+        padding: 12px !important;
+    }
+}
+
+/* Touch Optimizations */
+@media (hover: none) and (pointer: coarse) {
+    /* Remove hover effects on touch devices */
+    .player-card:hover,
+    .btn:hover,
+    .nav-item:hover {
+        transform: none !important;
+    }
+    
+    /* Active states for touch */
+    .player-card:active {
+        transform: scale(0.98) !important;
+    }
+    
+    .btn:active {
+        transform: scale(0.95) !important;
+    }
+    
+    /* Larger touch targets */
+    a, button, [role="button"] {
+        min-width: 44px;
+        min-height: 44px;
+    }
+}
+
+/* Safe Area Insets (for notched devices) */
+@supports (padding: max(0px)) {
+    .container {
+        padding-left: max(20px, env(safe-area-inset-left));
+        padding-right: max(20px, env(safe-area-inset-right));
+    }
+    
+    .nav-bar {
+        padding-bottom: max(10px, env(safe-area-inset-bottom));
+    }
+}
+
+/* Performance Optimizations */
+@media (max-width: 768px) {
+    /* Use GPU acceleration */
+    .screen,
+    .player-card,
+    .modal {
+        will-change: transform;
+        transform: translateZ(0);
+    }
+    
+    /* Optimize shadows */
+    .player-card {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+    }
+    
+    /* Simplify gradients */
+    .player-card {
+        background: #1a1a2a !important;
+    }
+}
+
+/* Loading States Mobile */
+@media (max-width: 768px) {
+    .loading {
+        background: rgba(0, 0, 0, 0.95);
+    }
+    
+    .spinner {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .loading-text {
+        font-size: 0.9rem;
+    }
+}
+
+/* Accessibility Improvements */
+@media (max-width: 768px) {
+    /* Focus indicators */
+    *:focus {
+        outline: 2px solid var(--primary-color);
+        outline-offset: 2px;
+    }
+    
+    /* Skip links */
+    .skip-link {
+        position: absolute;
+        top: -40px;
+        left: 0;
+        background: var(--primary-color);
+        color: var(--bg-color);
+        padding: 8px;
+        text-decoration: none;
+        border-radius: 0 0 5px 5px;
+    }
+    
+    .skip-link:focus {
+        top: 0;
+    }
+}

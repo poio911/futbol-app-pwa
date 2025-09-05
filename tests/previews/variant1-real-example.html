@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Variante 1 - Implementación Real</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0a0e1a 0%, #1a1f2e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 30px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .main-title {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 40px;
+            background: linear-gradient(90deg, #00ff9d, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            color: #00ff9d;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding-left: 10px;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(to bottom, #00ff9d, #00d4ff);
+            border-radius: 2px;
+        }
+
+        /* ========================================= */
+        /* HEADER ACTUALIZADO */
+        /* ========================================= */
+        .header-container {
+            background: rgba(26, 31, 46, 0.5);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(0, 255, 157, 0.1);
+        }
+
+        .modern-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, #1a1f2e 0%, #232938 100%);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 255, 157, 0.1);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .modern-avatar {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            border: 3px solid #00ff9d;
+            background: url('https://via.placeholder.com/75') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: #00ff9d;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0, 255, 157, 0.2);
+        }
+
+        .header-ovr {
+            position: absolute;
+            bottom: -5px;
+            right: -5px;
+            background: #00ff9d;
+            color: #0a0e1a;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 16px;
+            box-shadow: 0 3px 10px rgba(0, 255, 157, 0.6);
+            border: 2px solid #0a0e1a;
+        }
+
+        .header-info h2 {
+            font-size: 22px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .header-info p {
+            font-size: 14px;
+            opacity: 0.7;
+            margin-bottom: 10px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .header-btn {
+            padding: 10px 20px;
+            background: rgba(0, 255, 157, 0.1);
+            border: 1px solid rgba(0, 255, 157, 0.3);
+            border-radius: 10px;
+            color: #00ff9d;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-btn:hover {
+            background: rgba(0, 255, 157, 0.2);
+            border-color: #00ff9d;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 157, 0.3);
+        }
+
+        /* ========================================= */
+        /* ESTILOS DE POSICIÓN */
+        /* ========================================= */
+        .position-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .pos-del {
+            background: linear-gradient(135deg, #ff4757, #ff6b7a);
+            color: white;
+        }
+
+        .pos-med {
+            background: linear-gradient(135deg, #00d2d3, #00a8a8);
+            color: white;
+        }
+
+        .pos-def {
+            background: linear-gradient(135deg, #5f27cd, #7c4dff);
+            color: white;
+        }
+
+        .pos-por {
+            background: linear-gradient(135deg, #ff9f43, #ffb667);
+            color: white;
+        }
+
+        /* ========================================= */
+        /* PLAYER CARDS - VARIANTE 1 */
+        /* ========================================= */
+        .players-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .player-card {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, #1a1f2e 0%, #232938 100%);
+            border-radius: 15px;
+            border: 1px solid rgba(0, 255, 157, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .player-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00ff9d, transparent);
+            animation: none;
+        }
+
+        .player-card:hover::before {
+            animation: scan 1s ease;
+        }
+
+        @keyframes scan {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .player-card:hover {
+            transform: translateX(5px);
+            border-color: #00ff9d;
+            box-shadow: 0 8px 25px rgba(0, 255, 157, 0.25);
+        }
+
+        .player-photo {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #232938, #1a1f2e);
+            border: 2px solid #00ff9d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00ff9d;
+            font-size: 24px;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .player-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .player-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .player-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .player-details {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .player-stats-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 4px;
+        }
+
+        .ovr-large {
+            width: 55px;
+            height: 55px;
+            background: #00ff9d;
+            color: #0a0e1a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 22px;
+            box-shadow: 0 4px 15px rgba(0, 255, 157, 0.5);
+            flex-shrink: 0;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .player-card:hover .ovr-large {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 255, 157, 0.7);
+        }
+
+        .best-stat {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 140, 0, 0.15));
+            color: #ffd700;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .best-stat i {
+            font-size: 13px;
+        }
+
+        /* ========================================= */
+        /* STATS SECTION */
+        /* ========================================= */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: rgba(26, 31, 46, 0.8);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(0, 255, 157, 0.1);
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #00ff9d, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ========================================= */
+        /* FILTER TABS */
+        /* ========================================= */
+        .filter-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-tab {
+            padding: 10px 20px;
+            background: rgba(0, 255, 157, 0.1);
+            border: 1px solid rgba(0, 255, 157, 0.2);
+            border-radius: 25px;
+            color: #00ff9d;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-tab:hover {
+            background: rgba(0, 255, 157, 0.2);
+            border-color: #00ff9d;
+        }
+
+        .filter-tab.active {
+            background: #00ff9d;
+            color: #0a0e1a;
+            border-color: #00ff9d;
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: rgba(26, 31, 46, 0.3);
+            border-radius: 20px;
+            border: 1px dashed rgba(0, 255, 157, 0.3);
+        }
+
+        .empty-state i {
+            font-size: 64px;
+            color: rgba(0, 255, 157, 0.5);
+            margin-bottom: 20px;
+        }
+
+        .empty-state p {
+            font-size: 18px;
+            opacity: 0.7;
+            margin-bottom: 20px;
+        }
+
+        .add-player-btn {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #00ff9d, #00d4ff);
+            color: #0a0e1a;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .add-player-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 255, 157, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="main-title">Sistema de Jugadores - Variante 1</h1>
+
+        <!-- HEADER DEL USUARIO -->
+        <div class="header-container">
+            <div class="modern-header">
+                <div class="header-left">
+                    <div class="modern-avatar">
+                        <div class="header-ovr">56</div>
+                    </div>
+                    <div class="header-info">
+                        <h2>Juan Pérez</h2>
+                        <p>juan.perez@example.com</p>
+                        <span class="position-badge pos-med">
+                            <i class='bx bx-target-lock'></i>
+                            MEDIOCAMPISTA
+                        </span>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="header-btn">
+                        <i class='bx bx-user-circle'></i>
+                        Ver Perfil
+                    </button>
+                    <button class="header-btn">
+                        <i class='bx bx-cog'></i>
+                        Configuración
+                    </button>
+                    <button class="header-btn">
+                        <i class='bx bx-log-out'></i>
+                        Cerrar Sesión
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ESTADÍSTICAS -->
+        <section class="section">
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-value">12</div>
+                    <div class="stat-label">Jugadores Totales</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">78.5</div>
+                    <div class="stat-label">OVR Promedio</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">Partidos Jugados</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">2</div>
+                    <div class="stat-label">Victorias</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FILTROS -->
+        <section class="section">
+            <h2 class="section-title">Jugadores del Equipo</h2>
+            <div class="filter-tabs">
+                <div class="filter-tab active">Todos (12)</div>
+                <div class="filter-tab">Delanteros (3)</div>
+                <div class="filter-tab">Mediocampistas (4)</div>
+                <div class="filter-tab">Defensores (4)</div>
+                <div class="filter-tab">Porteros (1)</div>
+            </div>
+        </section>
+
+        <!-- GRID DE JUGADORES -->
+        <section class="section">
+            <div class="players-grid">
+                <!-- Jugador 1 - Delantero -->
+                <div class="player-card">
+                    <div class="player-photo">
+                        <img src="https://via.placeholder.com/65" alt="Carlos Rodríguez">
+                    </div>
+                    <div class="player-info">
+                        <div class="player-name">Carlos Rodríguez</div>
+                        <div class="player-details">
+                            <span class="position-badge pos-del">
+                                <i class='bx bx-football'></i>
+                                DEL
+                            </span>
+                            <span class="best-stat">
+                                <i class='bx bx-run'></i>
+                                VEL 92
+                            </span>
+                        </div>
+                    </div>
+                    <div class="ovr-large">85</div>
+                </div>
+
+                <!-- Jugador 2 - Mediocampista -->
+                <div class="player-card">
+                    <div class="player-photo">
+                        <img src="https://via.placeholder.com/65" alt="Luis Martínez">
+                    </div>
+                    <div class="player-info">
+                        <div class="player-name">Luis Martínez</div>
+                        <div class="player-details">
+                            <span class="position-badge pos-med">
+                                <i class='bx bx-target-lock'></i>
+                                MED
+                            </span>
+                            <span class="best-stat">
+                                <i class='bx bx-target-lock'></i>
+                                PAS 88
+                            </span>
+                        </div>
+                    </div>
+                    <div class="ovr-large">79</div>
+                </div>
+
+                <!-- Jugador 3 - Defensor -->
+                <div class="player-card">
+                    <div class="player-photo">
+                        <img src="https://via.placeholder.com/65" alt="Miguel Sánchez">
+                    </div>
+                    <div class="player-info">
+                        <div class="player-name">Miguel Sánchez</div>
+                        <div class="player-details">
+                            <span class="position-badge pos-def">
+                                <i class='bx bx-shield-alt-2'></i>
+                                DEF
+                            </span>
+                            <span class="best-stat">
+                                <i class='bx bx-shield'></i>
+                                DEF 90
+                            </span>
+                        </div>
+                    </div>
+                    <div class="ovr-large">82</div>
+                </div>
+
+                <!-- Jugador 4 - Portero -->
+                <div class="player-card">
+                    <div class="player-photo">
+                        <img src="https://via.placeholder.com/65" alt="Diego López">
+                    </div>
+                    <div class="player-info">
+                        <div class="player-name">Diego López</div>
+                        <div class="player-details">
+                            <span class="position-badge pos-por">
+                                <i class='bx bxs-hand'></i>
+                                POR
+                            </span>
+                            <span class="best-stat">
+                                <i class='bx bxs-hand'></i>
+                                REF 87
+                            </span>
+                        </div>
+                    </div>
+                    <div class="ovr-large">78</div>
+                </div>
+
+                <!-- Jugador 5 - Delantero -->
+                <div class="player-card">
+                    <div class="player-photo">
+                        <img src="https://via.placeholder.com/65" alt="Fernando Torres">
+                    </div>
+                    <div class="player-info">
+                        <div class="player-name">Fernando Torres</div>
+                        <div class="player-details">
+                            <span class="position-badge pos-del">
+                                <i class='bx bx-football'></i>
+                                DEL
+                            </span>
+                            <span class="best-stat">
+                                <i class='bx bx-target-lock'></i>
+                                TIR 91
+                            </span>
+                        </div>
+                    </div>
+                    <div class="ovr-large">83</div>
+                </div>
+
+                <!-- Jugador 6 - Mediocampista -->
+                <div class="player-card">
+                    <div class="player-photo">
+                        <img src="https://via.placeholder.com/65" alt="Andrés Silva">
+                    </div>
+                    <div class="player-info">
+                        <div class="player-name">Andrés Silva</div>
+                        <div class="player-details">
+                            <span class="position-badge pos-med">
+                                <i class='bx bx-target-lock'></i>
+                                MED
+                            </span>
+                            <span class="best-stat">
+                                <i class='bx bx-battery'></i>
+                                RES 89
+                            </span>
+                        </div>
+                    </div>
+                    <div class="ovr-large">77</div>
+                </div>
+
+                <!-- Jugador 7 - Defensor -->
+                <div class="player-card">
+                    <div class="player-photo">
+                        <img src="https://via.placeholder.com/65" alt="Roberto García">
+                    </div>
+                    <div class="player-info">
+                        <div class="player-name">Roberto García</div>
+                        <div class="player-details">
+                            <span class="position-badge pos-def">
+                                <i class='bx bx-shield-alt-2'></i>
+                                DEF
+                            </span>
+                            <span class="best-stat">
+                                <i class='bx bx-body'></i>
+                                FÍS 86
+                            </span>
+                        </div>
+                    </div>
+                    <div class="ovr-large">75</div>
+                </div>
+
+                <!-- Jugador 8 - Mediocampista -->
+                <div class="player-card">
+                    <div class="player-photo">
+                        <img src="https://via.placeholder.com/65" alt="Pablo Mendoza">
+                    </div>
+                    <div class="player-info">
+                        <div class="player-name">Pablo Mendoza</div>
+                        <div class="player-details">
+                            <span class="position-badge pos-med">
+                                <i class='bx bx-target-lock'></i>
+                                MED
+                            </span>
+                            <span class="best-stat">
+                                <i class='bx bx-joystick'></i>
+                                REG 85
+                            </span>
+                        </div>
+                    </div>
+                    <div class="ovr-large">80</div>
+                </div>
+
+                <!-- Jugador 9 - Defensor -->
+                <div class="player-card">
+                    <div class="player-photo">
+                        <img src="https://via.placeholder.com/65" alt="Javier Ruiz">
+                    </div>
+                    <div class="player-info">
+                        <div class="player-name">Javier Ruiz</div>
+                        <div class="player-details">
+                            <span class="position-badge pos-def">
+                                <i class='bx bx-shield-alt-2'></i>
+                                DEF
+                            </span>
+                            <span class="best-stat">
+                                <i class='bx bx-crosshair'></i>
+                                MAR 84
+                            </span>
+                        </div>
+                    </div>
+                    <div class="ovr-large">76</div>
+                </div>
+
+                <!-- Jugador 10 - Delantero -->
+                <div class="player-card">
+                    <div class="player-photo">
+                        <img src="https://via.placeholder.com/65" alt="Antonio Vega">
+                    </div>
+                    <div class="player-info">
+                        <div class="player-name">Antonio Vega</div>
+                        <div class="player-details">
+                            <span class="position-badge pos-del">
+                                <i class='bx bx-football'></i>
+                                DEL
+                            </span>
+                            <span class="best-stat">
+                                <i class='bx bx-dots-horizontal-rounded'></i>
+                                CON 83
+                            </span>
+                        </div>
+                    </div>
+                    <div class="ovr-large">74</div>
+                </div>
+
+                <!-- Jugador 11 - Mediocampista -->
+                <div class="player-card">
+                    <div class="player-photo">
+                        <img src="https://via.placeholder.com/65" alt="Ricardo Flores">
+                    </div>
+                    <div class="player-info">
+                        <div class="player-name">Ricardo Flores</div>
+                        <div class="player-details">
+                            <span class="position-badge pos-med">
+                                <i class='bx bx-target-lock'></i>
+                                MED
+                            </span>
+                            <span class="best-stat">
+                                <i class='bx bx-target-lock'></i>
+                                VIS 82
+                            </span>
+                        </div>
+                    </div>
+                    <div class="ovr-large">73</div>
+                </div>
+
+                <!-- Jugador 12 - Defensor -->
+                <div class="player-card">
+                    <div class="player-photo">
+                        <img src="https://via.placeholder.com/65" alt="Manuel Castro">
+                    </div>
+                    <div class="player-info">
+                        <div class="player-name">Manuel Castro</div>
+                        <div class="player-details">
+                            <span class="position-badge pos-def">
+                                <i class='bx bx-shield-alt-2'></i>
+                                DEF
+                            </span>
+                            <span class="best-stat">
+                                <i class='bx bx-trending-up'></i>
+                                ACE 81
+                            </span>
+                        </div>
+                    </div>
+                    <div class="ovr-large">72</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN VACÍA (ejemplo) -->
+        <section class="section">
+            <h2 class="section-title">Jugadores Invitados</h2>
+            <div class="empty-state">
+                <i class='bx bx-user-plus'></i>
+                <p>No hay jugadores invitados en este momento</p>
+                <button class="add-player-btn">
+                    <i class='bx bx-plus-circle'></i>
+                    Agregar Jugador Invitado
+                </button>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        // Simulación de funcionalidad
+        document.querySelectorAll('.filter-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        document.querySelectorAll('.player-card').forEach(card => {
+            card.addEventListener('click', function() {
+                console.log('Clicked on player:', this.querySelector('.player-name').textContent);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Force Debug</title>
+</head>
+<body>
+    <h1>🔧 Force Debug - Verificar código JS cargado</h1>
+    <button onclick="testFunction()">Test Helper Function</button>
+    <div id="results"></div>
+    
+    <script src="js/firebase-simple.js"></script>
+    <script>
+        function testFunction() {
+            const resultsDiv = document.getElementById('results');
+            
+            // Test data similar to Pela
+            const testPlayer = {
+                // NEW STRUCTURE - should be priority 1
+                pac: 75, sho: 80, pas: 78, dri: 76, def: 72, phy: 74,
+                ovr: 80,
+                
+                // OLD STRUCTURE - should be fallback
+                attributes: {
+                    pac: 71, sho: 54, pas: 53, dri: 51, def: 53, phy: 61
+                }
+            };
+            
+            resultsDiv.innerHTML = `
+                <h3>Test Player Data:</h3>
+                <pre>${JSON.stringify(testPlayer, null, 2)}</pre>
+                
+                <h3>Testing current admin function...</h3>
+                <p>Testing getPlayerStats function...</p>
+                <div id="test-results"></div>
+            `;
+            
+            // Open admin in new window to test the function there
+            const adminWindow = window.open('/admin.html', '_blank');
+            
+            adminWindow.addEventListener('load', () => {
+                setTimeout(() => {
+                    try {
+                        if (adminWindow.getPlayerStats) {
+                            const result = adminWindow.getPlayerStats(testPlayer);
+                            document.getElementById('test-results').innerHTML = `
+                                <h4>✅ Function exists and returned:</h4>
+                                <pre>${JSON.stringify(result, null, 2)}</pre>
+                                <h4>Analysis:</h4>
+                                <p>Should show direct fields (75,80,78,76,72,74) not attributes (71,54,53,51,53,61)</p>
+                            `;
+                        } else {
+                            document.getElementById('test-results').innerHTML = `
+                                <h4>❌ getPlayerStats function not found in admin window</h4>
+                                <p>This means the code update didn't load properly</p>
+                            `;
+                        }
+                    } catch (e) {
+                        document.getElementById('test-results').innerHTML = `
+                            <h4>❌ Error testing function: ${e.message}</h4>
+                        `;
+                    }
+                }, 3000);
+            });
+        }
+    </script>
+</body>
+</html>

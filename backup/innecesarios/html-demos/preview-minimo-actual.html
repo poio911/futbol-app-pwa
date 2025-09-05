@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ Preview Mínimo - Manteniendo Diseño Actual</title>
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* ===== EXACTAMENTE LAS MISMAS VARIABLES ACTUALES ===== */
+        :root {
+            --primary: #00ff9d;
+            --secondary: #ff00e6;
+            --dark: #0a0a0a;
+            --darker: #050505;
+            --card-bg: rgba(25, 25, 25, 0.7);
+            --text-light: #e0e0e0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            /* EXACTAMENTE EL MISMO FONDO ACTUAL */
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 255, 157, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 0, 230, 0.1) 0%, transparent 20%),
+                linear-gradient(to bottom, var(--dark), var(--darker));
+            overflow-x: hidden;
+        }
+
+        /* ===== COMPARATIVA LADO A LADO ===== */
+        .comparison-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .preview-header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 30px;
+        }
+
+        .preview-title {
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .preview-subtitle {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 16px;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .comparison-section {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 25px;
+            position: relative;
+        }
+
+        .comparison-section h3 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        /* ===== ESTILOS ACTUALES EXACTOS (Izquierda) ===== */
+        .current-design {
+            /* Todos los estilos actuales copiados exactamente */
+        }
+
+        /* Player Card - Diseño Actual */
+        .current-player-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .current-player-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+        }
+
+        .current-player-header {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .current-player-basic-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .current-player-photo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 8px rgba(0, 255, 157, 0.3);
+        }
+
+        .current-player-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+            margin: 0 0 4px 0;
+        }
+
+        .current-player-position {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            text-transform: uppercase;
+            font-weight: 500;
+            margin: 0;
+        }
+
+        .current-position-POR { color: #f1c40f !important; background: rgba(241, 196, 15, 0.2); padding: 2px 6px; border-radius: 4px; }
+
+        .current-player-rating {
+            font-size: 32px;
+            font-weight: 700;
+            line-height: 1;
+            position: relative;
+            color: var(--primary);
+            text-shadow: 
+                0 0 2px var(--primary),
+                0 0 4px rgba(0, 255, 157, 0.2);
+        }
+
+        /* Nav Button - Diseño Actual */
+        .current-nav-btn {
+            background: var(--card-bg) !important;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05) !important;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 15px 10px !important;
+            min-height: 80px !important;
+            color: var(--text-light) !important;
+            text-decoration: none;
+            margin-bottom: 15px;
+        }
+
+        .current-nav-btn:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4) !important;
+            border-color: var(--primary) !important;
+            color: var(--text-light) !important;
+        }
+
+        .current-nav-btn i {
+            font-size: 24px;
+            margin-bottom: 5px;
+            display: block;
+            color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .current-nav-btn span {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-light);
+        }
+
+        /* ===== ARREGLOS MÍNIMOS (Derecha) ===== */
+        .improved-design {
+            /* Solo pequeños arreglos técnicos */
+        }
+
+        /* Player Card - Con pequeños arreglos */
+        .improved-player-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Transición más suave */
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .improved-player-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.02) 50%, /* Efecto sutil */
+                transparent 100%
+            );
+            transform: rotate(45deg);
+            transition: all 0.6s ease;
+            pointer-events: none;
+        }
+
+        .improved-player-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+        }
+
+        .improved-player-card:hover::before {
+            top: -100%;
+            left: -100%;
+        }
+
+        /* Resto exactamente igual pero con pequeños ajustes técnicos */
+        .improved-player-header {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .improved-player-basic-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .improved-player-photo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 8px rgba(0, 255, 157, 0.3);
+        }
+
+        .improved-player-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+            margin: 0 0 4px 0;
+        }
+
+        .improved-player-position {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            text-transform: uppercase;
+            font-weight: 500;
+            margin: 0;
+        }
+
+        .improved-position-POR { color: #f1c40f !important; background: rgba(241, 196, 15, 0.2); padding: 2px 6px; border-radius: 4px; }
+
+        .improved-player-rating {
+            font-size: 32px;
+            font-weight: 700;
+            line-height: 1;
+            position: relative;
+            color: var(--primary);
+            text-shadow: 
+                0 0 2px var(--primary),
+                0 0 4px rgba(0, 255, 157, 0.2);
+            animation: subtle-glow 4s ease-in-out infinite alternate; /* Glow más controlado */
+        }
+
+        @keyframes subtle-glow {
+            0% { 
+                text-shadow: 
+                    0 0 2px var(--primary),
+                    0 0 4px rgba(0, 255, 157, 0.2);
+            }
+            100% { 
+                text-shadow: 
+                    0 0 3px var(--primary),
+                    0 0 6px rgba(0, 255, 157, 0.25);
+            }
+        }
+
+        /* Nav Button - Con arreglos mínimos */
+        .improved-nav-btn {
+            background: var(--card-bg) !important;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05) !important;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Transición mejorada */
+            position: relative;
+            overflow: hidden;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 15px 10px !important;
+            min-height: 80px !important;
+            color: var(--text-light) !important;
+            text-decoration: none;
+            margin-bottom: 15px;
+        }
+
+        .improved-nav-btn:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4) !important;
+            border-color: var(--primary) !important;
+            color: var(--text-light) !important;
+        }
+
+        .improved-nav-btn i {
+            font-size: 24px;
+            margin-bottom: 5px;
+            display: block;
+            color: var(--primary);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Transición mejorada */
+        }
+
+        .improved-nav-btn:hover i {
+            transform: translateY(-1px) scale(1.05); /* Micro-animación */
+        }
+
+        .improved-nav-btn span {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-light);
+        }
+
+        /* ===== LISTA DE CAMBIOS ===== */
+        .changes-list {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 30px;
+        }
+
+        .changes-list h3 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .change-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            color: var(--text-light);
+        }
+
+        .change-icon {
+            color: var(--primary);
+            font-size: 16px;
+        }
+
+        .no-change {
+            color: rgba(255, 255, 255, 0.6);
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .section-label {
+            background: rgba(0, 255, 157, 0.1);
+            color: var(--primary);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="comparison-container">
+        <!-- Header -->
+        <div class="preview-header">
+            <h1 class="preview-title">⚡ COMPARATIVA MÍNIMA</h1>
+            <p class="preview-subtitle">Lado a Lado: Actual vs Arreglos Técnicos Mínimos</p>
+        </div>
+
+        <!-- Comparativa Player Cards -->
+        <div class="comparison-grid">
+            <div class="comparison-section current-design">
+                <div class="section-label">ACTUAL</div>
+                <h3>🎮 Diseño Actual (Exacto)</h3>
+                
+                <!-- Player Card Actual -->
+                <div class="current-player-card">
+                    <div class="current-player-header">
+                        <div class="current-player-basic-info">
+                            <div class="current-player-photo">JM</div>
+                            <div class="current-player-info">
+                                <div class="current-player-name">Juan Martínez</div>
+                                <div class="current-player-position current-position-POR">POR</div>
+                            </div>
+                        </div>
+                        <div class="current-player-rating">87</div>
+                    </div>
+                </div>
+
+                <!-- Nav Button Actual -->
+                <div class="current-nav-btn">
+                    <i class="bx bx-home"></i>
+                    <span>Dashboard</span>
+                </div>
+            </div>
+
+            <div class="comparison-section improved-design">
+                <div class="section-label">MEJORADO</div>
+                <h3>🔧 Con Arreglos Mínimos</h3>
+                
+                <!-- Player Card Mejorado -->
+                <div class="improved-player-card">
+                    <div class="improved-player-header">
+                        <div class="improved-player-basic-info">
+                            <div class="improved-player-photo">JM</div>
+                            <div class="improved-player-info">
+                                <div class="improved-player-name">Juan Martínez</div>
+                                <div class="improved-player-position improved-position-POR">POR</div>
+                            </div>
+                        </div>
+                        <div class="improved-player-rating">87</div>
+                    </div>
+                </div>
+
+                <!-- Nav Button Mejorado -->
+                <div class="improved-nav-btn">
+                    <i class="bx bx-home"></i>
+                    <span>Dashboard</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lista de Cambios Ultra Mínimos -->
+        <div class="changes-list">
+            <h3>⚡ ¿Qué Cambios Mínimos Se Proponen?</h3>
+            
+            <div class="change-item">
+                <i class="bx bx-check change-icon"></i>
+                <span><strong>Transiciones más suaves</strong>: De 0.3s a 0.4s cubic-bezier (imperceptible visualmente)</span>
+            </div>
+            
+            <div class="change-item">
+                <i class="bx bx-check change-icon"></i>
+                <span><strong>Efecto hover sutil</strong>: Micro-animación en iconos (scale 1.05)</span>
+            </div>
+            
+            <div class="change-item">
+                <i class="bx bx-check change-icon"></i>
+                <span><strong>Glow más controlado</strong>: Animación del rating más suave</span>
+            </div>
+            
+            <div class="change-item">
+                <i class="bx bx-check change-icon"></i>
+                <span><strong>Efecto shine</strong>: Brillo sutil que pasa por las cards al hover</span>
+            </div>
+
+            <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+                <div class="no-change">
+                    ❌ <strong>NO SE CAMBIA</strong>: Colores, tamaños, layout, gradientes, fondos, tipografía
+                </div>
+            </div>
+
+            <div style="margin-top: 20px; text-align: center; color: var(--text-light);">
+                <strong>💡 Resultado</strong>: Exactamente el mismo diseño visual pero con micro-mejoras técnicas
+            </div>
+        </div>
+    </div>
+</body>
+</html>

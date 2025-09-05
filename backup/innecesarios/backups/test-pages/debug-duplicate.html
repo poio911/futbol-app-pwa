@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Duplicate Events</title>
+    <style>
+        body { font-family: monospace; background: #1a1a1a; color: #0f0; padding: 20px; }
+        .log { background: #000; padding: 10px; border: 1px solid #0f0; margin: 10px 0; height: 400px; overflow-y: auto; }
+        button { background: #00ff00; color: #000; padding: 10px 20px; margin: 5px; border: none; cursor: pointer; }
+        input[type="file"] { margin: 10px; padding: 10px; background: #333; color: #0f0; }
+    </style>
+</head>
+<body>
+    <h1>🐛 Debug Duplicate Events</h1>
+    
+    <div>
+        <h2>Test Inputs</h2>
+        <button id="test-button">Test Button Click</button>
+        <button id="trigger-upload">Trigger File Upload</button>
+        <input type="file" id="test-file" style="display: block;">
+    </div>
+    
+    <div>
+        <h2>Event Log</h2>
+        <button onclick="clearLog()">Clear Log</button>
+        <div class="log" id="log"></div>
+    </div>
+
+    <script>
+        let eventCounter = 0;
+        
+        function log(message, type = 'info') {
+            const logDiv = document.getElementById('log');
+            const time = new Date().toLocaleTimeString('es-ES', { hour12: false, milliseconds: true });
+            const entry = document.createElement('div');
+            entry.style.color = type === 'error' ? '#ff0000' : type === 'warning' ? '#ffff00' : '#00ff00';
+            entry.textContent = `[${time}] [${++eventCounter}] ${message}`;
+            logDiv.appendChild(entry);
+            logDiv.scrollTop = logDiv.scrollHeight;
+            console.log(message);
+        }
+        
+        function clearLog() {
+            document.getElementById('log').innerHTML = '';
+            eventCounter = 0;
+        }
+        
+        // Track event listeners
+        const originalAddEventListener = EventTarget.prototype.addEventListener;
+        EventTarget.prototype.addEventListener = function(type, listener, options) {
+            if (this.id && (this.id.includes('file') || this.id.includes('upload') || this.id.includes('photo'))) {
+                const stack = new Error().stack;
+                const caller = stack.split('\n')[2].trim();
+                log(`📎 addEventListener: ${this.id}.${type} from ${caller}`, 'warning');
+            }
+            return originalAddEventListener.call(this, type, listener, options);
+        };
+        
+        // Test button
+        document.getElementById('test-button').addEventListener('click', (e) => {
+            log(`Button clicked - isTrusted: ${e.isTrusted}`);
+        });
+        
+        // File upload trigger
+        document.getElementById('trigger-upload').addEventListener('click', (e) => {
+            log(`Trigger clicked - isTrusted: ${e.isTrusted}`);
+            document.getElementById('test-file').click();
+        });
+        
+        // File input
+        document.getElementById('test-file').addEventListener('change', (e) => {
+            log(`File change event - isTrusted: ${e.isTrusted}, files: ${e.target.files.length}`);
+            if (e.target.files.length > 0) {
+                log(`File selected: ${e.target.files[0].name}`);
+            }
+        });
+        
+        log('Debug page loaded - monitoring events...', 'info');
+    </script>
+    
+    <!-- Load the actual app scripts to see what's happening -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <script>
+        // Monitor when scripts load
+        const scripts = ['firebase-simple.js', 'utils.js', 'ui.js', 'app.js'];
+        scripts.forEach(script => {
+            const scriptEl = document.createElement('script');
+            scriptEl.src = `js/${script}`;
+            scriptEl.onload = () => log(`✅ Loaded: ${script}`, 'info');
+            scriptEl.onerror = () => log(`❌ Failed to load: ${script}`, 'error');
+            document.body.appendChild(scriptEl);
+        });
+    </script>
+</body>
+</html>

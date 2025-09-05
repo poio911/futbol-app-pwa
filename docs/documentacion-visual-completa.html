@@ -1,0 +1,648 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App.futbol - Documentación Completa Visual</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background: rgba(255,255,255,0.95);
+            color: #2c3e50;
+            padding: 3rem 2rem;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .section {
+            background: rgba(255,255,255,0.95);
+            margin-bottom: 3rem;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        .section-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 2rem;
+        }
+        .section-header h2 {
+            font-size: 1.8rem;
+        }
+        .section-content {
+            padding: 2rem;
+        }
+        .screenshot {
+            width: 100%;
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            margin: 2rem 0;
+            transition: transform 0.3s ease;
+        }
+        .screenshot:hover {
+            transform: scale(1.02);
+        }
+        .interaction {
+            background: #f8f9fa;
+            padding: 2rem;
+            margin: 2rem 0;
+            border-left: 5px solid #667eea;
+            border-radius: 0 10px 10px 0;
+        }
+        .interaction.success {
+            border-left-color: #27ae60;
+            background: linear-gradient(135deg, rgba(39, 174, 96, 0.1), rgba(39, 174, 96, 0.05));
+        }
+        .interaction.error {
+            border-left-color: #e74c3c;
+            background: linear-gradient(135deg, rgba(231, 76, 60, 0.1), rgba(231, 76, 60, 0.05));
+        }
+        .toc {
+            background: rgba(255,255,255,0.95);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .toc h2 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .toc li {
+            margin: 0.8rem 0;
+            padding: 0.5rem;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .toc li:hover {
+            background: rgba(102, 126, 234, 0.2);
+            transform: translateX(10px);
+        }
+        .toc a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+        }
+        .stat-card h3 {
+            font-size: 2.5rem;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            .header h1 {
+                font-size: 2rem;
+            }
+            .header {
+                padding: 2rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎮 App.futbol - Documentación Completa Visual</h1>
+            <p>📅 Documentación automática generada el 2/9/2025, 4:47:58 p. m.</p>
+            <p>🌐 Base URL: <strong>http://localhost:5500</strong></p>
+        </div>
+
+        <div class="toc">
+            <h2>📑 Índice de Contenidos</h2>
+            <ul>
+                
+                    <li><a href="#section-0">📄 App Principal - Pantalla de Inicio</a></li>
+                
+                    <li><a href="#section-1">📄 App Principal - Navegación completa</a></li>
+                
+                    <li><a href="#section-2">📄 CPanel - Panel de Control</a></li>
+                
+                    <li><a href="#section-3">📄 CPanel - Gestión de Datos</a></li>
+                
+                    <li><a href="#section-4">📄 Admin Panel - Administración</a></li>
+                
+                    <li><a href="#section-5">📄 Página de Configuración</a></li>
+                
+                    <li><a href="#section-6">📄 Página de Ayuda</a></li>
+                
+                    <li><a href="#section-7">📄 Página de Login</a></li>
+                
+            </ul>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <h2>📊 Resumen Ejecutivo</h2>
+            </div>
+            <div class="section-content">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>8</h3>
+                        <p>Páginas Documentadas</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>8</h3>
+                        <p>Screenshots Capturadas</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>22</h3>
+                        <p>Interacciones Probadas</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>8</h3>
+                        <p>Páginas Exitosas</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+            <div class="section" id="section-0">
+                <div class="section-header">
+                    <h2>App Principal - Pantalla de Inicio</h2>
+                </div>
+                <div class="section-content">
+                    <p><strong>🔗 URL:</strong> <code>http://localhost:5500/index.html</code></p>
+                    <p><strong>⏱️ Documentado:</strong> 2/9/2025, 4:47:59 p. m.</p>
+                    
+                    
+                        <div>
+                            <h3>📸 Vista inicial</h3>
+                            <p>Vista inicial de App Principal - Pantalla de Inicio</p>
+                            <img src="screenshots/app-principal---pantalla-de-inicio-inicial.png" alt="Vista inicial" class="screenshot">
+                        </div>
+                    
+
+                    
+                        <h3>💫 Interacciones Documentadas</h3>
+                        
+                            <div class="interaction success">
+                                <h4>Carga inicial completa ✅</h4>
+                                <p>Esperar que la aplicación cargue completamente</p>
+                                
+                                
+                                    <img src="screenshots/app-principal---pantalla-de-inicio-1-carga-inicial-completa.png" alt="Carga inicial completa" class="screenshot">
+                                
+                            </div>
+                        
+                            <div class="interaction success">
+                                <h4>Scroll para mostrar contenido ✅</h4>
+                                <p>Hacer scroll para mostrar más contenido de la pantalla</p>
+                                
+                                
+                                    <img src="screenshots/app-principal---pantalla-de-inicio-2-scroll-para-mostrar-contenido.png" alt="Scroll para mostrar contenido" class="screenshot">
+                                
+                            </div>
+                        
+                    
+
+                    
+                </div>
+            </div>
+        
+            <div class="section" id="section-1">
+                <div class="section-header">
+                    <h2>App Principal - Navegación completa</h2>
+                </div>
+                <div class="section-content">
+                    <p><strong>🔗 URL:</strong> <code>http://localhost:5500/index.html</code></p>
+                    <p><strong>⏱️ Documentado:</strong> 2/9/2025, 4:48:18 p. m.</p>
+                    
+                    
+                        <div>
+                            <h3>📸 Vista inicial</h3>
+                            <p>Vista inicial de App Principal - Navegación completa</p>
+                            <img src="screenshots/app-principal---navegacin-completa-inicial.png" alt="Vista inicial" class="screenshot">
+                        </div>
+                    
+
+                    
+                        <h3>💫 Interacciones Documentadas</h3>
+                        
+                            <div class="interaction error">
+                                <h4>undefined ❌</h4>
+                                <p>undefined</p>
+                                <p><strong>❌ Error:</strong> <code>Cannot read properties of undefined (reading 'toLowerCase')</code></p>
+                                
+                            </div>
+                        
+                            <div class="interaction success">
+                                <h4>Navegar a Jugadores ✅</h4>
+                                <p>Clic en la pestaña de Jugadores</p>
+                                
+                                
+                                    <img src="screenshots/app-principal---navegacin-completa-2-navegar-a-jugadores.png" alt="Navegar a Jugadores" class="screenshot">
+                                
+                            </div>
+                        
+                            <div class="interaction error">
+                                <h4>Navegar a Partidos ❌</h4>
+                                <p>Clic en la pestaña de Partidos</p>
+                                <p><strong>❌ Error:</strong> <code>page.click: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('.nav-btn[onclick*="match"], button[onclick*="match"], [data-screen="match"]')[22m
+[2m    - locator resolved to 3 elements. Proceeding with the first one: <button onclick="TestApp.finishMatchFromHistory('match_1756840973635_7epcdw')">↵                                ✅ Finalizar↵    …</button>[22m
+[2m  - attempting click action[22m
+[2m    2 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is not visible[22m
+[2m    - retrying click action[22m
+[2m    - waiting 20ms[22m
+[2m    - waiting for element to be visible, enabled and stable[22m
+[2m    - element is not visible[22m
+[2m  - retrying click action[22m
+[2m    - waiting 100ms[22m
+[2m  - element was detached from the DOM, retrying[22m
+[2m    - waiting for" http://localhost:5500/index.html" navigation to finish...[22m
+[2m    - navigated to "http://localhost:5500/index.html"[22m
+[2m    - locator resolved to 3 elements. Proceeding with the first one: <button onclick="TestApp.finishMatchFromHistory('match_1756840973635_7epcdw')">↵                                ✅ Finalizar↵    …</button>[22m
+[2m  - attempting click action[22m
+[2m    2 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is not visible[22m
+[2m    - retrying click action[22m
+[2m    - waiting 20ms[22m
+[2m    2 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is not visible[22m
+[2m    - retrying click action[22m
+[2m      - waiting 100ms[22m
+[2m    31 × waiting for element to be visible, enabled and stable[22m
+[2m       - element is not visible[22m
+[2m     - retrying click action[22m
+[2m       - waiting 500ms[22m
+[2m  - element was detached from the DOM, retrying[22m
+[2m    - locator resolved to 3 elements. Proceeding with the first one: <button onclick="TestApp.finishMatchFromHistory('match_1756840973635_7epcdw')">↵                                ✅ Finalizar↵    …</button>[22m
+[2m  - attempting click action[22m
+[2m    2 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is not visible[22m
+[2m    - retrying click action[22m
+[2m    - waiting 20ms[22m
+[2m    2 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is not visible[22m
+[2m    - retrying click action[22m
+[2m      - waiting 100ms[22m
+[2m    17 × waiting for element to be visible, enabled and stable[22m
+[2m       - element is not visible[22m
+[2m     - retrying click action[22m
+[2m       - waiting 500ms[22m
+</code></p>
+                                
+                            </div>
+                        
+                            <div class="interaction error">
+                                <h4>Navegar a Evaluaciones ❌</h4>
+                                <p>Clic en la pestaña de Evaluaciones</p>
+                                <p><strong>❌ Error:</strong> <code>page.click: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('.nav-btn[onclick*="evaluate"], button[onclick*="evaluate"], [data-screen="evaluate"]')[22m
+[2m    - waiting for" http://localhost:5500/index.html" navigation to finish...[22m
+[2m    - navigated to "http://localhost:5500/index.html"[22m
+</code></p>
+                                
+                            </div>
+                        
+                            <div class="interaction error">
+                                <h4>Navegar a Historial ❌</h4>
+                                <p>Clic en la pestaña de Historial</p>
+                                <p><strong>❌ Error:</strong> <code>page.click: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('.nav-btn[onclick*="history"], button[onclick*="history"], [data-screen="history"]')[22m
+[2m    - waiting for navigation to finish...[22m
+[2m    - navigated to "http://localhost:5500/index.html"[22m
+</code></p>
+                                
+                            </div>
+                        
+                    
+
+                    
+                </div>
+            </div>
+        
+            <div class="section" id="section-2">
+                <div class="section-header">
+                    <h2>CPanel - Panel de Control</h2>
+                </div>
+                <div class="section-content">
+                    <p><strong>🔗 URL:</strong> <code>http://localhost:5500/cpanel.html</code></p>
+                    <p><strong>⏱️ Documentado:</strong> 2/9/2025, 4:50:13 p. m.</p>
+                    
+                    
+                        <div>
+                            <h3>📸 Vista inicial</h3>
+                            <p>Vista inicial de CPanel - Panel de Control</p>
+                            <img src="screenshots/cpanel---panel-de-control-inicial.png" alt="Vista inicial" class="screenshot">
+                        </div>
+                    
+
+                    
+                        <h3>💫 Interacciones Documentadas</h3>
+                        
+                            <div class="interaction success">
+                                <h4>Carga del CPanel ✅</h4>
+                                <p>Esperar que el CPanel cargue completamente</p>
+                                
+                                
+                                    <img src="screenshots/cpanel---panel-de-control-1-carga-del-cpanel.png" alt="Carga del CPanel" class="screenshot">
+                                
+                            </div>
+                        
+                            <div class="interaction success">
+                                <h4>Mostrar dashboard completo ✅</h4>
+                                <p>Scroll para mostrar todas las estadísticas del dashboard</p>
+                                
+                                
+                                    <img src="screenshots/cpanel---panel-de-control-2-mostrar-dashboard-completo.png" alt="Mostrar dashboard completo" class="screenshot">
+                                
+                            </div>
+                        
+                    
+
+                    
+                </div>
+            </div>
+        
+            <div class="section" id="section-3">
+                <div class="section-header">
+                    <h2>CPanel - Gestión de Datos</h2>
+                </div>
+                <div class="section-content">
+                    <p><strong>🔗 URL:</strong> <code>http://localhost:5500/cpanel.html</code></p>
+                    <p><strong>⏱️ Documentado:</strong> 2/9/2025, 4:50:34 p. m.</p>
+                    
+                    
+                        <div>
+                            <h3>📸 Vista inicial</h3>
+                            <p>Vista inicial de CPanel - Gestión de Datos</p>
+                            <img src="screenshots/cpanel---gestin-de-datos-inicial.png" alt="Vista inicial" class="screenshot">
+                        </div>
+                    
+
+                    
+                        <h3>💫 Interacciones Documentadas</h3>
+                        
+                            <div class="interaction error">
+                                <h4>undefined ❌</h4>
+                                <p>undefined</p>
+                                <p><strong>❌ Error:</strong> <code>Cannot read properties of undefined (reading 'toLowerCase')</code></p>
+                                
+                            </div>
+                        
+                            <div class="interaction success">
+                                <h4>Pestaña Jugadores ✅</h4>
+                                <p>Navegar a gestión de jugadores</p>
+                                
+                                
+                                    <img src="screenshots/cpanel---gestin-de-datos-2-pestaa-jugadores.png" alt="Pestaña Jugadores" class="screenshot">
+                                
+                            </div>
+                        
+                            <div class="interaction error">
+                                <h4>undefined ❌</h4>
+                                <p>undefined</p>
+                                <p><strong>❌ Error:</strong> <code>Cannot read properties of undefined (reading 'toLowerCase')</code></p>
+                                
+                            </div>
+                        
+                            <div class="interaction success">
+                                <h4>Pestaña Partidos ✅</h4>
+                                <p>Navegar a gestión de partidos</p>
+                                
+                                
+                                    <img src="screenshots/cpanel---gestin-de-datos-4-pestaa-partidos.png" alt="Pestaña Partidos" class="screenshot">
+                                
+                            </div>
+                        
+                            <div class="interaction error">
+                                <h4>undefined ❌</h4>
+                                <p>undefined</p>
+                                <p><strong>❌ Error:</strong> <code>Cannot read properties of undefined (reading 'toLowerCase')</code></p>
+                                
+                            </div>
+                        
+                            <div class="interaction success">
+                                <h4>Pestaña Evaluaciones ✅</h4>
+                                <p>Navegar a gestión de evaluaciones</p>
+                                
+                                
+                                    <img src="screenshots/cpanel---gestin-de-datos-6-pestaa-evaluaciones.png" alt="Pestaña Evaluaciones" class="screenshot">
+                                
+                            </div>
+                        
+                            <div class="interaction error">
+                                <h4>undefined ❌</h4>
+                                <p>undefined</p>
+                                <p><strong>❌ Error:</strong> <code>Cannot read properties of undefined (reading 'toLowerCase')</code></p>
+                                
+                            </div>
+                        
+                            <div class="interaction success">
+                                <h4>Pestaña Limpieza ✅</h4>
+                                <p>Navegar a herramientas de limpieza</p>
+                                
+                                
+                                    <img src="screenshots/cpanel---gestin-de-datos-8-pestaa-limpieza.png" alt="Pestaña Limpieza" class="screenshot">
+                                
+                            </div>
+                        
+                    
+
+                    
+                </div>
+            </div>
+        
+            <div class="section" id="section-4">
+                <div class="section-header">
+                    <h2>Admin Panel - Administración</h2>
+                </div>
+                <div class="section-content">
+                    <p><strong>🔗 URL:</strong> <code>http://localhost:5500/admin.html</code></p>
+                    <p><strong>⏱️ Documentado:</strong> 2/9/2025, 4:51:26 p. m.</p>
+                    
+                    
+                        <div>
+                            <h3>📸 Vista inicial</h3>
+                            <p>Vista inicial de Admin Panel - Administración</p>
+                            <img src="screenshots/admin-panel---administracin-inicial.png" alt="Vista inicial" class="screenshot">
+                        </div>
+                    
+
+                    
+                        <h3>💫 Interacciones Documentadas</h3>
+                        
+                            <div class="interaction success">
+                                <h4>Carga del Admin Panel ✅</h4>
+                                <p>Esperar que el admin panel cargue</p>
+                                
+                                
+                                    <img src="screenshots/admin-panel---administracin-1-carga-del-admin-panel.png" alt="Carga del Admin Panel" class="screenshot">
+                                
+                            </div>
+                        
+                            <div class="interaction success">
+                                <h4>Explorar panel completo ✅</h4>
+                                <p>Mostrar todas las opciones administrativas</p>
+                                
+                                
+                                    <img src="screenshots/admin-panel---administracin-2-explorar-panel-completo.png" alt="Explorar panel completo" class="screenshot">
+                                
+                            </div>
+                        
+                    
+
+                    
+                </div>
+            </div>
+        
+            <div class="section" id="section-5">
+                <div class="section-header">
+                    <h2>Página de Configuración</h2>
+                </div>
+                <div class="section-content">
+                    <p><strong>🔗 URL:</strong> <code>http://localhost:5500/config.html</code></p>
+                    <p><strong>⏱️ Documentado:</strong> 2/9/2025, 4:51:45 p. m.</p>
+                    
+                    
+                        <div>
+                            <h3>📸 Vista inicial</h3>
+                            <p>Vista inicial de Página de Configuración</p>
+                            <img src="screenshots/pgina-de-configuracin-inicial.png" alt="Vista inicial" class="screenshot">
+                        </div>
+                    
+
+                    
+                        <h3>💫 Interacciones Documentadas</h3>
+                        
+                            <div class="interaction success">
+                                <h4>Carga de página ✅</h4>
+                                <p>Cargar Página de Configuración</p>
+                                
+                                
+                                    <img src="screenshots/pgina-de-configuracin-1-carga-de-pgina.png" alt="Carga de página" class="screenshot">
+                                
+                            </div>
+                        
+                    
+
+                    
+                </div>
+            </div>
+        
+            <div class="section" id="section-6">
+                <div class="section-header">
+                    <h2>Página de Ayuda</h2>
+                </div>
+                <div class="section-content">
+                    <p><strong>🔗 URL:</strong> <code>http://localhost:5500/help.html</code></p>
+                    <p><strong>⏱️ Documentado:</strong> 2/9/2025, 4:51:58 p. m.</p>
+                    
+                    
+                        <div>
+                            <h3>📸 Vista inicial</h3>
+                            <p>Vista inicial de Página de Ayuda</p>
+                            <img src="screenshots/pgina-de-ayuda-inicial.png" alt="Vista inicial" class="screenshot">
+                        </div>
+                    
+
+                    
+                        <h3>💫 Interacciones Documentadas</h3>
+                        
+                            <div class="interaction success">
+                                <h4>Carga de página ✅</h4>
+                                <p>Cargar Página de Ayuda</p>
+                                
+                                
+                                    <img src="screenshots/pgina-de-ayuda-1-carga-de-pgina.png" alt="Carga de página" class="screenshot">
+                                
+                            </div>
+                        
+                    
+
+                    
+                </div>
+            </div>
+        
+            <div class="section" id="section-7">
+                <div class="section-header">
+                    <h2>Página de Login</h2>
+                </div>
+                <div class="section-content">
+                    <p><strong>🔗 URL:</strong> <code>http://localhost:5500/login.html</code></p>
+                    <p><strong>⏱️ Documentado:</strong> 2/9/2025, 4:52:11 p. m.</p>
+                    
+                    
+                        <div>
+                            <h3>📸 Vista inicial</h3>
+                            <p>Vista inicial de Página de Login</p>
+                            <img src="screenshots/pgina-de-login-inicial.png" alt="Vista inicial" class="screenshot">
+                        </div>
+                    
+
+                    
+                        <h3>💫 Interacciones Documentadas</h3>
+                        
+                            <div class="interaction success">
+                                <h4>Carga de página ✅</h4>
+                                <p>Cargar Página de Login</p>
+                                
+                                
+                                    <img src="screenshots/pgina-de-login-1-carga-de-pgina.png" alt="Carga de página" class="screenshot">
+                                
+                            </div>
+                        
+                    
+
+                    
+                </div>
+            </div>
+        
+    </div>
+</body>
+</html>
+        

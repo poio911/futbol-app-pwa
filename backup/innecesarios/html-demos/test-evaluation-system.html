@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Sistema de Evaluación Distribuida</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; max-width: 900px; margin: 0 auto; background: #f5f5f5; }
+        h1 { color: #333; border-bottom: 3px solid #667eea; padding-bottom: 10px; }
+        button { 
+            padding: 12px 24px; 
+            margin: 10px; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+            color: white; 
+            border: none; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-size: 16px;
+            transition: transform 0.2s;
+        }
+        button:hover { transform: scale(1.05); }
+        .log { 
+            background: white; 
+            padding: 15px; 
+            margin: 10px 0; 
+            border-radius: 8px; 
+            border-left: 4px solid #667eea;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .success { border-left-color: #4caf50; background: #f1f8e9; }
+        .error { border-left-color: #f44336; background: #ffebee; }
+        .info { border-left-color: #2196f3; background: #e3f2fd; }
+        .section { 
+            background: white; 
+            padding: 20px; 
+            margin: 20px 0; 
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .team-display {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .team-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #dee2e6;
+        }
+        .team-card h4 {
+            margin-top: 0;
+            color: #495057;
+        }
+        .player-item {
+            padding: 8px;
+            margin: 5px 0;
+            background: white;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .evaluation-preview {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border: 2px solid #ffc107;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test del Sistema de Evaluación Distribuida</h1>
+    
+    <div class="section">
+        <h2>📋 Pasos del Test</h2>
+        <p>Este test simulará un partido completo con 10 jugadores y el proceso de evaluación:</p>
+        <ol>
+            <li>Crear un partido de prueba</li>
+            <li>Agregar 10 jugadores con diferentes OVRs</li>
+            <li>Ver equipos generados y asignaciones de evaluación</li>
+            <li>Simular evaluaciones de varios jugadores</li>
+            <li>Calcular nuevos OVRs basados en las evaluaciones</li>
+        </ol>
+    </div>
+    
+    <div class="section">
+        <h2>🚀 Ejecutar Test</h2>
+        <button onclick="runFullTest()">🎮 Ejecutar Test Completo</button>
+        <button onclick="cleanupTestData()">🧹 Limpiar Datos de Prueba</button>
+    </div>
+    
+    <div class="section">
+        <h2>📊 Resultados</h2>
+        <div id="output"></div>
+    </div>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    
+    <script>
+        // Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyAes7EVn8hQswS8XgvDMJfN6U4IT_ZL_WY",
+            authDomain: "mil-disculpis.firebaseapp.com",
+            projectId: "mil-disculpis",
+            storageBucket: "mil-disculpis.appspot.com",
+            messagingSenderId: "549972244073",
+            appId: "1:549972244073:web:c89c3b7be95e6b02d396e6"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        
+        let testMatchId = null;
+        let testPlayerIds = [];
+        
+        function log(message, type = 'log') {
+            const output = document.getElementById('output');
+            const div = document.createElement('div');
+            div.className = `log ${type}`;
+            const timestamp = new Date().toLocaleTimeString();
+            div.innerHTML = `<strong>${timestamp}:</strong> ${message}`;
+            output.appendChild(div);
+            console.log(message);
+        }
+        
+        async function runFullTest() {
+            log('🚀 Iniciando test completo del sistema de evaluación...', 'info');
+            
+            try {
+                // Step 1: Create test match
+                await createTestMatch();
+                
+                // Step 2: Add test players
+                await addTestPlayers();
+                
+                // Step 3: Display generated teams
+                await displayGeneratedTeams();
+                
+                // Step 4: Simulate evaluations
+                await simulateEvaluations();
+                
+                // Step 5: Calculate new OVRs
+                await calculateNewOVRs();
+                
+                log('✅ Test completado exitosamente!', 'success');
+                
+            } catch (error) {
+                log(`❌ Error en el test: ${error.message}`, 'error');
+                console.error(error);
+            }
+        }
+        
+        async function createTestMatch() {
+            testMatchId = 'evaluation_test_' + Date.now();
+            
+            const matchData = {
+                id: testMatchId,
+                organizer: {
+                    uid: 'test_organizer',
+                    displayName: 'Organizador Test',
+                    email: 'test@test.com'
+                },
+                title: 'Partido Test - Sistema de Evaluación',
+                date: new Date().toISOString().split('T')[0],
+                time: '20:00',
+                location: 'Cancha Virtual de Prueba',
+                maxPlayers: 10,
+                description: 'Partido para probar el sistema de evaluación distribuida',
+                registeredPlayers: [],
+                status: 'open',
+                createdAt: new Date().toISOString(),
+                groupId: 'o8ZOD6N0KEHrvweFfTAd'
+            };
+            
+            await db.collection('collaborative_matches').doc(testMatchId).set(matchData);
+            log(`✅ Partido de prueba creado: ${testMatchId}`, 'success');
+        }
+        
+        async function addTestPlayers() {
+            // Create 10 test players with varied OVRs
+            const testPlayers = [
+                { name: 'Lucas Portero', position: 'POR', ovr: 58, uid: 'test_player_1' },
+                { name: 'Martín Defensor', position: 'DEF', ovr: 62, uid: 'test_player_2' },
+                { name: 'Jorge Defensor', position: 'DEF', ovr: 51, uid: 'test_player_3' },
+                { name: 'Santiago Medio', position: 'MED', ovr: 68, uid: 'test_player_4' },
+                { name: 'Nicolás Medio', position: 'MED', ovr: 45, uid: 'test_player_5' },
+                { name: 'Mateo Medio', position: 'MED', ovr: 56, uid: 'test_player_6' },
+                { name: 'Alejandro Delantero', position: 'DEL', ovr: 72, uid: 'test_player_7' },
+                { name: 'Gabriel Delantero', position: 'DEL', ovr: 49, uid: 'test_player_8' },
+                { name: 'Sebastián Medio', position: 'MED', ovr: 53, uid: 'test_player_9' },
+                { name: 'Tomás Defensor', position: 'DEF', ovr: 60, uid: 'test_player_10' }
+            ];
+            
+            testPlayerIds = testPlayers.map(p => p.uid);
+            
+            // Create user documents for test players
+            for (const player of testPlayers) {
+                await db.collection('futbol_users').doc(player.uid).set({
+                    uid: player.uid,
+                    email: `${player.uid}@test.com`,
+                    displayName: player.name,
+                    position: player.position,
+                    ovr: player.ovr,
+                    pac: player.ovr,
+                    sho: player.ovr,
+                    pas: player.ovr,
+                    dri: player.ovr,
+                    def: player.ovr,
+                    phy: player.ovr,
+                    photo: '👤',
+                    groups: ['o8ZOD6N0KEHrvweFfTAd'],
+                    currentGroup: 'o8ZOD6N0KEHrvweFfTAd',
+                    isTestUser: true
+                });
+                log(`➕ Creado jugador: ${player.name} (${player.position}) - OVR: ${player.ovr}`);
+            }
+            
+            // Add players to match
+            const matchDoc = await db.collection('collaborative_matches').doc(testMatchId).get();
+            const match = matchDoc.data();
+            
+            match.registeredPlayers = testPlayers.map(p => ({
+                uid: p.uid,
+                displayName: p.name,
+                position: p.position,
+                ovr: p.ovr,
+                registeredAt: new Date().toISOString()
+            }));
+            
+            // Generate teams
+            match.status = 'full';
+            await generateTeamsForMatch(match);
+            
+            // Save updated match
+            await db.collection('collaborative_matches').doc(testMatchId).set(match);
+            log('✅ Jugadores agregados y equipos generados', 'success');
+        }
+        
+        async function generateTeamsForMatch(match) {
+            const players = match.registeredPlayers.map(p => ({
+                name: p.displayName,
+                position: p.position,
+                ovr: p.ovr,
+                uid: p.uid
+            }));
+            
+            // Sort by OVR
+            players.sort((a, b) => b.ovr - a.ovr);
+            
+            // Separate by positions
+            const goalkeepers = players.filter(p => p.position === 'POR');
+            const defenders = players.filter(p => p.position === 'DEF');
+            const midfielders = players.filter(p => p.position === 'MED');
+            const forwards = players.filter(p => p.position === 'DEL');
+            
+            const team1 = [];
+            const team2 = [];
+            let team1OVR = 0;
+            let team2OVR = 0;
+            
+            // Distribute players
+            for (let i = 0; i < goalkeepers.length; i++) {
+                if (i % 2 === 0) {
+                    team1.push(goalkeepers[i]);
+                    team1OVR += goalkeepers[i].ovr;
+                } else {
+                    team2.push(goalkeepers[i]);
+                    team2OVR += goalkeepers[i].ovr;
+                }
+            }
+            
+            const otherPlayers = [...defenders, ...midfielders, ...forwards];
+            for (const player of otherPlayers) {
+                if (team1OVR <= team2OVR && team1.length < 5) {
+                    team1.push(player);
+                    team1OVR += player.ovr;
+                } else if (team2.length < 5) {
+                    team2.push(player);
+                    team2OVR += player.ovr;
+                } else {
+                    if (team1.length < 5) {
+                        team1.push(player);
+                        team1OVR += player.ovr;
+                    } else {
+                        team2.push(player);
+                        team2OVR += player.ovr;
+                    }
+                }
+            }
+            
+            const team1Avg = Math.round(team1OVR / team1.length);
+            const team2Avg = Math.round(team2OVR / team2.length);
+            
+            match.teams = {
+                team1: {
+                    players: team1,
+                    avgOVR: team1Avg,
+                    totalOVR: team1OVR
+                },
+                team2: {
+                    players: team2,
+                    avgOVR: team2Avg,
+                    totalOVR: team2OVR
+                },
+                generatedAt: new Date().toISOString(),
+                balanceDiff: Math.abs(team1Avg - team2Avg)
+            };
+            
+            // Generate evaluation assignments
+            match.evaluationAssignments = generateEvaluationAssignments(players);
+        }
+        
+        function generateEvaluationAssignments(players) {
+            const assignments = {};
+            const evaluationCount = {};
+            
+            players.forEach(p => {
+                assignments[p.uid] = [];
+                evaluationCount[p.uid] = 0;
+            });
+            
+            for (const evaluator of players) {
+                let availableToEvaluate = players
+                    .filter(p => p.uid !== evaluator.uid)
+                    .sort((a, b) => evaluationCount[a.uid] - evaluationCount[b.uid]);
+                
+                for (let i = 0; i < 2 && i < availableToEvaluate.length; i++) {
+                    const playerToEvaluate = availableToEvaluate[i];
+                    assignments[evaluator.uid].push({
+                        uid: playerToEvaluate.uid,
+                        name: playerToEvaluate.name,
+                        position: playerToEvaluate.position
+                    });
+                    evaluationCount[playerToEvaluate.uid]++;
+                }
+            }
+            
+            return assignments;
+        }
+        
+        async function displayGeneratedTeams() {
+            const matchDoc = await db.collection('collaborative_matches').doc(testMatchId).get();
+            const match = matchDoc.data();
+            
+            if (!match.teams) {
+                log('❌ Los equipos no fueron generados', 'error');
+                return;
+            }
+            
+            // Display teams
+            let teamsHtml = '<div class="team-display">';
+            
+            teamsHtml += `
+                <div class="team-card">
+                    <h4>⚽ Equipo 1 (AVG OVR: ${match.teams.team1.avgOVR})</h4>
+                    ${match.teams.team1.players.map(p => 
+                        `<div class="player-item">
+                            <span>${p.name} - ${p.position}</span>
+                            <span>OVR: ${p.ovr}</span>
+                        </div>`
+                    ).join('')}
+                </div>
+                <div class="team-card">
+                    <h4>⚽ Equipo 2 (AVG OVR: ${match.teams.team2.avgOVR})</h4>
+                    ${match.teams.team2.players.map(p => 
+                        `<div class="player-item">
+                            <span>${p.name} - ${p.position}</span>
+                            <span>OVR: ${p.ovr}</span>
+                        </div>`
+                    ).join('')}
+                </div>
+            `;
+            
+            teamsHtml += '</div>';
+            teamsHtml += `<p><strong>⚖️ Diferencia de balance: ${match.teams.balanceDiff} OVR</strong></p>`;
+            
+            const outputDiv = document.getElementById('output');
+            const teamsDiv = document.createElement('div');
+            teamsDiv.innerHTML = teamsHtml;
+            outputDiv.appendChild(teamsDiv);
+            
+            log('✅ Equipos generados y balanceados', 'success');
+            
+            // Display evaluation assignments sample
+            const samplePlayer = match.teams.team1.players[0];
+            if (match.evaluationAssignments && match.evaluationAssignments[samplePlayer.uid]) {
+                const evalHtml = `
+                    <div class="evaluation-preview">
+                        <h5>📝 Ejemplo de asignación de evaluación:</h5>
+                        <p><strong>${samplePlayer.name}</strong> debe evaluar a:</p>
+                        <ul>
+                            ${match.evaluationAssignments[samplePlayer.uid].map(p => 
+                                `<li>${p.name} (${p.position})</li>`
+                            ).join('')}
+                        </ul>
+                    </div>
+                `;
+                const evalDiv = document.createElement('div');
+                evalDiv.innerHTML = evalHtml;
+                outputDiv.appendChild(evalDiv);
+            }
+        }
+        
+        async function simulateEvaluations() {
+            log('🎮 Simulando evaluaciones de jugadores...', 'info');
+            
+            const matchDoc = await db.collection('collaborative_matches').doc(testMatchId).get();
+            const match = matchDoc.data();
+            
+            if (!match.evaluationAssignments) {
+                log('❌ No hay asignaciones de evaluación', 'error');
+                return;
+            }
+            
+            const submittedEvaluations = {};
+            
+            // Simulate 8 out of 10 players submitting evaluations (80%)
+            const evaluatingPlayers = testPlayerIds.slice(0, 8);
+            
+            for (const playerUid of evaluatingPlayers) {
+                const playersToEvaluate = match.evaluationAssignments[playerUid];
+                if (!playersToEvaluate) continue;
+                
+                const evaluations = [];
+                
+                for (const targetPlayer of playersToEvaluate) {
+                    // Generate random rating between 3-9 (realistic range)
+                    const rating = Math.floor(Math.random() * 7) + 3;
+                    
+                    evaluations.push({
+                        playerUid: targetPlayer.uid,
+                        playerName: targetPlayer.name,
+                        rating: rating,
+                        comment: rating >= 7 ? 'Buen partido!' : rating >= 5 ? 'Regular' : 'Puede mejorar',
+                        evaluatorUid: playerUid,
+                        evaluatorName: match.registeredPlayers.find(p => p.uid === playerUid)?.displayName,
+                        submittedAt: new Date().toISOString()
+                    });
+                    
+                    log(`📝 ${playerUid} evaluó a ${targetPlayer.name}: ${rating}/10`);
+                }
+                
+                submittedEvaluations[playerUid] = evaluations;
+            }
+            
+            // Save evaluations to match
+            await db.collection('collaborative_matches').doc(testMatchId).update({
+                submittedEvaluations: submittedEvaluations
+            });
+            
+            log(`✅ ${evaluatingPlayers.length}/10 jugadores enviaron sus evaluaciones`, 'success');
+        }
+        
+        async function calculateNewOVRs() {
+            log('📊 Calculando nuevos OVRs basados en evaluaciones...', 'info');
+            
+            const matchDoc = await db.collection('collaborative_matches').doc(testMatchId).get();
+            const match = matchDoc.data();
+            
+            if (!match.submittedEvaluations) {
+                log('❌ No hay evaluaciones enviadas', 'error');
+                return;
+            }
+            
+            // Collect all ratings per player
+            const playerRatings = {};
+            
+            Object.values(match.submittedEvaluations).forEach(evaluatorSubmissions => {
+                evaluatorSubmissions.forEach(eval => {
+                    if (!playerRatings[eval.playerUid]) {
+                        playerRatings[eval.playerUid] = {
+                            name: eval.playerName,
+                            ratings: [],
+                            comments: []
+                        };
+                    }
+                    playerRatings[eval.playerUid].ratings.push(eval.rating);
+                    if (eval.comment) {
+                        playerRatings[eval.playerUid].comments.push(eval.comment);
+                    }
+                });
+            });
+            
+            // Calculate and display OVR changes
+            let changesHtml = '<div class="section"><h3>📈 Cambios de OVR:</h3>';
+            
+            for (const [playerUid, data] of Object.entries(playerRatings)) {
+                if (data.ratings.length > 0) {
+                    const avgRating = data.ratings.reduce((a, b) => a + b, 0) / data.ratings.length;
+                    
+                    // Get player's current OVR
+                    const playerDoc = await db.collection('futbol_users').doc(playerUid).get();
+                    if (playerDoc.exists) {
+                        const playerData = playerDoc.data();
+                        const currentOVR = playerData.ovr || 50;
+                        
+                        // Calculate OVR change
+                        const ovrChange = Math.round((avgRating - 5) * 2);
+                        const newOVR = Math.max(1, Math.min(99, currentOVR + ovrChange));
+                        
+                        // Update player's OVR
+                        await db.collection('futbol_users').doc(playerUid).update({
+                            ovr: newOVR,
+                            lastEvaluation: {
+                                matchId: testMatchId,
+                                avgRating: avgRating.toFixed(1),
+                                ratingsCount: data.ratings.length,
+                                ovrChange: ovrChange,
+                                updatedAt: new Date().toISOString()
+                            }
+                        });
+                        
+                        const changeSymbol = ovrChange > 0 ? '📈' : ovrChange < 0 ? '📉' : '➡️';
+                        const changeColor = ovrChange > 0 ? 'green' : ovrChange < 0 ? 'red' : 'gray';
+                        
+                        changesHtml += `
+                            <div style="padding: 10px; margin: 5px 0; background: #f9f9f9; border-radius: 5px;">
+                                ${changeSymbol} <strong>${data.name}</strong>: 
+                                OVR ${currentOVR} → ${newOVR} 
+                                <span style="color: ${changeColor};">(${ovrChange >= 0 ? '+' : ''}${ovrChange})</span>
+                                | Promedio: ${avgRating.toFixed(1)}/10 
+                                | Evaluaciones: ${data.ratings.length}
+                            </div>
+                        `;
+                        
+                        log(`${changeSymbol} ${data.name}: OVR ${currentOVR} → ${newOVR} (${ovrChange >= 0 ? '+' : ''}${ovrChange})`, 
+                            ovrChange > 0 ? 'success' : ovrChange < 0 ? 'error' : 'info');
+                    }
+                }
+            }
+            
+            changesHtml += '</div>';
+            
+            const outputDiv = document.getElementById('output');
+            const changesDiv = document.createElement('div');
+            changesDiv.innerHTML = changesHtml;
+            outputDiv.appendChild(changesDiv);
+            
+            // Mark match as evaluation complete
+            await db.collection('collaborative_matches').doc(testMatchId).update({
+                evaluationsComplete: true,
+                evaluationsCompletedAt: new Date().toISOString()
+            });
+            
+            log('🎉 Todos los OVRs han sido actualizados exitosamente!', 'success');
+        }
+        
+        async function cleanupTestData() {
+            log('🧹 Limpiando datos de prueba...', 'info');
+            
+            try {
+                // Delete test match
+                if (testMatchId) {
+                    await db.collection('collaborative_matches').doc(testMatchId).delete();
+                    log(`✅ Partido de prueba eliminado: ${testMatchId}`);
+                }
+                
+                // Delete test players
+                for (const playerId of testPlayerIds) {
+                    await db.collection('futbol_users').doc(playerId).delete();
+                    log(`✅ Jugador de prueba eliminado: ${playerId}`);
+                }
+                
+                // Clear variables
+                testMatchId = null;
+                testPlayerIds = [];
+                
+                // Clear output
+                document.getElementById('output').innerHTML = '';
+                
+                log('✅ Limpieza completada', 'success');
+                
+            } catch (error) {
+                log(`❌ Error limpiando datos: ${error.message}`, 'error');
+            }
+        }
+    </script>
+</body>
+</html>

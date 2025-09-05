@@ -1,0 +1,21 @@
+BACKUP INFORMACIÓN
+==================
+Fecha: 2025-09-05
+Hora: Sistema de backup antes de implementar Variante 1
+Propósito: Guardar estado actual antes de cambiar diseño de player cards
+
+ARCHIVOS IMPORTANTES A RESPALDAR:
+- index.html (sistema principal)
+- css/players-view-enhanced.css (estilos de jugadores)
+- css/unified-design-system.css (sistema de diseño)
+- js/players-view-enhanced.js (lógica de jugadores)
+- js/new-header-manager.js (header manager)
+
+CAMBIOS A IMPLEMENTAR:
+- Nueva Variante 1 de diseño de player cards
+- OVR más grande (55px circular)
+- Posiciones con badges de colores (DEL rojo, MED cyan, DEF púrpura, POR naranja)
+- Mejor estadística mostrada junto a posición
+- Efectos hover mejorados
+
+NOTA: Para restaurar, copiar los archivos de esta carpeta de vuelta a su ubicación original.

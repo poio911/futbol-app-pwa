@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 Unificación Completa - TODOS los Jugadores</title>
+    
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a, #1a1a2e);
+            color: white;
+            padding: 20px;
+            margin: 0;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.05);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(0,255,157,0.3);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #00ff9d;
+            margin-bottom: 30px;
+        }
+        
+        .section {
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            border-left: 4px solid #00ff9d;
+        }
+        
+        button {
+            background: linear-gradient(45deg, #00ff9d, #00d4aa);
+            color: #0a0a0a;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 5px;
+            transition: all 0.3s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,255,157,0.3);
+        }
+        
+        .danger {
+            background: linear-gradient(45deg, #ff4444, #cc3333) !important;
+            color: white !important;
+        }
+        
+        .warning {
+            background: linear-gradient(45deg, #ffaa00, #cc8800) !important;
+            color: white !important;
+        }
+        
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .stat-card {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #00ff9d;
+        }
+        
+        .stat-label {
+            font-size: 0.9em;
+            color: #b0b0b0;
+        }
+        
+        .progress {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            height: 20px;
+            margin: 10px 0;
+        }
+        
+        .progress-bar {
+            background: linear-gradient(45deg, #00ff9d, #00d4aa);
+            height: 100%;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #0a0a0a;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        
+        .log-output {
+            background: #000;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            border: 1px solid #333;
+            margin-top: 15px;
+        }
+        
+        .highlight {
+            background: rgba(255, 170, 0, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ffaa00;
+            margin: 15px 0;
+        }
+        
+        .success-box {
+            background: rgba(16, 185, 129, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #10b981;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Unificación Completa del Sistema</h1>
+        <p style="text-align: center; color: #b0b0b0;">Forzar estructura unificada en TODOS los jugadores</p>
+        
+        <div class="highlight">
+            <h3>🎯 Objetivo: 100% Estructura Unificada</h3>
+            <p><strong>Meta:</strong> Que TODOS los jugadores tengan únicamente campos directos (pac, sho, pas, dri, def, phy) y eliminar completamente la estructura "attributes"</p>
+            <ul>
+                <li>✅ <strong>Jugadores con solo attributes:</strong> Migrar → campos directos</li>
+                <li>🔄 <strong>Jugadores con ambas estructuras:</strong> Usar campos directos, eliminar attributes</li>
+                <li>✅ <strong>Jugadores con solo campos directos:</strong> Mantener y verificar</li>
+                <li>⚠️ <strong>Jugadores sin atributos:</strong> Crear estructura básica</li>
+            </ul>
+        </div>
+        
+        <!-- Fase 1: Análisis -->
+        <div class="section">
+            <h2>📊 Análisis del Estado Actual</h2>
+            
+            <button onclick="window.analyzeAll()">🔍 Analizar TODOS los Jugadores</button>
+            
+            <div class="stats" id="analysis-stats"></div>
+            <div id="analysis-results"></div>
+        </div>
+        
+        <!-- Fase 2: Unificación Total -->
+        <div class="section">
+            <h2>🚀 Unificación Completa</h2>
+            <p><strong>Esto procesará TODOS los jugadores para garantizar estructura unificada</strong></p>
+            
+            <button class="warning" onclick="window.unifyAllPlayers()" disabled id="unifyBtn">⚡ UNIFICAR TODOS LOS JUGADORES</button>
+            
+            <div id="unification-progress"></div>
+            <div class="log-output" id="unification-log" style="display: none;">Esperando unificación...</div>
+        </div>
+        
+        <!-- Fase 3: Verificación Final -->
+        <div class="section">
+            <h2>✅ Verificación de Unificación Completa</h2>
+            
+            <button onclick="window.verifyUnification()" disabled id="verifyBtn">🎯 Verificar 100% Unificado</button>
+            <div id="verification-results"></div>
+        </div>
+    </div>
+
+    <script>
+        // Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyAes7EVn8hQswS8XgvDMJfN6U4IT_ZL_WY",
+            authDomain: "mil-disculpis.firebaseapp.com",
+            databaseURL: "https://mil-disculpis-default-rtdb.firebaseio.com",
+            projectId: "mil-disculpis",
+            storageBucket: "mil-disculpis.firebasestorage.app",
+            messagingSenderId: "5614567933",
+            appId: "1:5614567933:web:0dce7bf37b8325c0861994",
+            measurementId: "G-EMLP4TKXKR"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        
+        let allPlayers = [];
+        let playersToUnify = [];
+        let unificationResults = [];
+        
+        function log(message, type = 'info') {
+            const logOutput = document.getElementById('unification-log');
+            logOutput.style.display = 'block';
+            const timestamp = new Date().toLocaleTimeString();
+            const emoji = type === 'error' ? '❌' : type === 'success' ? '✅' : type === 'warning' ? '⚠️' : 'ℹ️';
+            logOutput.textContent += `[${timestamp}] ${emoji} ${message}\n`;
+            logOutput.scrollTop = logOutput.scrollHeight;
+            console.log(`[UNIFICATION] ${message}`);
+        }
+        
+        window.analyzeAll = async function() {
+            log('🔍 Analizando TODOS los jugadores para unificación completa...', 'info');
+            
+            const statsDiv = document.getElementById('analysis-stats');
+            const resultsDiv = document.getElementById('analysis-results');
+            
+            statsDiv.innerHTML = '<div class="stat-card"><div class="stat-number">⏳</div><div class="stat-label">Analizando...</div></div>';
+            resultsDiv.innerHTML = '';
+            
+            try {
+                const snapshot = await db.collection('futbol_users').get();
+                allPlayers = [];
+                playersToUnify = [];
+                
+                let onlyDirectFields = 0;
+                let onlyAttributes = 0;
+                let bothStructures = 0;
+                let noAttributes = 0;
+                let needsUnification = 0;
+                
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    const player = {
+                        id: doc.id,
+                        ref: doc.ref,
+                        ...data
+                    };
+                    
+                    // Analyze structure
+                    const hasDirectStats = data.pac !== undefined;
+                    const hasAttributes = data.attributes && Object.keys(data.attributes).length > 0;
+                    
+                    if (hasDirectStats && !hasAttributes) {
+                        // Perfect - only direct fields
+                        player.status = 'unified-perfect';
+                        onlyDirectFields++;
+                    } else if (!hasDirectStats && hasAttributes) {
+                        // Needs migration from attributes
+                        player.status = 'needs-migration';
+                        onlyAttributes++;
+                        playersToUnify.push(player);
+                        needsUnification++;
+                    } else if (hasDirectStats && hasAttributes) {
+                        // Has both - needs cleanup
+                        player.status = 'needs-cleanup';
+                        bothStructures++;
+                        playersToUnify.push(player);
+                        needsUnification++;
+                    } else {
+                        // No attributes at all - needs default structure
+                        player.status = 'needs-defaults';
+                        noAttributes++;
+                        playersToUnify.push(player);
+                        needsUnification++;
+                    }
+                    
+                    allPlayers.push(player);
+                });
+                
+                log(`✅ Análisis completado: ${allPlayers.length} jugadores encontrados`, 'success');
+                log(`✅ Ya unificados correctamente: ${onlyDirectFields}`, 'success');
+                log(`🔄 Necesitan migración desde attributes: ${onlyAttributes}`, 'warning');
+                log(`🧹 Necesitan limpieza (ambas estructuras): ${bothStructures}`, 'warning');
+                log(`⚠️ Sin atributos (necesitan defaults): ${noAttributes}`, 'warning');
+                log(`🎯 TOTAL A UNIFICAR: ${needsUnification}`, 'warning');
+                
+                // Update stats display
+                statsDiv.innerHTML = `
+                    <div class="stat-card">
+                        <div class="stat-number">${allPlayers.length}</div>
+                        <div class="stat-label">Total Jugadores</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" style="color: #10b981;">${onlyDirectFields}</div>
+                        <div class="stat-label">Ya Unificados</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" style="color: #ffaa00;">${needsUnification}</div>
+                        <div class="stat-label">Requieren Unificación</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" style="color: #ff4444;">${bothStructures}</div>
+                        <div class="stat-label">Estructura Duplicada</div>
+                    </div>
+                `;
+                
+                // Enable unification button if there's work to do
+                document.getElementById('unifyBtn').disabled = false;
+                
+                const progressPercentage = ((onlyDirectFields / allPlayers.length) * 100).toFixed(1);
+                
+                resultsDiv.innerHTML = `
+                    <div class="highlight">
+                        <h4>📊 Estado de Unificación Actual</h4>
+                        <p><strong>Progreso:</strong> ${progressPercentage}% unificado (${onlyDirectFields}/${allPlayers.length})</p>
+                        <div class="progress">
+                            <div class="progress-bar" style="width: ${progressPercentage}%">${progressPercentage}%</div>
+                        </div>
+                        <ul>
+                            <li><strong>${onlyAttributes} jugadores</strong> con solo "attributes" → Migrar a campos directos</li>
+                            <li><strong>${bothStructures} jugadores</strong> con ambas estructuras → Limpiar "attributes"</li>
+                            <li><strong>${noAttributes} jugadores</strong> sin atributos → Crear estructura por defecto</li>
+                        </ul>
+                        <p><strong>🎯 Meta:</strong> ${needsUnification} jugadores necesitan unificación para llegar al 100%</p>
+                    </div>
+                `;
+                
+            } catch (error) {
+                log(`❌ Error en análisis: ${error.message}`, 'error');
+                resultsDiv.innerHTML = `<div style="color: #ff4444;">Error: ${error.message}</div>`;
+            }
+        }
+        
+        window.unifyAllPlayers = async function() {
+            if (playersToUnify.length === 0) {
+                alert('¡Todos los jugadores ya están unificados!');
+                return;
+            }
+            
+            if (!confirm(`¿Unificar ${playersToUnify.length} jugadores para lograr estructura 100% consistente?\n\nEsto:\n- Migrará attributes → campos directos\n- Eliminará estructura "attributes"\n- Creará defaults donde falten datos\n\n¡PROCEDER SOLO SI ESTÁS SEGURO!`)) {
+                return;
+            }
+            
+            log(`🚀 Iniciando unificación completa de ${playersToUnify.length} jugadores...`, 'info');
+            
+            const progressDiv = document.getElementById('unification-progress');
+            progressDiv.innerHTML = `
+                <div class="progress">
+                    <div class="progress-bar" id="progress-bar" style="width: 0%">0%</div>
+                </div>
+                <p id="progress-text">Iniciando unificación...</p>
+            `;
+            
+            unificationResults = [];
+            let processed = 0;
+            
+            for (const player of playersToUnify) {
+                try {
+                    let updateData = {
+                        unifiedAt: Date.now(),
+                        unifiedBy: 'complete-unification-tool',
+                        unificationVersion: '1.0'
+                    };
+                    
+                    if (player.status === 'needs-migration') {
+                        // Migrate from attributes to direct fields
+                        const attrs = player.attributes;
+                        const newOVR = (attrs.pac + attrs.sho + attrs.pas + attrs.dri + attrs.def + attrs.phy) / 6;
+                        
+                        updateData = {
+                            ...updateData,
+                            pac: attrs.pac,
+                            sho: attrs.sho,
+                            pas: attrs.pas,
+                            dri: attrs.dri,
+                            def: attrs.def,
+                            phy: attrs.phy,
+                            ovr: Math.round(newOVR * 10) / 10,
+                            // Remove attributes
+                            attributes: firebase.firestore.FieldValue.delete()
+                        };
+                        
+                        log(`📋 ${player.displayName || player.name}: Migrando desde attributes (OVR: ${updateData.ovr})`, 'info');
+                        
+                    } else if (player.status === 'needs-cleanup') {
+                        // Keep direct fields, remove attributes
+                        updateData = {
+                            ...updateData,
+                            // Remove attributes but keep existing direct fields
+                            attributes: firebase.firestore.FieldValue.delete()
+                        };
+                        
+                        log(`🧹 ${player.displayName || player.name}: Limpiando estructura duplicada`, 'info');
+                        
+                    } else if (player.status === 'needs-defaults') {
+                        // Create default structure based on OVR or use defaults
+                        const defaultOVR = player.ovr || 60;
+                        
+                        updateData = {
+                            ...updateData,
+                            pac: Math.max(20, defaultOVR - 5 + Math.floor(Math.random() * 10)),
+                            sho: Math.max(20, defaultOVR - 5 + Math.floor(Math.random() * 10)),
+                            pas: Math.max(20, defaultOVR - 5 + Math.floor(Math.random() * 10)),
+                            dri: Math.max(20, defaultOVR - 5 + Math.floor(Math.random() * 10)),
+                            def: Math.max(20, defaultOVR - 5 + Math.floor(Math.random() * 10)),
+                            phy: Math.max(20, defaultOVR - 5 + Math.floor(Math.random() * 10)),
+                            ovr: defaultOVR
+                        };
+                        
+                        log(`⚠️ ${player.displayName || player.name}: Creando estructura por defecto (OVR: ${defaultOVR})`, 'warning');
+                    }
+                    
+                    await player.ref.update(updateData);
+                    
+                    unificationResults.push({
+                        player: player.displayName || player.name || 'Sin nombre',
+                        status: 'success',
+                        action: player.status,
+                        ovr: updateData.ovr || player.ovr
+                    });
+                    
+                    log(`✅ ${player.displayName || player.name}: Unificado exitosamente`, 'success');
+                    
+                } catch (error) {
+                    unificationResults.push({
+                        player: player.displayName || player.name || 'Sin nombre',
+                        status: 'error',
+                        error: error.message
+                    });
+                    
+                    log(`❌ ${player.displayName || player.name}: Error - ${error.message}`, 'error');
+                }
+                
+                processed++;
+                const progress = Math.round((processed / playersToUnify.length) * 100);
+                document.getElementById('progress-bar').style.width = progress + '%';
+                document.getElementById('progress-bar').textContent = progress + '%';
+                document.getElementById('progress-text').textContent = `Procesando ${processed}/${playersToUnify.length}: ${player.displayName || player.name}`;
+                
+                // Small delay to prevent overwhelming Firebase
+                await new Promise(resolve => setTimeout(resolve, 150));
+            }
+            
+            const successful = unificationResults.filter(r => r.status === 'success').length;
+            const failed = unificationResults.filter(r => r.status === 'error').length;
+            
+            log(`🎉 Unificación completa terminada: ${successful} exitosos, ${failed} fallidos`, 'success');
+            
+            document.getElementById('progress-text').innerHTML = `
+                <strong>✅ Unificación Completa Terminada</strong><br>
+                Exitosos: ${successful} | Fallidos: ${failed}<br>
+                <em>TODOS los jugadores ahora deberían tener estructura unificada</em>
+            `;
+            
+            // Enable verification
+            document.getElementById('verifyBtn').disabled = false;
+        }
+        
+        window.verifyUnification = async function() {
+            log('🎯 Verificando unificación completa al 100%...', 'info');
+            
+            const resultsDiv = document.getElementById('verification-results');
+            resultsDiv.innerHTML = '<p>🔍 Verificando TODOS los jugadores...</p>';
+            
+            try {
+                const snapshot = await db.collection('futbol_users').get();
+                let totalPlayers = 0;
+                let perfectlyUnified = 0;
+                let stillHaveAttributes = 0;
+                let missingDirectFields = 0;
+                let perfectStructure = [];
+                let problemPlayers = [];
+                
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    totalPlayers++;
+                    
+                    const hasDirectStats = data.pac !== undefined && data.sho !== undefined && data.pas !== undefined && data.dri !== undefined && data.def !== undefined && data.phy !== undefined;
+                    const hasAttributes = data.attributes && Object.keys(data.attributes).length > 0;
+                    
+                    if (hasDirectStats && !hasAttributes) {
+                        // PERFECT!
+                        perfectlyUnified++;
+                        perfectStructure.push(data.displayName || data.name || doc.id);
+                    } else {
+                        // Problem cases
+                        if (hasAttributes) stillHaveAttributes++;
+                        if (!hasDirectStats) missingDirectFields++;
+                        problemPlayers.push({
+                            name: data.displayName || data.name || doc.id,
+                            hasDirectStats,
+                            hasAttributes
+                        });
+                    }
+                });
+                
+                const unificationPercentage = ((perfectlyUnified / totalPlayers) * 100).toFixed(1);
+                const isFullyUnified = perfectlyUnified === totalPlayers;
+                
+                resultsDiv.innerHTML = `
+                    <div class="${isFullyUnified ? 'success-box' : 'highlight'}">
+                        <h3>${isFullyUnified ? '🎉 ¡UNIFICACIÓN 100% COMPLETADA!' : '⚠️ Unificación Parcial'}</h3>
+                        <div class="stats">
+                            <div class="stat-card">
+                                <div class="stat-number">${totalPlayers}</div>
+                                <div class="stat-label">Total Jugadores</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" style="color: #10b981;">${perfectlyUnified}</div>
+                                <div class="stat-label">Perfectamente Unificados</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" style="color: ${isFullyUnified ? '#10b981' : '#ff4444'};">${unificationPercentage}%</div>
+                                <div class="stat-label">Porcentaje Unificado</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" style="color: #ff4444;">${stillHaveAttributes}</div>
+                                <div class="stat-label">Aún con "attributes"</div>
+                            </div>
+                        </div>
+                        
+                        <div class="progress">
+                            <div class="progress-bar" style="width: ${unificationPercentage}%">${unificationPercentage}%</div>
+                        </div>
+                        
+                        ${isFullyUnified ? `
+                            <div style="margin-top: 15px;">
+                                <h4>🎉 ¡ÉXITO TOTAL!</h4>
+                                <p><strong>TODOS los ${totalPlayers} jugadores tienen estructura unificada:</strong></p>
+                                <ul>
+                                    <li>✅ Campos directos: pac, sho, pas, dri, def, phy, ovr</li>
+                                    <li>✅ Sin estructura "attributes" antigua</li>
+                                    <li>✅ Datos consistentes en toda la aplicación</li>
+                                </ul>
+                                <p><strong>🚀 Ahora haz hard refresh (Ctrl+F5) en el admin y la app para ver los cambios!</strong></p>
+                            </div>
+                        ` : `
+                            <div style="margin-top: 15px;">
+                                <h4>⚠️ Aún quedan ${totalPlayers - perfectlyUnified} jugadores sin unificar</h4>
+                                <p><strong>Problemas encontrados:</strong></p>
+                                <ul>
+                                    ${stillHaveAttributes > 0 ? `<li>${stillHaveAttributes} jugadores aún tienen estructura "attributes"</li>` : ''}
+                                    ${missingDirectFields > 0 ? `<li>${missingDirectFields} jugadores no tienen campos directos completos</li>` : ''}
+                                </ul>
+                                <p><em>Ejecuta el análisis nuevamente y repite la unificación.</em></p>
+                            </div>
+                        `}
+                    </div>
+                `;
+                
+                log(`✅ Verificación completada: ${perfectlyUnified}/${totalPlayers} (${unificationPercentage}%) unificados correctamente`, isFullyUnified ? 'success' : 'warning');
+                
+                if (problemPlayers.length > 0 && problemPlayers.length <= 10) {
+                    log(`⚠️ Jugadores con problemas: ${problemPlayers.map(p => p.name).join(', ')}`, 'warning');
+                }
+                
+            } catch (error) {
+                log(`❌ Error en verificación: ${error.message}`, 'error');
+                resultsDiv.innerHTML = `<div style="color: #ff4444;">Error: ${error.message}</div>`;
+            }
+        }
+        
+        // Auto-start analysis on load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                log('🎯 Herramienta de unificación completa iniciada', 'info');
+                log('👉 Haz clic en "Analizar TODOS los Jugadores" para comenzar', 'info');
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

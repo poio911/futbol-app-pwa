@@ -1,0 +1,24 @@
+// Firebase configuration and initialization
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+import { getFirestore, connectFirestoreEmulator } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAes7EVn8hQswS8XgvDMJfN6U4IT_ZL_WY",
+  authDomain: "mil-disculpis.firebaseapp.com",
+  databaseURL: "https://mil-disculpis-default-rtdb.firebaseio.com",
+  projectId: "mil-disculpis",
+  storageBucket: "mil-disculpis.firebasestorage.app",
+  messagingSenderId: "5614567933",
+  appId: "1:5614567933:web:0dce7bf37b8325c0861994",
+  measurementId: "G-EMLP4TKXKR"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+// Initialize Firestore
+const db = getFirestore(app);
+
+console.log('Firebase initialized successfully');
+
+export { db };

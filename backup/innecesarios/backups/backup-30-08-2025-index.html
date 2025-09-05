@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+    <meta name="theme-color" content="#00ff9d">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="FC24 Manager">
+    <title>FC MIL DISCULPIS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="css/styles.css" rel="stylesheet">
+    <link href="css/match-management.css" rel="stylesheet">
+</head>
+<body>
+    <!-- BACKUP CREATED ON 30-08-2025 - ORIGINAL INDEX.HTML -->
+    <div class="container">
+        <!-- NEW: Welcome/Login Screen -->
+        <div id="welcome-screen" class="screen active animate__animated animate__fadeIn">
+            <div class="welcome-container">
+                <div class="welcome-header">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%2300ff9d'/%3E%3Cpath d='M30 50 L45 35 L45 45 L70 45 L70 55 L45 55 L45 65 Z' fill='black'/%3E%3C/svg%3E" alt="FC24" class="welcome-logo">
+                    <h1 class="welcome-title">Futbol Miercoles</h1>
+                    <p class="welcome-subtitle">Gestiona tus equipos de fútbol</p>
+                </div>
+
+                <div class="welcome-options">
+                    <!-- Existing Users Section -->
+                    <div class="welcome-section">
+                        <h2>Iniciar Sesión</h2>
+                        <p>Selecciona tu usuario existente</p>
+                        
+                        <div class="existing-users-list" id="existing-users-list">
+                            <!-- Users will be loaded here -->
+                        </div>
+                        
+                        <div class="no-users-message" id="no-users-message" style="display: none;">
+                            <i class='bx bx-user-x'></i>
+                            <p>No hay usuarios registrados</p>
+                        </div>
+                    </div>
+
+                    <!-- Or Divider -->
+                    <div class="welcome-divider">
+                        <span>O</span>
+                    </div>
+
+                    <!-- New User Section -->
+                    <div class="welcome-section">
+                        <h2>¿Primera vez?</h2>
+                        <p>Crea tu cuenta en segundos</p>
+                        
+                        <button class="btn btn-primary btn-large" id="create-account-btn">
+                            <i class='bx bx-user-plus'></i>
+                            <span>Crear Nueva Cuenta</span>
+                        </button>
+                        
+                        <div class="demo-option">
+                            <button class="btn-link" id="demo-mode-btn">
+                                <i class='bx bx-play-circle'></i>
+                                <span>Probar modo demo</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="welcome-footer">
+                    <small>Versión 2.2 | © 2025 poiolopez</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Person Setup Screen (for new users) -->
+        <div id="person-setup-screen" class="screen animate__animated animate__fadeIn setup-screen">
+            <div class="setup-layout">
+                <h1 class="setup-title">Bienvenido a FC24 Team Manager</h1>
+                <p class="setup-subtitle">Para comenzar, necesitamos crear tu perfil personal</p>
+
+                <form id="person-form" class="setup-form">
+                    <div class="form-field">
+                        <label for="person-name">Tu Nombre Completo</label>
+                        <input type="text" id="person-name" placeholder="Ej. Juan Pérez" required>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="person-email">Email</label>
+                        <input type="email" id="person-email" placeholder="juan@email.com" required>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="person-phone">Teléfono (Opcional)</label>
+                        <input type="tel" id="person-phone" placeholder="+1234567890">
+                    </div>
+
+                    <div class="photo-section">
+                        <label class="photo-label">Foto de Perfil (Opcional)</label>
+                        <div class="photo-wrapper">
+                            <div class="person-photo" id="person-photo-preview">
+                                <div class="player-photo-placeholder"><i class='bx bx-user'></i></div>
+                            </div>
+                            <button type="button" class="upload-btn photo-action" id="person-upload-trigger">
+                                <i class='bx bx-image-add'></i> Seleccionar Foto
+                            </button>
+                            <input type="file" id="person-photo" accept="image/*" style="display:none;">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn primary-btn">Crear Perfil</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- NEW: Group Setup Screen -->
+        <div id="group-setup-screen" class="screen animate__animated animate__fadeIn">
+            <h1>Configurar Grupo</h1>
+            <div class="setup-intro">
+                <p>¡Hola <span id="person-greeting">Usuario</span>!</p>
+                <p>Ahora puedes crear un nuevo grupo o unirte a uno existente</p>
+            </div>
+            
+            <div class="group-setup-options">
+                <div class="setup-option" id="create-group-option">
+                    <div class="option-icon">
+                        <i class='bx bx-plus-circle'></i>
+                    </div>
+                    <h3>Crear Nuevo Grupo</h3>
+                    <p>Inicia tu propio grupo para organizar partidos</p>
+                </div>
+                
+                <div class="setup-option" id="join-group-option">
+                    <div class="option-icon">
+                        <i class='bx bx-group'></i>
+                    </div>
+                    <h3>Unirse a Grupo</h3>
+                    <p>Únete a un grupo existente con un código</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- NEW: Create Group Screen -->
+        <div id="create-group-screen" class="screen animate__animated animate__fadeIn">
+            <h1>Crear Nuevo Grupo</h1>
+            
+            <form id="group-form">
+                <div class="form-group">
+                    <label for="group-name">Nombre del Grupo</label>
+                    <input type="text" id="group-name" placeholder="Ej. Fútbol Miércoles" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="group-description">Descripción</label>
+                    <textarea id="group-description" placeholder="Describe el grupo, horarios, ubicación, etc." required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="group-schedule">Horario/Día</label>
+                    <input type="text" id="group-schedule" placeholder="Ej. Miércoles 19:00" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="group-max-members">Máximo de Miembros</label>
+                    <select id="group-max-members">
+                        <option value="10">10 miembros</option>
+                        <option value="15">15 miembros</option>
+                        <option value="20" selected>20 miembros</option>
+                        <option value="30">30 miembros</option>
+                        <option value="50">50 miembros</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="group-private">
+                        <span class="checkmark"></span>
+                        Grupo Privado (requiere invitación)
+                    </label>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" id="back-to-setup">Volver</button>
+                    <button type="submit" class="btn">Crear Grupo</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- NEW: Join Group Screen -->
+        <div id="join-group-screen" class="screen animate__animated animate__fadeIn">
+            <h1>Unirse a Grupo</h1>
+            
+            <div class="join-group-form">
+                <div class="form-group">
+                    <label for="group-code">Código del Grupo</label>
+                    <input type="text" id="group-code" placeholder="Ej. ABC123" maxlength="6" style="text-transform: uppercase;">
+                    <small>Solicita el código de 6 caracteres al administrador del grupo</small>
+                </div>
+                
+                <div id="group-preview" class="group-preview" style="display: none;">
+                    <!-- Group preview will be shown here -->
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" id="back-to-setup-2">Volver</button>
+                    <button type="button" class="btn" id="search-group">Buscar Grupo</button>
+                    <button type="button" class="btn" id="join-group-btn" style="display: none;">Unirse al Grupo</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ENHANCED: Group Selector Screen with full management -->
+        <div id="group-selector-screen" class="screen animate__animated animate__fadeIn">
+            <div class="screen-header">
+                <h1>Mis Grupos</h1>
+                <button class="btn-icon" id="refresh-groups-btn">
+                    <i class='bx bx-refresh'></i>
+                </button>
+            </div>
+            
+            <div class="groups-tabs">
+                <button class="tab-btn active" data-tab="my-groups">Mis Grupos</button>
+                <button class="tab-btn" data-tab="available-groups">Grupos Disponibles</button>
+            </div>
+            
+            <!-- My Groups Tab -->
+            <div class="tab-content active" id="my-groups-tab">
+                <div class="groups-grid" id="groups-list">
+                    <!-- User's groups will be loaded here -->
+                </div>
+                
+                <div class="empty-state" id="no-groups-message" style="display: none;">
+                    <i class='bx bx-group'></i>
+                    <h3>No tienes grupos aún</h3>
+                    <p>Crea tu primer grupo o únete a uno existente</p>
+                </div>
+            </div>
+            
+            <!-- Available Groups Tab -->
+            <div class="tab-content" id="available-groups-tab">
+                <div class="search-box">
+                    <input type="text" id="search-groups" placeholder="Buscar grupos públicos...">
+                    <i class='bx bx-search'></i>
+                </div>
+                
+                <div class="groups-grid" id="available-groups-list">
+                    <!-- Available public groups will be loaded here -->
+                </div>
+                
+                <div class="empty-state" id="no-available-groups" style="display: none;">
+                    <i class='bx bx-search-alt'></i>
+                    <h3>No hay grupos públicos disponibles</h3>
+                    <p>Todos los grupos son privados o ya eres miembro</p>
+                </div>
+            </div>
+            
+            <div class="selector-actions">
+                <button type="button" class="btn btn-primary" id="create-another-group">
+                    <i class='bx bx-plus'></i> Crear Nuevo Grupo
+                </button>
+                <button type="button" class="btn btn-secondary" id="join-another-group">
+                    <i class='bx bx-log-in'></i> Unirse con Código
+                </button>
+            </div>
+        </div>
+
+        <!-- NEW: Dashboard Screen - Redesigned -->
+        <div id="dashboard-screen" class="screen animate__animated animate__fadeIn">
+            <div class="dashboard-header">
+                <div class="welcome-section">
+                    <h1 id="welcome-message">¡Bienvenido!</h1>
+                    <p class="group-info">Grupo: <strong id="dash-group-name">--</strong></p>
+                </div>
+                <div class="dashboard-date">
+                    <i class='bx bx-calendar'></i>
+                    <span id="current-date"></span>
+                </div>
+            </div>
+
+            <!-- Main Dashboard Grid -->
+            <div class="dashboard-main-grid">
+                <!-- Next Match Card -->
+                <div class="dashboard-card next-match-card">
+                    <div class="card-header">
+                        <h3><i class='bx bx-time-five'></i> Próximo Partido</h3>
+                    </div>
+                    <div id="next-match-content" class="card-content">
+                        <!-- Next match info will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Recent Matches -->
+                <div class="dashboard-card recent-matches-card">
+                    <div class="card-header">
+                        <h3><i class='bx bx-history'></i> Últimos Partidos</h3>
+                    </div>
+                    <div id="recent-matches-content" class="card-content">
+                        <!-- Recent matches will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Top Performers -->
+                <div class="dashboard-card top-performers-card">
+                    <div class="card-header">
+                        <h3><i class='bx bx-star'></i> Mejores Jugadores</h3>
+                        <span class="subtitle">Últimos 7 días</span>
+                    </div>
+                    <div id="top-performers-content" class="card-content">
+                        <!-- Top performers will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="dashboard-card stats-summary-card">
+                    <div class="card-header">
+                        <h3><i class='bx bx-stats'></i> Resumen del Grupo</h3>
+                    </div>
+                    <div class="stats-summary-grid">
+                        <div class="mini-stat">
+                            <div class="mini-stat-value" id="total-players-stat">0</div>
+                            <div class="mini-stat-label">Jugadores</div>
+                        </div>
+                        <div class="mini-stat">
+                            <div class="mini-stat-value" id="total-matches-stat">0</div>
+                            <div class="mini-stat-label">Partidos</div>
+                        </div>
+                        <div class="mini-stat">
+                            <div class="mini-stat-value" id="avg-ovr-stat">0</div>
+                            <div class="mini-stat-label">OVR Promedio</div>
+                        </div>
+                        <div class="mini-stat">
+                            <div class="mini-stat-value" id="win-rate-stat">0%</div>
+                            <div class="mini-stat-label">Victorias</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="dashboard-quick-actions">
+                <button class="quick-action-btn primary" onclick="App.navigateToScreen('matches-screen')" data-tooltip="Generar equipos balanceados y programar partidos">
+                    <i class='bx bx-football'></i>
+                    <span>Crear Partido</span>
+                </button>
+                <button class="quick-action-btn" onclick="App.navigateToScreen('register-screen')" data-tooltip="Registrar un nuevo jugador en el grupo">
+                    <i class='bx bx-user-plus'></i>
+                    <span>Agregar Jugador</span>
+                </button>
+                <button class="quick-action-btn" onclick="App.navigateToScreen('evaluate-screen')" data-tooltip="Evaluar el desempeño de jugadores después de un partido">
+                    <i class='bx bx-clipboard'></i>
+                    <span>Evaluar</span>
+                </button>
+                <button class="quick-action-btn" onclick="App.navigateToScreen('stats-screen')" data-tooltip="Ver ranking y estadísticas detalladas de jugadores">
+                    <i class='bx bx-bar-chart-alt-2'></i>
+                    <span>Estadísticas</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Resto del contenido del archivo original... -->
+        <!-- [Contenido truncado por razones de espacio] -->
+
+    </div>
+    
+    <!-- Scripts originales... -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/firebase-simple.js"></script>
+    <script src="js/supabase-storage.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/validators.js"></script>
+    <script src="js/error-handler.js"></script>
+    <script src="js/ui-helpers.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/match-system-v2.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/match-manager.js"></script>
+    <script src="js/seed-demo.js"></script>
+    
+    <script>
+        // Script de inicialización original...
+        document.addEventListener('DOMContentLoaded', async () => {
+            console.log('🚀 Starting FC24 Team Manager...');
+            console.log('Firebase mode active - will load real data from Firestore');
+            
+            await new Promise(resolve => setTimeout(resolve, 100));
+            
+            try {
+                const dependencies = ['App', 'Storage', 'UI', 'Utils', 'GlobalErrorHandler'];
+                const missing = dependencies.filter(dep => typeof window[dep] === 'undefined');
+                
+                if (missing.length > 0) {
+                    const error = new Error(`Critical dependencies missing: ${missing.join(', ')}`);
+                    if (typeof window.handleError === 'function') {
+                        handleError(error, 'initialization');
+                    } else {
+                        console.error('Critical error:', error);
+                    }
+                    
+                    document.body.innerHTML += `
+                        <div class="loading-overlay">
+                            <div class="loading-spinner"></div>
+                            <div class="loading-text">Error cargando la aplicación...</div>
+                            <div style="color: #ff4444; margin-top: 20px; text-align: center;">
+                                <p>Faltan componentes críticos: ${missing.join(', ')}</p>
+                                <button onclick="window.location.reload()" style="padding: 10px 20px; background: var(--primary-color); border: none; border-radius: 5px; color: black; cursor: pointer;">
+                                    Recargar Página
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                if (typeof UI !== 'undefined' && UI.showLoading) {
+                    UI.showLoading('Iniciando aplicación...');
+                }
+                
+                const initTimeout = setTimeout(() => {
+                    handleError(new Error('App initialization timeout'), 'initialization');
+                    if (typeof UI !== 'undefined') {
+                        UI.hideLoading();
+                        UI.showNotification('La aplicación tardó demasiado en cargar. Recargando...', 'error');
+                    }
+                    setTimeout(() => window.location.reload(), 3000);
+                }, 10000);
+                
+                await App.init();
+                clearTimeout(initTimeout);
+                
+                if (typeof UI !== 'undefined' && UI.hideLoading) {
+                    UI.hideLoading();
+                }
+                
+                console.log('✅ FC24 Team Manager initialized successfully');
+                
+            } catch (error) {
+                console.error('❌ Error initializing app:', error);
+                handleError(error, 'initialization');
+                
+                if (typeof UI !== 'undefined') {
+                    UI.hideLoading();
+                    UI.showNotification('Error al inicializar la aplicación. Recargando...', 'error');
+                } else {
+                    alert('Error al cargar la aplicación. La página se recargará.');
+                }
+                
+                setTimeout(() => window.location.reload(), 3000);
+            }
+        });
+
+        window.addEventListener('error', (event) => {
+            if (event.message && event.message.includes('App is not defined')) {
+                console.error('Critical: App.js failed to load properly');
+                document.body.innerHTML += `
+                    <div class="loading-overlay">
+                        <div style="text-align: center; color: white;">
+                            <h2 style="color: #ff4444;">Error Crítico</h2>
+                            <p>La aplicación no pudo cargar correctamente.</p>
+                            <p>Por favor, recarga la página.</p>
+                            <button onclick="window.location.reload()" style="padding: 10px 20px; background: var(--primary-color); border: none; border-radius: 5px; color: black; cursor: pointer; margin-top: 20px;">
+                                Recargar Página
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>

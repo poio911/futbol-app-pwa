@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>🔧 Fix Pela Data</title>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <style>
+        body { background: #000; color: #00ff9d; font-family: monospace; padding: 20px; line-height: 1.6; }
+        button { background: #00ff9d; color: #000; padding: 10px 20px; border: none; cursor: pointer; margin: 5px; border-radius: 5px; font-weight: bold; }
+        .danger { background: #ff4444 !important; color: white !important; }
+        pre { background: #111; padding: 15px; border: 1px solid #333; white-space: pre-wrap; border-radius: 5px; }
+        .section { background: rgba(255,255,255,0.05); padding: 15px; margin: 10px 0; border-radius: 8px; border-left: 4px solid #00ff9d; }
+        .warning { color: #ffaa00; }
+        .success { color: #00ff9d; }
+        .error { color: #ff4444; }
+    </style>
+</head>
+<body>
+    <h1>🔧 Fix Pela Data - Migración de Atributos</h1>
+    <p>Herramienta para migrar datos de Pela desde attributes a campos directos</p>
+    
+    <div class="section">
+        <h2>🔍 Paso 1: Investigar</h2>
+        <button onclick="investigatePela()">Investigar Pela</button>
+        <div id="investigation"></div>
+    </div>
+    
+    <div class="section">
+        <h2>🔧 Paso 2: Migrar Datos</h2>
+        <p class="warning">CUIDADO: Esto actualizará los datos de Pela en Firebase</p>
+        <button class="danger" onclick="migratePelaData()" disabled id="migrateBtn">Migrar Pela (Deshabilitado)</button>
+        <div id="migration"></div>
+    </div>
+    
+    <div class="section">
+        <h2>✅ Paso 3: Verificar</h2>
+        <button onclick="verifyPela()">Verificar Migración</button>
+        <div id="verification"></div>
+    </div>
+
+    <script>
+        // Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyAes7EVn8hQswS8XgvDMJfN6U4IT_ZL_WY",
+            authDomain: "mil-disculpis.firebaseapp.com",
+            databaseURL: "https://mil-disculpis-default-rtdb.firebaseio.com",
+            projectId: "mil-disculpis",
+            storageBucket: "mil-disculpis.firebasestorage.app",
+            messagingSenderId: "5614567933",
+            appId: "1:5614567933:web:0dce7bf37b8325c0861994",
+            measurementId: "G-EMLP4TKXKR"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        
+        let pelaDoc = null;
+        let pelaData = null;
+        
+        async function investigatePela() {
+            const resultsDiv = document.getElementById('investigation');
+            resultsDiv.innerHTML = '<p>🔍 Investigando datos de Pela...</p>';
+            
+            try {
+                const snapshot = await db.collection('futbol_users')
+                    .where('email', '==', 'poio911@hotmail.com')
+                    .get();
+                
+                if (snapshot.empty) {
+                    resultsDiv.innerHTML = '<p class="error">❌ Pela no encontrada</p>';
+                    return;
+                }
+                
+                snapshot.forEach(doc => {
+                    pelaDoc = doc.ref;
+                    pelaData = doc.data();
+                    
+                    const hasDirectStats = pelaData.pac !== undefined;
+                    const hasAttributes = pelaData.attributes && Object.keys(pelaData.attributes).length > 0;
+                    
+                    let analysis = `
+                        <h3 class="success">✅ Pela encontrada</h3>
+                        <pre>${JSON.stringify(pelaData, null, 2)}</pre>
+                        
+                        <h4>📊 Análisis:</h4>
+                        <ul>
+                            <li><strong>Campos directos (pac, sho, etc.):</strong> ${hasDirectStats ? '<span class="success">SÍ</span>' : '<span class="error">NO</span>'}</li>
+                            <li><strong>Objeto attributes:</strong> ${hasAttributes ? '<span class="warning">SÍ</span>' : '<span class="success">NO</span>'}</li>
+                            <li><strong>OVR almacenado:</strong> ${pelaData.ovr}</li>
+                        </ul>
+                    `;
+                    
+                    if (!hasDirectStats && hasAttributes) {
+                        analysis += `
+                            <div class="warning">
+                                <h4>⚠️ PROBLEMA IDENTIFICADO</h4>
+                                <p>Pela solo tiene datos en "attributes" (estructura antigua)</p>
+                                <p>El sistema unified no migró sus datos a campos directos</p>
+                                <p><strong>Solución:</strong> Migrar attributes → campos directos</p>
+                            </div>
+                        `;
+                        document.getElementById('migrateBtn').disabled = false;
+                        document.getElementById('migrateBtn').textContent = 'MIGRAR PELA AHORA';
+                    } else if (hasDirectStats && hasAttributes) {
+                        const directOVR = (pelaData.pac + pelaData.sho + pelaData.pas + pelaData.dri + pelaData.def + pelaData.phy) / 6;
+                        const attrOVR = (pelaData.attributes.pac + pelaData.attributes.sho + pelaData.attributes.pas + pelaData.attributes.dri + pelaData.attributes.def + pelaData.attributes.phy) / 6;
+                        
+                        analysis += `
+                            <div class="warning">
+                                <h4>⚠️ AMBAS ESTRUCTURAS PRESENTES</h4>
+                                <p>OVR calculado desde directos: ${directOVR.toFixed(2)}</p>
+                                <p>OVR calculado desde attributes: ${attrOVR.toFixed(2)}</p>
+                                <p>Diferencia: ${Math.abs(directOVR - attrOVR).toFixed(2)}</p>
+                            </div>
+                        `;
+                    } else if (hasDirectStats) {
+                        analysis += `
+                            <div class="success">
+                                <h4>✅ ESTRUCTURA CORRECTA</h4>
+                                <p>Pela ya tiene campos directos. El problema debe estar en otra parte.</p>
+                            </div>
+                        `;
+                    }
+                    
+                    resultsDiv.innerHTML = analysis;
+                });
+                
+            } catch (error) {
+                resultsDiv.innerHTML = `<p class="error">❌ Error: ${error.message}</p>`;
+            }
+        }
+        
+        async function migratePelaData() {
+            if (!pelaData || !pelaDoc) {
+                alert('Primero ejecuta la investigación');
+                return;
+            }
+            
+            if (!confirm('¿Estás seguro de migrar los datos de Pela? Esto actualizará Firebase.')) {
+                return;
+            }
+            
+            const resultsDiv = document.getElementById('migration');
+            resultsDiv.innerHTML = '<p>🔄 Migrando datos...</p>';
+            
+            try {
+                // Calculate correct OVR from attributes
+                const attrs = pelaData.attributes;
+                const newOVR = (attrs.pac + attrs.sho + attrs.pas + attrs.dri + attrs.def + attrs.phy) / 6;
+                
+                const updateData = {
+                    // Copy attributes to direct fields
+                    pac: attrs.pac,
+                    sho: attrs.sho,
+                    pas: attrs.pas,
+                    dri: attrs.dri,
+                    def: attrs.def,
+                    phy: attrs.phy,
+                    // Update OVR to match
+                    ovr: Math.round(newOVR * 10) / 10, // Round to 1 decimal
+                    // Add migration timestamp
+                    migratedAt: Date.now(),
+                    migratedBy: 'admin-fix-tool'
+                };
+                
+                // Don't remove attributes yet, keep as backup
+                // attributes: firebase.firestore.FieldValue.delete()
+                
+                await pelaDoc.update(updateData);
+                
+                resultsDiv.innerHTML = `
+                    <div class="success">
+                        <h4>✅ Migración Completada</h4>
+                        <p>Datos actualizados en Firebase:</p>
+                        <pre>${JSON.stringify(updateData, null, 2)}</pre>
+                        <p><strong>Ahora Pela debería mostrar los atributos correctos en el admin</strong></p>
+                    </div>
+                `;
+                
+            } catch (error) {
+                resultsDiv.innerHTML = `<p class="error">❌ Error en migración: ${error.message}</p>`;
+            }
+        }
+        
+        async function verifyPela() {
+            const resultsDiv = document.getElementById('verification');
+            resultsDiv.innerHTML = '<p>🔍 Verificando migración...</p>';
+            
+            try {
+                const snapshot = await db.collection('futbol_users')
+                    .where('email', '==', 'poio911@hotmail.com')
+                    .get();
+                
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    const hasDirectStats = data.pac !== undefined;
+                    
+                    if (hasDirectStats) {
+                        const calculatedOVR = (data.pac + data.sho + data.pas + data.dri + data.def + data.phy) / 6;
+                        
+                        resultsDiv.innerHTML = `
+                            <div class="success">
+                                <h4>✅ Verificación Exitosa</h4>
+                                <p><strong>Campos directos:</strong> PAC:${data.pac}, SHO:${data.sho}, PAS:${data.pas}, DRI:${data.dri}, DEF:${data.def}, PHY:${data.phy}</p>
+                                <p><strong>OVR almacenado:</strong> ${data.ovr}</p>
+                                <p><strong>OVR calculado:</strong> ${calculatedOVR.toFixed(2)}</p>
+                                <p><strong>Coinciden:</strong> ${Math.abs(data.ovr - calculatedOVR) < 0.1 ? 'SÍ ✅' : 'NO ❌'}</p>
+                                
+                                <h4>🔄 Próximo paso:</h4>
+                                <p>1. Haz hard refresh (Ctrl+F5) en el admin</p>
+                                <p>2. Verifica que Pela muestre los atributos correctos</p>
+                            </div>
+                        `;
+                    } else {
+                        resultsDiv.innerHTML = `
+                            <div class="error">
+                                <h4>❌ Migración Fallida</h4>
+                                <p>Pela todavía no tiene campos directos</p>
+                            </div>
+                        `;
+                    }
+                });
+                
+            } catch (error) {
+                resultsDiv.innerHTML = `<p class="error">❌ Error: ${error.message}</p>`;
+            }
+        }
+        
+        // Auto-investigate on load
+        window.addEventListener('load', () => {
+            setTimeout(investigatePela, 1000);
+        });
+    </script>
+</body>
+</html>

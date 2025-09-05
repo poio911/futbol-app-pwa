@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Test</title>
+</head>
+<body>
+    <h1>Debug Test</h1>
+    <div id="output"></div>
+    
+    <script src="js/storage.js"></script>
+    <script>
+        // Test loading matches and player data
+        console.log('Testing matches and player data...');
+        
+        const matches = Storage.getMatches();
+        console.log('Matches found:', matches.length);
+        
+        matches.forEach((match, index) => {
+            console.log(`Match ${index + 1}:`, match);
+            
+            // Check team structure
+            const teamA = match.teams ? match.teams.teamA : match.teamA;
+            const teamB = match.teams ? match.teams.teamB : match.teamB;
+            
+            console.log('Team A:', teamA);
+            console.log('Team B:', teamB);
+            
+            if (teamA && teamA.players) {
+                console.log('Team A players:', teamA.players.length);
+                teamA.players.forEach((player, pIndex) => {
+                    console.log(`  Player ${pIndex + 1}:`, player);
+                    console.log(`  Name: "${player.name}"`);
+                    console.log(`  ID: "${player.id}"`);
+                });
+            }
+            
+            if (teamB && teamB.players) {
+                console.log('Team B players:', teamB.players.length);
+                teamB.players.forEach((player, pIndex) => {
+                    console.log(`  Player ${pIndex + 1}:`, player);
+                    console.log(`  Name: "${player.name}"`);
+                    console.log(`  ID: "${player.id}"`);
+                });
+            }
+        });
+        
+        // Test regular players
+        const allPlayers = Storage.getPlayers();
+        console.log('All players:', allPlayers.length);
+        
+        let outputHTML = `
+            <p>Matches: ${matches.length}</p>
+            <p>Players: ${allPlayers.length}</p>
+        `;
+        
+        // Test if there are matches with player data
+        if (matches.length > 0) {
+            const firstMatch = matches[0];
+            console.log('First match structure:', firstMatch);
+            
+            outputHTML += `<h3>First Match Analysis:</h3>`;
+            outputHTML += `<p>Match ID: ${firstMatch.id}</p>`;
+            outputHTML += `<p>Status: ${firstMatch.status}</p>`;
+            
+            const teamA = firstMatch.teams ? firstMatch.teams.teamA : firstMatch.teamA;
+            const teamB = firstMatch.teams ? firstMatch.teams.teamB : firstMatch.teamB;
+            
+            if (teamA && teamA.players) {
+                outputHTML += `<p>Team A players: ${teamA.players.length}</p>`;
+                teamA.players.forEach((player, index) => {
+                    if (typeof player === 'string') {
+                        outputHTML += `<p style="color: red;">Player ${index + 1}: ID only - "${player}"</p>`;
+                    } else if (player && player.name) {
+                        outputHTML += `<p style="color: green;">Player ${index + 1}: "${player.name}" (ID: ${player.id})</p>`;
+                    } else {
+                        outputHTML += `<p style="color: orange;">Player ${index + 1}: Unknown format - ${JSON.stringify(player)}</p>`;
+                    }
+                });
+            } else {
+                outputHTML += `<p style="color: red;">No Team A players found</p>`;
+            }
+        }
+        
+        document.getElementById('output').innerHTML = outputHTML;
+    </script>
+</body>
+</html>

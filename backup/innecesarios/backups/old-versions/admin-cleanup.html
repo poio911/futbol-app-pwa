@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔧 Admin Cleanup Tool - FC24</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .section {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .log {
+            background: #111;
+            border: 1px solid #333;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        button {
+            background: #00ff9d;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            font-weight: bold;
+        }
+        button:hover {
+            background: #00cc7d;
+        }
+        button:disabled {
+            background: #333;
+            color: #666;
+            cursor: not-allowed;
+        }
+        .danger {
+            background: #ff4444;
+            color: white;
+        }
+        .danger:hover {
+            background: #cc3333;
+        }
+        .warning {
+            background: #ffaa00;
+            color: black;
+        }
+        .warning:hover {
+            background: #cc8800;
+        }
+        .item {
+            background: #222;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border: 1px solid #444;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .item.selected {
+            border-color: #00ff9d;
+            background: #0a2a1a;
+        }
+        .item-info {
+            flex: 1;
+        }
+        .item-actions {
+            display: flex;
+            gap: 5px;
+        }
+        .checkbox {
+            margin-right: 10px;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+        .stat-card {
+            background: #222;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #444;
+        }
+        .stat-number {
+            font-size: 2em;
+            color: #00ff9d;
+            font-weight: bold;
+        }
+        .stat-label {
+            color: #ccc;
+            font-size: 0.9em;
+        }
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #333;
+            margin-bottom: 20px;
+        }
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+        .tab.active {
+            border-bottom-color: #00ff9d;
+            color: #00ff9d;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        h2 {
+            color: #00ff9d;
+        }
+    </style>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Admin Cleanup Tool - Firebase Database Manager</h1>
+        
+        <div class="section">
+            <h2>📊 Database Statistics</h2>
+            <div class="stats" id="stats">
+                <!-- Stats will be populated here -->
+            </div>
+            <button onclick="loadAllData()">🔄 Refresh All Data</button>
+        </div>
+
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('players')">👥 Players</div>
+            <div class="tab" onclick="switchTab('matches')">⚽ Matches</div>
+            <div class="tab" onclick="switchTab('persons')">🧑 Persons</div>
+            <div class="tab" onclick="switchTab('groups')">👨‍👩‍👧‍👦 Groups</div>
+            <div class="tab" onclick="switchTab('logs')">📝 Logs</div>
+        </div>
+
+        <!-- PLAYERS TAB -->
+        <div id="players-tab" class="tab-content active">
+            <div class="section">
+                <h2>👥 Players Management</h2>
+                <div>
+                    <button onclick="selectAllPlayers()">✅ Select All</button>
+                    <button onclick="deselectAllPlayers()">❌ Deselect All</button>
+                    <button onclick="deleteSelectedPlayers()" class="danger">🗑️ Delete Selected Players</button>
+                    <button onclick="deleteAllPlayers()" class="danger">💥 Delete ALL Players</button>
+                </div>
+                <div id="players-list"></div>
+            </div>
+        </div>
+
+        <!-- MATCHES TAB -->
+        <div id="matches-tab" class="tab-content">
+            <div class="section">
+                <h2>⚽ Matches Management</h2>
+                <div>
+                    <button onclick="selectAllMatches()">✅ Select All</button>
+                    <button onclick="deselectAllMatches()">❌ Deselect All</button>
+                    <button onclick="deleteSelectedMatches()" class="danger">🗑️ Delete Selected Matches</button>
+                    <button onclick="deleteAllMatches()" class="danger">💥 Delete ALL Matches</button>
+                </div>
+                <div id="matches-list"></div>
+            </div>
+        </div>
+
+        <!-- PERSONS TAB -->
+        <div id="persons-tab" class="tab-content">
+            <div class="section">
+                <h2>🧑 Persons Management</h2>
+                <div>
+                    <button onclick="selectAllPersons()">✅ Select All</button>
+                    <button onclick="deselectAllPersons()">❌ Deselect All</button>
+                    <button onclick="deleteSelectedPersons()" class="danger">🗑️ Delete Selected Persons</button>
+                    <button onclick="deleteAllPersons()" class="danger">💥 Delete ALL Persons</button>
+                </div>
+                <div id="persons-list"></div>
+            </div>
+        </div>
+
+        <!-- GROUPS TAB -->
+        <div id="groups-tab" class="tab-content">
+            <div class="section">
+                <h2>👨‍👩‍👧‍👦 Groups Management</h2>
+                <div>
+                    <button onclick="selectAllGroups()">✅ Select All</button>
+                    <button onclick="deselectAllGroups()">❌ Deselect All</button>
+                    <button onclick="deleteSelectedGroups()" class="warning">🗑️ Delete Selected Groups</button>
+                    <button onclick="deleteAllGroups()" class="danger">💥 Delete ALL Groups (DANGER!)</button>
+                </div>
+                <div id="groups-list"></div>
+            </div>
+        </div>
+
+        <!-- LOGS TAB -->
+        <div id="logs-tab" class="tab-content">
+            <div class="section">
+                <h2>📝 Operation Logs</h2>
+                <button onclick="clearLogs()">🧹 Clear Logs</button>
+                <div class="log" id="log"></div>
+            </div>
+        </div>
+
+        <!-- DANGER ZONE -->
+        <div class="section" style="border-color: #ff4444;">
+            <h2 style="color: #ff4444;">⚠️ DANGER ZONE</h2>
+            <p style="color: #ffaa00;">⚠️ These actions are IRREVERSIBLE and will delete ALL data!</p>
+            <button onclick="nukeEverything()" class="danger">💥 DELETE EVERYTHING (Nuclear Option)</button>
+            <button onclick="resetToDemo()" class="warning">🔄 Reset to Demo Data</button>
+        </div>
+    </div>
+
+    <script src="js/firebase-simple.js"></script>
+    
+    <script>
+        let allData = {
+            players: [],
+            matches: [],
+            persons: [],
+            groups: []
+        };
+
+        let selectedItems = {
+            players: new Set(),
+            matches: new Set(),
+            persons: new Set(),
+            groups: new Set()
+        };
+
+        function log(message) {
+            const logElement = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            logElement.innerHTML += `<div>[${timestamp}] ${message}</div>`;
+            logElement.scrollTop = logElement.scrollHeight;
+            console.log(message);
+        }
+
+        function clearLogs() {
+            document.getElementById('log').innerHTML = '';
+        }
+
+        function switchTab(tabName) {
+            // Remove active class from all tabs and contents
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            // Add active class to selected tab and content
+            event.target.classList.add('active');
+            document.getElementById(tabName + '-tab').classList.add('active');
+        }
+
+        async function loadAllData() {
+            log('🔄 Loading all data from Firebase...');
+            
+            try {
+                // Load all data types
+                await Storage.loadPlayersFromFirebase();
+                await Storage.loadMatchesFromFirebase();
+                await Storage.loadPersonsFromFirebase();
+                // Groups loaded automatically when persons are loaded
+                
+                allData.players = Storage.getPlayers();
+                allData.matches = Storage.getMatches();
+                allData.persons = Storage.getPersons();
+                allData.groups = Storage.getGroups();
+                
+                log(`✅ Data loaded - Players: ${allData.players.length}, Matches: ${allData.matches.length}, Persons: ${allData.persons.length}, Groups: ${allData.groups.length}`);
+                
+                updateStats();
+                displayPlayers();
+                displayMatches();
+                displayPersons();
+                displayGroups();
+                
+            } catch (error) {
+                log('❌ Error loading data: ' + error.message);
+            }
+        }
+
+        function updateStats() {
+            const statsHtml = `
+                <div class="stat-card">
+                    <div class="stat-number">${allData.players.length}</div>
+                    <div class="stat-label">Players</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${allData.matches.length}</div>
+                    <div class="stat-label">Matches</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${allData.persons.length}</div>
+                    <div class="stat-label">Persons</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${allData.groups.length}</div>
+                    <div class="stat-label">Groups</div>
+                </div>
+            `;
+            document.getElementById('stats').innerHTML = statsHtml;
+        }
+
+        function displayPlayers() {
+            const container = document.getElementById('players-list');
+            if (allData.players.length === 0) {
+                container.innerHTML = '<div style="color: #888; padding: 20px; text-align: center;">No players found</div>';
+                return;
+            }
+
+            const html = allData.players.map(player => `
+                <div class="item ${selectedItems.players.has(player.id) ? 'selected' : ''}" id="player-${player.id}">
+                    <div class="item-info">
+                        <input type="checkbox" class="checkbox" ${selectedItems.players.has(player.id) ? 'checked' : ''} 
+                               onchange="toggleSelection('players', '${player.id}')">
+                        <strong>${player.name}</strong> - ${player.position} (OVR: ${player.ovr || 'N/A'})
+                        <br><small>ID: ${player.id} | Group: ${player.groupId || 'N/A'}</small>
+                    </div>
+                    <div class="item-actions">
+                        <button onclick="deletePlayer('${player.id}')" class="danger">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+            
+            container.innerHTML = html;
+        }
+
+        function displayMatches() {
+            const container = document.getElementById('matches-list');
+            if (allData.matches.length === 0) {
+                container.innerHTML = '<div style="color: #888; padding: 20px; text-align: center;">No matches found</div>';
+                return;
+            }
+
+            const html = allData.matches.map(match => `
+                <div class="item ${selectedItems.matches.has(match.id) ? 'selected' : ''}" id="match-${match.id}">
+                    <div class="item-info">
+                        <input type="checkbox" class="checkbox" ${selectedItems.matches.has(match.id) ? 'checked' : ''} 
+                               onchange="toggleSelection('matches', '${match.id}')">
+                        <strong>Match ${new Date(match.date).toLocaleDateString()}</strong> - ${match.status || 'pending'}
+                        <br><small>ID: ${match.id} | Teams: ${match.teamA?.players?.length || 0} vs ${match.teamB?.players?.length || 0}</small>
+                    </div>
+                    <div class="item-actions">
+                        <button onclick="deleteMatch('${match.id}')" class="danger">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+            
+            container.innerHTML = html;
+        }
+
+        function displayPersons() {
+            const container = document.getElementById('persons-list');
+            if (allData.persons.length === 0) {
+                container.innerHTML = '<div style="color: #888; padding: 20px; text-align: center;">No persons found</div>';
+                return;
+            }
+
+            const html = allData.persons.map(person => `
+                <div class="item ${selectedItems.persons.has(person.id) ? 'selected' : ''}" id="person-${person.id}">
+                    <div class="item-info">
+                        <input type="checkbox" class="checkbox" ${selectedItems.persons.has(person.id) ? 'checked' : ''} 
+                               onchange="toggleSelection('persons', '${person.id}')">
+                        <strong>${person.name}</strong> - ${person.email}
+                        <br><small>ID: ${person.id} | Created: ${new Date(person.createdAt).toLocaleDateString()}</small>
+                    </div>
+                    <div class="item-actions">
+                        <button onclick="deletePerson('${person.id}')" class="danger">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+            
+            container.innerHTML = html;
+        }
+
+        function displayGroups() {
+            const container = document.getElementById('groups-list');
+            if (allData.groups.length === 0) {
+                container.innerHTML = '<div style="color: #888; padding: 20px; text-align: center;">No groups found</div>';
+                return;
+            }
+
+            const html = allData.groups.map(group => `
+                <div class="item ${selectedItems.groups.has(group.id) ? 'selected' : ''}" id="group-${group.id}">
+                    <div class="item-info">
+                        <input type="checkbox" class="checkbox" ${selectedItems.groups.has(group.id) ? 'checked' : ''} 
+                               onchange="toggleSelection('groups', '${group.id}')">
+                        <strong>${group.name}</strong> - ${group.description || 'No description'}
+                        <br><small>ID: ${group.id} | Members: ${group.members?.length || 0} | Code: ${group.code}</small>
+                    </div>
+                    <div class="item-actions">
+                        <button onclick="deleteGroup('${group.id}')" class="warning">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+            
+            container.innerHTML = html;
+        }
+
+        function toggleSelection(type, id) {
+            if (selectedItems[type].has(id)) {
+                selectedItems[type].delete(id);
+            } else {
+                selectedItems[type].add(id);
+            }
+            
+            // Update visual state
+            const element = document.getElementById(`${type.slice(0, -1)}-${id}`);
+            if (element) {
+                element.classList.toggle('selected', selectedItems[type].has(id));
+            }
+        }
+
+        // Selection functions
+        function selectAllPlayers() {
+            allData.players.forEach(p => selectedItems.players.add(p.id));
+            displayPlayers();
+        }
+        function deselectAllPlayers() {
+            selectedItems.players.clear();
+            displayPlayers();
+        }
+
+        function selectAllMatches() {
+            allData.matches.forEach(m => selectedItems.matches.add(m.id));
+            displayMatches();
+        }
+        function deselectAllMatches() {
+            selectedItems.matches.clear();
+            displayMatches();
+        }
+
+        function selectAllPersons() {
+            allData.persons.forEach(p => selectedItems.persons.add(p.id));
+            displayPersons();
+        }
+        function deselectAllPersons() {
+            selectedItems.persons.clear();
+            displayPersons();
+        }
+
+        function selectAllGroups() {
+            allData.groups.forEach(g => selectedItems.groups.add(g.id));
+            displayGroups();
+        }
+        function deselectAllGroups() {
+            selectedItems.groups.clear();
+            displayGroups();
+        }
+
+        // Individual delete functions
+        async function deletePlayer(playerId) {
+            if (!confirm('Are you sure you want to delete this player?')) return;
+            
+            log(`🗑️ Deleting player: ${playerId}`);
+            const success = await Storage.deletePlayer(playerId);
+            
+            if (success) {
+                log('✅ Player deleted successfully');
+                selectedItems.players.delete(playerId);
+                await loadAllData();
+            } else {
+                log('❌ Failed to delete player');
+            }
+        }
+
+        async function deleteMatch(matchId) {
+            if (!confirm('Are you sure you want to delete this match?')) return;
+            
+            log(`🗑️ Deleting match: ${matchId}`);
+            const success = await Storage.deleteMatch(matchId);
+            
+            if (success) {
+                log('✅ Match deleted successfully');
+                selectedItems.matches.delete(matchId);
+                await loadAllData();
+            } else {
+                log('❌ Failed to delete match');
+            }
+        }
+
+        async function deletePerson(personId) {
+            if (!confirm('Are you sure you want to delete this person?')) return;
+            
+            log(`🗑️ Deleting person: ${personId}`);
+            const success = await Storage.deletePerson(personId);
+            
+            if (success) {
+                log('✅ Person deleted successfully');
+                selectedItems.persons.delete(personId);
+                await loadAllData();
+            } else {
+                log('❌ Failed to delete person');
+            }
+        }
+
+        async function deleteGroup(groupId) {
+            if (!confirm('Are you sure you want to delete this group? This will also delete all associated players and matches!')) return;
+            
+            log(`🗑️ Deleting group: ${groupId}`);
+            const success = await Storage.deleteGroup(groupId);
+            
+            if (success) {
+                log('✅ Group deleted successfully');
+                selectedItems.groups.delete(groupId);
+                await loadAllData();
+            } else {
+                log('❌ Failed to delete group');
+            }
+        }
+
+        // Batch delete functions
+        async function deleteSelectedPlayers() {
+            const count = selectedItems.players.size;
+            if (count === 0) {
+                alert('No players selected');
+                return;
+            }
+            
+            if (!confirm(`Delete ${count} selected players?`)) return;
+            
+            log(`🗑️ Deleting ${count} selected players...`);
+            let deleted = 0;
+            
+            for (const playerId of selectedItems.players) {
+                const success = await Storage.deletePlayer(playerId);
+                if (success) deleted++;
+            }
+            
+            log(`✅ Deleted ${deleted}/${count} players`);
+            selectedItems.players.clear();
+            await loadAllData();
+        }
+
+        async function deleteSelectedMatches() {
+            const count = selectedItems.matches.size;
+            if (count === 0) {
+                alert('No matches selected');
+                return;
+            }
+            
+            if (!confirm(`Delete ${count} selected matches?`)) return;
+            
+            log(`🗑️ Deleting ${count} selected matches...`);
+            let deleted = 0;
+            
+            for (const matchId of selectedItems.matches) {
+                const success = await Storage.deleteMatch(matchId);
+                if (success) deleted++;
+            }
+            
+            log(`✅ Deleted ${deleted}/${count} matches`);
+            selectedItems.matches.clear();
+            await loadAllData();
+        }
+
+        async function deleteSelectedPersons() {
+            const count = selectedItems.persons.size;
+            if (count === 0) {
+                alert('No persons selected');
+                return;
+            }
+            
+            if (!confirm(`Delete ${count} selected persons?`)) return;
+            
+            log(`🗑️ Deleting ${count} selected persons...`);
+            let deleted = 0;
+            
+            for (const personId of selectedItems.persons) {
+                const success = await Storage.deletePerson(personId);
+                if (success) deleted++;
+            }
+            
+            log(`✅ Deleted ${deleted}/${count} persons`);
+            selectedItems.persons.clear();
+            await loadAllData();
+        }
+
+        async function deleteSelectedGroups() {
+            const count = selectedItems.groups.size;
+            if (count === 0) {
+                alert('No groups selected');
+                return;
+            }
+            
+            if (!confirm(`Delete ${count} selected groups? This will also delete all associated data!`)) return;
+            
+            log(`🗑️ Deleting ${count} selected groups...`);
+            let deleted = 0;
+            
+            for (const groupId of selectedItems.groups) {
+                const success = await Storage.deleteGroup(groupId);
+                if (success) deleted++;
+            }
+            
+            log(`✅ Deleted ${deleted}/${count} groups`);
+            selectedItems.groups.clear();
+            await loadAllData();
+        }
+
+        // Delete all functions
+        async function deleteAllPlayers() {
+            const count = allData.players.length;
+            if (count === 0) {
+                alert('No players to delete');
+                return;
+            }
+            
+            if (!confirm(`DELETE ALL ${count} PLAYERS? This cannot be undone!`)) return;
+            if (!confirm(`Are you ABSOLUTELY SURE? This will delete ${count} players permanently!`)) return;
+            
+            log(`💥 Deleting ALL ${count} players...`);
+            let deleted = 0;
+            
+            for (const player of allData.players) {
+                const success = await Storage.deletePlayer(player.id);
+                if (success) deleted++;
+            }
+            
+            log(`✅ Deleted ${deleted}/${count} players`);
+            await loadAllData();
+        }
+
+        async function deleteAllMatches() {
+            const count = allData.matches.length;
+            if (count === 0) {
+                alert('No matches to delete');
+                return;
+            }
+            
+            if (!confirm(`DELETE ALL ${count} MATCHES? This cannot be undone!`)) return;
+            if (!confirm(`Are you ABSOLUTELY SURE? This will delete ${count} matches permanently!`)) return;
+            
+            log(`💥 Deleting ALL ${count} matches...`);
+            let deleted = 0;
+            
+            for (const match of allData.matches) {
+                const success = await Storage.deleteMatch(match.id);
+                if (success) deleted++;
+            }
+            
+            log(`✅ Deleted ${deleted}/${count} matches`);
+            await loadAllData();
+        }
+
+        async function deleteAllPersons() {
+            const count = allData.persons.length;
+            if (count === 0) {
+                alert('No persons to delete');
+                return;
+            }
+            
+            if (!confirm(`DELETE ALL ${count} PERSONS? This cannot be undone!`)) return;
+            if (!confirm(`Are you ABSOLUTELY SURE? This will delete ${count} persons permanently!`)) return;
+            
+            log(`💥 Deleting ALL ${count} persons...`);
+            let deleted = 0;
+            
+            for (const person of allData.persons) {
+                const success = await Storage.deletePerson(person.id);
+                if (success) deleted++;
+            }
+            
+            log(`✅ Deleted ${deleted}/${count} persons`);
+            await loadAllData();
+        }
+
+        async function deleteAllGroups() {
+            const count = allData.groups.length;
+            if (count === 0) {
+                alert('No groups to delete');
+                return;
+            }
+            
+            if (!confirm(`DELETE ALL ${count} GROUPS? This will also delete ALL associated data!`)) return;
+            if (!confirm(`Are you ABSOLUTELY SURE? This is IRREVERSIBLE!`)) return;
+            if (!confirm(`FINAL WARNING: This will delete EVERYTHING in the database!`)) return;
+            
+            log(`💥 Deleting ALL ${count} groups and associated data...`);
+            let deleted = 0;
+            
+            for (const group of allData.groups) {
+                const success = await Storage.deleteGroup(group.id);
+                if (success) deleted++;
+            }
+            
+            log(`✅ Deleted ${deleted}/${count} groups`);
+            await loadAllData();
+        }
+
+        async function nukeEverything() {
+            const totalCount = allData.players.length + allData.matches.length + allData.persons.length + allData.groups.length;
+            
+            if (totalCount === 0) {
+                alert('Database is already empty');
+                return;
+            }
+            
+            if (!confirm(`💥 NUCLEAR OPTION: Delete EVERYTHING? (${totalCount} total items)`)) return;
+            if (!confirm('This will delete ALL data from the database. Type "DELETE" to confirm:') || prompt('Type "DELETE"') !== 'DELETE') return;
+            
+            log(`💥 NUCLEAR CLEANUP: Deleting all ${totalCount} items from database...`);
+            
+            // Delete in order: matches -> players -> persons -> groups
+            await deleteAllMatches();
+            await deleteAllPlayers();
+            await deleteAllPersons();
+            await deleteAllGroups();
+            
+            log('💥 NUCLEAR CLEANUP COMPLETE - Database is now empty');
+        }
+
+        async function resetToDemo() {
+            if (!confirm('Reset database to demo data? This will delete all current data!')) return;
+            
+            log('🔄 Resetting to demo data...');
+            
+            // First nuke everything
+            await nukeEverything();
+            
+            // Then let the demo system recreate demo data
+            Storage.isDemo = true;
+            await loadAllData();
+            Storage.isDemo = false;
+            
+            log('✅ Database reset to demo data');
+        }
+
+        // Auto-load data on page load
+        window.addEventListener('load', async () => {
+            log('🚀 Admin Cleanup Tool loaded');
+            
+            // Wait for Firebase to initialize
+            setTimeout(async () => {
+                await loadAllData();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

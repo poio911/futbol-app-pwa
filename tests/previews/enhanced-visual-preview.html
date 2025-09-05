@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Visual Preview - Nuevas Versiones Mejoradas</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        :root {
+            --primary: #00ff9d;
+            --secondary: #ff00e6;
+            --accent: #00d4ff;
+            --dark: #0a0e1a;
+            --dark-medium: #1a1f2e;
+            --dark-light: #232938;
+            --gold: #ffd700;
+            --silver: #c0c0c0;
+            --bronze: #cd7f32;
+            --gradient-main: linear-gradient(135deg, #0a0e1a 0%, #1e3c72 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--gradient-main);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 30px;
+        }
+
+        .preview-container {
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+
+        .main-title {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 42px;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--primary), var(--accent), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .variant-section {
+            margin-bottom: 80px;
+        }
+
+        .variant-title {
+            font-size: 28px;
+            margin-bottom: 30px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .variant-title::before {
+            content: '';
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), transparent);
+        }
+
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        /* ========================================= */
+        /* VARIANTE 1: PREMIUM GLASS EDITION */
+        /* ========================================= */
+        .premium-glass-header {
+            background: linear-gradient(135deg, rgba(26, 31, 46, 0.95) 0%, rgba(35, 41, 56, 0.95) 100%);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 255, 157, 0.1);
+            border-radius: 20px;
+            padding: 20px 30px;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .premium-glass-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 255, 157, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .premium-user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .premium-avatar-container {
+            position: relative;
+        }
+
+        .premium-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid var(--primary);
+            box-shadow: 
+                0 0 30px rgba(0, 255, 157, 0.5),
+                inset 0 0 20px rgba(0, 0, 0, 0.3);
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 30px rgba(0, 255, 157, 0.5); }
+            50% { box-shadow: 0 0 50px rgba(0, 255, 157, 0.8); }
+        }
+
+        .premium-ovr-badge {
+            position: absolute;
+            bottom: -5px;
+            right: -5px;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 16px;
+            color: #1a1a2e;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .premium-player-card {
+            background: linear-gradient(135deg, rgba(26, 31, 46, 0.98) 0%, rgba(35, 41, 56, 0.98) 100%);
+            border: 1px solid rgba(0, 255, 157, 0.2);
+            border-radius: 20px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .premium-player-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--primary);
+            box-shadow: 
+                0 20px 40px rgba(0, 255, 157, 0.3),
+                0 0 60px rgba(0, 255, 157, 0.2);
+        }
+
+        .premium-player-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--accent), var(--secondary));
+            animation: slide 3s ease-in-out infinite;
+        }
+
+        @keyframes slide {
+            0%, 100% { transform: translateX(-100%); }
+            50% { transform: translateX(100%); }
+        }
+
+        /* ========================================= */
+        /* VARIANTE 2: NEON CYBERPUNK EDITION */
+        /* ========================================= */
+        .neon-cyber-header {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+            border: 2px solid;
+            border-image: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent)) 1;
+            border-radius: 15px;
+            padding: 20px 30px;
+            position: relative;
+            box-shadow: 
+                0 0 50px rgba(0, 255, 157, 0.3),
+                inset 0 0 30px rgba(255, 0, 230, 0.1);
+        }
+
+        .neon-cyber-header::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent), var(--primary));
+            border-radius: 15px;
+            opacity: 0.5;
+            z-index: -1;
+            animation: neon-border 3s linear infinite;
+            background-size: 300% 300%;
+        }
+
+        @keyframes neon-border {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .neon-ovr-display {
+            width: 70px;
+            height: 70px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .neon-ovr-display::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: conic-gradient(
+                from 0deg at 50% 50%,
+                var(--primary) 0deg,
+                var(--accent) 120deg,
+                var(--secondary) 240deg,
+                var(--primary) 360deg
+            );
+            border-radius: 50%;
+            animation: spin 3s linear infinite;
+            filter: blur(15px);
+            opacity: 0.7;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .neon-ovr-value {
+            position: relative;
+            font-size: 28px;
+            font-weight: 900;
+            text-shadow: 
+                0 0 10px var(--primary),
+                0 0 20px var(--primary),
+                0 0 30px var(--primary);
+            animation: neon-flicker 2s ease-in-out infinite;
+        }
+
+        @keyframes neon-flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .neon-player-card {
+            background: #0a0a0a;
+            border: 1px solid var(--primary);
+            border-radius: 15px;
+            padding: 20px;
+            position: relative;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .neon-player-card::before,
+        .neon-player-card::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+        }
+
+        .neon-player-card::before {
+            top: 0;
+            left: -100%;
+            animation: scan-line 3s linear infinite;
+        }
+
+        .neon-player-card::after {
+            bottom: 0;
+            right: -100%;
+            animation: scan-line 3s linear infinite reverse;
+        }
+
+        @keyframes scan-line {
+            to { transform: translateX(200%); }
+        }
+
+        /* ========================================= */
+        /* VARIANTE 3: ELEGANT MINIMALIST EDITION */
+        /* ========================================= */
+        .elegant-header {
+            background: linear-gradient(135deg, #1a1f2e 0%, #2c3e50 100%);
+            border-radius: 25px;
+            padding: 25px 35px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .elegant-header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 30px;
+            right: 30px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            opacity: 0.5;
+        }
+
+        .elegant-ovr-container {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 255, 157, 0.1);
+            padding: 8px 16px;
+            border-radius: 30px;
+            border: 1px solid rgba(0, 255, 157, 0.3);
+        }
+
+        .elegant-ovr-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.7;
+            font-weight: 600;
+        }
+
+        .elegant-ovr-number {
+            font-size: 24px;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .elegant-player-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .elegant-player-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .elegant-player-card .player-position {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+        }
+
+        /* ========================================= */
+        /* VARIANTE 4: FUTURISTIC HOLOGRAM EDITION */
+        /* ========================================= */
+        .holo-header {
+            background: linear-gradient(135deg, rgba(10, 14, 26, 0.9) 0%, rgba(30, 60, 114, 0.9) 100%);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 20px;
+            padding: 20px 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .holo-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(0, 255, 157, 0.03) 2px,
+                    rgba(0, 255, 157, 0.03) 4px
+                );
+            animation: holo-scan 2s linear infinite;
+        }
+
+        @keyframes holo-scan {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(20px); }
+        }
+
+        .holo-ovr-badge {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .holo-ovr-badge::before,
+        .holo-ovr-badge::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px solid;
+            border-radius: 50%;
+        }
+
+        .holo-ovr-badge::before {
+            border-color: var(--primary);
+            animation: holo-rotate 3s linear infinite;
+        }
+
+        .holo-ovr-badge::after {
+            border-color: var(--accent);
+            animation: holo-rotate 3s linear infinite reverse;
+        }
+
+        @keyframes holo-rotate {
+            from { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.1); }
+            to { transform: rotate(360deg) scale(1); }
+        }
+
+        .holo-ovr-text {
+            font-size: 32px;
+            font-weight: 900;
+            position: relative;
+            z-index: 1;
+            color: white;
+            text-shadow: 
+                0 0 10px rgba(0, 255, 157, 0.8),
+                0 0 20px rgba(0, 212, 255, 0.8);
+        }
+
+        .holo-player-card {
+            background: linear-gradient(135deg, rgba(10, 14, 26, 0.95) 0%, rgba(26, 31, 46, 0.95) 100%);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .holo-player-card:hover {
+            border-color: var(--primary);
+            transform: perspective(1000px) rotateY(5deg);
+            box-shadow: 
+                0 20px 40px rgba(0, 255, 157, 0.3),
+                -20px 0 40px rgba(0, 212, 255, 0.2);
+        }
+
+        /* ========================================= */
+        /* VARIANTE 5: METALLIC CHROME EDITION */
+        /* ========================================= */
+        .chrome-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 50%, #2c3e50 100%);
+            border-radius: 20px;
+            padding: 20px 30px;
+            position: relative;
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .chrome-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: chrome-shine 3s ease-in-out infinite;
+        }
+
+        @keyframes chrome-shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .chrome-ovr {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #c0c0c0 0%, #ffffff 50%, #c0c0c0 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 900;
+            color: #2c3e50;
+            box-shadow: 
+                0 5px 15px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+            text-shadow: 
+                0 1px 0 rgba(255, 255, 255, 0.5),
+                0 -1px 0 rgba(0, 0, 0, 0.3);
+        }
+
+        .chrome-player-card {
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+            border: 1px solid rgba(192, 192, 192, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            position: relative;
+            box-shadow: 
+                0 5px 20px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .chrome-player-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        /* ========================================= */
+        /* VARIANTE 6: GRADIENT FLOW EDITION */
+        /* ========================================= */
+        .flow-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 25px;
+            padding: 25px 35px;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        .flow-header::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            background: linear-gradient(45deg, #f093fb, #f5576c, #4facfe, #00f2fe, #f093fb);
+            border-radius: 25px;
+            z-index: -1;
+            background-size: 300% 300%;
+            animation: flow-gradient 5s ease infinite;
+            opacity: 0.7;
+        }
+
+        @keyframes flow-gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .flow-ovr-badge {
+            width: 65px;
+            height: 65px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            font-weight: 900;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .flow-ovr-badge span {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            z-index: 1;
+        }
+
+        .flow-ovr-badge::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, #f093fb, #f5576c, #4facfe, #00f2fe);
+            animation: spin 3s linear infinite;
+            opacity: 0.3;
+        }
+
+        .flow-player-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            position: relative;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .flow-player-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #f5576c);
+            background-size: 200% 100%;
+            animation: flow-gradient 3s ease infinite;
+        }
+
+        .flow-player-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Common Styles */
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-details h3 {
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
+
+        .user-details p {
+            opacity: 0.8;
+            font-size: 14px;
+        }
+
+        .player-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .player-photo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .player-details h4 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .player-stats {
+            display: flex;
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        .description {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .highlight-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+
+        .tag-new {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: var(--dark);
+        }
+
+        .tag-premium {
+            background: linear-gradient(135deg, var(--gold), #ff8c00);
+            color: var(--dark);
+        }
+
+        .tag-cyber {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+        }
+
+        .tag-elegant {
+            background: white;
+            color: var(--dark);
+            border: 1px solid var(--primary);
+        }
+
+        .tag-holo {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.3), rgba(0, 255, 157, 0.3));
+            color: white;
+            border: 1px solid var(--accent);
+        }
+
+        .tag-chrome {
+            background: linear-gradient(135deg, #c0c0c0, #ffffff);
+            color: var(--dark);
+        }
+
+        .tag-flow {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="preview-container">
+        <h1 class="main-title">Enhanced Visual Variants</h1>
+
+        <!-- VARIANTE 1: PREMIUM GLASS -->
+        <div class="variant-section">
+            <h2 class="variant-title">Variante 1: Premium Glass Edition</h2>
+            <div class="preview-grid">
+                <!-- Header Preview -->
+                <div class="premium-glass-header">
+                    <div class="premium-user-info">
+                        <div class="premium-avatar-container">
+                            <img src="https://via.placeholder.com/80" alt="Avatar" class="premium-avatar">
+                            <div class="premium-ovr-badge">56</div>
+                        </div>
+                        <div class="user-details">
+                            <h3>Usuario Premium</h3>
+                            <p>usuario@example.com</p>
+                            <div style="margin-top: 8px;">
+                                <span class="highlight-tag tag-new">NEW</span>
+                                <span class="highlight-tag tag-premium">PREMIUM</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Player Card Preview -->
+                <div class="premium-player-card">
+                    <div class="player-info">
+                        <img src="https://via.placeholder.com/60" alt="Player" class="player-photo">
+                        <div class="player-details">
+                            <h4>Jugador Premium</h4>
+                            <div class="player-stats">
+                                <span class="highlight-tag tag-premium">DEL</span>
+                                <span class="premium-ovr-badge" style="position: static; width: 35px; height: 35px; font-size: 14px;">85</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="description">
+                <strong>Características:</strong> Efecto glassmorphism premium con animaciones suaves, bordes luminosos y efecto de rotación sutil. Ideal para una experiencia de usuario de alta gama.
+            </div>
+        </div>
+
+        <!-- VARIANTE 2: NEON CYBERPUNK -->
+        <div class="variant-section">
+            <h2 class="variant-title">Variante 2: Neon Cyberpunk Edition</h2>
+            <div class="preview-grid">
+                <!-- Header Preview -->
+                <div class="neon-cyber-header">
+                    <div class="user-info">
+                        <img src="https://via.placeholder.com/80" alt="Avatar" style="width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--primary);">
+                        <div class="neon-ovr-display">
+                            <span class="neon-ovr-value">56</span>
+                        </div>
+                        <div class="user-details">
+                            <h3>Cyber Usuario</h3>
+                            <p>cyber@example.com</p>
+                            <div style="margin-top: 8px;">
+                                <span class="highlight-tag tag-cyber">CYBER</span>
+                                <span class="highlight-tag tag-new">2025</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Player Card Preview -->
+                <div class="neon-player-card">
+                    <div class="player-info">
+                        <img src="https://via.placeholder.com/60" alt="Player" class="player-photo" style="border: 2px solid var(--primary);">
+                        <div class="player-details">
+                            <h4>Jugador Cyber</h4>
+                            <div class="player-stats">
+                                <span class="highlight-tag tag-cyber">MED</span>
+                                <div class="neon-ovr-display" style="width: 40px; height: 40px;">
+                                    <span class="neon-ovr-value" style="font-size: 16px;">78</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="description">
+                <strong>Características:</strong> Estética cyberpunk con bordes neón animados, efectos de escaneo y resplandor pulsante. Perfecto para una experiencia futurista e inmersiva.
+            </div>
+        </div>
+
+        <!-- VARIANTE 3: ELEGANT MINIMALIST -->
+        <div class="variant-section">
+            <h2 class="variant-title">Variante 3: Elegant Minimalist Edition</h2>
+            <div class="preview-grid">
+                <!-- Header Preview -->
+                <div class="elegant-header">
+                    <div class="user-info">
+                        <img src="https://via.placeholder.com/80" alt="Avatar" style="width: 80px; height: 80px; border-radius: 50%; border: 3px solid white;">
+                        <div class="user-details">
+                            <h3>Usuario Elegante</h3>
+                            <p>elegante@example.com</p>
+                            <div class="elegant-ovr-container">
+                                <span class="elegant-ovr-label">OVR</span>
+                                <span class="elegant-ovr-number">56</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Player Card Preview -->
+                <div class="elegant-player-card">
+                    <div class="player-info">
+                        <img src="https://via.placeholder.com/60" alt="Player" style="width: 60px; height: 60px; border-radius: 50%;">
+                        <div class="player-details" style="color: #2c3e50;">
+                            <h4>Jugador Elegante</h4>
+                            <div class="player-stats">
+                                <span class="player-position">DEF</span>
+                                <div class="elegant-ovr-container" style="padding: 4px 10px;">
+                                    <span class="elegant-ovr-number" style="font-size: 18px;">92</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="description">
+                <strong>Características:</strong> Diseño minimalista y elegante con espacios limpios, tipografía refinada y uso sutil de gradientes. Ideal para una experiencia profesional.
+            </div>
+        </div>
+
+        <!-- VARIANTE 4: FUTURISTIC HOLOGRAM -->
+        <div class="variant-section">
+            <h2 class="variant-title">Variante 4: Futuristic Hologram Edition</h2>
+            <div class="preview-grid">
+                <!-- Header Preview -->
+                <div class="holo-header">
+                    <div class="user-info">
+                        <img src="https://via.placeholder.com/80" alt="Avatar" style="width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--accent);">
+                        <div class="holo-ovr-badge">
+                            <span class="holo-ovr-text">56</span>
+                        </div>
+                        <div class="user-details">
+                            <h3>Usuario Holo</h3>
+                            <p>holo@example.com</p>
+                            <div style="margin-top: 8px;">
+                                <span class="highlight-tag tag-holo">HOLOGRAPHIC</span>
+                                <span class="highlight-tag tag-new">3D</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Player Card Preview -->
+                <div class="holo-player-card">
+                    <div class="player-info">
+                        <img src="https://via.placeholder.com/60" alt="Player" class="player-photo" style="border: 1px solid var(--accent);">
+                        <div class="player-details">
+                            <h4>Jugador Holo</h4>
+                            <div class="player-stats">
+                                <span class="highlight-tag tag-holo">POR</span>
+                                <div class="holo-ovr-badge" style="width: 45px; height: 45px;">
+                                    <span class="holo-ovr-text" style="font-size: 18px;">88</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="description">
+                <strong>Características:</strong> Efecto holográfico con líneas de escaneo animadas, bordes rotativos y efectos 3D. Crea una experiencia inmersiva y futurista.
+            </div>
+        </div>
+
+        <!-- VARIANTE 5: METALLIC CHROME -->
+        <div class="variant-section">
+            <h2 class="variant-title">Variante 5: Metallic Chrome Edition</h2>
+            <div class="preview-grid">
+                <!-- Header Preview -->
+                <div class="chrome-header">
+                    <div class="user-info">
+                        <img src="https://via.placeholder.com/80" alt="Avatar" style="width: 80px; height: 80px; border-radius: 50%; border: 3px solid #c0c0c0;">
+                        <div class="chrome-ovr">56</div>
+                        <div class="user-details">
+                            <h3>Usuario Chrome</h3>
+                            <p>chrome@example.com</p>
+                            <div style="margin-top: 8px;">
+                                <span class="highlight-tag tag-chrome">METALLIC</span>
+                                <span class="highlight-tag tag-premium">PRO</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Player Card Preview -->
+                <div class="chrome-player-card">
+                    <div class="player-info">
+                        <img src="https://via.placeholder.com/60" alt="Player" class="player-photo" style="border: 2px solid #c0c0c0;">
+                        <div class="player-details">
+                            <h4>Jugador Chrome</h4>
+                            <div class="player-stats">
+                                <span class="highlight-tag tag-chrome">DEL</span>
+                                <div class="chrome-ovr" style="width: 45px; height: 45px; font-size: 20px;">75</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="description">
+                <strong>Características:</strong> Acabado metálico cromado con efectos de brillo animados, sombras profundas y texturas plateadas. Transmite calidad y solidez.
+            </div>
+        </div>
+
+        <!-- VARIANTE 6: GRADIENT FLOW -->
+        <div class="variant-section">
+            <h2 class="variant-title">Variante 6: Gradient Flow Edition</h2>
+            <div class="preview-grid">
+                <!-- Header Preview -->
+                <div class="flow-header">
+                    <div class="user-info">
+                        <img src="https://via.placeholder.com/80" alt="Avatar" style="width: 80px; height: 80px; border-radius: 50%; border: 3px solid white;">
+                        <div class="flow-ovr-badge">
+                            <span>56</span>
+                        </div>
+                        <div class="user-details">
+                            <h3 style="color: white;">Usuario Flow</h3>
+                            <p style="color: rgba(255,255,255,0.9);">flow@example.com</p>
+                            <div style="margin-top: 8px;">
+                                <span class="highlight-tag tag-flow">GRADIENT</span>
+                                <span class="highlight-tag" style="background: white; color: #667eea;">FLOW</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Player Card Preview -->
+                <div class="flow-player-card">
+                    <div class="player-info">
+                        <img src="https://via.placeholder.com/60" alt="Player" class="player-photo">
+                        <div class="player-details" style="color: #2c3e50;">
+                            <h4>Jugador Flow</h4>
+                            <div class="player-stats">
+                                <span class="highlight-tag tag-flow">MED</span>
+                                <div class="flow-ovr-badge" style="width: 45px; height: 45px;">
+                                    <span style="font-size: 18px;">83</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="description">
+                <strong>Características:</strong> Gradientes fluidos animados con transiciones de color suaves y efectos de movimiento continuo. Crea una experiencia visual dinámica y moderna.
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

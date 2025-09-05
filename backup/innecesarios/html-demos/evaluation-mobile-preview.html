@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preview Mobile - Sistema de Evaluación</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00ff9d;
+            --secondary: #ff00e6;
+            --dark: #0a0e1a;
+            --card-bg: #1a1f2e;
+            --text-light: #ffffff;
+            --text-secondary: #b8bcc8;
+        }
+
+        body {
+            background: #0a0e1a;
+            color: var(--text-light);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--primary);
+            font-size: 1.8em;
+        }
+
+        /* SOLUCIÓN 1: Tooltip Expandible (Click para ver) */
+        .solution-1 {
+            background: #0a0e1a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .solution-1 h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .solution-1 .tags-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .solution-1 .tag-btn {
+            background: #1a1f2e;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            text-align: center;
+        }
+
+        .solution-1 .tag-btn.selected {
+            background: linear-gradient(135deg, rgba(0, 255, 157, 0.2), rgba(255, 0, 230, 0.1));
+            border-color: var(--primary);
+        }
+
+        .solution-1 .tag-icon {
+            font-size: 24px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .solution-1 .tag-label {
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .solution-1 .tag-stats {
+            font-size: 10px;
+            color: var(--primary);
+            opacity: 0.8;
+        }
+
+        /* Tooltip expandible */
+        .solution-1 .tag-tooltip {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-top: 8px;
+            padding: 0;
+            background: rgba(0, 255, 157, 0.1);
+            border-radius: 5px;
+        }
+
+        .solution-1 .tag-btn.selected .tag-tooltip {
+            max-height: 100px;
+            padding: 8px;
+        }
+
+        /* SOLUCIÓN 2: Info permanente minimalista */
+        .solution-2 {
+            background: #0a0e1a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .solution-2 h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .solution-2 .tags-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .solution-2 .tag-item {
+            background: #1a1f2e;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .solution-2 .tag-item.selected {
+            background: linear-gradient(135deg, rgba(0, 255, 157, 0.2), rgba(255, 0, 230, 0.1));
+            border-color: var(--primary);
+        }
+
+        .solution-2 .tag-icon {
+            font-size: 28px;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .solution-2 .tag-info {
+            flex: 1;
+        }
+
+        .solution-2 .tag-label {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 3px;
+        }
+
+        .solution-2 .tag-description {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-bottom: 3px;
+        }
+
+        .solution-2 .tag-stats {
+            font-size: 10px;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* SOLUCIÓN 3: Modal flotante al seleccionar */
+        .solution-3 {
+            background: #0a0e1a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 20px;
+            position: relative;
+        }
+
+        .solution-3 h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .solution-3 .tags-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .solution-3 .tag-btn {
+            background: #1a1f2e;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px 5px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .solution-3 .tag-btn.selected {
+            background: linear-gradient(135deg, rgba(0, 255, 157, 0.2), rgba(255, 0, 230, 0.1));
+            border-color: var(--primary);
+        }
+
+        .solution-3 .tag-icon {
+            font-size: 20px;
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        .solution-3 .tag-label {
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        /* Info flotante */
+        .info-bubble {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #1a1f2e, #0f141e);
+            border: 2px solid var(--primary);
+            border-radius: 15px;
+            padding: 15px;
+            display: none;
+            animation: slideUp 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 -5px 20px rgba(0, 255, 157, 0.3);
+        }
+
+        .info-bubble.active {
+            display: block;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .info-bubble-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .info-bubble-title {
+            font-weight: 600;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-bubble-close {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--text-light);
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .info-bubble-content {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .info-bubble-stats {
+            font-size: 12px;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Contador fijo arriba */
+        .tag-counter {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--primary);
+            color: var(--dark);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            z-index: 100;
+            box-shadow: 0 3px 10px rgba(0, 255, 157, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 400px) {
+            .solution-1 .tags-grid,
+            .solution-3 .tags-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📱 Soluciones Mobile</h1>
+        
+        <div class="tag-counter">0/3</div>
+
+        <!-- SOLUCIÓN 1: Expandible -->
+        <div class="solution-1">
+            <h2>Solución 1: Info Expandible</h2>
+            <p style="font-size: 12px; color: #888; margin-bottom: 15px;">
+                Al seleccionar, se expande la info debajo. Sin hover necesario.
+            </p>
+            <div class="tags-grid">
+                <div class="tag-btn" onclick="toggleTag(this)">
+                    <span class="tag-icon">🎯</span>
+                    <span class="tag-label">La pone donde quiere</span>
+                    <div class="tag-stats">+3 PAS, +2 DRI</div>
+                    <div class="tag-tooltip">
+                        Gran precisión en los pases... la pelota, obvio
+                    </div>
+                </div>
+                <div class="tag-btn" onclick="toggleTag(this)">
+                    <span class="tag-icon">🕺</span>
+                    <span class="tag-label">Baila solo</span>
+                    <div class="tag-stats">+3 DRI, +1 PAC</div>
+                    <div class="tag-tooltip">
+                        Tan bueno que no necesita compañía para gambetear
+                    </div>
+                </div>
+                <div class="tag-btn" onclick="toggleTag(this)">
+                    <span class="tag-icon">🧛</span>
+                    <span class="tag-label">Modo Suárez</span>
+                    <div class="tag-stats">+3 SHO, +2 PHY</div>
+                    <div class="tag-tooltip">
+                        Goleador nato con tendencia a morder
+                    </div>
+                </div>
+                <div class="tag-btn" onclick="toggleTag(this)">
+                    <span class="tag-icon">📶</span>
+                    <span class="tag-label">WiFi del vecino</span>
+                    <div class="tag-stats">+2 PAS, -1 PAC</div>
+                    <div class="tag-tooltip">
+                        A veces anda, a veces no
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SOLUCIÓN 2: Lista con toda la info visible -->
+        <div class="solution-2">
+            <h2>Solución 2: Lista Completa</h2>
+            <p style="font-size: 12px; color: #888; margin-bottom: 15px;">
+                Toda la info visible siempre. Más fácil de leer.
+            </p>
+            <div class="tags-list">
+                <div class="tag-item" onclick="toggleTag(this)">
+                    <span class="tag-icon">💕</span>
+                    <div class="tag-info">
+                        <div class="tag-label">Tinder</div>
+                        <div class="tag-description">Define rápido pero no se queda mucho</div>
+                        <div class="tag-stats">+3 SHO, -1 DEF</div>
+                    </div>
+                </div>
+                <div class="tag-item" onclick="toggleTag(this)">
+                    <span class="tag-icon">🧉</span>
+                    <div class="tag-info">
+                        <div class="tag-label">Mate amargo</div>
+                        <div class="tag-description">Fuerte y sin azúcar, como debe ser</div>
+                        <div class="tag-stats">+2 PHY, +2 DEF</div>
+                    </div>
+                </div>
+                <div class="tag-item" onclick="toggleTag(this)">
+                    <span class="tag-icon">🚗</span>
+                    <div class="tag-info">
+                        <div class="tag-label">Uber</div>
+                        <div class="tag-description">Siempre llega justo a tiempo al área</div>
+                        <div class="tag-stats">+3 PAC, +1 SHO</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SOLUCIÓN 3: Modal flotante -->
+        <div class="solution-3">
+            <h2>Solución 3: Bubble Info</h2>
+            <p style="font-size: 12px; color: #888; margin-bottom: 15px;">
+                Al seleccionar aparece info flotante abajo.
+            </p>
+            <div class="tags-grid">
+                <div class="tag-btn" onclick="showBubble(this, '📺', 'Netflix', 'Se la pasa mirando series... de jugadas del rival', '+1 PAS, -2 DRI')">
+                    <span class="tag-icon">📺</span>
+                    <span class="tag-label">Netflix</span>
+                </div>
+                <div class="tag-btn" onclick="showBubble(this, '🏗️', 'Arquitecto', 'Construye jugadas mejor que el estadio del Wanderers', '+3 PAS, +1 DRI')">
+                    <span class="tag-icon">🏗️</span>
+                    <span class="tag-label">Arquitecto</span>
+                </div>
+                <div class="tag-btn" onclick="showBubble(this, '🥩', 'El del asado', 'Une al equipo... con choripanes', '+2 PAS, +1 PHY')">
+                    <span class="tag-icon">🥩</span>
+                    <span class="tag-label">El del asado</span>
+                </div>
+                <div class="tag-btn" onclick="showBubble(this, '🧊', 'Pecho frío', 'En los momentos importantes... mejor no', '-3 SHO, +1 PAS')">
+                    <span class="tag-icon">🧊</span>
+                    <span class="tag-label">Pecho frío</span>
+                </div>
+                <div class="tag-btn" onclick="showBubble(this, '🟨', 'Coleccionista', 'Colecciona amarillas como figuritas', '+3 DEF, +2 PHY')">
+                    <span class="tag-icon">🟨</span>
+                    <span class="tag-label">Coleccionista</span>
+                </div>
+                <div class="tag-btn" onclick="showBubble(this, '🎩', 'Caño maestro', 'Especialista en humillar rivales', '+3 DRI, +1 PAS')">
+                    <span class="tag-icon">🎩</span>
+                    <span class="tag-label">Caño maestro</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bubble flotante para solución 3 -->
+        <div id="info-bubble" class="info-bubble">
+            <div class="info-bubble-header">
+                <div class="info-bubble-title">
+                    <span id="bubble-icon">📺</span>
+                    <span id="bubble-title">Netflix</span>
+                </div>
+                <button class="info-bubble-close" onclick="closeBubble()">✕</button>
+            </div>
+            <div class="info-bubble-content" id="bubble-content">
+                Se la pasa mirando series... de jugadas del rival
+            </div>
+            <div class="info-bubble-stats" id="bubble-stats">
+                +1 PAS, -2 DRI
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedCount = 0;
+        const maxTags = 3;
+
+        function toggleTag(element) {
+            const parent = element.closest('.solution-1, .solution-2, .solution-3');
+            const selected = parent.querySelectorAll('.tag-btn.selected, .tag-item.selected').length;
+            
+            if (element.classList.contains('selected') || element.classList.contains('tag-item') && element.classList.contains('selected')) {
+                element.classList.remove('selected');
+                updateCounter(-1);
+            } else if (selected < maxTags) {
+                element.classList.add('selected');
+                updateCounter(1);
+            } else {
+                alert('Máximo 3 etiquetas!');
+            }
+        }
+
+        function updateCounter(change) {
+            selectedCount = Math.max(0, Math.min(maxTags, selectedCount + change));
+            const counter = document.querySelector('.tag-counter');
+            counter.textContent = `${selectedCount}/${maxTags}`;
+            
+            if (selectedCount === maxTags) {
+                counter.style.background = 'linear-gradient(90deg, var(--primary), var(--secondary))';
+            } else {
+                counter.style.background = 'var(--primary)';
+            }
+        }
+
+        function showBubble(element, icon, title, content, stats) {
+            // Toggle selection
+            const parent = element.closest('.solution-3');
+            const selected = parent.querySelectorAll('.tag-btn.selected').length;
+            
+            if (element.classList.contains('selected')) {
+                element.classList.remove('selected');
+                closeBubble();
+                updateCounter(-1);
+            } else if (selected < maxTags) {
+                element.classList.add('selected');
+                updateCounter(1);
+                
+                // Show bubble
+                const bubble = document.getElementById('info-bubble');
+                document.getElementById('bubble-icon').textContent = icon;
+                document.getElementById('bubble-title').textContent = title;
+                document.getElementById('bubble-content').textContent = content;
+                document.getElementById('bubble-stats').textContent = stats;
+                bubble.classList.add('active');
+            } else {
+                alert('Máximo 3 etiquetas!');
+            }
+        }
+
+        function closeBubble() {
+            document.getElementById('info-bubble').classList.remove('active');
+        }
+    </script>
+</body>
+</html>

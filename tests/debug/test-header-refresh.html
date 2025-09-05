@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Header Refresh</title>
+    <!-- Scripts necesarios para el header -->
+    <script src="js/firebase-simple.js"></script>
+    <script src="js/new-header-manager.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background: #1a1a2e;
+            color: white;
+        }
+        button {
+            background: #00ff9d;
+            color: #1a1a2e;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        button:hover {
+            background: #00cc7d;
+        }
+        .info {
+            background: rgba(0, 255, 157, 0.1);
+            border: 1px solid #00ff9d;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        pre {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        h2 {
+            color: #00ff9d;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔧 Test Header Refresh</h1>
+    
+    <div class="info">
+        <h2>📊 Estado Actual del Header</h2>
+        <pre id="status">Cargando...</pre>
+    </div>
+    
+    <h2>🎮 Acciones</h2>
+    
+    <button onclick="refreshHeader()">🔄 Refrescar Header</button>
+    <button onclick="forceLoadPlayers()">📥 Forzar Carga Jugadores</button>
+    <button onclick="loadCurrentPlayer()">🎯 Cargar Jugador Real</button>
+    <button onclick="updateWithPela()">👤 Actualizar con Pela (OVR 80)</button>
+    <button onclick="updateWithTestUser()">🧪 Usuario de Prueba</button>
+    <button onclick="checkSources()">🔍 Ver Fuentes de Usuario</button>
+    <button onclick="forceRecalculateOVR()">📊 Recalcular OVR</button>
+    
+    <div class="info">
+        <h2>📝 Resultado</h2>
+        <pre id="result">Esperando acción...</pre>
+    </div>
+    
+    <script>
+        function updateStatus() {
+            const status = document.getElementById('status');
+            if (window.headerManager && window.headerManager.currentUser) {
+                const user = window.headerManager.currentUser;
+                status.textContent = JSON.stringify({
+                    nombre: user.name || user.displayName || 'Sin nombre',
+                    posicion: user.position || user.pos || 'N/A',
+                    ovr: user.ovr || 'N/A',
+                    atributos: user.attributes || 'Sin atributos'
+                }, null, 2);
+            } else {
+                status.textContent = 'Header no inicializado o sin usuario';
+            }
+        }
+        
+        async function forceLoadPlayers() {
+            const result = document.getElementById('result');
+            try {
+                if (typeof Storage !== 'undefined') {
+                    result.textContent = 'Forzando carga de jugadores desde Firebase...';
+                    
+                    // Verificar estado antes
+                    console.log('Estado antes:', {
+                        currentPersonId: Storage.currentPersonId,
+                        currentGroupId: Storage.currentGroupId,
+                        cachedCount: Storage.cachedPlayers?.length || 0
+                    });
+                    
+                    await Storage.loadPlayersFromFirebase();
+                    
+                    // Verificar estado después
+                    const playersCount = Storage.cachedPlayers?.length || 0;
+                    console.log('Estado después:', {
+                        cachedCount: playersCount,
+                        samplePlayers: Storage.cachedPlayers?.slice(0, 2).map(p => ({id: p.id, name: p.name}))
+                    });
+                    
+                    result.textContent = `✅ Jugadores cargados: ${playersCount}`;
+                    updateStatus();
+                } else {
+                    result.textContent = '❌ Storage no disponible';
+                }
+            } catch (error) {
+                result.textContent = '❌ Error: ' + error.message;
+                console.error('Error cargando jugadores:', error);
+            }
+        }
+
+        async function loadCurrentPlayer() {
+            const result = document.getElementById('result');
+            try {
+                if (window.headerManager && typeof Storage !== 'undefined' && Storage.currentPersonId) {
+                    result.textContent = 'Cargando jugador actual desde Storage...';
+                    
+                    // Forzar carga de jugadores si no están en cache
+                    if (!Storage.cachedPlayers || Storage.cachedPlayers.length === 0) {
+                        result.textContent = 'Cache vacío, cargando jugadores desde Firebase...';
+                        await Storage.loadPlayersFromFirebase();
+                    }
+                    
+                    const currentPlayer = window.headerManager.getCurrentPlayerData();
+                    if (currentPlayer) {
+                        window.headerManager.updateUser(currentPlayer);
+                        result.textContent = `✅ Jugador actual cargado: ${currentPlayer.name} (OVR ${currentPlayer.ovr})`;
+                        updateStatus();
+                    } else {
+                        result.textContent = `❌ No se pudo cargar el jugador con ID: ${Storage.currentPersonId}`;
+                    }
+                } else {
+                    result.textContent = '❌ HeaderManager no disponible o no hay currentPersonId';
+                }
+            } catch (error) {
+                result.textContent = '❌ Error: ' + error.message;
+            }
+        }
+
+        async function refreshHeader() {
+            const result = document.getElementById('result');
+            try {
+                if (window.headerManager) {
+                    result.textContent = 'Refrescando header...';
+                    await window.headerManager.refresh();
+                    result.textContent = '✅ Header refrescado correctamente';
+                    updateStatus();
+                } else {
+                    result.textContent = '❌ HeaderManager no disponible';
+                }
+            } catch (error) {
+                result.textContent = '❌ Error: ' + error.message;
+            }
+        }
+        
+        function updateWithPela() {
+            const result = document.getElementById('result');
+            try {
+                if (window.headerManager) {
+                    const pelaUser = {
+                        name: 'Pela',
+                        displayName: 'Pela',
+                        position: 'DEL',
+                        ovr: 80,
+                        attributes: {
+                            pac: 85,
+                            sho: 88,
+                            pas: 75,
+                            dri: 82,
+                            def: 45,
+                            phy: 78
+                        },
+                        specialty: '⚡ Velocista',
+                        photo: '👤'
+                    };
+                    
+                    window.headerManager.updateUser(pelaUser);
+                    result.textContent = '✅ Usuario actualizado a Pela (OVR 80)';
+                    updateStatus();
+                } else {
+                    result.textContent = '❌ HeaderManager no disponible';
+                }
+            } catch (error) {
+                result.textContent = '❌ Error: ' + error.message;
+            }
+        }
+        
+        function updateWithTestUser() {
+            const result = document.getElementById('result');
+            try {
+                if (window.headerManager) {
+                    const testUser = {
+                        name: 'Test User',
+                        position: 'MED',
+                        ovr: 99,
+                        specialty: '🔥 Leyenda',
+                        photo: '👤'
+                    };
+                    
+                    window.headerManager.updateUser(testUser);
+                    result.textContent = '✅ Usuario actualizado a Test User (OVR 99)';
+                    updateStatus();
+                } else {
+                    result.textContent = '❌ HeaderManager no disponible';
+                }
+            } catch (error) {
+                result.textContent = '❌ Error: ' + error.message;
+            }
+        }
+        
+        function checkSources() {
+            const result = document.getElementById('result');
+            const sources = {
+                'Storage.currentPersonId': Storage?.currentPersonId,
+                'Storage.currentGroupId': Storage?.currentGroupId,
+                'Storage.cachedPlayers count': Storage?.cachedPlayers?.length || 0,
+                'Storage.cachedPlayers sample': Storage?.cachedPlayers?.slice(0, 2).map(p => ({id: p.id, name: p.name})),
+                'Current player data': window.headerManager?.getCurrentPlayerData(),
+                'AuthSystem.currentUser': window.AuthSystem?.currentUser ? {
+                    uid: window.AuthSystem.currentUser.uid,
+                    displayName: window.AuthSystem.currentUser.displayName
+                } : null,
+                'TestApp.currentUser': window.TestApp?.currentUser,
+                'localStorage.currentUser': JSON.parse(localStorage.getItem('currentUser') || 'null'),
+                'sessionStorage.currentUser': JSON.parse(sessionStorage.getItem('currentUser') || 'null')
+            };
+            
+            result.textContent = JSON.stringify(sources, null, 2);
+        }
+        
+        function forceRecalculateOVR() {
+            const result = document.getElementById('result');
+            try {
+                if (window.headerManager && window.headerManager.currentUser) {
+                    const user = window.headerManager.currentUser;
+                    if (user.attributes && typeof Storage !== 'undefined' && Storage.calculateUnifiedOVR) {
+                        const newOVR = Storage.calculateUnifiedOVR(user.attributes, user.position || 'MED');
+                        user.ovr = newOVR;
+                        window.headerManager.updateUser(user);
+                        result.textContent = `✅ OVR recalculado: ${newOVR}`;
+                        updateStatus();
+                    } else {
+                        result.textContent = '❌ No hay atributos o Storage.calculateUnifiedOVR no disponible';
+                    }
+                } else {
+                    result.textContent = '❌ No hay usuario actual';
+                }
+            } catch (error) {
+                result.textContent = '❌ Error: ' + error.message;
+            }
+        }
+        
+        // Inicializar header para test
+        async function initHeaderForTest() {
+            try {
+                // Simular Storage básico si no existe
+                if (typeof Storage === 'undefined') {
+                    window.Storage = {
+                        currentPersonId: 'test-user-id',
+                        currentGroupId: 'test-group-id',
+                        cachedPlayers: [
+                            {
+                                id: 'test-user-id',
+                                name: 'Pela',
+                                position: 'DEL',
+                                ovr: 82,
+                                attributes: {
+                                    pac: 85, sho: 88, pas: 75, dri: 82, def: 45, phy: 78
+                                }
+                            }
+                        ],
+                        calculateUnifiedOVR: (attributes, position) => {
+                            return Math.round((attributes.pac + attributes.sho + attributes.pas + attributes.dri + attributes.def + attributes.phy) / 6);
+                        }
+                    };
+                }
+                
+                // Inicializar header si no existe
+                if (!window.headerManager && typeof NewHeaderManager !== 'undefined') {
+                    console.log('🚀 Inicializando header para test...');
+                    window.headerManager = new NewHeaderManager();
+                    await window.headerManager.init();
+                    console.log('✅ Header inicializado');
+                }
+                
+                updateStatus();
+            } catch (error) {
+                console.error('Error inicializando header:', error);
+                document.getElementById('result').textContent = '❌ Error inicializando: ' + error.message;
+            }
+        }
+        
+        // Actualizar estado inicial
+        setTimeout(initHeaderForTest, 1000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Render Card</title>
+</head>
+<body>
+    <div id="test-container"></div>
+    <script src="js/collaborative-system.js"></script>
+    <script>
+        // Test match data
+        const testMatch = {
+            id: 'test-123',
+            title: 'Test Match',
+            date: '2025-09-03',
+            time: '18:00',
+            location: 'Test Location',
+            format: '5v5',
+            status: 'open',
+            maxPlayers: 10,
+            registeredPlayers: [],
+            organizer: {
+                displayName: 'Test User',
+                uid: 'test-uid'
+            }
+        };
+        
+        // Create a mock collaborative system
+        const mockSystem = {
+            state: { currentUser: { uid: 'test-uid', displayName: 'Test User' } },
+            isCurrentUserOrganizer: () => true,
+            isCurrentUserRegistered: () => false,
+            canUserJoinMatch: () => true,
+            canUserLeaveMatch: () => false,
+            canUserViewTeams: () => false,
+            canUserInviteGuests: () => true,
+            canUserDeleteMatch: () => true
+        };
+        
+        // Test the renderMatchCard function
+        try {
+            const html = collaborativeSystem.renderMatchCard.call(mockSystem, testMatch, 'unified');
+            console.log('Generated HTML:', html);
+            document.getElementById('test-container').innerHTML = html;
+        } catch (error) {
+            console.error('Error rendering card:', error);
+            document.getElementById('test-container').innerHTML = 'ERROR: ' + error.message;
+        }
+    </script>
+</body>
+</html>

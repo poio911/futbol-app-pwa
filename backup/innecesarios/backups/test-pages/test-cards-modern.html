@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player Cards - Modern/Minimalist Style</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #fafafa;
+            color: #1a1a1a;
+            padding: 20px;
+            min-height: 100vh;
+            line-height: 1.5;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 200;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1rem;
+            font-weight: 400;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Modern/Minimalist Player Card */
+        .modern-card {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .modern-card:hover {
+            border-color: #333;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+            transform: translateY(-2px);
+        }
+
+        /* Card Header */
+        .modern-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .modern-player-info h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+            letter-spacing: -0.3px;
+        }
+
+        .modern-position {
+            background: #f5f5f5;
+            color: #666;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .modern-ovr {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #1a1a1a;
+            line-height: 1;
+            text-align: right;
+        }
+
+        .modern-ovr-label {
+            font-size: 0.7rem;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: right;
+            margin-top: 4px;
+            font-weight: 500;
+        }
+
+        /* Stats Section */
+        .modern-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .modern-stat {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .modern-stat:last-child {
+            border-bottom: none;
+        }
+
+        .modern-stat-label {
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 400;
+        }
+
+        .modern-stat-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        /* Performance indicator bar */
+        .modern-stat-bar {
+            width: 60px;
+            height: 4px;
+            background: #f0f0f0;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-left: 8px;
+        }
+
+        .modern-stat-fill {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+
+        .modern-stat.excellent .modern-stat-fill {
+            background: linear-gradient(90deg, #2ecc71, #27ae60);
+        }
+
+        .modern-stat.good .modern-stat-fill {
+            background: linear-gradient(90deg, #f39c12, #e67e22);
+        }
+
+        .modern-stat.poor .modern-stat-fill {
+            background: linear-gradient(90deg, #e74c3c, #c0392b);
+        }
+
+        .modern-stat.excellent .modern-stat-value {
+            color: #27ae60;
+        }
+
+        .modern-stat.good .modern-stat-value {
+            color: #e67e22;
+        }
+
+        .modern-stat.poor .modern-stat-value {
+            color: #c0392b;
+        }
+
+        /* Card accent based on position */
+        .modern-card.por::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #f1c40f, #f39c12);
+            border-radius: 16px 16px 0 0;
+        }
+
+        .modern-card.def::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #3498db, #2980b9);
+            border-radius: 16px 16px 0 0;
+        }
+
+        .modern-card.med::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #2ecc71, #27ae60);
+            border-radius: 16px 16px 0 0;
+        }
+
+        .modern-card.del::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #e74c3c, #c0392b);
+            border-radius: 16px 16px 0 0;
+        }
+
+        /* Footer */
+        .modern-footer {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+        .modern-id {
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+            font-weight: 500;
+        }
+
+        .modern-date {
+            font-weight: 400;
+        }
+
+        /* High OVR special treatment */
+        .modern-card.excellent-player {
+            border-color: #ddd;
+            background: linear-gradient(135deg, #fff 0%, #fafafa 100%);
+        }
+
+        .modern-card.excellent-player .modern-ovr {
+            background: linear-gradient(135deg, #333, #555);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #666;
+            font-size: 1.2rem;
+            grid-column: 1 / -1;
+        }
+
+        /* Back Button */
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: #fff;
+            color: #333;
+            border: 1px solid #e0e0e0;
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .back-btn:hover {
+            background: #333;
+            color: #fff;
+            border-color: #333;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .cards-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .modern-card {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .modern-stats {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: #1a1a1a;
+                color: #fff;
+            }
+
+            .modern-card {
+                background: #2a2a2a;
+                border-color: #3a3a3a;
+                color: #fff;
+            }
+
+            .modern-card:hover {
+                border-color: #666;
+            }
+
+            .modern-header h3 {
+                color: #fff;
+            }
+
+            .modern-ovr {
+                color: #fff;
+            }
+
+            .modern-position {
+                background: #3a3a3a;
+                color: #ccc;
+            }
+
+            .modern-stat {
+                border-bottom-color: #3a3a3a;
+            }
+
+            .modern-stat-value {
+                color: #fff;
+            }
+
+            .modern-footer {
+                border-top-color: #3a3a3a;
+            }
+
+            .back-btn {
+                background: #2a2a2a;
+                color: #fff;
+                border-color: #3a3a3a;
+            }
+
+            .back-btn:hover {
+                background: #fff;
+                color: #333;
+                border-color: #fff;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-btn">
+        <i class='bx bx-arrow-back'></i> Volver al Index
+    </a>
+
+    <div class="header">
+        <h1>Modern Minimalist Cards</h1>
+        <p>Diseño limpio y contemporáneo inspirado en interfaces modernas</p>
+    </div>
+
+    <div class="cards-grid" id="cardsContainer">
+        <div class="loading">
+            <i class='bx bx-loader-alt bx-spin'></i>
+            Cargando jugadores...
+        </div>
+    </div>
+
+    <!-- Firebase CDN -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-simple.js"></script>
+    <script>
+        class ModernCardRenderer {
+            constructor() {
+                this.container = document.getElementById('cardsContainer');
+                this.init();
+            }
+
+            init() {
+                this.loadPlayers();
+            }
+
+            loadPlayers() {
+                try {
+                    // Force demo mode to show sample players
+                    Storage.isDemo = true;
+                    const players = Storage.demoPlayers;
+                    
+                    if (players.length === 0) {
+                        this.container.innerHTML = `
+                            <div class="loading">
+                                <i class='bx bx-user-x'></i>
+                                No hay jugadores registrados
+                            </div>
+                        `;
+                        return;
+                    }
+
+                    this.renderCards(players);
+                } catch (error) {
+                    console.error('Error loading players:', error);
+                    this.container.innerHTML = `
+                        <div class="loading">
+                            <i class='bx bx-error'></i>
+                            Error al cargar jugadores
+                        </div>
+                    `;
+                }
+            }
+
+            renderCards(players) {
+                this.container.innerHTML = '';
+                
+                players.forEach(player => {
+                    const card = this.createModernCard(player);
+                    this.container.appendChild(card);
+                });
+            }
+
+            createModernCard(player) {
+                const card = document.createElement('div');
+                const position = player.position.toLowerCase();
+                const isExcellent = player.ovr >= 85;
+                
+                card.className = `modern-card ${position}${isExcellent ? ' excellent-player' : ''}`;
+                
+                const stats = this.getStatsWithCategories(player);
+                
+                card.innerHTML = `
+                    <div class="modern-header">
+                        <div class="modern-player-info">
+                            <h3>${player.name}</h3>
+                            <div class="modern-position">${player.position}</div>
+                        </div>
+                        <div class="modern-ovr-section">
+                            <div class="modern-ovr">${player.ovr}</div>
+                            <div class="modern-ovr-label">Overall</div>
+                        </div>
+                    </div>
+
+                    <div class="modern-stats">
+                        ${stats.map(stat => `
+                            <div class="modern-stat ${stat.category}">
+                                <div class="modern-stat-info">
+                                    <span class="modern-stat-label">${stat.label}</span>
+                                    <span class="modern-stat-value">${stat.value}</span>
+                                </div>
+                                <div class="modern-stat-bar">
+                                    <div class="modern-stat-fill" style="width: ${stat.value}%"></div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <div class="modern-footer">
+                        <span class="modern-id">ID: ${player.id.slice(0, 8)}</span>
+                        <span class="modern-date">${new Date().toLocaleDateString('es-ES')}</span>
+                    </div>
+                `;
+
+                return card;
+            }
+
+            getStatsWithCategories(player) {
+                const attributes = player.attributes || {};
+                const stats = [
+                    { name: 'PAC', label: 'Velocidad', value: attributes.pac || 0 },
+                    { name: 'SHO', label: 'Tiro', value: attributes.sho || 0 },
+                    { name: 'PAS', label: 'Pase', value: attributes.pas || 0 },
+                    { name: 'DRI', label: 'Regate', value: attributes.dri || 0 },
+                    { name: 'DEF', label: 'Defensa', value: attributes.def || 0 },
+                    { name: 'PHY', label: 'Físico', value: attributes.phy || 0 }
+                ];
+
+                return stats.map(stat => ({
+                    ...stat,
+                    category: this.getStatCategory(stat.value)
+                }));
+            }
+
+            getStatCategory(value) {
+                if (value >= 80) return 'excellent';
+                if (value >= 65) return 'good';
+                return 'poor';
+            }
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new ModernCardRenderer();
+        });
+    </script>
+</body>
+</html>

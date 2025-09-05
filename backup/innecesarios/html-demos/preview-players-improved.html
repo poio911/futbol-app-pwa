@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preview: Vista Mejorada de Jugadores</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00ff9d;
+            --secondary: #ff00e6;
+            --dark: #0a0a0a;
+            --darker: #050505;
+            --card-bg: rgba(25, 25, 25, 0.7);
+            --text-light: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 255, 157, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 0, 230, 0.1) 0%, transparent 20%),
+                linear-gradient(to bottom, var(--dark), var(--darker));
+            overflow-x: hidden;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary);
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+
+        /* Players List - EXACT same style as app */
+        #players-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        
+        .player-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .player-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+        }
+        
+        .player-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.02) 50%,
+                transparent 100%
+            );
+            transform: rotate(45deg);
+            transition: all 0.6s ease;
+            pointer-events: none;
+        }
+        
+        .player-card:hover::before {
+            top: -100%;
+            left: -100%;
+        }
+        
+        .player-header {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .player-basic-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .player-photo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 8px rgba(0, 255, 157, 0.3);
+            overflow: hidden;
+            color: var(--dark);
+            font-weight: bold;
+        }
+
+        .player-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .player-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 4px;
+            margin: 0 0 4px 0;
+        }
+        
+        .player-position {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            text-transform: uppercase;
+            font-weight: 500;
+            margin: 0;
+        }
+
+        /* Position-specific colors */
+        .position-POR { color: #f1c40f !important; background: rgba(241, 196, 15, 0.2); padding: 2px 6px; border-radius: 4px; }
+        .position-DEF { color: #3498db !important; background: rgba(52, 152, 219, 0.2); padding: 2px 6px; border-radius: 4px; }
+        .position-MED { color: #e74c3c !important; background: rgba(231, 76, 60, 0.2); padding: 2px 6px; border-radius: 4px; }
+        .position-DEL { color: #2ecc71 !important; background: rgba(46, 204, 113, 0.2); padding: 2px 6px; border-radius: 4px; }
+        .position-Portero { color: #f1c40f !important; background: rgba(241, 196, 15, 0.2); padding: 2px 6px; border-radius: 4px; }
+        .position-Defensor { color: #3498db !important; background: rgba(52, 152, 219, 0.2); padding: 2px 6px; border-radius: 4px; }
+        .position-Centrocampista { color: #e74c3c !important; background: rgba(231, 76, 60, 0.2); padding: 2px 6px; border-radius: 4px; }
+        .position-Delantero { color: #2ecc71 !important; background: rgba(46, 204, 113, 0.2); padding: 2px 6px; border-radius: 4px; }
+
+        .player-rating-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .player-rating {
+            font-size: 32px;
+            font-weight: 700;
+            line-height: 1;
+            position: relative;
+        }
+        
+        /* OVR Rating Colors based on level - Reduced Glow */
+        .ovr-bronze { color: #cd7f32; }
+        .ovr-silver { color: #c0c0c0; }
+        .ovr-gold { 
+            color: var(--primary); 
+            text-shadow: 
+                0 0 2px var(--primary),
+                0 0 4px rgba(0, 255, 157, 0.2);
+            animation: ovr-glow-subtle 4s ease-in-out infinite alternate;
+            font-weight: 700 !important;
+        }
+        .ovr-special { 
+            color: var(--primary);
+            text-shadow: 
+                0 0 3px var(--primary),
+                0 0 6px rgba(0, 255, 157, 0.3);
+            animation: ovr-glow-subtle 4s ease-in-out infinite alternate;
+            position: relative;
+            font-weight: 800 !important;
+        }
+
+        .ovr-excellent {
+            color: var(--primary);
+            text-shadow: 
+                0 0 2px var(--primary),
+                0 0 4px rgba(0, 255, 157, 0.2);
+            font-weight: 700 !important;
+        }
+        .ovr-low { color: #e74c3c; }
+        
+        @keyframes ovr-glow-subtle {
+            0% { 
+                text-shadow: 
+                    0 0 2px var(--primary),
+                    0 0 4px rgba(0, 255, 157, 0.2);
+            }
+            100% { 
+                text-shadow: 
+                    0 0 3px var(--primary),
+                    0 0 6px rgba(0, 255, 157, 0.25);
+            }
+        }
+
+        .expand-icon {
+            font-size: 20px;
+            color: var(--primary);
+            transition: transform 0.3s;
+        }
+        
+        .expand-icon.rotated {
+            transform: rotate(180deg);
+        }
+
+        /* Player Details - EXACT same as app */
+        .player-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            opacity: 0;
+        }
+
+        .player-details.expanded {
+            max-height: 400px;
+            padding: 0 20px 20px;
+            opacity: 1;
+        }
+        
+        .player-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .stat-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .stat-label {
+            text-transform: uppercase;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 12px;
+            min-width: 40px;
+        }
+        
+        .stat-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-left: 10px;
+        }
+
+        /* Player Tags Section */
+        .player-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 15px 0;
+            padding: 0 20px;
+        }
+
+        .player-tag {
+            background: rgba(0, 255, 157, 0.1);
+            border: 1px solid rgba(0, 255, 157, 0.3);
+            color: var(--primary);
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .player-tag:hover {
+            background: rgba(0, 255, 157, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 255, 157, 0.2);
+        }
+
+        .player-tag.legendary {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 107, 0, 0.2));
+            border-color: #ffd700;
+            color: #ffd700;
+        }
+
+        .player-tag.elite {
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.2), rgba(0, 191, 255, 0.2));
+            border-color: #8a2be2;
+            color: #8a2be2;
+        }
+
+        .matches-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 10px;
+        }
+
+        .matches-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .matches-number {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .matches-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.6);
+            letter-spacing: 0.5px;
+        }
+
+        /* Enhanced Radar Chart */
+        .radar-section {
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            border: 1px solid rgba(0, 255, 157, 0.1);
+            margin: 0 20px 15px;
+        }
+
+        .radar-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+        }
+
+        .radar-chart {
+            position: relative;
+            width: 180px;
+            height: 180px;
+        }
+
+        .radar-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .radar-grid {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.1);
+            stroke-width: 1;
+        }
+
+        .radar-line {
+            stroke: rgba(255, 255, 255, 0.2);
+            stroke-width: 1;
+        }
+
+        .radar-area {
+            fill: rgba(0, 255, 157, 0.15);
+            stroke: var(--primary);
+            stroke-width: 2;
+            filter: drop-shadow(0 0 8px rgba(0, 255, 157, 0.3));
+        }
+
+        .radar-point {
+            fill: var(--primary);
+            stroke: #ffffff;
+            stroke-width: 2;
+            r: 3;
+        }
+
+        .stat-labels {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+        }
+
+        .stat-label-positioned {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.7em;
+            color: var(--text-light);
+        }
+
+        .stat-label-name {
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 1px;
+        }
+
+        .stat-label-value {
+            font-size: 1.1em;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        /* Position stat labels around the hexagon */
+        .stat-label-positioned:nth-child(1) { top: -5px; left: 50%; transform: translateX(-50%); }
+        .stat-label-positioned:nth-child(2) { top: 15%; right: -10px; }
+        .stat-label-positioned:nth-child(3) { bottom: 15%; right: -10px; }
+        .stat-label-positioned:nth-child(4) { bottom: -5px; left: 50%; transform: translateX(-50%); }
+        .stat-label-positioned:nth-child(5) { bottom: 15%; left: -10px; }
+        .stat-label-positioned:nth-child(6) { top: 15%; left: -10px; }
+
+        @media (max-width: 768px) {
+            .player-header {
+                padding: 15px;
+            }
+            
+            .player-stats {
+                gap: 10px;
+            }
+            
+            .radar-container {
+                height: 160px;
+            }
+            
+            .radar-chart {
+                width: 140px;
+                height: 140px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏟️ Vista Mejorada de Jugadores</h1>
+        
+        <div id="players-list">
+            <!-- Players will be generated here -->
+        </div>
+    </div>
+
+    <script>
+        // Sample players data with match history
+        const samplePlayers = [
+            {
+                id: 1,
+                nombre: "Lionel Messi",
+                posicion: "Delantero", 
+                pac: 85, sho: 92, pas: 91, dri: 95, def: 35, phy: 65,
+                ovr: 91,
+                partidos: 142,
+                goles: 98,
+                asistencias: 67
+            },
+            {
+                id: 2,
+                nombre: "Virgil van Dijk", 
+                posicion: "Defensor",
+                pac: 77, sho: 60, pas: 71, dri: 72, def: 92, phy: 86,
+                ovr: 89,
+                partidos: 89,
+                goles: 12,
+                asistencias: 8
+            },
+            {
+                id: 3,
+                nombre: "Kevin De Bruyne",
+                posicion: "Centrocampista", 
+                pac: 76, sho: 86, pas: 93, dri: 88, def: 64, phy: 78,
+                ovr: 91,
+                partidos: 108,
+                goles: 45,
+                asistencias: 73
+            },
+            {
+                id: 4,
+                nombre: "Manuel Neuer",
+                posicion: "Portero",
+                pac: 43, sho: 11, pas: 91, dri: 88, def: 52, phy: 83,
+                ovr: 89,
+                partidos: 95,
+                goles: 0,
+                asistencias: 2
+            }
+        ];
+
+        function getPositionClass(position) {
+            const positionMap = {
+                'Portero': 'position-Portero',
+                'Defensor': 'position-Defensor', 
+                'Centrocampista': 'position-Centrocampista',
+                'Delantero': 'position-Delantero'
+            };
+            return positionMap[position] || 'position-' + position;
+        }
+
+        function getOVRClass(ovr) {
+            if (ovr >= 90) return 'ovr-special';
+            if (ovr >= 85) return 'ovr-excellent';
+            if (ovr >= 80) return 'ovr-gold';
+            if (ovr >= 70) return 'ovr-silver';
+            if (ovr >= 60) return 'ovr-bronze';
+            return 'ovr-low';
+        }
+
+        function togglePlayerDetails(playerId) {
+            const details = document.getElementById(`details-${playerId}`);
+            const icon = document.getElementById(`icon-${playerId}`);
+            
+            if (details.classList.contains('expanded')) {
+                details.classList.remove('expanded');
+                icon.classList.remove('rotated');
+            } else {
+                details.classList.add('expanded');
+                icon.classList.add('rotated');
+                
+                // Update radar chart when expanded
+                const player = samplePlayers.find(p => p.id === playerId);
+                if (player) {
+                    setTimeout(() => updateRadarChart(playerId, player), 200);
+                }
+            }
+        }
+
+        function updateRadarChart(playerId, player) {
+            const center = { x: 90, y: 90 };
+            const maxRadius = 60;
+            const stats = [player.pac, player.sho, player.pas, player.dri, player.def, player.phy];
+            
+            // Calculate points for hexagon based on stats (0-99 scale)
+            const points = stats.map((stat, index) => {
+                const angle = (index * 60) * (Math.PI / 180); // 60 degrees apart
+                const radius = (stat / 100) * maxRadius; // Normalize to max radius
+                const x = center.x + Math.cos(angle - Math.PI / 2) * radius; // -PI/2 to start from top
+                const y = center.y + Math.sin(angle - Math.PI / 2) * radius;
+                return `${x},${y}`;
+            });
+            
+            // Update polygon
+            const polygon = document.getElementById(`radar-area-${playerId}`);
+            if (polygon) {
+                polygon.setAttribute('points', points.join(' '));
+            }
+            
+            // Update points
+            const pointsGroup = document.getElementById(`radar-points-${playerId}`);
+            if (pointsGroup) {
+                pointsGroup.innerHTML = '';
+                
+                stats.forEach((stat, index) => {
+                    const angle = (index * 60) * (Math.PI / 180);
+                    const radius = (stat / 100) * maxRadius;
+                    const x = center.x + Math.cos(angle - Math.PI / 2) * radius;
+                    const y = center.y + Math.sin(angle - Math.PI / 2) * radius;
+                    
+                    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                    circle.setAttribute('cx', x);
+                    circle.setAttribute('cy', y);
+                    circle.setAttribute('r', '3');
+                    circle.setAttribute('class', 'radar-point');
+                    pointsGroup.appendChild(circle);
+                });
+            }
+
+            // Update stat labels
+            const labels = ['PAC', 'SHO', 'PAS', 'DRI', 'DEF', 'PHY'];
+            labels.forEach((label, index) => {
+                const valueEl = document.getElementById(`radar-${label.toLowerCase()}-${playerId}`);
+                if (valueEl) {
+                    valueEl.textContent = stats[index];
+                }
+            });
+        }
+
+        function getPlayerTags(player) {
+            const tags = [];
+            
+            // Shooting tags
+            if (player.sho >= 90) {
+                tags.push({ text: '🎯 Francotirador', class: 'legendary' });
+            } else if (player.sho >= 85) {
+                tags.push({ text: '⚡ Cañón', class: 'elite' });
+            } else if (player.sho >= 80) {
+                tags.push({ text: '🔥 Buen Remate', class: '' });
+            }
+            
+            // Pace tags
+            if (player.pac >= 90) {
+                tags.push({ text: '💨 Velocista', class: 'legendary' });
+            } else if (player.pac >= 85) {
+                tags.push({ text: '🏃 Rápido', class: '' });
+            }
+            
+            // Passing tags  
+            if (player.pas >= 90) {
+                tags.push({ text: '🎨 Maestro del Pase', class: 'legendary' });
+            } else if (player.pas >= 85) {
+                tags.push({ text: '📐 Visión de Juego', class: 'elite' });
+            }
+            
+            // Dribbling tags
+            if (player.dri >= 90) {
+                tags.push({ text: '🕺 Mago del Balón', class: 'legendary' });
+            } else if (player.dri >= 85) {
+                tags.push({ text: '⚡ Gran Regate', class: 'elite' });
+            }
+            
+            // Defense tags
+            if (player.def >= 90) {
+                tags.push({ text: '🛡️ Muro Infranqueable', class: 'legendary' });
+            } else if (player.def >= 85) {
+                tags.push({ text: '🚫 Defensor Sólido', class: 'elite' });
+            } else if (player.def >= 80) {
+                tags.push({ text: '💪 Buena Marca', class: '' });
+            }
+            
+            // Physical tags
+            if (player.phy >= 85) {
+                tags.push({ text: '💪 Tanque', class: 'elite' });
+            } else if (player.phy >= 80) {
+                tags.push({ text: '⚔️ Guerrero', class: '' });
+            }
+            
+            // Position specific
+            if (player.posicion === 'Portero') {
+                if (player.ovr >= 85) {
+                    tags.push({ text: '🧤 Manos Seguras', class: 'elite' });
+                }
+            }
+            
+            // Overall rating tags
+            if (player.ovr >= 90) {
+                tags.push({ text: '⭐ Clase Mundial', class: 'legendary' });
+            } else if (player.ovr >= 88) {
+                tags.push({ text: '🌟 Crack', class: 'elite' });
+            }
+            
+            // Experience based on matches
+            if (player.partidos >= 100) {
+                tags.push({ text: '🎖️ Veterano', class: '' });
+            } else if (player.partidos >= 50) {
+                tags.push({ text: '📈 Experimentado', class: '' });
+            }
+            
+            // Goal scorer
+            if (player.goles >= 50) {
+                tags.push({ text: '⚽ Goleador', class: 'legendary' });
+            }
+            
+            // Playmaker
+            if (player.asistencias >= 50) {
+                tags.push({ text: '👁️ Asistidor', class: 'elite' });
+            }
+            
+            return tags;
+        }
+
+        function renderPlayers() {
+            const container = document.getElementById('players-list');
+            container.innerHTML = '';
+            
+            samplePlayers.forEach(player => {
+                const tags = getPlayerTags(player);
+                const card = document.createElement('div');
+                card.className = 'player-card';
+                
+                card.innerHTML = `
+                    <div class="player-header" onclick="togglePlayerDetails(${player.id})">
+                        <div class="player-basic-info">
+                            <div class="player-photo">${player.nombre.charAt(0)}</div>
+                            <div class="player-info">
+                                <div class="player-name">${player.nombre}</div>
+                                <div class="player-position ${getPositionClass(player.posicion)}">${player.posicion}</div>
+                            </div>
+                        </div>
+                        <div class="player-rating-section">
+                            <div class="player-rating ${getOVRClass(player.ovr)}">${player.ovr}</div>
+                            <span class="expand-icon" id="icon-${player.id}">⌄</span>
+                        </div>
+                    </div>
+                    
+                    <div class="player-details" id="details-${player.id}">
+                        <div class="player-tags">
+                            ${tags.map(tag => `
+                                <span class="player-tag ${tag.class}">${tag.text}</span>
+                            `).join('')}
+                        </div>
+                        
+                        <div class="radar-section">
+                            <div class="radar-container">
+                                <div class="radar-chart">
+                                    <svg class="radar-svg" viewBox="0 0 180 180">
+                                        <!-- Hexagon grid rings -->
+                                        <g class="radar-rings">
+                                            <polygon points="90,15 141,45 141,135 90,165 39,135 39,45" class="radar-grid"/>
+                                            <polygon points="90,27 129,51 129,129 90,153 51,129 51,51" class="radar-grid"/>
+                                            <polygon points="90,39 117,57 117,123 90,141 63,123 63,57" class="radar-grid"/>
+                                            <polygon points="90,51 105,63 105,117 90,129 75,117 75,63" class="radar-grid"/>
+                                        </g>
+                                        
+                                        <!-- Grid lines from center -->
+                                        <g class="radar-spokes">
+                                            <line x1="90" y1="90" x2="90" y2="15" class="radar-line"/>
+                                            <line x1="90" y1="90" x2="141" y2="45" class="radar-line"/>
+                                            <line x1="90" y1="90" x2="141" y2="135" class="radar-line"/>
+                                            <line x1="90" y1="90" x2="90" y2="165" class="radar-line"/>
+                                            <line x1="90" y1="90" x2="39" y2="135" class="radar-line"/>
+                                            <line x1="90" y1="90" x2="39" y2="45" class="radar-line"/>
+                                        </g>
+                                        
+                                        <!-- Player data polygon -->
+                                        <polygon id="radar-area-${player.id}" class="radar-area" points=""/>
+                                        
+                                        <!-- Player data points -->
+                                        <g id="radar-points-${player.id}"></g>
+                                    </svg>
+                                    
+                                    <div class="stat-labels">
+                                        <div class="stat-label-positioned">
+                                            <span class="stat-label-name">PAC</span>
+                                            <span class="stat-label-value" id="radar-pac-${player.id}">${player.pac}</span>
+                                        </div>
+                                        <div class="stat-label-positioned">
+                                            <span class="stat-label-name">SHO</span>
+                                            <span class="stat-label-value" id="radar-sho-${player.id}">${player.sho}</span>
+                                        </div>
+                                        <div class="stat-label-positioned">
+                                            <span class="stat-label-name">PAS</span>
+                                            <span class="stat-label-value" id="radar-pas-${player.id}">${player.pas}</span>
+                                        </div>
+                                        <div class="stat-label-positioned">
+                                            <span class="stat-label-name">DRI</span>
+                                            <span class="stat-label-value" id="radar-dri-${player.id}">${player.dri}</span>
+                                        </div>
+                                        <div class="stat-label-positioned">
+                                            <span class="stat-label-name">DEF</span>
+                                            <span class="stat-label-value" id="radar-def-${player.id}">${player.def}</span>
+                                        </div>
+                                        <div class="stat-label-positioned">
+                                            <span class="stat-label-name">PHY</span>
+                                            <span class="stat-label-value" id="radar-phy-${player.id}">${player.phy}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="matches-info">
+                            <div class="matches-stat">
+                                <div class="matches-number">${player.partidos}</div>
+                                <div class="matches-label">Partidos</div>
+                            </div>
+                            <div class="matches-stat">
+                                <div class="matches-number">${player.goles}</div>
+                                <div class="matches-label">Goles</div>
+                            </div>
+                            <div class="matches-stat">
+                                <div class="matches-number">${player.asistencias}</div>
+                                <div class="matches-label">Asistencias</div>
+                            </div>
+                            <div class="matches-stat">
+                                <div class="matches-number">${((player.goles + player.asistencias) / player.partidos).toFixed(2)}</div>
+                                <div class="matches-label">Promedio G+A</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(card);
+            });
+        }
+
+        // Initialize
+        renderPlayers();
+    </script>
+</body>
+</html>

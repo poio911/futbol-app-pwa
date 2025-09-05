@@ -1,0 +1,44 @@
+{
+  "name": "futbol-collaborative-app",
+  "version": "1.0.0",
+  "description": "Collaborative football match management system with team generation and evaluation",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:ui": "playwright test --ui",
+    "test:auth": "playwright test 01-authentication",
+    "test:matches": "playwright test 02-collaborative-matches",
+    "test:teams": "playwright test 03-invitations-teams",
+    "test:eval": "playwright test 04-evaluation-system",
+    "test:chrome": "playwright test --project=chromium",
+    "test:firefox": "playwright test --project=firefox",
+    "test:webkit": "playwright test --project=webkit",
+    "test:mobile": "playwright test --project='Mobile Chrome'",
+    "report": "playwright show-report",
+    "serve": "npx http-server . -p 5500",
+    "start": "npm run serve",
+    "docs": "node docs-script.js",
+    "docs:generate": "node generate-docs.js",
+    "docs:visual": "node generate-docs-simple.js",
+    "docs:simple": "node generate-docs-simple.js"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.55.0",
+    "http-server": "^14.1.1",
+    "playwright": "^1.55.0"
+  },
+  "keywords": [
+    "football",
+    "soccer",
+    "team-management",
+    "firebase",
+    "collaborative",
+    "evaluation-system"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "firebase": "^12.2.1"
+  }
+}

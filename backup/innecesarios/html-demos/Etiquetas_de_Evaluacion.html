@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etiquetas de Evaluación - App.Futbol</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 40px;
+            background: #f5f5f5;
+            color: #333;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, #00ff9d, #ff00e6);
+            border-radius: 15px;
+            color: white;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            margin: 10px 0 0 0;
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #00ff9d;
+        }
+        
+        .stat-label {
+            font-size: 0.9em;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .category {
+            margin-bottom: 40px;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .category h2 {
+            color: #00ff9d;
+            border-bottom: 2px solid #00ff9d;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+            font-size: 1.8em;
+        }
+        
+        .tags-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .tag-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+        
+        .tag-card:hover {
+            border-color: #00ff9d;
+            box-shadow: 0 4px 12px rgba(0, 255, 157, 0.2);
+        }
+        
+        .tag-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .tag-icon {
+            font-size: 2.5em;
+            min-width: 50px;
+        }
+        
+        .tag-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .tag-tooltip {
+            font-size: 0.95em;
+            color: #666;
+            font-style: italic;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .tag-points {
+            background: #f0f0f0;
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 0.9em;
+        }
+        
+        .points-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .points-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .point-item {
+            background: #00ff9d;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        
+        .point-item.negative {
+            background: #ff4757;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px;
+            background: #333;
+            color: white;
+            border-radius: 10px;
+        }
+        
+        @media print {
+            body { background: white; }
+            .header { background: #333 !important; }
+            .tag-card { break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🏆 Etiquetas de Evaluación</h1>
+        <p>Sistema de evaluación con humor argentino - App.Futbol</p>
+    </div>
+    
+    <div class="stats">
+        <div class="stat-item">
+            <div class="stat-number">24</div>
+            <div class="stat-label">Etiquetas Totales</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">6</div>
+            <div class="stat-label">Categorías</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">3</div>
+            <div class="stat-label">Máx. Selección</div>
+        </div>
+    </div>
+
+    <div class="category">
+        <h2>🎭 Con Doble Sentido/Humor</h2>
+        <div class="tags-grid">
+            <div class="tag-card">
+                <div class="tag-header">
+                    <div class="tag-icon">🎯</div>
+                    <div class="tag-title">La pone donde quiere</div>
+                </div>
+                <div class="tag-tooltip">Gran precisión en los pases... la pelota, obvio</div>
+                <div class="tag-points">
+                    <div class="points-title">Efectos en atributos:</div>
+                    <div class="points-list">
+                        <span class="point-item">PAS +3</span>
+                        <span class="point-item">DRI +2</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tag-card">
+                <div class="tag-header">
+                    <div class="tag-icon">🕺</div>
+                    <div class="tag-title">Baila solo</div>
+                </div>
+                <div class="tag-tooltip">Tan bueno que no necesita compañía para gambetear</div>
+                <div class="tag-points">
+                    <div class="points-title">Efectos en atributos:</div>
+                    <div class="points-list">
+                        <span class="point-item">DRI +3</span>
+                        <span class="point-item">PAC +1</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tag-card">
+                <div class="tag-header">
+                    <div class="tag-icon">🧈</div>
+                    <div class="tag-title">Manos de manteca</div>
+                </div>
+                <div class="tag-tooltip">Se le escapa hasta el shampoo en la ducha</div>
+                <div class="tag-points">
+                    <div class="points-title">Efectos en atributos:</div>
+                    <div class="points-list">
+                        <span class="point-item negative">DRI -3</span>
+                        <span class="point-item">PHY +1</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tag-card">
+                <div class="tag-header">
+                    <div class="tag-icon">💳</div>
+                    <div class="tag-title">Billetera</div>
+                </div>
+                <div class="tag-tooltip">Siempre saca y asiste... como cuando paga el asado</div>
+                <div class="tag-points">
+                    <div class="points-title">Efectos en atributos:</div>
+                    <div class="points-list">
+                        <span class="point-item">PAS +2</span>
+                        <span class="point-item">DRI +2</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="category">
+        <h2>⭐ Referencias a Jugadores</h2>
+        <div class="tags-grid">
+            <div class="tag-card">
+                <div class="tag-header">
+                    <div class="tag-icon">🧛</div>
+                    <div class="tag-title">Modo Suárez</div>
+                </div>
+                <div class="tag-tooltip">Goleador nato con tendencia a morder</div>
+                <div class="tag-points">
+                    <div class="points-title">Efectos en atributos:</div>
+                    <div class="points-list">
+                        <span class="point-item">SHO +3</span>
+                        <span class="point-item">PHY +2</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tag-card">
+                <div class="tag-header">
+                    <div class="tag-icon">👔</div>
+                    <div class="tag-title">El Chiqui Tapia</div>
+                </div>
+                <div class="tag-tooltip">Maneja el partido desde arriba... literalmente</div>
+                <div class="tag-points">
+                    <div class="points-title">Efectos en atributos:</div>
+                    <div class="points-list">
+                        <span class="point-item">PAS +3</span>
+                        <span class="point-item negative">DEF -2</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tag-card">
+                <div class="tag-header">
+                    <div class="tag-icon">🚀</div>
+                    <div class="tag-title">Rusito Recoba</div>
+                </div>
+                <div class="tag-tooltip">Pega desde cualquier lado sin miedo</div>
+                <div class="tag-points">
+                    <div class="points-title">Efectos en atributos:</div>
+                    <div class="points-list">
+                        <span class="point-item">SHO +3</span>
+                        <span class="point-item">DRI +2</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tag-card">
+                <div class="tag-header">
+                    <div class="tag-icon">🧊</div>
+                    <div class="tag-title">Pecho frío nivel Higuaín</div>
+                </div>
+                <div class="tag-tooltip">En los momentos importantes... mejor no</div>
+                <div class="tag-points">
+                    <div class="points-title">Efectos en atributos:</div>
+                    <div class="points-list">
+                        <span class="point-item negative">SHO -3</span>
+                        <span class="point-item">PAS +1</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="category">
+        <h2>🏗️ Clásicos con Twist</h2>
+        <div class="tags-grid">
+            <div class="tag-card">
+                <div class="tag-header">
+                    <div class="tag-icon">🏗️</div>
+                    <div class="tag-title">Arquitecto</div>
+                </div>
+                <div class="tag-tooltip">Construye jugadas mejor que el estadio del Wanderers</div>
+                <div class="tag-points">
+                    <div class="points-title">Efectos en atributos:</div>
+                    <div class="points-list">
+                        <span class="point-item">PAS +3</span>
+                        <span class="point-item">DRI +1</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tag-card">
+                <div class="tag-header">
+                    <div class="tag-icon">🥩</div>
+                    <div class="tag-title">El del asado</div>
+                </div>
+                <div class="tag-tooltip">Une al equipo... con choripanes</div>
+                <div class="tag-points">
+                    <div class="points-title">Efectos en atributos:</div>
+                    <div class="points-list">
+                        <span class="point-item">PAS +2</span>
+                        <span class="point-item">PHY +1</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="category">
+        <h2>💻 Humor Moderno/Tecnología</h2>
+        <div class="tags-grid">
+            <div class="tag-card">
+                <div class="tag-header">
+                    <div class="tag-icon">📺</div>
+                    <div class="tag-title">Netflix</div>
+                </div>
+                <div class="tag-tooltip">Se la pasa mirando series... de jugadas del rival</div>
+                <div class="tag-points">
+                    <div class="points-title">Efectos en atributos:</div>
+                    <div class="points-list">
+                        <span class="point-item negative">DRI -2</span>
+                        <span class="point-item">PAS +1</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tag-card">
+                <div class="tag-header">
+                    <div class="tag-icon">📶</div>
+                    <div class="tag-title">WiFi del vecino</div>
+                </div>
+                <div class="tag-tooltip">A veces anda, a veces no</div>
+                <div class="tag-points">
+                    <div class="points-title">Efectos en atributos:</div>
+                    <div class="points-list">
+                        <span class="point-item">PAS +2</span>
+                        <span class="point-item negative">PAC -1</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tag-card">
+                <div class="tag-header">
+                    <div class="tag-icon">🚗</div>
+                    <div class="tag-title">Uber</div>
+                </div>
+                <div class="tag-tooltip">Siempre llega justo a tiempo al área</div>
+                <div class="tag-points">
+                    <div class="points-title">Efectos en atributos:</div>
+                    <div class="points-list">
+                        <span class="point-item">PAC +3</span>
+                        <span class="point-item">SHO +1</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tag-card">
+                <div class="tag-header">
+                    <div class="tag-icon">💕</div>
+                    <div class="tag-title">Tinder</div>
+                </div>
+                <div class="tag-tooltip">Define rápido pero no se queda mucho</div>
+                <div class="tag-points">
+                    <div class="points-title">Efectos en atributos:</div>
+                    <div class="points-list">
+                        <span class="point-item">SHO +3</span>
+                        <span class="point-item negative">DEF -1</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tag-card">
+                <div class="tag-header">
+                    <div class="tag-icon">📱</div>
+                    <div class="tag-title">WhatsApp</div>
+                </div>
+                <div class="tag-tooltip">Siempre conectado con los compañeros</div>
+                <div class="tag-points">
+                    <div class="points-title">Efectos en atributos:</div>
+                    <div class="points-list">
+                        <span class="point-item">PAS +3</span>
+                        <span class="point-item negative">PAC -1</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tag-card">
+                <div class="tag-header">
+                    <div class="tag-icon">📸</div>
+                    <div class="tag-title">Instagram</div>
+                </div>
+                <div class="tag-tooltip">Más preocupado por la foto que por el gol</div>
+                <div class="tag-points">
+                    <div class="points-title">Efectos en atributos:</div>
+                    <div class="points-list">
+                        <span class="point-item">DRI +2</span>
+                        <span class="point-item negative">SHO -1</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tag-card">
+                <div class="tag-header">
+                    <div class="tag-icon">🎵</div>
+                    <div class="tag-title">TikTok</div>
+                </div>
+                <div class="tag-tooltip">Bailes increíbles, defensa cuestionable</div>
+                <div class="tag-points">
+                    <div class="points-title">Efectos en atributos:</div>
+                    <div class="points-list">
+                        <span class="point-item">DRI +3</span>
+                        <span class="point-item negative">DEF -2</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tag-card">
+                <div class="tag-header">
+                    <div class="tag-icon">📦</div>
+                    <div class="tag-title">MercadoLibre</div>
+                </div>
+                <div class="tag-tooltip">Entrega garantizada al área</div>
+                <div class="tag-points">
+                    <div class="points-title">Efectos en atributos:</div>
+                    <div class="points-list">
+                        <span class="point-item">PAS +2</span>
+                        <span class="point-item">SHO +2</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tag-card">
+                <div class="tag-header">
+                    <div class="tag-icon">🎧</div>
+                    <div class="tag-title">Spotify</div>
+                </div>
+                <div class="tag-tooltip">Siempre con ritmo</div>
+                <div class="tag-points">
+                    <div class="points-title">Efectos en atributos:</div>
+                    <div class="points-list">
+                        <span class="point-item">PAC +2</span>
+                        <span class="point-item">DRI +2</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="category">
+        <h2>🧉 Uruguayos Posta</h2>
+        <div class="tags-grid">
+            <div class="tag-card">
+                <div class="tag-header">
+                    <div class="tag-icon">🧉</div>
+                    <div class="tag-title">Mate amargo</div>
+                </div>
+                <div class="tag-tooltip">Fuerte y sin azúcar, como debe ser</div>
+                <div class="tag-points">
+                    <div class="points-title">Efectos en atributos:</div>
+                    <div class="points-list">
+                        <span class="point-item">PHY +2</span>
+                        <span class="point-item">DEF +2</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tag-card">
+                <div class="tag-header">
+                    <div class="tag-icon">💛</div>
+                    <div class="tag-title">Peñarol/Nacional</div>
+                </div>
+                <div class="tag-tooltip">Depende del cuadro que seas</div>
+                <div class="tag-points">
+                    <div class="points-title">Efectos en atributos:</div>
+                    <div class="points-list">
+                        <span class="point-item">PHY +3</span>
+                        <span class="point-item negative">DRI -1</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tag-card">
+                <div class="tag-header">
+                    <div class="tag-icon">🏖️</div>
+                    <div class="tag-title">Playa Pocitos</div>
+                </div>
+                <div class="tag-tooltip">Fino pero le falta calle</div>
+                <div class="tag-points">
+                    <div class="points-title">Efectos en atributos:</div>
+                    <div class="points-list">
+                        <span class="point-item">PAS +2</span>
+                        <span class="point-item negative">PHY -1</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="category">
+        <h2>⚽ Clásicos del Barrio/Fútbol</h2>
+        <div class="tags-grid">
+            <div class="tag-card">
+                <div class="tag-header">
+                    <div class="tag-icon">📹</div>
+                    <div class="tag-title">VAR amigo</div>
+                </div>
+                <div class="tag-tooltip">El VAR siempre lo favorece... sospechoso</div>
+                <div class="tag-points">
+                    <div class="points-title">Efectos en atributos:</div>
+                    <div class="points-list">
+                        <span class="point-item negative">DEF -2</span>
+                        <span class="point-item">PAS +3</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tag-card">
+                <div class="tag-header">
+                    <div class="tag-icon">🟨</div>
+                    <div class="tag-title">Coleccionista</div>
+                </div>
+                <div class="tag-tooltip">Colecciona amarillas como figuritas</div>
+                <div class="tag-points">
+                    <div class="points-title">Efectos en atributos:</div>
+                    <div class="points-list">
+                        <span class="point-item">DEF +3</span>
+                        <span class="point-item">PHY +2</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tag-card">
+                <div class="tag-header">
+                    <div class="tag-icon">🚩</div>
+                    <div class="tag-title">Offside eterno</div>
+                </div>
+                <div class="tag-tooltip">Siempre adelantado... hasta en la fila del súper</div>
+                <div class="tag-points">
+                    <div class="points-title">Efectos en atributos:</div>
+                    <div class="points-list">
+                        <span class="point-item">SHO +2</span>
+                        <span class="point-item negative">PAC -2</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tag-card">
+                <div class="tag-header">
+                    <div class="tag-icon">⚽</div>
+                    <div class="tag-title">Picado de domingo</div>
+                </div>
+                <div class="tag-tooltip">Juega mejor con resaca que sobrio</div>
+                <div class="tag-points">
+                    <div class="points-title">Efectos en atributos:</div>
+                    <div class="points-list">
+                        <span class="point-item">DRI +2</span>
+                        <span class="point-item">PHY +1</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tag-card">
+                <div class="tag-header">
+                    <div class="tag-icon">🔄</div>
+                    <div class="tag-title">Amague fatal</div>
+                </div>
+                <div class="tag-tooltip">Amaga tanto que se marea él mismo</div>
+                <div class="tag-points">
+                    <div class="points-title">Efectos en atributos:</div>
+                    <div class="points-list">
+                        <span class="point-item">DRI +3</span>
+                        <span class="point-item">PAC +1</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tag-card">
+                <div class="tag-header">
+                    <div class="tag-icon">🎩</div>
+                    <div class="tag-title">Caño maestro</div>
+                </div>
+                <div class="tag-tooltip">Especialista en humillar rivales</div>
+                <div class="tag-points">
+                    <div class="points-title">Efectos en atributos:</div>
+                    <div class="points-list">
+                        <span class="point-item">DRI +3</span>
+                        <span class="point-item">PAS +1</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <h3>🎯 Sistema de Evaluación</h3>
+        <p>Cada jugador puede recibir hasta <strong>3 etiquetas</strong> por partido</p>
+        <p>Los puntos de las etiquetas se suman a los atributos base del jugador</p>
+        <p><strong>Atributos:</strong> PAC (Velocidad) | SHO (Disparo) | PAS (Pase) | DRI (Regate) | DEF (Defensa) | PHY (Físico)</p>
+        <hr style="margin: 20px 0; opacity: 0.3;">
+        <p style="font-size: 0.9em; opacity: 0.8;">App.Futbol - Sistema de evaluación con humor argentino</p>
+    </div>
+</body>
+</html>

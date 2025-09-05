@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaming CPanel - App.futbol</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-bg: #0a0f1c;
+            --secondary-bg: #1a1f2e;
+            --card-bg: rgba(26, 31, 46, 0.7);
+            --accent-green: #00ff9d;
+            --accent-pink: #ff00e6;
+            --accent-blue: #00d4ff;
+            --text-light: #ffffff;
+            --text-secondary: #b8bcc8;
+            --text-muted: #7a7f8a;
+            --border-color: rgba(0, 255, 157, 0.3);
+            --hover-bg: rgba(0, 255, 157, 0.1);
+            --danger-color: #ff4757;
+            --warning-color: #ffa502;
+            --success-color: #2ed573;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--primary-bg) 0%, #0d1421 50%, var(--secondary-bg) 100%);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(0, 255, 157, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 0, 230, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(0, 212, 255, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .gaming-header {
+            background: linear-gradient(135deg, var(--secondary-bg), rgba(26, 31, 46, 0.95));
+            backdrop-filter: blur(20px);
+            border-bottom: 2px solid var(--border-color);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 8px 32px rgba(0, 255, 157, 0.1);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .app-logo {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--accent-green), var(--accent-pink));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            animation: pulse 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 255, 157, 0.3); }
+            100% { box-shadow: 0 0 0 10px rgba(0, 255, 157, 0); }
+        }
+
+        .title-section h1 {
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, var(--accent-green), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            margin-bottom: 0.2rem;
+        }
+
+        .title-section .subtitle {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .header-stats {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 0.5rem 1rem;
+            background: var(--card-bg);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-item .value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent-green);
+            display: block;
+        }
+
+        .stat-item .label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.5rem;
+            background: var(--card-bg);
+            border-radius: 50px;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .admin-profile:hover {
+            border-color: var(--accent-green);
+            box-shadow: 0 4px 20px rgba(0, 255, 157, 0.2);
+        }
+
+        .admin-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-pink), var(--accent-blue));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .admin-info .name {
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .admin-info .role {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .gaming-tabs {
+            display: flex;
+            background: var(--card-bg);
+            border-radius: 15px 15px 0 0;
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-bottom: none;
+            overflow: hidden;
+            margin-bottom: 0;
+        }
+
+        .gaming-tab {
+            flex: 1;
+            padding: 1.2rem 1.5rem;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .gaming-tab:hover {
+            background: var(--hover-bg);
+            color: var(--text-light);
+        }
+
+        .gaming-tab.active {
+            color: var(--accent-green);
+            background: linear-gradient(135deg, rgba(0, 255, 157, 0.1), rgba(0, 255, 157, 0.05));
+        }
+
+        .gaming-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-green), var(--accent-pink));
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            0% { transform: scaleX(0); }
+            100% { transform: scaleX(1); }
+        }
+
+        .tab-content {
+            display: none;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 0 0 15px 15px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .gaming-card {
+            background: linear-gradient(135deg, var(--card-bg), rgba(26, 31, 46, 0.5));
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+        }
+
+        .gaming-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 157, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .gaming-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-green);
+            box-shadow: 0 15px 40px rgba(0, 255, 157, 0.15);
+        }
+
+        .gaming-card:hover::before {
+            left: 100%;
+        }
+
+        .gaming-card .icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .gaming-card h3 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--accent-green), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .gaming-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .actions-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .gaming-btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .gaming-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.4s ease;
+        }
+
+        .gaming-btn:hover::before {
+            left: 100%;
+        }
+
+        .gaming-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-green), #00cc7a);
+            color: var(--primary-bg);
+            border: 1px solid var(--accent-green);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 8px 25px rgba(0, 255, 157, 0.3);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success-color), #26d067);
+            color: white;
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, var(--warning-color), #ff9500);
+            color: white;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, var(--danger-color), #ff3742);
+            color: white;
+        }
+
+        .gaming-console {
+            background: var(--primary-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1.5rem;
+            height: 250px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            margin-top: 1.5rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .console-line {
+            margin-bottom: 0.5rem;
+            padding: 0.3rem;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .console-line.info {
+            color: var(--accent-blue);
+            background: rgba(0, 212, 255, 0.1);
+        }
+
+        .console-line.success {
+            color: var(--success-color);
+            background: rgba(46, 213, 115, 0.1);
+        }
+
+        .console-line.warning {
+            color: var(--warning-color);
+            background: rgba(255, 165, 2, 0.1);
+        }
+
+        .console-line.error {
+            color: var(--danger-color);
+            background: rgba(255, 71, 87, 0.1);
+        }
+
+        .danger-zone {
+            background: linear-gradient(135deg, rgba(255, 71, 87, 0.1), rgba(255, 71, 87, 0.05));
+            border: 2px solid rgba(255, 71, 87, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .danger-zone h3 {
+            color: var(--danger-color);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 1rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .search-bar:focus {
+            outline: none;
+            border-color: var(--accent-green);
+            box-shadow: 0 0 20px rgba(0, 255, 157, 0.2);
+        }
+
+        .search-bar::placeholder {
+            color: var(--text-muted);
+        }
+
+        .data-table {
+            width: 100%;
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .data-table th {
+            background: linear-gradient(135deg, var(--secondary-bg), rgba(26, 31, 46, 0.8));
+            color: var(--accent-green);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.85rem;
+        }
+
+        .data-table tr:hover {
+            background: var(--hover-bg);
+        }
+
+        .status-badge {
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-active {
+            background: linear-gradient(135deg, var(--success-color), #26d067);
+            color: white;
+        }
+
+        .status-pending {
+            background: linear-gradient(135deg, var(--warning-color), #ff9500);
+            color: white;
+        }
+
+        .status-expired {
+            background: linear-gradient(135deg, var(--danger-color), #ff3742);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .header-stats {
+                gap: 1rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .gaming-tabs {
+                flex-direction: column;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .actions-bar {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Gaming Header -->
+    <div class="gaming-header">
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="app-logo">⚽</div>
+                <div class="title-section">
+                    <h1>Admin Gaming Panel</h1>
+                    <div class="subtitle">Control Center • Elite Management</div>
+                </div>
+            </div>
+            
+            <div class="header-stats">
+                <div class="stat-item">
+                    <span class="value" id="live-players">124</span>
+                    <span class="label">Players</span>
+                </div>
+                <div class="stat-item">
+                    <span class="value" id="live-matches">45</span>
+                    <span class="label">Matches</span>
+                </div>
+                <div class="stat-item">
+                    <span class="value" id="live-active">8</span>
+                    <span class="label">Active</span>
+                </div>
+            </div>
+            
+            <div class="admin-profile">
+                <div class="admin-avatar">A</div>
+                <div class="admin-info">
+                    <div class="name">Admin</div>
+                    <div class="role">System Manager</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Gaming Navigation Tabs -->
+        <div class="gaming-tabs">
+            <button class="gaming-tab active" onclick="switchTab('dashboard')">🎮 Dashboard</button>
+            <button class="gaming-tab" onclick="switchTab('players')">👥 Players</button>
+            <button class="gaming-tab" onclick="switchTab('matches')">⚽ Matches</button>
+            <button class="gaming-tab" onclick="switchTab('evaluations')">📊 Analytics</button>
+            <button class="gaming-tab" onclick="switchTab('cleanup')">🛠️ Tools</button>
+        </div>
+
+        <!-- Dashboard Tab -->
+        <div id="dashboard-tab" class="tab-content active">
+            <h2 style="margin-bottom: 1.5rem; color: var(--accent-green); font-size: 1.5rem; text-transform: uppercase; letter-spacing: 1px;">🎮 Gaming Dashboard</h2>
+            
+            <div class="dashboard-grid">
+                <div class="gaming-card">
+                    <span class="icon">👥</span>
+                    <h3>124</h3>
+                    <p>Total Players</p>
+                </div>
+                <div class="gaming-card">
+                    <span class="icon">⚽</span>
+                    <h3>45</h3>
+                    <p>Total Matches</p>
+                </div>
+                <div class="gaming-card">
+                    <span class="icon">📊</span>
+                    <h3>89</h3>
+                    <p>Evaluations</p>
+                </div>
+                <div class="gaming-card">
+                    <span class="icon">⏳</span>
+                    <h3>8</h3>
+                    <p>Active Now</p>
+                </div>
+                <div class="gaming-card">
+                    <span class="icon">🏘️</span>
+                    <h3>12</h3>
+                    <p>Groups</p>
+                </div>
+            </div>
+
+            <div class="actions-bar">
+                <button class="gaming-btn btn-primary">🔄 Refresh All</button>
+                <button class="gaming-btn btn-success">📊 Export Data</button>
+                <button class="gaming-btn btn-warning">⚡ Quick Actions</button>
+            </div>
+
+            <div class="gaming-console">
+                <div class="console-line info">
+                    <span>[INFO]</span>
+                    <span>Gaming CPanel initialized - Firebase connected</span>
+                </div>
+                <div class="console-line success">
+                    <span>[SUCCESS]</span>
+                    <span>All systems operational - 124 players online</span>
+                </div>
+                <div class="console-line info">
+                    <span>[INFO]</span>
+                    <span>Real-time sync active - Database healthy</span>
+                </div>
+                <div class="console-line warning">
+                    <span>[WARNING]</span>
+                    <span>High server load detected - Monitoring performance</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Players Tab -->
+        <div id="players-tab" class="tab-content">
+            <h2 style="margin-bottom: 1.5rem; color: var(--accent-green); text-transform: uppercase;">👥 Player Management</h2>
+            
+            <div class="actions-bar">
+                <button class="gaming-btn btn-primary">🔄 Load Players</button>
+                <button class="gaming-btn btn-success">🧼 Remove Duplicates</button>
+                <button class="gaming-btn btn-warning">⚡ Reset to 50</button>
+                <button class="gaming-btn btn-warning">🎯 Custom Reset</button>
+            </div>
+
+            <input type="text" class="search-bar" placeholder="🔍 Search players...">
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Player</th>
+                        <th>Rating</th>
+                        <th>Position</th>
+                        <th>Status</th>
+                        <th>Last Activity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Lionel Messi</td>
+                        <td>94</td>
+                        <td>RW</td>
+                        <td><span class="status-badge status-active">Active</span></td>
+                        <td>2 min ago</td>
+                    </tr>
+                    <tr>
+                        <td>Cristiano Ronaldo</td>
+                        <td>92</td>
+                        <td>ST</td>
+                        <td><span class="status-badge status-active">Active</span></td>
+                        <td>5 min ago</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Matches Tab -->
+        <div id="matches-tab" class="tab-content">
+            <h2 style="margin-bottom: 1.5rem; color: var(--accent-green); text-transform: uppercase;">⚽ Match Management</h2>
+            
+            <div class="actions-bar">
+                <button class="gaming-btn btn-primary">🔄 Load Matches</button>
+                <button class="gaming-btn btn-warning">🧹 Clean Test Data</button>
+            </div>
+
+            <input type="text" class="search-bar" placeholder="🔍 Search matches...">
+
+            <div class="gaming-console">
+                <div class="console-line info">
+                    <span>[MATCH]</span>
+                    <span>Loading match data...</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Evaluations Tab -->
+        <div id="evaluations-tab" class="tab-content">
+            <h2 style="margin-bottom: 1.5rem; color: var(--accent-green); text-transform: uppercase;">📊 Analytics & Evaluations</h2>
+            
+            <div class="actions-bar">
+                <button class="gaming-btn btn-primary">🔄 Load Analytics</button>
+                <button class="gaming-btn btn-warning">⏰ Clean Expired</button>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="gaming-card">
+                    <span class="icon">📈</span>
+                    <h3>85%</h3>
+                    <p>Performance Rate</p>
+                </div>
+                <div class="gaming-card">
+                    <span class="icon">⭐</span>
+                    <h3>4.8</h3>
+                    <p>Avg Rating</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cleanup Tab -->
+        <div id="cleanup-tab" class="tab-content">
+            <h2 style="margin-bottom: 1.5rem; color: var(--accent-green); text-transform: uppercase;">🛠️ System Tools</h2>
+            
+            <div class="actions-bar">
+                <button class="gaming-btn btn-warning">👥 Clean Test Players</button>
+                <button class="gaming-btn btn-warning">⚽ Clean Test Matches</button>
+                <button class="gaming-btn btn-warning">📊 Clean Expired Data</button>
+                <button class="gaming-btn btn-success">✨ Full Cleanup</button>
+            </div>
+
+            <div class="danger-zone">
+                <h3>⚠️ Danger Zone</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">These actions are <strong style="color: var(--danger-color);">IRREVERSIBLE</strong> and will permanently delete data:</p>
+                <div class="actions-bar">
+                    <button class="gaming-btn btn-danger">💥 Delete All Players</button>
+                    <button class="gaming-btn btn-danger">💥 Delete All Matches</button>
+                    <button class="gaming-btn btn-danger">💥 Delete All Evaluations</button>
+                    <button class="gaming-btn btn-danger">☢️ NUCLEAR OPTION</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabName) {
+            // Remove active class from all tabs and contents
+            document.querySelectorAll('.gaming-tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.style.display = 'none');
+            
+            // Add active class to clicked tab and show corresponding content
+            event.target.classList.add('active');
+            document.getElementById(tabName + '-tab').style.display = 'block';
+        }
+
+        // Simulate live data updates
+        function updateLiveStats() {
+            const players = Math.floor(Math.random() * 20) + 110;
+            const matches = Math.floor(Math.random() * 10) + 40;
+            const active = Math.floor(Math.random() * 5) + 5;
+            
+            document.getElementById('live-players').textContent = players;
+            document.getElementById('live-matches').textContent = matches;
+            document.getElementById('live-active').textContent = active;
+        }
+
+        // Update stats every 3 seconds
+        setInterval(updateLiveStats, 3000);
+
+        // Add some console activity
+        function addConsoleLog() {
+            const console = document.querySelector('.gaming-console');
+            const types = ['info', 'success', 'warning'];
+            const messages = [
+                'Player data synchronized',
+                'Match statistics updated',
+                'System performance optimal',
+                'New player registered',
+                'Match evaluation completed'
+            ];
+            
+            const type = types[Math.floor(Math.random() * types.length)];
+            const message = messages[Math.floor(Math.random() * messages.length)];
+            
+            const logLine = document.createElement('div');
+            logLine.className = `console-line ${type}`;
+            logLine.innerHTML = `<span>[${type.toUpperCase()}]</span><span>${message}</span>`;
+            
+            console.appendChild(logLine);
+            console.scrollTop = console.scrollHeight;
+            
+            // Remove old logs
+            const logs = console.querySelectorAll('.console-line');
+            if (logs.length > 10) {
+                logs[0].remove();
+            }
+        }
+
+        // Add console activity every 4 seconds
+        setInterval(addConsoleLog, 4000);
+    </script>
+</body>
+</html>

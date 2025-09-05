@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Production - Sistema de Trazabilidad</title>
+    
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a, #1a1a2e);
+            color: white;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .test-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.05);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(0,255,157,0.3);
+        }
+        
+        .test-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            border-left: 4px solid #00ff9d;
+        }
+        
+        .log-output {
+            background: #000;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            border: 1px solid #333;
+        }
+        
+        .btn {
+            background: linear-gradient(45deg, #00ff9d, #00d4aa);
+            color: #0a0a0a;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 5px;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,255,157,0.3);
+        }
+        
+        .btn.danger {
+            background: linear-gradient(45deg, #ef4444, #dc2626);
+            color: white;
+        }
+        
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-weight: 600;
+        }
+        
+        .status.success { background: rgba(16,185,129,0.2); border: 1px solid #10b981; }
+        .status.error { background: rgba(239,68,68,0.2); border: 1px solid #ef4444; }
+        .status.warning { background: rgba(245,158,11,0.2); border: 1px solid #f59e0b; }
+        .status.info { background: rgba(59,130,246,0.2); border: 1px solid #3b82f6; }
+        
+        .test-results {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .test-results { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1>🚀 Test de Producción - Sistema de Trazabilidad</h1>
+            <p>Simulando evaluaciones reales con datos completos para verificar admin panel</p>
+        </div>
+        
+        <div class="test-section">
+            <h3>🔧 Control del Test</h3>
+            <button class="btn" onclick="initializeTest()">🚀 Inicializar</button>
+            <button class="btn" onclick="simulateRealisticEvaluation()">⚡ Simular Evaluación Realista</button>
+            <button class="btn" onclick="checkAdminData()">🔍 Verificar Admin Panel</button>
+            <button class="btn" onclick="openAdminPanel()">👑 Abrir Admin Panel</button>
+            <button class="btn danger" onclick="clearTestData()">🗑️ Limpiar Datos Test</button>
+        </div>
+        
+        <div class="test-results">
+            <div class="test-section">
+                <h3>📊 Estado</h3>
+                <div id="test-status">
+                    <div class="status info">⏳ Esperando inicialización...</div>
+                </div>
+            </div>
+            
+            <div class="test-section">
+                <h3>🎯 Datos Creados</h3>
+                <div id="test-results">
+                    <p>• Usuario Test: <span id="test-user">❓</span></p>
+                    <p>• Match ID: <span id="test-match">❓</span></p>
+                    <p>• Evaluaciones: <span id="test-evaluations">❓</span></p>
+                    <p>• Trazabilidad: <span id="test-traceability">❓</span></p>
+                </div>
+            </div>
+            
+            <div class="test-section">
+                <h3>📋 Admin Panel</h3>
+                <div id="admin-status">
+                    <p>• Registros encontrados: <span id="admin-records">❓</span></p>
+                    <p>• Datos detallados: <span id="admin-details">❓</span></p>
+                    <p>• Vista funcionando: <span id="admin-working">❓</span></p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h3>📋 Log de Ejecución</h3>
+            <div id="log-output" class="log-output">Esperando logs del test...\n</div>
+        </div>
+    </div>
+
+    <script src="js/firebase-simple.js"></script>
+    <script src="js/unified-evaluation-system.js"></script>
+    
+    <script>
+        let testDb = null;
+        let testMatchId = `prod_test_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        let testUserId = null;
+        
+        // Función de logging centralizada
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logOutput = document.getElementById('log-output');
+            const typeEmojis = {
+                info: 'ℹ️',
+                success: '✅', 
+                error: '❌',
+                warning: '⚠️',
+                debug: '🔍'
+            };
+            
+            const logMessage = `[${timestamp}] ${typeEmojis[type] || 'ℹ️'} ${message}\n`;
+            logOutput.textContent += logMessage;
+            logOutput.scrollTop = logOutput.scrollHeight;
+            
+            console.log(`[PRODUCTION-TEST] ${message}`);
+        }
+        
+        function updateStatus(message, type = 'info') {
+            const statusDiv = document.getElementById('test-status');
+            statusDiv.innerHTML = `<div class="status ${type}">${message}</div>`;
+        }
+        
+        function updateResult(elementId, status, isSuccess) {
+            const element = document.getElementById(elementId);
+            element.textContent = isSuccess ? `✅ ${status}` : `❌ ${status}`;
+            element.style.color = isSuccess ? '#10b981' : '#ef4444';
+        }
+        
+        async function initializeTest() {
+            log('🚀 Inicializando test de producción...', 'info');
+            updateStatus('🔄 Conectando con Firebase...', 'info');
+            
+            try {
+                // Verificar Firebase
+                if (!firebase?.apps?.length) {
+                    log('❌ Firebase no inicializado', 'error');
+                    updateStatus('❌ Error: Firebase no disponible', 'error');
+                    return;
+                }
+                
+                testDb = firebase.firestore();
+                log('✅ Firebase conectado', 'success');
+                
+                // Verificar sistemas necesarios
+                if (typeof window.Storage?.logEvaluationTrace === 'function') {
+                    log('✅ Sistema de trazabilidad disponible', 'success');
+                } else {
+                    log('❌ Sistema de trazabilidad no encontrado', 'error');
+                    updateStatus('❌ Error: Sistema de trazabilidad no disponible', 'error');
+                    return;
+                }
+                
+                // Crear datos de test
+                testUserId = `prod_test_user_${Date.now()}`;
+                
+                updateResult('test-user', testUserId, true);
+                updateResult('test-match', testMatchId, true);
+                
+                log(`🎯 Test configurado - Usuario: ${testUserId}, Match: ${testMatchId}`, 'info');
+                updateStatus('✅ Listo para simular evaluación realista', 'success');
+                
+            } catch (error) {
+                log(`❌ Error en inicialización: ${error.message}`, 'error');
+                updateStatus(`❌ Error: ${error.message}`, 'error');
+            }
+        }
+        
+        async function simulateRealisticEvaluation() {
+            log('⚡ Simulando evaluación realista con datos completos...', 'info');
+            updateStatus('🔄 Creando evaluación grupal realista...', 'info');
+            
+            try {
+                // Crear un usuario test más realista
+                const testPlayerData = {
+                    id: testUserId,
+                    displayName: 'Carlos "El Tanque" Rodriguez',
+                    name: 'Carlos Rodriguez',
+                    ovr: 72,
+                    pac: 68,
+                    sho: 75,
+                    pas: 70,
+                    dri: 69,
+                    def: 65,
+                    phy: 78
+                };
+                
+                log(`👤 Creando jugador test: ${testPlayerData.displayName} (OVR: ${testPlayerData.ovr})`, 'info');
+                
+                // Datos de evaluación muy realistas
+                const realisticEvaluations = {
+                    'user_001_juan_perez': {
+                        evaluatorName: 'Juan "Checo" Pérez',
+                        rating: 8,
+                        goals: 2,
+                        tags: ['goleador', 'agresivo', 'lider'],
+                        notes: 'Excelente partido, muy activo en ataque'
+                    },
+                    'user_002_maria_lopez': {
+                        evaluatorName: 'María López',
+                        rating: 7,
+                        goals: 0,
+                        tags: ['solido', 'defensivo'],
+                        notes: 'Buen trabajo en defensa, podría arriesgar más'
+                    },
+                    'user_003_diego_martinez': {
+                        evaluatorName: 'Diego "Martín" Martínez',
+                        rating: 9,
+                        goals: 1,
+                        tags: ['crack', 'tecnico', 'inteligente'],
+                        notes: 'Partido espectacular, gran visión de juego'
+                    },
+                    'user_004_ana_torres': {
+                        evaluatorName: 'Ana Torres',
+                        rating: 6,
+                        goals: 0,
+                        tags: ['esforzado'],
+                        notes: 'Se esforzó pero le faltó precisión'
+                    },
+                    'user_005_pablo_garcia': {
+                        evaluatorName: 'Pablo "Pitu" García',
+                        rating: 8,
+                        goals: 1,
+                        tags: ['rapido', 'habilidoso'],
+                        notes: 'Muy rápido por las bandas, gran asistencia'
+                    },
+                    'user_006_sofia_ruiz': {
+                        evaluatorName: 'Sofía Ruiz',
+                        rating: 7,
+                        goals: 0,
+                        tags: ['constante', 'confiable'],
+                        notes: 'Siempre está en la posición correcta'
+                    },
+                    'user_007_marcos_silva': {
+                        evaluatorName: 'Marcos "El Flaco" Silva',
+                        rating: 8,
+                        goals: 3,
+                        tags: ['goleador', 'oportunista', 'frio'],
+                        notes: 'Hat-trick increíble, muy efectivo'
+                    },
+                    'user_008_lucia_morales': {
+                        evaluatorName: 'Lucía Morales',
+                        rating: 9,
+                        goals: 1,
+                        tags: ['estrella', 'completo', 'lider'],
+                        notes: 'Lideró el equipo, jugó en todas las posiciones'
+                    }
+                };
+                
+                // Calcular estadísticas
+                const ratings = Object.values(realisticEvaluations).map(e => e.rating);
+                const totalGoals = Object.values(realisticEvaluations).reduce((sum, e) => sum + e.goals, 0);
+                const averageRating = ratings.reduce((sum, r) => sum + r, 0) / ratings.length;
+                const allTags = Object.values(realisticEvaluations).flatMap(e => e.tags || []);
+                const uniqueTags = [...new Set(allTags)];
+                
+                log(`📊 Evaluación grupal: ${Object.keys(realisticEvaluations).length} participantes`, 'info');
+                log(`⭐ Rating promedio: ${averageRating.toFixed(1)}/10`, 'info');
+                log(`⚽ Total de goles: ${totalGoals}`, 'info');
+                log(`🏷️ Tags únicos: ${uniqueTags.join(', ')}`, 'info');
+                
+                // Simular cambios en estadísticas
+                const oldOVR = testPlayerData.ovr;
+                const ovrIncrease = Math.round(averageRating - 5); // Rating 8 promedio = +3 OVR
+                const newOVR = Math.min(99, oldOVR + ovrIncrease);
+                
+                const beforeData = {
+                    ovr: oldOVR,
+                    pac: testPlayerData.pac,
+                    sho: testPlayerData.sho,
+                    pas: testPlayerData.pas,
+                    dri: testPlayerData.dri,
+                    def: testPlayerData.def,
+                    phy: testPlayerData.phy
+                };
+                
+                const afterData = {
+                    ovr: newOVR,
+                    pac: testPlayerData.pac + (Math.random() > 0.5 ? 1 : 0),
+                    sho: testPlayerData.sho + (totalGoals > 5 ? 2 : 1),
+                    pas: testPlayerData.pas + (averageRating > 8 ? 2 : 1),
+                    dri: testPlayerData.dri + (uniqueTags.includes('tecnico') ? 2 : 1),
+                    def: testPlayerData.def + (uniqueTags.includes('defensivo') ? 2 : 0),
+                    phy: testPlayerData.phy + (uniqueTags.includes('agresivo') ? 1 : 0)
+                };
+                
+                // Contexto de evaluación completo
+                const evaluationContext = {
+                    matchId: testMatchId,
+                    evaluatorId: 'sistema-produccion-test',
+                    evaluatedUserName: testPlayerData.displayName,
+                    evaluationType: 'evaluacion-grupal-produccion-test',
+                    matchName: `Test Partido - ${new Date().toLocaleDateString()}`,
+                    evaluationData: {
+                        averageRating: parseFloat(averageRating.toFixed(1)),
+                        totalGoals: totalGoals,
+                        totalEvaluators: Object.keys(realisticEvaluations).length,
+                        participationRate: Object.keys(realisticEvaluations).length / 10, // Simular 10 jugadores totales
+                        uniqueTags: uniqueTags,
+                        evaluationsByParticipant: realisticEvaluations,
+                        completedAt: Date.now(),
+                        testMode: true,
+                        productionTest: true
+                    }
+                };
+                
+                log('🔄 Ejecutando logEvaluationTrace con datos completos...', 'debug');
+                
+                // Llamar al sistema de trazabilidad
+                await window.Storage.logEvaluationTrace(testUserId, beforeData, afterData, evaluationContext);
+                
+                log(`✅ Trazabilidad creada exitosamente!`, 'success');
+                log(`📈 ${testPlayerData.displayName}: ${oldOVR} → ${newOVR} (+${newOVR - oldOVR})`, 'success');
+                log(`📝 Registro completo guardado en evaluation_logs`, 'success');
+                
+                updateResult('test-evaluations', `${Object.keys(realisticEvaluations).length} evaluaciones`, true);
+                updateResult('test-traceability', `OVR ${oldOVR} → ${newOVR}`, true);
+                
+                updateStatus('✅ Evaluación realista completada - Datos listos para admin panel', 'success');
+                
+                // Auto-verificar admin panel
+                setTimeout(() => {
+                    checkAdminData();
+                }, 1500);
+                
+            } catch (error) {
+                log(`❌ Error en simulación: ${error.message}`, 'error');
+                updateStatus(`❌ Error: ${error.message}`, 'error');
+            }
+        }
+        
+        async function checkAdminData() {
+            log('🔍 Verificando datos en admin panel...', 'info');
+            updateStatus('🔄 Consultando evaluation_logs para admin...', 'info');
+            
+            try {
+                if (!testDb) {
+                    throw new Error('Base de datos no inicializada');
+                }
+                
+                // Consultar los datos que vería el admin panel (sin orderBy para evitar índice)
+                const snapshot = await testDb.collection('evaluation_logs')
+                    .where('matchId', '==', testMatchId)
+                    .get();
+                
+                log(`📊 Encontrados ${snapshot.size} registros para admin panel`, 'info');
+                
+                if (snapshot.size > 0) {
+                    updateResult('admin-records', `${snapshot.size} registros`, true);
+                    
+                    snapshot.forEach(doc => {
+                        const data = doc.data();
+                        log(`📋 Registro Admin:`, 'debug');
+                        log(`  👤 Jugador: ${data.evaluatedUserName}`, 'debug');
+                        log(`  🎯 Tipo: ${data.evaluationType}`, 'debug');
+                        log(`  📈 OVR: ${data.ovrChange?.before} → ${data.ovrChange?.after} (+${data.ovrChange?.change})`, 'debug');
+                        
+                        if (data.evaluationData?.evaluationsByParticipant) {
+                            const participantCount = Object.keys(data.evaluationData.evaluationsByParticipant).length;
+                            log(`  👥 Participantes: ${participantCount}`, 'debug');
+                            log(`  ⭐ Rating promedio: ${data.evaluationData.averageRating}`, 'debug');
+                            log(`  ⚽ Total goles: ${data.evaluationData.totalGoals}`, 'debug');
+                            
+                            updateResult('admin-details', 'Datos completos disponibles', true);
+                            updateResult('admin-working', 'Sistema funcionando', true);
+                        } else {
+                            updateResult('admin-details', 'Datos incompletos', false);
+                        }
+                    });
+                    
+                    updateStatus('✅ Datos verificados - Admin panel tiene información completa', 'success');
+                    log('🎉 Admin panel tiene todos los datos necesarios para mostrar detalles completos', 'success');
+                    
+                } else {
+                    updateResult('admin-records', 'Sin registros', false);
+                    updateResult('admin-details', 'Sin datos', false);
+                    updateResult('admin-working', 'Sin datos', false);
+                    updateStatus('❌ No se encontraron datos para admin panel', 'error');
+                }
+                
+            } catch (error) {
+                log(`❌ Error verificando admin: ${error.message}`, 'error');
+                updateStatus(`❌ Error en verificación admin: ${error.message}`, 'error');
+            }
+        }
+        
+        function openAdminPanel() {
+            log('👑 Abriendo admin panel...', 'info');
+            window.open('admin.html', '_blank');
+        }
+        
+        async function clearTestData() {
+            log('🗑️ Limpiando datos de test...', 'warning');
+            updateStatus('🔄 Eliminando registros de test...', 'warning');
+            
+            try {
+                if (!testDb) {
+                    throw new Error('Base de datos no inicializada');
+                }
+                
+                // Buscar y eliminar registros de test
+                const snapshot = await testDb.collection('evaluation_logs')
+                    .where('matchId', '==', testMatchId)
+                    .get();
+                
+                const batch = testDb.batch();
+                snapshot.docs.forEach(doc => {
+                    batch.delete(doc.ref);
+                });
+                
+                await batch.commit();
+                
+                log(`🗑️ Eliminados ${snapshot.size} registros de test`, 'success');
+                updateStatus('✅ Datos de test eliminados', 'success');
+                
+                // Resetear resultados
+                updateResult('test-user', '❓', false);
+                updateResult('test-match', '❓', false);
+                updateResult('test-evaluations', '❓', false);
+                updateResult('test-traceability', '❓', false);
+                updateResult('admin-records', '❓', false);
+                updateResult('admin-details', '❓', false);
+                updateResult('admin-working', '❓', false);
+                
+            } catch (error) {
+                log(`❌ Error limpiando datos: ${error.message}`, 'error');
+                updateStatus(`❌ Error: ${error.message}`, 'error');
+            }
+        }
+        
+        // Auto-inicializar
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                log('🔄 Test de producción listo para ejecutar', 'info');
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

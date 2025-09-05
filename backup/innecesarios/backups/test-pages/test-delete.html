@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Delete Match - FC24</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .log {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 14px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        button {
+            background: #00ff9d;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            font-weight: bold;
+        }
+        button:hover {
+            background: #00cc7d;
+        }
+        .danger {
+            background: #ff4444;
+            color: white;
+        }
+        .danger:hover {
+            background: #cc3333;
+        }
+        .match-item {
+            background: #222;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #444;
+        }
+        .match-id {
+            color: #00ff9d;
+            font-weight: bold;
+        }
+    </style>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Test Delete Match - Firebase Diagnostic</h1>
+        
+        <div class="log" id="log">
+            <div>Iniciando diagnóstico...</div>
+        </div>
+        
+        <button onclick="testFirebaseConnection()">🔥 Test Firebase Connection</button>
+        <button onclick="loadMatches()">📋 Load Matches</button>
+        <button onclick="createTestMatch()">➕ Create Test Match</button>
+        <button onclick="deleteAllTestMatches()" class="danger">🗑️ Delete ALL Test Matches</button>
+        
+        <h2>Matches Found:</h2>
+        <div id="matches-list"></div>
+    </div>
+
+    <script src="js/firebase-simple.js"></script>
+    
+    <script>
+        let testMatches = [];
+        
+        function log(message) {
+            const logElement = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            logElement.innerHTML += `<div>[${timestamp}] ${message}</div>`;
+            logElement.scrollTop = logElement.scrollHeight;
+            console.log(message);
+        }
+
+        async function testFirebaseConnection() {
+            log('🔍 Testing Firebase connection...');
+            
+            try {
+                log('📊 Database object: ' + (db ? 'EXISTS' : 'NULL'));
+                log('🆔 Current Group ID: ' + (Storage.currentGroupId || 'NULL'));
+                log('🎮 Demo mode: ' + (Storage.isDemo ? 'YES' : 'NO'));
+                
+                if (!db) {
+                    log('❌ ERROR: Firebase database not initialized!');
+                    return;
+                }
+                
+                if (!Storage.currentGroupId) {
+                    log('⚠️  WARNING: No current group ID set - setting demo group');
+                    Storage.currentGroupId = 'demo-group-test';
+                    log('✅ Group ID set to: ' + Storage.currentGroupId);
+                }
+                
+                // Test basic Firebase read
+                const testRef = db.collection('groups').doc(Storage.currentGroupId);
+                const testDoc = await testRef.get();
+                
+                log('📖 Group document exists: ' + (testDoc.exists ? 'YES' : 'NO'));
+                log('✅ Firebase connection test PASSED');
+                
+            } catch (error) {
+                log('❌ Firebase connection test FAILED: ' + error.message);
+            }
+        }
+
+        async function loadMatches() {
+            log('📋 Loading matches...');
+            
+            try {
+                await Storage.loadMatchesFromFirebase();
+                const matches = Storage.getMatches();
+                
+                log(`📊 Found ${matches.length} matches in storage`);
+                
+                // Display matches
+                const matchesList = document.getElementById('matches-list');
+                matchesList.innerHTML = '';
+                
+                testMatches = matches.filter(m => m.isTest); // Store test matches
+                
+                if (matches.length === 0) {
+                    matchesList.innerHTML = '<div style="color: #888;">No matches found</div>';
+                } else {
+                    matches.forEach(match => {
+                        const isTestMatch = match.isTest ? ' (TEST)' : '';
+                        const div = document.createElement('div');
+                        div.className = 'match-item';
+                        div.innerHTML = `
+                            <div class="match-id">ID: ${match.id}${isTestMatch}</div>
+                            <div>Date: ${match.date || 'N/A'}</div>
+                            <div>Status: ${match.status || 'N/A'}</div>
+                            <button onclick="deleteSpecificMatch('${match.id}')" class="danger">Delete This Match</button>
+                        `;
+                        matchesList.appendChild(div);
+                    });
+                }
+                
+                log('✅ Matches loaded and displayed');
+                
+            } catch (error) {
+                log('❌ Error loading matches: ' + error.message);
+            }
+        }
+
+        async function createTestMatch() {
+            log('➕ Creating test match...');
+            
+            try {
+                const testMatch = {
+                    id: 'test-match-' + Date.now(),
+                    date: new Date().toISOString(),
+                    status: 'pending',
+                    isTest: true,
+                    teamA: {
+                        players: ['test-player-1', 'test-player-2'],
+                        ovr: 75
+                    },
+                    teamB: {
+                        players: ['test-player-3', 'test-player-4'],
+                        ovr: 78
+                    }
+                };
+                
+                log('📝 Test match data: ' + JSON.stringify(testMatch, null, 2));
+                
+                const success = await Storage.addMatch(testMatch);
+                
+                if (success) {
+                    log('✅ Test match created successfully: ' + testMatch.id);
+                    // Reload matches to show the new one
+                    await loadMatches();
+                } else {
+                    log('❌ Failed to create test match');
+                }
+                
+            } catch (error) {
+                log('❌ Error creating test match: ' + error.message);
+            }
+        }
+
+        async function deleteSpecificMatch(matchId) {
+            log(`🗑️  Attempting to delete match: ${matchId}`);
+            
+            try {
+                // First verify match exists
+                const match = Storage.getMatchById(matchId);
+                if (!match) {
+                    log('❌ Match not found in storage: ' + matchId);
+                    return;
+                }
+                
+                log('📋 Match found in storage, proceeding with deletion...');
+                
+                const success = await Storage.deleteMatch(matchId);
+                
+                if (success) {
+                    log('✅ Match deletion reported as successful');
+                    
+                    // Verify it's actually deleted
+                    await Storage.loadMatchesFromFirebase();
+                    const updatedMatch = Storage.getMatchById(matchId);
+                    
+                    if (!updatedMatch) {
+                        log('✅ CONFIRMED: Match successfully deleted from both Firebase and cache');
+                    } else {
+                        log('❌ WARNING: Match still exists after deletion attempt');
+                    }
+                    
+                    // Reload UI
+                    await loadMatches();
+                } else {
+                    log('❌ Match deletion failed');
+                }
+                
+            } catch (error) {
+                log('❌ Error during match deletion: ' + error.message);
+            }
+        }
+
+        async function deleteAllTestMatches() {
+            log('🔥 Deleting ALL test matches...');
+            
+            const testMatches = Storage.getMatches().filter(m => m.isTest);
+            log(`Found ${testMatches.length} test matches to delete`);
+            
+            for (const match of testMatches) {
+                await deleteSpecificMatch(match.id);
+            }
+            
+            log('✅ Finished deleting all test matches');
+        }
+
+        // Auto-run initial tests
+        window.addEventListener('load', async () => {
+            log('🚀 Page loaded, running initial diagnostics...');
+            
+            // Wait a bit for Firebase to initialize
+            setTimeout(async () => {
+                await testFirebaseConnection();
+                await loadMatches();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

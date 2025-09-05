@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opciones de Diseño - Fútbol Stats</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+            padding-bottom: 100px;
+        }
+        
+        h1, h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .option-title {
+            background: #667eea;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        
+        /* NAVEGACIÓN OPCIÓN A - Bottom Navigation */
+        .nav-bottom {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            background: white;
+            border-top: 1px solid #ddd;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+        
+        .nav-bottom button {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            background: transparent;
+            color: #666;
+            font-size: 11px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+        }
+        
+        .nav-bottom button:active {
+            background: #f0f0f0;
+            color: #667eea;
+        }
+        
+        .nav-bottom .icon {
+            font-size: 20px;
+        }
+        
+        /* NAVEGACIÓN OPCIÓN B - Hamburger Menu */
+        .nav-hamburger {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: #667eea;
+            color: white;
+        }
+        
+        .hamburger-btn {
+            font-size: 24px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+        
+        /* NAVEGACIÓN OPCIÓN C - Horizontal Scroll */
+        .nav-scroll {
+            display: flex;
+            overflow-x: auto;
+            gap: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .nav-scroll button {
+            flex-shrink: 0;
+            padding: 10px 20px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        
+        /* NAVEGACIÓN OPCIÓN D - Grid */
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+            padding: 10px;
+            background: #f8f9fa;
+        }
+        
+        .nav-grid button {
+            padding: 15px 10px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        
+        /* TARJETAS DE JUGADOR */
+        
+        /* Opción 1 - Compacta Horizontal */
+        .card-compact {
+            display: flex;
+            align-items: center;
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+        
+        .card-compact .photo {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-right: 12px;
+        }
+        
+        .card-compact .info {
+            flex: 1;
+        }
+        
+        .card-compact .name {
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        
+        .card-compact .stats {
+            font-size: 11px;
+            color: #666;
+        }
+        
+        .card-compact .actions {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .card-compact button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        
+        /* Opción 2 - Estilo FIFA */
+        .card-fifa {
+            width: 150px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            color: white;
+            display: inline-block;
+            margin-right: 10px;
+        }
+        
+        .card-fifa .photo {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 10px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+        }
+        
+        .card-fifa .name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .card-fifa .ovr {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+        
+        .card-fifa .position {
+            background: rgba(255,255,255,0.2);
+            padding: 2px 8px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        
+        .card-fifa .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+            font-size: 10px;
+            margin: 10px 0;
+        }
+        
+        .card-fifa button {
+            width: 100%;
+            padding: 8px;
+            border: none;
+            background: rgba(255,255,255,0.9);
+            color: #667eea;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        /* Opción 3 - Lista Simple */
+        .card-list {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .card-list .left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card-list .emoji {
+            font-size: 24px;
+        }
+        
+        .card-list .player-info {
+            font-weight: 500;
+        }
+        
+        .card-list .position {
+            color: #666;
+            font-size: 12px;
+        }
+        
+        .card-list .ovr {
+            background: #667eea;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .card-list .actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .card-list .actions button {
+            background: transparent;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 5px;
+        }
+        
+        /* Opción 4 - Expandible */
+        .card-expandable {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+        
+        .card-expandable .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            cursor: pointer;
+        }
+        
+        .card-expandable .header:hover {
+            background: #f8f9fa;
+        }
+        
+        .card-expandable .player-basics {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card-expandable .expand-icon {
+            transition: transform 0.3s;
+        }
+        
+        .card-expandable.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+        
+        .card-expandable .details {
+            padding: 0 15px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s, padding 0.3s;
+        }
+        
+        .card-expandable.expanded .details {
+            max-height: 200px;
+            padding: 0 15px 15px;
+        }
+        
+        .card-expandable .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .card-expandable .stat-item {
+            text-align: center;
+            padding: 8px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        .card-expandable .stat-label {
+            font-size: 10px;
+            color: #666;
+        }
+        
+        .card-expandable .stat-value {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎨 Opciones de Diseño - Fútbol Stats</h1>
+    
+    <!-- SECCIÓN DE NAVEGACIÓN -->
+    <div class="section">
+        <h2>📱 Opciones de Menú de Navegación</h2>
+        
+        <div class="option-title">Opción A: Bottom Navigation (Estilo Instagram/TikTok)</div>
+        <p style="margin-bottom: 60px;">Fijo en la parte inferior, siempre visible:</p>
+        
+        <div class="option-title">Opción B: Menú Hamburguesa</div>
+        <div class="nav-hamburger">
+            <span class="hamburger-btn">☰</span>
+            <span>Fútbol Stats</span>
+        </div>
+        
+        <div class="option-title" style="margin-top: 20px;">Opción C: Scroll Horizontal (Pills)</div>
+        <div class="nav-scroll">
+            <button>🏠 Inicio</button>
+            <button>⚽ Partidos</button>
+            <button>👥 Jugadores</button>
+            <button>📊 Estadísticas</button>
+            <button>⚙️ Manual</button>
+            <button>✅ Evaluar</button>
+            <button>👤 Mi Perfil</button>
+        </div>
+        
+        <div class="option-title" style="margin-top: 20px;">Opción D: Grid 2x3</div>
+        <div class="nav-grid">
+            <button>🏠 Inicio</button>
+            <button>⚽ Partidos</button>
+            <button>👥 Jugadores</button>
+            <button>⚙️ Manual</button>
+            <button>📊 Stats</button>
+            <button>👤 Perfil</button>
+        </div>
+    </div>
+    
+    <!-- SECCIÓN DE TARJETAS DE JUGADOR -->
+    <div class="section">
+        <h2>🎴 Opciones de Tarjetas de Jugador</h2>
+        
+        <div class="option-title">Opción 1: Tarjeta Compacta Horizontal</div>
+        <div class="card-compact">
+            <div class="photo">🧑</div>
+            <div class="info">
+                <div class="name">Pela <span style="background: #22aa22; color: white; padding: 2px 6px; border-radius: 3px; font-size: 10px;">MED</span> <span style="font-weight: bold;">OVR: 75</span></div>
+                <div class="stats">PAC: 70 • SHO: 65 • PAS: 80 • DRI: 75 • DEF: 60 • PHY: 72</div>
+            </div>
+            <div class="actions">
+                <button style="background: #3498db; color: white;">Ver</button>
+                <button style="background: #f39c12; color: white;">Edit</button>
+                <button style="background: #e74c3c; color: white;">Del</button>
+            </div>
+        </div>
+        
+        <div class="option-title" style="margin-top: 20px;">Opción 2: Estilo FIFA Card</div>
+        <div style="overflow-x: auto; white-space: nowrap; padding: 10px 0;">
+            <div class="card-fifa">
+                <div class="photo">🧑</div>
+                <div class="name">PELA</div>
+                <div class="ovr">75</div>
+                <div class="position">MED</div>
+                <div class="stats">
+                    <div>PAC<br>70</div>
+                    <div>SHO<br>65</div>
+                    <div>PAS<br>80</div>
+                    <div>DRI<br>75</div>
+                    <div>DEF<br>60</div>
+                    <div>PHY<br>72</div>
+                </div>
+                <button>VER JUGADOR</button>
+            </div>
+            
+            <div class="card-fifa" style="background: linear-gradient(135deg, #f39c12, #e74c3c);">
+                <div class="photo">⚽</div>
+                <div class="name">JULIAN</div>
+                <div class="ovr">82</div>
+                <div class="position">DEL</div>
+                <div class="stats">
+                    <div>PAC<br>85</div>
+                    <div>SHO<br>88</div>
+                    <div>PAS<br>75</div>
+                    <div>DRI<br>80</div>
+                    <div>DEF<br>45</div>
+                    <div>PHY<br>78</div>
+                </div>
+                <button>VER JUGADOR</button>
+            </div>
+        </div>
+        
+        <div class="option-title" style="margin-top: 20px;">Opción 3: Lista Simple con Íconos</div>
+        <div style="border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
+            <div class="card-list">
+                <div class="left">
+                    <span class="emoji">🧑</span>
+                    <div>
+                        <div class="player-info">Pela <span class="position">(MED)</span></div>
+                    </div>
+                    <span class="ovr">75</span>
+                </div>
+                <div class="actions">
+                    <button>👁️</button>
+                    <button>✏️</button>
+                    <button>🗑️</button>
+                </div>
+            </div>
+            <div class="card-list">
+                <div class="left">
+                    <span class="emoji">⚽</span>
+                    <div>
+                        <div class="player-info">Julian <span class="position">(POR)</span></div>
+                    </div>
+                    <span class="ovr">50</span>
+                </div>
+                <div class="actions">
+                    <button>👁️</button>
+                    <button style="opacity: 0.3;">🔒</button>
+                    <button style="opacity: 0.3;">🔒</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="option-title" style="margin-top: 20px;">Opción 4: Tarjeta Expandible</div>
+        <div class="card-expandable" onclick="this.classList.toggle('expanded')">
+            <div class="header">
+                <div class="player-basics">
+                    <span style="font-size: 24px;">🧑</span>
+                    <div>
+                        <strong>Pela</strong>
+                        <span style="background: #22aa22; color: white; padding: 2px 6px; border-radius: 3px; font-size: 10px; margin-left: 5px;">MED</span>
+                        <span style="background: #667eea; color: white; padding: 2px 8px; border-radius: 10px; font-size: 11px; margin-left: 5px;">75</span>
+                    </div>
+                </div>
+                <span class="expand-icon">▼</span>
+            </div>
+            <div class="details">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-label">PAC</div>
+                        <div class="stat-value">70</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">SHO</div>
+                        <div class="stat-value">65</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">PAS</div>
+                        <div class="stat-value">80</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">DRI</div>
+                        <div class="stat-value">75</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">DEF</div>
+                        <div class="stat-value">60</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">PHY</div>
+                        <div class="stat-value">72</div>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button style="flex: 1; padding: 10px; background: #3498db; color: white; border: none; border-radius: 5px;">Ver Detalle</button>
+                    <button style="flex: 1; padding: 10px; background: #f39c12; color: white; border: none; border-radius: 5px;">Editar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bottom Navigation (Opción A) - Siempre visible -->
+    <nav class="nav-bottom">
+        <button>
+            <span class="icon">🏠</span>
+            <span>Inicio</span>
+        </button>
+        <button>
+            <span class="icon">⚽</span>
+            <span>Partidos</span>
+        </button>
+        <button>
+            <span class="icon">👥</span>
+            <span>Jugadores</span>
+        </button>
+        <button>
+            <span class="icon">📊</span>
+            <span>Stats</span>
+        </button>
+        <button>
+            <span class="icon">👤</span>
+            <span>Perfil</span>
+        </button>
+    </nav>
+</body>
+</html>

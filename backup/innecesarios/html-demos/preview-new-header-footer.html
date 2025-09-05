@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preview - Nuevo Header y Footer App.Futbol</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00ff9d;
+            --secondary: #ff00e6;
+            --dark: #0a0e1a;
+            --card: #1a1f2e;
+            --text: #ffffff;
+            --text-secondary: #b8bcc8;
+            --border: rgba(255, 255, 255, 0.1);
+            --success: #00ff9d;
+            --danger: #ff4757;
+            --warning: #ffa502;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #0a0e1a 0%, #1a1f2e 100%);
+            min-height: 100vh;
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* NUEVO HEADER MEJORADO */
+        .header-enhanced {
+            background: rgba(26, 31, 46, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        /* Logo Section */
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: var(--dark);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .logo-text {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        /* Center Stats */
+        .header-stats {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 15px;
+            border-right: 1px solid var(--border);
+        }
+
+        .stat-item:last-child {
+            border-right: none;
+        }
+
+        .stat-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .streak {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 12px;
+            background: rgba(255, 165, 2, 0.1);
+            border: 1px solid rgba(255, 165, 2, 0.3);
+            border-radius: 20px;
+        }
+
+        .streak-fire {
+            font-size: 16px;
+            animation: fire 1s ease-in-out infinite;
+        }
+
+        @keyframes fire {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.1) rotate(-5deg); }
+            75% { transform: scale(1.1) rotate(5deg); }
+        }
+
+        /* User Section */
+        .header-user {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .notifications-bell {
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .notifications-bell:hover {
+            transform: scale(1.1);
+        }
+
+        .bell-icon {
+            font-size: 24px;
+            color: var(--text-secondary);
+        }
+
+        .notif-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--danger);
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 5px;
+            border-radius: 10px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 12px;
+            background: rgba(0, 255, 157, 0.1);
+            border: 1px solid rgba(0, 255, 157, 0.3);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .user-profile:hover {
+            background: rgba(0, 255, 157, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            position: relative;
+        }
+
+        .user-avatar::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 12px;
+            height: 12px;
+            background: #00ff00;
+            border: 2px solid var(--card);
+            border-radius: 50%;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .user-ovr {
+            font-size: 12px;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .ovr-change {
+            display: inline-block;
+            margin-left: 5px;
+            font-size: 10px;
+            color: var(--success);
+            animation: fadeInUp 0.5s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Activity Ticker */
+        .header-ticker {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .ticker-content {
+            display: flex;
+            animation: scroll 30s linear infinite;
+            white-space: nowrap;
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        .ticker-item {
+            padding: 0 30px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .ticker-item span {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 40px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .demo-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+
+        /* NUEVO FOOTER */
+        .footer-enhanced {
+            background: rgba(26, 31, 46, 0.95);
+            border-top: 1px solid var(--border);
+            margin-top: auto;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px 20px 20px;
+        }
+
+        .footer-main {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 40px;
+            margin-bottom: 20px;
+        }
+
+        .footer-section h4 {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .quick-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .quick-link {
+            padding: 8px 16px;
+            background: rgba(0, 255, 157, 0.1);
+            border: 1px solid rgba(0, 255, 157, 0.2);
+            border-radius: 20px;
+            color: var(--text);
+            text-decoration: none;
+            font-size: 13px;
+            transition: all 0.3s ease;
+        }
+
+        .quick-link:hover {
+            background: rgba(0, 255, 157, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .live-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .live-stat {
+            text-align: center;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+        }
+
+        .live-stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+            display: block;
+        }
+
+        .live-stat-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text);
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: var(--primary);
+            color: var(--dark);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* Notifications Dropdown */
+        .notifications-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 10px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            width: 350px;
+            max-height: 400px;
+            overflow-y: auto;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+
+        .notifications-dropdown.active {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .notif-header {
+            padding: 15px;
+            border-bottom: 1px solid var(--border);
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .notif-item {
+            padding: 15px;
+            border-bottom: 1px solid var(--border);
+            transition: background 0.3s ease;
+            display: flex;
+            gap: 12px;
+            align-items: start;
+        }
+
+        .notif-item:hover {
+            background: rgba(0, 255, 157, 0.05);
+        }
+
+        .notif-icon {
+            font-size: 20px;
+            width: 30px;
+            text-align: center;
+        }
+
+        .notif-content {
+            flex: 1;
+        }
+
+        .notif-text {
+            font-size: 13px;
+            color: var(--text);
+            margin-bottom: 5px;
+        }
+
+        .notif-time {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-stats {
+                display: none;
+            }
+
+            .footer-main {
+                grid-template-columns: 1fr;
+            }
+
+            .ticker-content {
+                animation-duration: 20s;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- NUEVO HEADER MEJORADO -->
+    <header class="header-enhanced">
+        <div class="header-content">
+            <div class="header-main">
+                <!-- Logo -->
+                <div class="header-logo">
+                    <div class="logo-icon">⚽</div>
+                    <div class="logo-text">App.Futbol</div>
+                </div>
+
+                <!-- Center Stats -->
+                <div class="header-stats">
+                    <div class="stat-item">
+                        <span class="stat-value">2/5</span>
+                        <span class="stat-label">Partidos Hoy</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">3</span>
+                        <span class="stat-label">Evaluaciones</span>
+                    </div>
+                    <div class="streak">
+                        <span class="streak-fire">🔥</span>
+                        <span style="font-size: 13px; font-weight: 600;">5 días</span>
+                    </div>
+                </div>
+
+                <!-- User Section -->
+                <div class="header-user">
+                    <!-- Notifications -->
+                    <div class="notifications-bell" onclick="toggleNotifications()">
+                        <i class='bx bx-bell bell-icon'></i>
+                        <span class="notif-badge">3</span>
+                        
+                        <!-- Dropdown -->
+                        <div class="notifications-dropdown" id="notifDropdown">
+                            <div class="notif-header">
+                                🔔 Notificaciones
+                            </div>
+                            <div class="notif-item">
+                                <div class="notif-icon">⚡</div>
+                                <div class="notif-content">
+                                    <div class="notif-text"><strong>Marcos</strong> te evaluó: <span style="color: var(--success);">+2 OVR</span></div>
+                                    <div class="notif-time">Hace 5 minutos</div>
+                                </div>
+                            </div>
+                            <div class="notif-item">
+                                <div class="notif-icon">🎯</div>
+                                <div class="notif-content">
+                                    <div class="notif-text">Tienes <strong>2 evaluaciones</strong> pendientes</div>
+                                    <div class="notif-time">Hace 1 hora</div>
+                                </div>
+                            </div>
+                            <div class="notif-item">
+                                <div class="notif-icon">👋</div>
+                                <div class="notif-content">
+                                    <div class="notif-text"><strong>Julian</strong> se unió al grupo</div>
+                                    <div class="notif-time">Hace 2 horas</div>
+                                </div>
+                            </div>
+                            <div class="notif-item">
+                                <div class="notif-icon">🏆</div>
+                                <div class="notif-content">
+                                    <div class="notif-text">Nuevo partido disponible: <strong>5v5 - 18:00hs</strong></div>
+                                    <div class="notif-time">Hace 3 horas</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- User Profile -->
+                    <div class="user-profile">
+                        <div class="user-avatar">👤</div>
+                        <div class="user-info">
+                            <span class="user-name">Pela</span>
+                            <span class="user-ovr">87 OVR <span class="ovr-change">+2</span></span>
+                        </div>
+                        <i class='bx bx-chevron-down' style="font-size: 20px;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Activity Ticker -->
+        <div class="header-ticker">
+            <div class="ticker-content">
+                <div class="ticker-item">
+                    ⚡ <span>Dan</span> subió a 89 OVR
+                </div>
+                <div class="ticker-item">
+                    ✅ <span>Alfredo</span> completó sus evaluaciones
+                </div>
+                <div class="ticker-item">
+                    🎮 Próximo partido en <span>15 minutos</span>
+                </div>
+                <div class="ticker-item">
+                    🏆 <span>Marcos</span> lidera el ranking semanal
+                </div>
+                <div class="ticker-item">
+                    👥 <span>8 jugadores</span> online ahora
+                </div>
+                <div class="ticker-item">
+                    📈 <span>Bruno</span> mejoró +3 en pases
+                </div>
+                <div class="ticker-item">
+                    🔥 <span>Gustavo</span> lleva 10 partidos seguidos
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content (Demo) -->
+    <main class="main-content">
+        <div class="demo-card">
+            <h2 style="margin-bottom: 20px; color: var(--primary);">📱 Nuevo Diseño de Header y Footer</h2>
+            <p style="line-height: 1.6; color: var(--text-secondary);">
+                Este es un preview del nuevo sistema de header y footer con:
+            </p>
+            <ul style="margin: 20px 0; line-height: 1.8; color: var(--text-secondary);">
+                <li>✅ Perfil de usuario con OVR y estado online</li>
+                <li>✅ Sistema de notificaciones en tiempo real</li>
+                <li>✅ Estadísticas rápidas del día</li>
+                <li>✅ Activity ticker con actualizaciones en vivo</li>
+                <li>✅ Footer con links rápidos y stats del sistema</li>
+                <li>✅ Animaciones suaves y efectos hover</li>
+                <li>✅ Diseño responsive para móviles</li>
+            </ul>
+        </div>
+
+        <div class="demo-card">
+            <h3 style="margin-bottom: 15px;">🎨 Características Visuales</h3>
+            <p style="color: var(--text-secondary);">
+                • Blur effect en el header<br>
+                • Animaciones de pulse, bounce y fade<br>
+                • Indicador de estado online<br>
+                • Badges con contadores<br>
+                • Colores consistentes con EA Sports FC<br>
+                • Ticker infinito con noticias
+            </p>
+        </div>
+    </main>
+
+    <!-- NUEVO FOOTER -->
+    <footer class="footer-enhanced">
+        <div class="footer-content">
+            <div class="footer-main">
+                <!-- Quick Links -->
+                <div class="footer-section">
+                    <h4>⚡ Acceso Rápido</h4>
+                    <div class="quick-links">
+                        <a href="#" class="quick-link">Crear Partido</a>
+                        <a href="#" class="quick-link">Estadísticas</a>
+                        <a href="#" class="quick-link">Rankings</a>
+                        <a href="#" class="quick-link">Historial</a>
+                        <a href="#" class="quick-link">Evaluaciones</a>
+                    </div>
+                </div>
+
+                <!-- Live Stats -->
+                <div class="footer-section">
+                    <h4>📊 Sistema en Vivo</h4>
+                    <div class="live-stats">
+                        <div class="live-stat">
+                            <span class="live-stat-value">8</span>
+                            <span class="live-stat-label">Online</span>
+                        </div>
+                        <div class="live-stat">
+                            <span class="live-stat-value">2</span>
+                            <span class="live-stat-label">Partidos</span>
+                        </div>
+                        <div class="live-stat">
+                            <span class="live-stat-value">5m</span>
+                            <span class="live-stat-label">Últ. Update</span>
+                        </div>
+                        <div class="live-stat">
+                            <span class="live-stat-value">87.2</span>
+                            <span class="live-stat-label">OVR Promedio</span>
+                        </div>
+                        <div class="live-stat">
+                            <span class="live-stat-value">156</span>
+                            <span class="live-stat-label">Partidos Total</span>
+                        </div>
+                        <div class="live-stat">
+                            <span class="live-stat-value">94%</span>
+                            <span class="live-stat-label">Evaluaciones</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Social -->
+                <div class="footer-section">
+                    <h4>🌐 Comunidad</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-link">
+                            <i class='bx bxl-whatsapp'></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class='bx bxl-discord-alt'></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class='bx bxl-instagram'></i>
+                        </a>
+                    </div>
+                    <p style="margin-top: 15px; font-size: 13px; color: var(--text-secondary);">
+                        Próximo evento:<br>
+                        <strong style="color: var(--primary);">Torneo Mensual - Sábado 15:00</strong>
+                    </p>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <span>© 2025 App.Futbol - Fútbol en el Galpón</span>
+                <span>v2.0.0 • Firebase Connected • EA Sports Style</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleNotifications() {
+            const dropdown = document.getElementById('notifDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const bell = document.querySelector('.notifications-bell');
+            const dropdown = document.getElementById('notifDropdown');
+            
+            if (!bell.contains(event.target)) {
+                dropdown.classList.remove('active');
+            }
+        });
+
+        // Simulate OVR change animation
+        setTimeout(() => {
+            const ovrChange = document.querySelector('.ovr-change');
+            if (ovrChange) {
+                ovrChange.style.animation = 'fadeInUp 0.5s ease';
+            }
+        }, 2000);
+
+        // Simulate new notification
+        setTimeout(() => {
+            const badge = document.querySelector('.notif-badge');
+            if (badge) {
+                badge.textContent = '4';
+                badge.style.animation = 'bounce 0.5s ease';
+            }
+        }, 5000);
+    </script>
+</body>
+</html>

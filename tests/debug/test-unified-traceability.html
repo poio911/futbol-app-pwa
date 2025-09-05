@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Sistema Unificado de Trazabilidad</title>
+    
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a, #1a1a2e);
+            color: white;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.05);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(0,255,157,0.3);
+        }
+        
+        .test-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            border-left: 4px solid #00ff9d;
+        }
+        
+        .log-output {
+            background: #000;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            border: 1px solid #333;
+        }
+        
+        .btn {
+            background: linear-gradient(45deg, #00ff9d, #00d4aa);
+            color: #0a0a0a;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 5px;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,255,157,0.3);
+        }
+        
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-weight: 600;
+        }
+        
+        .status.success { background: rgba(16,185,129,0.2); border: 1px solid #10b981; }
+        .status.error { background: rgba(239,68,68,0.2); border: 1px solid #ef4444; }
+        .status.warning { background: rgba(245,158,11,0.2); border: 1px solid #f59e0b; }
+        .status.info { background: rgba(59,130,246,0.2); border: 1px solid #3b82f6; }
+        
+        .test-results {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .test-results { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1>🧪 Test del Sistema Unificado de Trazabilidad</h1>
+            <p>Verificando integración de evaluation_logs con unified-evaluation-system.js</p>
+        </div>
+        
+        <div class="test-section">
+            <h3>🔧 Configuración del Test</h3>
+            <button class="btn" onclick="initializeTest()">🚀 Inicializar Test</button>
+            <button class="btn" onclick="simulateEvaluations()">⚡ Simular 8 Evaluaciones</button>
+            <button class="btn" onclick="checkTraceability()">🔍 Verificar Trazabilidad</button>
+            <button class="btn" onclick="clearLogs()">🧹 Limpiar Logs</button>
+        </div>
+        
+        <div class="test-results">
+            <div class="test-section">
+                <h3>📊 Estado del Test</h3>
+                <div id="test-status">
+                    <div class="status info">⏳ Esperando inicialización...</div>
+                </div>
+            </div>
+            
+            <div class="test-section">
+                <h3>🎯 Resultados</h3>
+                <div id="test-results">
+                    <p>• Función logEvaluationTrace: <span id="trace-function">❓</span></p>
+                    <p>• Registros en evaluation_logs: <span id="trace-logs">❓</span></p>
+                    <p>• Trazabilidad completa: <span id="trace-complete">❓</span></p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h3>📋 Log de Ejecución</h3>
+            <div id="log-output" class="log-output">Esperando logs del test...\n</div>
+        </div>
+    </div>
+
+    <script src="js/firebase-simple.js"></script>
+    <script src="js/unified-evaluation-system.js"></script>
+    
+    <script>
+        let testDb = null;
+        let testMatchId = `test_match_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        
+        // Función de logging centralizada
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logOutput = document.getElementById('log-output');
+            const typeEmojis = {
+                info: 'ℹ️',
+                success: '✅', 
+                error: '❌',
+                warning: '⚠️',
+                debug: '🔍'
+            };
+            
+            const logMessage = `[${timestamp}] ${typeEmojis[type] || 'ℹ️'} ${message}\n`;
+            logOutput.textContent += logMessage;
+            logOutput.scrollTop = logOutput.scrollHeight;
+            
+            console.log(`[TEST] ${message}`);
+        }
+        
+        function updateStatus(message, type = 'info') {
+            const statusDiv = document.getElementById('test-status');
+            statusDiv.innerHTML = `<div class="status ${type}">${message}</div>`;
+        }
+        
+        function updateResult(elementId, status, isSuccess) {
+            const element = document.getElementById(elementId);
+            element.textContent = isSuccess ? `✅ ${status}` : `❌ ${status}`;
+            element.style.color = isSuccess ? '#10b981' : '#ef4444';
+        }
+        
+        async function initializeTest() {
+            log('🚀 Inicializando test del sistema de trazabilidad...', 'info');
+            updateStatus('🔄 Inicializando conexiones...', 'info');
+            
+            try {
+                // Verificar Firebase
+                if (!firebase?.apps?.length) {
+                    log('❌ Firebase no inicializado', 'error');
+                    updateStatus('❌ Error: Firebase no disponible', 'error');
+                    return;
+                }
+                
+                testDb = firebase.firestore();
+                log('✅ Firebase conectado correctamente', 'success');
+                
+                // Verificar Storage
+                if (!window.Storage) {
+                    log('❌ Storage no disponible', 'error');
+                    updateStatus('❌ Error: Storage no disponible', 'error');
+                    return;
+                }
+                
+                log('✅ Storage disponible', 'success');
+                
+                // Verificar función de trazabilidad
+                if (typeof window.Storage.logEvaluationTrace === 'function') {
+                    log('✅ Función logEvaluationTrace encontrada', 'success');
+                    updateResult('trace-function', 'Disponible', true);
+                } else {
+                    log('❌ Función logEvaluationTrace no encontrada', 'error');
+                    updateResult('trace-function', 'No disponible', false);
+                    updateStatus('❌ Error: Función de trazabilidad no disponible', 'error');
+                    return;
+                }
+                
+                // Verificar unified-evaluation-system
+                if (typeof window.UnifiedEvaluationSystem !== 'undefined') {
+                    log('✅ UnifiedEvaluationSystem disponible', 'success');
+                } else {
+                    log('⚠️ UnifiedEvaluationSystem no encontrado, continuando...', 'warning');
+                }
+                
+                log(`🎯 Test configurado para partido: ${testMatchId}`, 'info');
+                updateStatus('✅ Inicialización completada - Listo para simular evaluaciones', 'success');
+                
+            } catch (error) {
+                log(`❌ Error en inicialización: ${error.message}`, 'error');
+                updateStatus(`❌ Error en inicialización: ${error.message}`, 'error');
+            }
+        }
+        
+        async function simulateEvaluations() {
+            log('⚡ Iniciando simulación de 8 evaluaciones...', 'info');
+            updateStatus('🔄 Simulando evaluaciones grupales...', 'info');
+            
+            try {
+                // Simular datos de evaluación grupal
+                const mockEvalData = {
+                    matchId: testMatchId,
+                    matchName: 'Test Match - Trazabilidad',
+                    participationRate: 0.8, // 80% participación para activar sistema
+                    evaluations: {
+                        'evaluator_1': { rating: 8, goals: 1 },
+                        'evaluator_2': { rating: 7, goals: 0 },
+                        'evaluator_3': { rating: 9, goals: 2 },
+                        'evaluator_4': { rating: 6, goals: 0 },
+                        'evaluator_5': { rating: 8, goals: 1 },
+                        'evaluator_6': { rating: 7, goals: 0 },
+                        'evaluator_7': { rating: 8, goals: 1 },
+                        'evaluator_8': { rating: 9, goals: 2 }
+                    }
+                };
+                
+                log(`📊 Simulando evaluación grupal con ${Object.keys(mockEvalData.evaluations).length} evaluadores`, 'info');
+                log(`📈 Participación: ${(mockEvalData.participationRate * 100).toFixed(1)}%`, 'info');
+                
+                // Crear usuario de test
+                const testUserId = `test_user_${Date.now()}`;
+                const testPlayerData = {
+                    id: testUserId,
+                    displayName: 'Test Player',
+                    name: 'Test Player',
+                    ovr: 60,
+                    pac: 55,
+                    sho: 65,
+                    pas: 60,
+                    dri: 58,
+                    def: 62,
+                    phy: 59
+                };
+                
+                log(`👤 Usuario de test creado: ${testPlayerData.displayName} (OVR: ${testPlayerData.ovr})`, 'info');
+                
+                // Simular el proceso de actualización unificada
+                const oldOVR = testPlayerData.ovr;
+                const newOVR = oldOVR + 8; // Simular incremento de +8
+                
+                // Crear contexto de evaluación
+                const beforeData = {
+                    ovr: oldOVR,
+                    pac: testPlayerData.pac,
+                    sho: testPlayerData.sho,
+                    pas: testPlayerData.pas,
+                    dri: testPlayerData.dri,
+                    def: testPlayerData.def,
+                    phy: testPlayerData.phy
+                };
+                
+                const afterData = {
+                    ovr: newOVR,
+                    pac: testPlayerData.pac + 1,
+                    sho: testPlayerData.sho + 2,
+                    pas: testPlayerData.pas + 1,
+                    dri: testPlayerData.dri + 1,
+                    def: testPlayerData.def + 2,
+                    phy: testPlayerData.phy + 1
+                };
+                
+                const evaluationContext = {
+                    matchId: testMatchId,
+                    evaluatorId: 'test-unified-system',
+                    evaluatedUserName: testPlayerData.displayName,
+                    evaluationType: 'test-unified-group-completion',
+                    evaluationData: {
+                        participationRate: mockEvalData.participationRate,
+                        totalEvaluators: Object.keys(mockEvalData.evaluations).length,
+                        ovrIncrease: newOVR - oldOVR,
+                        completedAt: Date.now(),
+                        testMode: true
+                    }
+                };
+                
+                log('🔄 Llamando a logEvaluationTrace...', 'debug');
+                
+                // Llamar a la función de trazabilidad
+                await window.Storage.logEvaluationTrace(testUserId, beforeData, afterData, evaluationContext);
+                
+                log(`✅ Trazabilidad creada para ${testPlayerData.displayName}: ${oldOVR} → ${newOVR} (+${newOVR - oldOVR})`, 'success');
+                log('📝 Registro guardado en evaluation_logs collection', 'success');
+                
+                updateStatus('✅ Simulación completada - Verificando trazabilidad...', 'success');
+                
+                // Auto-verificar después de un momento
+                setTimeout(() => {
+                    checkTraceability();
+                }, 2000);
+                
+            } catch (error) {
+                log(`❌ Error en simulación: ${error.message}`, 'error');
+                updateStatus(`❌ Error en simulación: ${error.message}`, 'error');
+            }
+        }
+        
+        async function checkTraceability() {
+            log('🔍 Verificando registros de trazabilidad...', 'info');
+            updateStatus('🔄 Consultando evaluation_logs...', 'info');
+            
+            try {
+                if (!testDb) {
+                    throw new Error('Base de datos no inicializada');
+                }
+                
+                // Consultar evaluation_logs
+                const snapshot = await testDb.collection('evaluation_logs')
+                    .where('matchId', '==', testMatchId)
+                    .get();
+                
+                log(`📊 Encontrados ${snapshot.size} registros en evaluation_logs`, 'info');
+                
+                if (snapshot.size > 0) {
+                    updateResult('trace-logs', `${snapshot.size} registros encontrados`, true);
+                    
+                    snapshot.forEach(doc => {
+                        const data = doc.data();
+                        log(`📋 Registro: ${data.evaluatedUserName} | ${data.evaluationType} | OVR: ${data.ovrChange?.before} → ${data.ovrChange?.after}`, 'debug');
+                        
+                        // Verificar estructura completa
+                        const hasRequiredFields = data.matchId && data.evaluatedUserName && data.changes && data.ovrChange;
+                        if (hasRequiredFields) {
+                            log('✅ Estructura de trazabilidad completa verificada', 'success');
+                            updateResult('trace-complete', 'Estructura válida', true);
+                        } else {
+                            log('⚠️ Estructura de trazabilidad incompleta', 'warning');
+                            updateResult('trace-complete', 'Estructura incompleta', false);
+                        }
+                    });
+                    
+                    updateStatus('✅ Verificación completada - Sistema funcionando correctamente', 'success');
+                    log('🎉 Test completado exitosamente - El sistema de trazabilidad está funcionando!', 'success');
+                    
+                } else {
+                    updateResult('trace-logs', 'No se encontraron registros', false);
+                    updateResult('trace-complete', 'Sin datos', false);
+                    updateStatus('❌ No se encontraron registros de trazabilidad', 'error');
+                    log('❌ No se crearon registros en evaluation_logs', 'error');
+                }
+                
+            } catch (error) {
+                log(`❌ Error verificando trazabilidad: ${error.message}`, 'error');
+                updateStatus(`❌ Error en verificación: ${error.message}`, 'error');
+                updateResult('trace-logs', 'Error en consulta', false);
+                updateResult('trace-complete', 'Error en verificación', false);
+            }
+        }
+        
+        function clearLogs() {
+            document.getElementById('log-output').textContent = 'Logs limpiados...\n';
+            log('🧹 Logs limpiados', 'info');
+        }
+        
+        // Auto-inicializar cuando se cargue la página
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                log('🔄 Página cargada, preparando test...', 'info');
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

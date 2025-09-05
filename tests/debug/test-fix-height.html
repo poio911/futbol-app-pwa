@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Height Fix</title>
+    <link rel="stylesheet" href="css/players-view-enhanced.css">
+    <link rel="stylesheet" href="css/variant1-header-styles.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        body {
+            background: #0a0e1a;
+            color: white;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        
+        .test-card {
+            background: linear-gradient(135deg, #1a1f2e 0%, #232938 100%);
+            border-radius: 15px;
+            border: 1px solid rgba(0, 255, 157, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            max-width: 500px;
+            margin: 20px auto;
+        }
+        
+        .debug-info {
+            background: rgba(255, 255, 0, 0.1);
+            padding: 10px;
+            border: 1px solid yellow;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test de Altura de .player-details</h1>
+    
+    <div class="test-card">
+        <h3>Elemento de Prueba</h3>
+        <div class="player-details">
+            <div class="player-position position-DEL">
+                <i class="bx bx-football"></i>
+                DEL
+            </div>
+            <div class="best-stat">
+                <i class="bx bx-target-lock"></i>
+                TIR 54
+            </div>
+        </div>
+        <div class="debug-info">
+            El elemento .player-details debería tener una altura mínima de 30px y ser visible.
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const detailsEl = document.querySelector('.player-details');
+            if (detailsEl) {
+                const styles = getComputedStyle(detailsEl);
+                console.log('🎨 .player-details computed styles:', {
+                    display: styles.display,
+                    visibility: styles.visibility,
+                    opacity: styles.opacity,
+                    width: styles.width,
+                    height: styles.height,
+                    minHeight: styles.minHeight
+                });
+                
+                // Mostrar info en pantalla también
+                const debugDiv = document.querySelector('.debug-info');
+                debugDiv.innerHTML += `<br><strong>Computed Height:</strong> ${styles.height}<br><strong>Min-Height:</strong> ${styles.minHeight}`;
+            }
+        });
+    </script>
+</body>
+</html>

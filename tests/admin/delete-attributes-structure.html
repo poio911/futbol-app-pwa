@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🗑️ Eliminar Estructura Attributes - DEFINITIVO</title>
+    
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a, #1a1a2e);
+            color: white;
+            padding: 20px;
+            margin: 0;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.05);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(255,0,0,0.5);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #ff4444;
+            margin-bottom: 30px;
+        }
+        
+        .section {
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            border-left: 4px solid #ff4444;
+        }
+        
+        button {
+            background: linear-gradient(45deg, #ff4444, #cc3333);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 5px;
+            transition: all 0.3s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255,68,68,0.3);
+        }
+        
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .log-output {
+            background: #000;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            border: 1px solid #333;
+            margin-top: 15px;
+        }
+        
+        .warning {
+            background: rgba(255, 68, 68, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #ff4444;
+            margin: 15px 0;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .stat-card {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #ff4444;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🗑️ ELIMINAR ESTRUCTURA ATTRIBUTES - DEFINITIVO</h1>
+        
+        <div class="warning">
+            <h2>⚠️ ADVERTENCIA CRÍTICA</h2>
+            <p><strong>Esta acción es IRREVERSIBLE y eliminará permanentemente:</strong></p>
+            <ul>
+                <li>Toda la estructura "attributes" de TODOS los jugadores</li>
+                <li>Solo mantendrá los campos directos (pac, sho, pas, dri, def, phy)</li>
+                <li>No hay forma de recuperar los datos una vez eliminados</li>
+            </ul>
+        </div>
+        
+        <!-- Fase 1: Análisis -->
+        <div class="section">
+            <h2>📊 Paso 1: Analizar Jugadores</h2>
+            
+            <button onclick="analyzePlayersForDeletion()">🔍 Analizar Estructura Actual</button>
+            
+            <div class="stats" id="analysis-stats"></div>
+            <div id="analysis-results"></div>
+        </div>
+        
+        <!-- Fase 2: Eliminación -->
+        <div class="section">
+            <h2>🗑️ Paso 2: Eliminar Attributes</h2>
+            <p><strong>Solo presiona si estás ABSOLUTAMENTE SEGURO</strong></p>
+            
+            <button onclick="deleteAllAttributes()" disabled id="deleteBtn">
+                ☠️ ELIMINAR ATTRIBUTES DE TODOS LOS JUGADORES
+            </button>
+            
+            <div class="log-output" id="deletion-log" style="display: none;">Esperando eliminación...</div>
+        </div>
+        
+        <!-- Fase 3: Verificación -->
+        <div class="section">
+            <h2>✅ Paso 3: Verificación Final</h2>
+            
+            <button onclick="verifyDeletion()" disabled id="verifyBtn">🎯 Verificar Eliminación Completa</button>
+            <div id="verification-results"></div>
+        </div>
+    </div>
+
+    <script>
+        // Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyAes7EVn8hQswS8XgvDMJfN6U4IT_ZL_WY",
+            authDomain: "mil-disculpis.firebaseapp.com",
+            databaseURL: "https://mil-disculpis-default-rtdb.firebaseio.com",
+            projectId: "mil-disculpis",
+            storageBucket: "mil-disculpis.firebasestorage.app",
+            messagingSenderId: "5614567933",
+            appId: "1:5614567933:web:0dce7bf37b8325c0861994",
+            measurementId: "G-EMLP4TKXKR"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        
+        let playersWithAttributes = [];
+        
+        function log(message, type = 'info') {
+            const logOutput = document.getElementById('deletion-log');
+            logOutput.style.display = 'block';
+            const timestamp = new Date().toLocaleTimeString();
+            const emoji = type === 'error' ? '❌' : type === 'success' ? '✅' : type === 'warning' ? '⚠️' : 'ℹ️';
+            logOutput.textContent += `[${timestamp}] ${emoji} ${message}\n`;
+            logOutput.scrollTop = logOutput.scrollHeight;
+            console.log(`[DELETE] ${message}`);
+        }
+        
+        async function analyzePlayersForDeletion() {
+            log('🔍 Analizando estructura de todos los jugadores...', 'info');
+            
+            const statsDiv = document.getElementById('analysis-stats');
+            const resultsDiv = document.getElementById('analysis-results');
+            
+            statsDiv.innerHTML = '<div class="stat-card"><div class="stat-number">⏳</div><div>Analizando...</div></div>';
+            
+            try {
+                const snapshot = await db.collection('futbol_users').get();
+                playersWithAttributes = [];
+                
+                let totalPlayers = 0;
+                let withAttributes = 0;
+                let withDirectFields = 0;
+                let withBoth = 0;
+                
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    totalPlayers++;
+                    
+                    const hasAttributes = data.attributes && Object.keys(data.attributes).length > 0;
+                    const hasDirectFields = data.pac !== undefined;
+                    
+                    if (hasAttributes) {
+                        withAttributes++;
+                        playersWithAttributes.push({
+                            id: doc.id,
+                            ref: doc.ref,
+                            name: data.displayName || data.name || doc.id,
+                            hasDirectFields: hasDirectFields
+                        });
+                        
+                        if (hasDirectFields) {
+                            withBoth++;
+                        }
+                    }
+                    
+                    if (hasDirectFields) {
+                        withDirectFields++;
+                    }
+                });
+                
+                log(`✅ Análisis completado: ${totalPlayers} jugadores encontrados`, 'success');
+                log(`📊 Con estructura attributes: ${withAttributes}`, 'warning');
+                log(`📊 Con campos directos: ${withDirectFields}`, 'info');
+                log(`📊 Con ambas estructuras: ${withBoth}`, 'warning');
+                
+                statsDiv.innerHTML = `
+                    <div class="stat-card">
+                        <div class="stat-number">${totalPlayers}</div>
+                        <div>Total Jugadores</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${withAttributes}</div>
+                        <div>Con Attributes</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${withDirectFields}</div>
+                        <div>Con Campos Directos</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${withBoth}</div>
+                        <div>Con Ambas</div>
+                    </div>
+                `;
+                
+                if (withAttributes > 0) {
+                    document.getElementById('deleteBtn').disabled = false;
+                    resultsDiv.innerHTML = `
+                        <div class="warning" style="margin-top: 20px;">
+                            <h4>⚠️ Se eliminarán attributes de ${withAttributes} jugadores</h4>
+                            <p>Asegúrate de que estos jugadores tienen campos directos antes de eliminar.</p>
+                            <p><strong>${withBoth} jugadores</strong> tienen ambas estructuras (SEGURO para eliminar attributes)</p>
+                            <p><strong>${withAttributes - withBoth} jugadores</strong> SOLO tienen attributes (PELIGRO - perderían datos)</p>
+                        </div>
+                    `;
+                } else {
+                    resultsDiv.innerHTML = `
+                        <div style="background: rgba(16,185,129,0.2); padding: 15px; border-radius: 8px; border: 1px solid #10b981;">
+                            <h4>✅ No hay estructura attributes para eliminar</h4>
+                            <p>Todos los jugadores ya están usando únicamente campos directos.</p>
+                        </div>
+                    `;
+                }
+                
+            } catch (error) {
+                log(`❌ Error en análisis: ${error.message}`, 'error');
+            }
+        }
+        
+        async function deleteAllAttributes() {
+            if (playersWithAttributes.length === 0) {
+                alert('Primero ejecuta el análisis');
+                return;
+            }
+            
+            const confirmMessage = `¿ESTÁS ABSOLUTAMENTE SEGURO de eliminar la estructura "attributes" de ${playersWithAttributes.length} jugadores?\n\n⚠️ ESTO ES IRREVERSIBLE ⚠️\n\n¿CONTINUAR?`;
+            
+            if (!confirm(confirmMessage)) {
+                return;
+            }
+            
+            if (!confirm('ÚLTIMA CONFIRMACIÓN:\n\n¿Realmente quieres ELIMINAR PERMANENTEMENTE todos los "attributes"?')) {
+                return;
+            }
+            
+            log(`🗑️ Iniciando eliminación de attributes de ${playersWithAttributes.length} jugadores...`, 'warning');
+            
+            let processed = 0;
+            let successful = 0;
+            let failed = 0;
+            
+            // Usar batch para operaciones más eficientes
+            const batchSize = 100;
+            
+            for (let i = 0; i < playersWithAttributes.length; i += batchSize) {
+                const batch = db.batch();
+                const currentBatch = playersWithAttributes.slice(i, i + batchSize);
+                
+                currentBatch.forEach(player => {
+                    batch.update(player.ref, {
+                        attributes: firebase.firestore.FieldValue.delete(),
+                        attributesDeletedAt: Date.now(),
+                        attributesDeletedBy: 'delete-attributes-tool'
+                    });
+                });
+                
+                try {
+                    await batch.commit();
+                    successful += currentBatch.length;
+                    processed += currentBatch.length;
+                    
+                    log(`✅ Batch ${Math.floor(i/batchSize) + 1}: ${currentBatch.length} jugadores procesados`, 'success');
+                    
+                    // Log individual players
+                    currentBatch.forEach(player => {
+                        log(`   ✓ ${player.name}: attributes eliminados`, 'success');
+                    });
+                    
+                } catch (error) {
+                    failed += currentBatch.length;
+                    processed += currentBatch.length;
+                    log(`❌ Error en batch: ${error.message}`, 'error');
+                }
+                
+                // Small delay between batches
+                await new Promise(resolve => setTimeout(resolve, 500));
+            }
+            
+            log(`🎯 Eliminación completada: ${successful} exitosos, ${failed} fallidos de ${playersWithAttributes.length} total`, 'success');
+            
+            if (successful === playersWithAttributes.length) {
+                log('🎉 ¡TODOS los attributes han sido eliminados exitosamente!', 'success');
+            }
+            
+            // Enable verification
+            document.getElementById('verifyBtn').disabled = false;
+        }
+        
+        async function verifyDeletion() {
+            log('🎯 Verificando eliminación completa...', 'info');
+            
+            const resultsDiv = document.getElementById('verification-results');
+            resultsDiv.innerHTML = '<p>🔍 Verificando...</p>';
+            
+            try {
+                const snapshot = await db.collection('futbol_users').get();
+                let totalPlayers = 0;
+                let stillHaveAttributes = 0;
+                let cleanPlayers = 0;
+                let problemPlayers = [];
+                
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    totalPlayers++;
+                    
+                    const hasAttributes = data.attributes && Object.keys(data.attributes).length > 0;
+                    
+                    if (hasAttributes) {
+                        stillHaveAttributes++;
+                        problemPlayers.push(data.displayName || data.name || doc.id);
+                    } else {
+                        cleanPlayers++;
+                    }
+                });
+                
+                const success = stillHaveAttributes === 0;
+                
+                resultsDiv.innerHTML = `
+                    <div style="padding: 20px; border-radius: 8px; background: ${success ? 'rgba(16,185,129,0.2)' : 'rgba(255,68,68,0.2)'}; border: 1px solid ${success ? '#10b981' : '#ff4444'};">
+                        <h3>${success ? '🎉 ¡ELIMINACIÓN COMPLETA!' : '⚠️ Aún quedan attributes'}</h3>
+                        <div class="stats">
+                            <div class="stat-card">
+                                <div class="stat-number">${totalPlayers}</div>
+                                <div>Total Jugadores</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" style="color: #10b981;">${cleanPlayers}</div>
+                                <div>Sin Attributes</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" style="color: #ff4444;">${stillHaveAttributes}</div>
+                                <div>Aún con Attributes</div>
+                            </div>
+                        </div>
+                        ${success ? `
+                            <p><strong>✅ Todos los jugadores ahora usan ÚNICAMENTE campos directos</strong></p>
+                            <p>La estructura "attributes" ha sido completamente eliminada.</p>
+                        ` : `
+                            <p><strong>⚠️ ${stillHaveAttributes} jugadores aún tienen attributes</strong></p>
+                            <p>Jugadores con problemas: ${problemPlayers.join(', ')}</p>
+                        `}
+                    </div>
+                `;
+                
+                log(`✅ Verificación completada: ${cleanPlayers}/${totalPlayers} sin attributes`, success ? 'success' : 'warning');
+                
+            } catch (error) {
+                log(`❌ Error en verificación: ${error.message}`, 'error');
+            }
+        }
+        
+        // Auto-start
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                log('☠️ Herramienta de eliminación de attributes iniciada', 'warning');
+                log('⚠️ Esta herramienta eliminará PERMANENTEMENTE la estructura attributes', 'warning');
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

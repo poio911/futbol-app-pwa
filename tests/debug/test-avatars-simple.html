@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Avatars Simple</title>
+    <style>
+        body {
+            background: #0a0e1a;
+            color: white;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        
+        .player-photo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+            margin: 10px;
+            display: inline-block;
+        }
+        
+        .player-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        
+        .avatar-initials {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+            border-radius: 50%;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        
+        .test-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test de Avatares - Debug</h1>
+    <div class="test-container" id="test-container"></div>
+
+    <script>
+        // Copy the exact functions from test-app.js
+        const TestUtils = {
+            getPlayerInitials(name) {
+                if (!name || name === 'Jugador') return '?';
+                const parts = name.trim().split(' ');
+                if (parts.length >= 2) {
+                    return parts[0].charAt(0).toUpperCase() + parts[parts.length - 1].charAt(0).toUpperCase();
+                }
+                return name.charAt(0).toUpperCase();
+            },
+
+            generateConsistentColors(name) {
+                if (!name) name = 'Default';
+                
+                let hash = 0;
+                for (let i = 0; i < name.length; i++) {
+                    hash = name.charCodeAt(i) + ((hash << 5) - hash);
+                }
+                
+                const colorPalettes = [
+                    { background: '#FF6B6B', text: '#FFFFFF' },
+                    { background: '#4ECDC4', text: '#FFFFFF' },
+                    { background: '#45B7D1', text: '#FFFFFF' },
+                    { background: '#96CEB4', text: '#FFFFFF' },
+                    { background: '#FFEAA7', text: '#2D3436' },
+                    { background: '#DDA0DD', text: '#FFFFFF' },
+                    { background: '#98D8C8', text: '#2D3436' },
+                    { background: '#F7DC6F', text: '#2D3436' },
+                    { background: '#BB8FCE', text: '#FFFFFF' },
+                    { background: '#85C1E9', text: '#FFFFFF' },
+                    { background: '#F8C471', text: '#2D3436' },
+                    { background: '#82E0AA', text: '#2D3436' },
+                ];
+                
+                const colorIndex = Math.abs(hash) % colorPalettes.length;
+                return colorPalettes[colorIndex];
+            },
+
+            getPlayerPhotoHtml(player) {
+                if (player && player.photo) {
+                    return `<img src="${player.photo}" alt="${player.name || 'Jugador'}">`;
+                }
+                
+                const playerName = player ? player.name : '';
+                const initials = this.getPlayerInitials(playerName);
+                const colors = this.generateConsistentColors(playerName);
+                
+                return `<div class="avatar-initials" style="background: ${colors.background}; color: ${colors.text};">${initials}</div>`;
+            }
+        };
+
+        // Test players
+        const testPlayers = [
+            { name: 'Juan Pérez', photo: null },
+            { name: 'María García', photo: null },
+            { name: 'Carlos López', photo: null },
+            { name: 'Ana Rodríguez', photo: null },
+            { name: 'Pedro', photo: null },
+            { name: '', photo: null },
+            { name: 'Pela', photo: 'https://example.com/photo.jpg' }, // This will show as broken image
+        ];
+
+        const container = document.getElementById('test-container');
+        
+        testPlayers.forEach(player => {
+            const photoHtml = TestUtils.getPlayerPhotoHtml(player);
+            console.log(`Player: ${player.name}, HTML: ${photoHtml}`);
+            
+            const avatarDiv = document.createElement('div');
+            avatarDiv.innerHTML = `
+                <div class="player-photo">
+                    ${photoHtml}
+                </div>
+                <p>${player.name || 'Sin nombre'}</p>
+            `;
+            container.appendChild(avatarDiv);
+        });
+    </script>
+</body>
+</html>

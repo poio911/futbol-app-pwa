@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preview - Estilos de Evaluación</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00ff9d;
+            --secondary: #ff00e6;
+            --dark: #0a0e1a;
+            --card-bg: #1a1f2e;
+            --text-light: #ffffff;
+            --text-secondary: #b8bcc8;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0e1a, #1a1f2e);
+            color: var(--text-light);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2.5em;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        /* OPCIÓN 1: ESTILO MINIMALISTA OSCURO */
+        .option-1 {
+            background: #0a0e1a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+        }
+
+        .option-1 h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .option-1 .player-info {
+            background: rgba(26, 31, 46, 0.5);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .option-1 .player-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .option-1 .tags-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .option-1 .tag-btn {
+            background: #1a1f2e;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: visible;
+            text-align: center;
+        }
+
+        .option-1 .tag-btn:hover {
+            background: rgba(0, 255, 157, 0.1);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .option-1 .tag-btn.selected {
+            background: linear-gradient(135deg, rgba(0, 255, 157, 0.2), rgba(255, 0, 230, 0.1));
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(0, 255, 157, 0.3);
+        }
+
+        .option-1 .tag-tooltip {
+            position: absolute;
+            bottom: calc(100% + 10px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: #0a0e1a;
+            border: 1px solid var(--primary);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 11px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+        }
+
+        .option-1 .tag-btn.selected .tag-tooltip,
+        .option-1 .tag-btn:hover .tag-tooltip {
+            opacity: 1;
+        }
+
+        /* OPCIÓN 2: ESTILO CARD NEOMÓRFICO */
+        .option-2 {
+            background: linear-gradient(145deg, #1e2330, #161a26);
+            box-shadow: 20px 20px 60px #0d1018, -20px -20px 60px #272d40;
+            border-radius: 25px;
+            padding: 35px;
+        }
+
+        .option-2 h2 {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 25px;
+            font-size: 1.6em;
+        }
+
+        .option-2 .player-info {
+            background: linear-gradient(145deg, #161a26, #1e2330);
+            box-shadow: inset 5px 5px 10px #0d1018, inset -5px -5px 10px #272d40;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .option-2 .tags-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .option-2 .tag-btn {
+            background: linear-gradient(145deg, #1e2330, #161a26);
+            box-shadow: 5px 5px 10px #0d1018, -5px -5px 10px #272d40;
+            border: none;
+            padding: 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .option-2 .tag-btn:hover {
+            box-shadow: inset 5px 5px 10px #0d1018, inset -5px -5px 10px #272d40;
+        }
+
+        .option-2 .tag-btn.selected {
+            background: linear-gradient(145deg, var(--primary), var(--secondary));
+            color: var(--dark);
+            box-shadow: 0 0 20px rgba(0, 255, 157, 0.5);
+        }
+
+        .option-2 .tag-tooltip {
+            position: absolute;
+            width: 100%;
+            top: calc(100% + 5px);
+            left: 0;
+            background: linear-gradient(145deg, #1e2330, #161a26);
+            border: 1px solid var(--primary);
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 12px;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 10;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .option-2 .tag-btn.selected .tag-tooltip {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* OPCIÓN 3: ESTILO EA SPORTS VIBRANTE */
+        .option-3 {
+            background: linear-gradient(135deg, #1a1f2e, #0f141e);
+            border: 2px solid var(--primary);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 255, 157, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option-3::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(0, 255, 157, 0.1), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .option-3 h2 {
+            color: var(--text-light);
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .option-3 .player-info {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(0, 255, 157, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .option-3 .tags-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .option-3 .tag-btn {
+            background: rgba(26, 31, 46, 0.8);
+            backdrop-filter: blur(10px);
+            border: 2px solid transparent;
+            padding: 14px 8px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            text-align: center;
+            overflow: visible;
+        }
+
+        .option-3 .tag-btn .icon {
+            font-size: 24px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .option-3 .tag-btn .label {
+            font-size: 11px;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        .option-3 .tag-btn:hover {
+            background: rgba(0, 255, 157, 0.15);
+            border-color: var(--primary);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 255, 157, 0.3);
+        }
+
+        .option-3 .tag-btn.selected {
+            background: linear-gradient(135deg, rgba(0, 255, 157, 0.3), rgba(255, 0, 230, 0.2));
+            border-color: var(--primary);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 157, 0.5); }
+            50% { box-shadow: 0 0 30px rgba(0, 255, 157, 0.8); }
+        }
+
+        .option-3 .tag-tooltip {
+            position: absolute;
+            width: calc(100% + 20px);
+            top: calc(100% + 8px);
+            left: -10px;
+            background: linear-gradient(135deg, #0a0e1a, #1a1f2e);
+            border: 1px solid var(--primary);
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 11px;
+            color: var(--text-secondary);
+            opacity: 0;
+            transform: translateY(-5px);
+            transition: all 0.3s ease;
+            z-index: 100;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.8);
+            text-align: center;
+        }
+
+        .option-3 .tag-btn.selected .tag-tooltip {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Acciones del modal */
+        .modal-actions {
+            margin-top: 25px;
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: var(--dark);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Contador de tags */
+        .tag-counter {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--primary);
+            color: var(--dark);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎮 Preview - Estilos de Modal de Evaluación</h1>
+        
+        <div class="options-grid">
+            <!-- OPCIÓN 1: MINIMALISTA OSCURO -->
+            <div class="option-1">
+                <span class="tag-counter">0/3</span>
+                <h2>Opción 1: Minimalista</h2>
+                <div class="player-info">
+                    <div class="player-avatar">⚽</div>
+                    <div>
+                        <div style="font-weight: bold;">Juan Pérez</div>
+                        <div style="font-size: 14px; color: #888;">Delantero - OVR 75</div>
+                    </div>
+                </div>
+                <div class="tags-grid">
+                    <div class="tag-btn selected">
+                        <div style="font-size: 20px;">🎯</div>
+                        <div style="font-size: 12px;">La pone donde quiere</div>
+                        <div class="tag-tooltip">Gran precisión en los pases... la pelota, obvio</div>
+                    </div>
+                    <div class="tag-btn">
+                        <div style="font-size: 20px;">🕺</div>
+                        <div style="font-size: 12px;">Baila solo</div>
+                        <div class="tag-tooltip">Tan bueno que no necesita compañía</div>
+                    </div>
+                    <div class="tag-btn">
+                        <div style="font-size: 20px;">🧛</div>
+                        <div style="font-size: 12px;">Modo Suárez</div>
+                        <div class="tag-tooltip">Goleador nato con tendencia a morder</div>
+                    </div>
+                    <div class="tag-btn">
+                        <div style="font-size: 20px;">📶</div>
+                        <div style="font-size: 12px;">WiFi del vecino</div>
+                        <div class="tag-tooltip">A veces anda, a veces no</div>
+                    </div>
+                    <div class="tag-btn">
+                        <div style="font-size: 20px;">💕</div>
+                        <div style="font-size: 12px;">Tinder</div>
+                        <div class="tag-tooltip">Define rápido pero no se queda mucho</div>
+                    </div>
+                    <div class="tag-btn">
+                        <div style="font-size: 20px;">🧉</div>
+                        <div style="font-size: 12px;">Mate amargo</div>
+                        <div class="tag-tooltip">Fuerte y sin azúcar, como debe ser</div>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn btn-secondary">Omitir</button>
+                    <button class="btn btn-primary">Siguiente →</button>
+                </div>
+            </div>
+
+            <!-- OPCIÓN 2: NEOMÓRFICO -->
+            <div class="option-2">
+                <span class="tag-counter">1/3</span>
+                <h2>Opción 2: Neomórfico</h2>
+                <div class="player-info">
+                    <div style="font-size: 40px;">👤</div>
+                    <div>
+                        <div style="font-weight: bold; font-size: 18px;">Carlos González</div>
+                        <div style="color: var(--primary);">Mediocampista - OVR 82</div>
+                    </div>
+                </div>
+                <div class="tags-grid">
+                    <div class="tag-btn selected">
+                        <span class="icon">🚗</span>
+                        <span class="label">Uber</span>
+                        <div class="tag-tooltip">Siempre llega justo a tiempo al área</div>
+                    </div>
+                    <div class="tag-btn">
+                        <span class="icon">📺</span>
+                        <span class="label">Netflix</span>
+                        <div class="tag-tooltip">Se la pasa mirando series... de jugadas del rival</div>
+                    </div>
+                    <div class="tag-btn">
+                        <span class="icon">🏗️</span>
+                        <span class="label">Arquitecto</span>
+                        <div class="tag-tooltip">Construye jugadas mejor que el estadio del Wanderers</div>
+                    </div>
+                    <div class="tag-btn">
+                        <span class="icon">🥩</span>
+                        <span class="label">El del asado</span>
+                        <div class="tag-tooltip">Une al equipo... con choripanes</div>
+                    </div>
+                    <div class="tag-btn">
+                        <span class="icon">📱</span>
+                        <span class="label">WhatsApp</span>
+                        <div class="tag-tooltip">Siempre conectado con los compañeros</div>
+                    </div>
+                    <div class="tag-btn">
+                        <span class="icon">🎧</span>
+                        <span class="label">Spotify</span>
+                        <div class="tag-tooltip">Siempre con ritmo</div>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn btn-secondary">Omitir</button>
+                    <button class="btn btn-primary">Siguiente →</button>
+                </div>
+            </div>
+
+            <!-- OPCIÓN 3: EA SPORTS -->
+            <div class="option-3">
+                <span class="tag-counter">2/3</span>
+                <h2>OPCIÓN 3: EA SPORTS</h2>
+                <div class="player-info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div style="font-weight: bold; font-size: 20px; color: var(--primary);">Luis Rodríguez</div>
+                            <div style="color: var(--text-secondary);">Defensor Central</div>
+                        </div>
+                        <div style="font-size: 48px; font-weight: bold; color: var(--primary);">88</div>
+                    </div>
+                </div>
+                <div class="tags-grid">
+                    <div class="tag-btn selected">
+                        <span class="icon">🧊</span>
+                        <span class="label">Pecho frío Higuaín</span>
+                        <div class="tag-tooltip">En los momentos importantes... mejor no</div>
+                    </div>
+                    <div class="tag-btn selected">
+                        <span class="icon">🟨</span>
+                        <span class="label">Coleccionista</span>
+                        <div class="tag-tooltip">Colecciona amarillas como figuritas</div>
+                    </div>
+                    <div class="tag-btn">
+                        <span class="icon">🚩</span>
+                        <span class="label">Offside eterno</span>
+                        <div class="tag-tooltip">Siempre adelantado... hasta en la fila del súper</div>
+                    </div>
+                    <div class="tag-btn">
+                        <span class="icon">📹</span>
+                        <span class="label">VAR amigo</span>
+                        <div class="tag-tooltip">El VAR siempre lo favorece... sospechoso</div>
+                    </div>
+                    <div class="tag-btn">
+                        <span class="icon">🎩</span>
+                        <span class="label">Caño maestro</span>
+                        <div class="tag-tooltip">Especialista en humillar rivales</div>
+                    </div>
+                    <div class="tag-btn">
+                        <span class="icon">🔄</span>
+                        <span class="label">Amague fatal</span>
+                        <div class="tag-tooltip">Amaga tanto que se marea él mismo</div>
+                    </div>
+                    <div class="tag-btn">
+                        <span class="icon">💳</span>
+                        <span class="label">Billetera</span>
+                        <div class="tag-tooltip">Siempre saca y asiste... como cuando paga el asado</div>
+                    </div>
+                    <div class="tag-btn">
+                        <span class="icon">📸</span>
+                        <span class="label">Instagram</span>
+                        <div class="tag-tooltip">Más preocupado por la foto que por el gol</div>
+                    </div>
+                    <div class="tag-btn">
+                        <span class="icon">🎵</span>
+                        <span class="label">TikTok</span>
+                        <div class="tag-tooltip">Bailes increíbles, defensa cuestionable</div>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn btn-secondary">Omitir</button>
+                    <button class="btn btn-primary">Finalizar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simulación de interacción
+        document.querySelectorAll('.tag-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const parent = this.closest('.option-1, .option-2, .option-3');
+                const selected = parent.querySelectorAll('.tag-btn.selected').length;
+                
+                if (this.classList.contains('selected')) {
+                    this.classList.remove('selected');
+                } else if (selected < 3) {
+                    this.classList.add('selected');
+                }
+                
+                // Actualizar contador
+                const newCount = parent.querySelectorAll('.tag-btn.selected').length;
+                const counter = parent.querySelector('.tag-counter');
+                if (counter) {
+                    counter.textContent = `${newCount}/3`;
+                    counter.style.background = newCount === 3 ? 'linear-gradient(90deg, var(--primary), var(--secondary))' : 'var(--primary)';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

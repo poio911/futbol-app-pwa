@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Storage Functions</title>
+    <style>
+        body { font-family: monospace; padding: 20px; background: #000; color: #0f0; }
+        .success { color: #0f0; }
+        .error { color: #f00; }
+        .warning { color: #ff0; }
+        .method { margin: 5px 0; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Storage Functions Debug</h1>
+    <div id="output"></div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    
+    <!-- Our Firebase Simple -->
+    <script src="js/firebase-simple.js"></script>
+
+    <script>
+        const output = document.getElementById('output');
+        
+        function log(message, type = 'success') {
+            const div = document.createElement('div');
+            div.className = `method ${type}`;
+            div.textContent = message;
+            output.appendChild(div);
+        }
+
+        // Test all functions that were causing errors
+        const functionsToTest = [
+            'getPersonById',
+            'savePersons',
+            'addPerson',
+            'personNameExists',
+            'getMemberships', 
+            'addMembership',
+            'saveMemberships',
+            'getPersons',
+            'getGroups',
+            'getGroupsForPerson',
+            'addGroup',
+            'saveGroups',
+            'groupNameExists',
+            'getPlayers',
+            'addPlayer',
+            'getMatches',
+            'addMatch',
+            'getCurrentPerson',
+            'getCurrentGroup',
+            'setCurrentPerson',
+            'setCurrentGroup',
+            'loginAsPerson'
+        ];
+
+        log('🚀 Testing Storage object existence...');
+        
+        if (typeof Storage === 'undefined') {
+            log('❌ CRITICAL: Storage object not found!', 'error');
+        } else {
+            log('✅ Storage object found', 'success');
+            
+            // Test each function
+            functionsToTest.forEach(funcName => {
+                if (typeof Storage[funcName] === 'function') {
+                    log(`✅ ${funcName}: Function exists`, 'success');
+                } else {
+                    log(`❌ ${funcName}: Function MISSING!`, 'error');
+                }
+            });
+        }
+
+        // Test demo mode activation
+        log('\n🎮 Testing demo mode activation...');
+        try {
+            Storage.setCurrentPerson('demo-person-1');
+            Storage.setCurrentGroup('demo-group-1');
+            
+            const person = Storage.getPersonById('demo-person-1');
+            const players = Storage.getPlayers();
+            
+            if (person) {
+                log(`✅ Demo person found: ${person.name}`, 'success');
+            } else {
+                log('❌ Demo person not found!', 'error');
+            }
+            
+            if (players.length > 0) {
+                log(`✅ Demo players found: ${players.length} players`, 'success');
+                log(`   First player: ${players[0].name}`, 'success');
+            } else {
+                log('❌ No demo players found!', 'error');
+            }
+            
+        } catch (error) {
+            log(`❌ Error in demo test: ${error.message}`, 'error');
+        }
+
+        log('\n🏁 Debug completed. Check for any red ❌ errors above.');
+    </script>
+</body>
+</html>

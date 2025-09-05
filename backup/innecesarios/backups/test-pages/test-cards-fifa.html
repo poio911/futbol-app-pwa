@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player Cards - FIFA Style</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2a 100%);
+            color: #fff;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, #00ff9d, #00ccaa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #888;
+            font-size: 1.1rem;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* FIFA Style Player Card */
+        .fifa-card {
+            width: 280px;
+            height: 380px;
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: linear-gradient(145deg, #1a1a2a 0%, #2a2a3a 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Position-based card borders */
+        .fifa-card.por {
+            border: 1px solid rgba(255, 149, 0, 0.4);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 0 15px rgba(255, 149, 0, 0.1);
+        }
+
+        .fifa-card.def {
+            border: 1px solid rgba(68, 102, 255, 0.4);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 0 15px rgba(68, 102, 255, 0.1);
+        }
+
+        .fifa-card.med {
+            border: 1px solid rgba(34, 170, 34, 0.4);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 0 15px rgba(34, 170, 34, 0.1);
+        }
+
+        .fifa-card.del {
+            border: 1px solid rgba(255, 68, 68, 0.4);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 0 15px rgba(255, 68, 68, 0.1);
+        }
+
+        .fifa-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .fifa-card.por:hover {
+            border: 1px solid rgba(255, 149, 0, 0.8);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), 0 0 25px rgba(255, 149, 0, 0.2);
+        }
+
+        .fifa-card.def:hover {
+            border: 1px solid rgba(68, 102, 255, 0.8);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), 0 0 25px rgba(68, 102, 255, 0.2);
+        }
+
+        .fifa-card.med:hover {
+            border: 1px solid rgba(34, 170, 34, 0.8);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), 0 0 25px rgba(34, 170, 34, 0.2);
+        }
+
+        .fifa-card.del:hover {
+            border: 1px solid rgba(255, 68, 68, 0.8);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), 0 0 25px rgba(255, 68, 68, 0.2);
+        }
+
+        /* Position Badge Colors - usando colores exactos de la app */
+        .fifa-position.por {
+            background: #ff9500;
+            color: #fff;
+        }
+
+        .fifa-position.def {
+            background: #4466ff;
+            color: #fff;
+        }
+
+        .fifa-position.med {
+            background: #22aa22;
+            color: #fff;
+        }
+
+        .fifa-position.del {
+            background: #ff4444;
+            color: #fff;
+        }
+
+        .fifa-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.05"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.05"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        /* OVR Rating */
+        .fifa-ovr {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 3rem;
+            font-weight: 900;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            z-index: 2;
+        }
+
+        /* Position Badge */
+        .fifa-position {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            z-index: 2;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Player Photo */
+        .fifa-photo {
+            position: absolute;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            z-index: 2;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fifa-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .fifa-photo i {
+            font-size: 3rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Player Name */
+        .fifa-name {
+            position: absolute;
+            bottom: 80px;
+            left: 20px;
+            right: 20px;
+            font-size: 1.6rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            z-index: 2;
+            color: #fff;
+        }
+
+        /* Stats Section */
+        .fifa-stats {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            right: 15px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            z-index: 2;
+        }
+
+        .fifa-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 6px;
+            border-radius: 8px;
+            backdrop-filter: blur(5px);
+        }
+
+        .fifa-stat-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .fifa-stat-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            opacity: 0.8;
+            margin-top: 2px;
+        }
+
+        /* Special Effects for High OVR - override position colors */
+        .fifa-card.legendary {
+            border: 1px solid rgba(255, 215, 0, 0.5) !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 215, 0, 0.15) !important;
+        }
+
+        .fifa-card.legendary:hover {
+            border: 1px solid rgba(255, 215, 0, 0.9) !important;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), 0 0 30px rgba(255, 215, 0, 0.25) !important;
+        }
+
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #666;
+            font-size: 1.2rem;
+        }
+
+        /* Back Button */
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 255, 157, 0.2);
+            color: #00ff9d;
+            border: 2px solid rgba(0, 255, 157, 0.3);
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .back-btn:hover {
+            background: rgba(0, 255, 157, 0.3);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+                padding: 0 10px;
+            }
+            
+            .fifa-card {
+                width: 100%;
+                height: 300px;
+                min-width: 0;
+            }
+            
+            .fifa-ovr {
+                font-size: 2.5rem;
+                top: 15px;
+                right: 15px;
+            }
+            
+            .fifa-position {
+                top: 15px;
+                left: 15px;
+                padding: 3px 8px;
+                font-size: 0.7rem;
+            }
+            
+            .fifa-photo {
+                width: 80px;
+                height: 80px;
+                top: 60px;
+            }
+            
+            .fifa-photo i {
+                font-size: 2rem;
+            }
+            
+            .fifa-name {
+                font-size: 1.2rem;
+                bottom: 65px;
+            }
+            
+            .fifa-stats {
+                bottom: 10px;
+                left: 10px;
+                right: 10px;
+                gap: 6px;
+            }
+            
+            .fifa-stat {
+                padding: 4px;
+                border-radius: 6px;
+            }
+            
+            .fifa-stat-value {
+                font-size: 1rem;
+            }
+            
+            .fifa-stat-label {
+                font-size: 0.6rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-btn">
+        <i class='bx bx-arrow-back'></i> Volver al Index
+    </a>
+
+    <div class="header">
+        <h1>FIFA Style Player Cards</h1>
+        <p>Estilo inspirado en FIFA Ultimate Team / FC25</p>
+    </div>
+
+    <div class="cards-grid" id="cardsContainer">
+        <div class="loading">
+            <i class='bx bx-loader-alt bx-spin'></i>
+            Cargando jugadores...
+        </div>
+    </div>
+
+    <!-- Firebase CDN -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-simple.js"></script>
+    <script>
+        class FIFACardRenderer {
+            constructor() {
+                this.container = document.getElementById('cardsContainer');
+                this.init();
+            }
+
+            init() {
+                this.loadPlayers();
+            }
+
+            loadPlayers() {
+                try {
+                    // Force demo mode to show sample players
+                    Storage.isDemo = true;
+                    const players = Storage.demoPlayers;
+                    
+                    if (players.length === 0) {
+                        this.container.innerHTML = `
+                            <div class="loading">
+                                <i class='bx bx-user-x'></i>
+                                No hay jugadores registrados
+                            </div>
+                        `;
+                        return;
+                    }
+
+                    this.renderCards(players);
+                } catch (error) {
+                    console.error('Error loading players:', error);
+                    this.container.innerHTML = `
+                        <div class="loading">
+                            <i class='bx bx-error'></i>
+                            Error al cargar jugadores
+                        </div>
+                    `;
+                }
+            }
+
+            renderCards(players) {
+                this.container.innerHTML = '';
+                
+                players.forEach(player => {
+                    const card = this.createFIFACard(player);
+                    this.container.appendChild(card);
+                });
+            }
+
+            createFIFACard(player) {
+                const card = document.createElement('div');
+                const position = player.position.toLowerCase();
+                const isLegendary = player.ovr >= 90;
+                
+                card.className = `fifa-card ${position}${isLegendary ? ' legendary' : ''}`;
+                
+                // Get top 3 stats
+                const topStats = this.getTopStats(player);
+                
+                const photoHtml = player.photo ? 
+                    `<img src="${player.photo}" alt="${player.name}">` :
+                    `<i class='bx bx-user'></i>`;
+                
+                card.innerHTML = `
+                    <div class="fifa-ovr">${player.ovr}</div>
+                    <div class="fifa-position ${position}">${player.position}</div>
+                    <div class="fifa-photo">${photoHtml}</div>
+                    <div class="fifa-name">${player.name}</div>
+                    <div class="fifa-stats">
+                        ${topStats.map(stat => `
+                            <div class="fifa-stat">
+                                <div class="fifa-stat-value">${stat.value}</div>
+                                <div class="fifa-stat-label">${stat.name}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+
+                return card;
+            }
+
+            getTopStats(player) {
+                const attributes = player.attributes || {};
+                const statsArray = [
+                    { name: 'PAC', value: attributes.pac || 0 },
+                    { name: 'SHO', value: attributes.sho || 0 },
+                    { name: 'PAS', value: attributes.pas || 0 },
+                    { name: 'DRI', value: attributes.dri || 0 },
+                    { name: 'DEF', value: attributes.def || 0 },
+                    { name: 'PHY', value: attributes.phy || 0 }
+                ];
+                
+                return statsArray
+                    .sort((a, b) => b.value - a.value)
+                    .slice(0, 3);
+            }
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new FIFACardRenderer();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Match Data</title>
+</head>
+<body>
+    <h1>Testing Match Data Structure</h1>
+    <div id="output"></div>
+    
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-simple.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            console.log('Testing match data...');
+            
+            // Wait for Firebase to initialize
+            setTimeout(async () => {
+                if (window.db) {
+                    try {
+                        const snapshot = await db.collection('futbol_matches')
+                            .orderBy('createdAt', 'desc')
+                            .limit(3)
+                            .get();
+                        
+                        const matches = snapshot.docs.map(doc => ({
+                            id: doc.id,
+                            ...doc.data()
+                        }));
+                        
+                        console.log('🎯 Found matches:', matches);
+                        
+                        const output = document.getElementById('output');
+                        output.innerHTML = '<h2>Match Data Structure:</h2>';
+                        
+                        matches.forEach((match, i) => {
+                            output.innerHTML += `<h3>Match ${i + 1}: ${match.id}</h3>`;
+                            output.innerHTML += `<strong>Status:</strong> ${match.status}<br>`;
+                            output.innerHTML += `<strong>Date:</strong> ${match.date}<br>`;
+                            output.innerHTML += `<strong>Format:</strong> ${match.format}<br>`;
+                            
+                            // Check team structure
+                            if (match.teamA && match.teamB) {
+                                output.innerHTML += `<strong>TeamA:</strong> ${match.teamA.name}<br>`;
+                                output.innerHTML += `<strong>TeamA Players:</strong> ${match.teamA.players ? match.teamA.players.length : 'No players'}<br>`;
+                                if (match.teamA.players && match.teamA.players.length > 0) {
+                                    output.innerHTML += `<strong>First player:</strong> ${JSON.stringify(match.teamA.players[0])}<br>`;
+                                }
+                                
+                                output.innerHTML += `<strong>TeamB:</strong> ${match.teamB.name}<br>`;
+                                output.innerHTML += `<strong>TeamB Players:</strong> ${match.teamB.players ? match.teamB.players.length : 'No players'}<br>`;
+                                if (match.teamB.players && match.teamB.players.length > 0) {
+                                    output.innerHTML += `<strong>First player:</strong> ${JSON.stringify(match.teamB.players[0])}<br>`;
+                                }
+                            } else {
+                                output.innerHTML += `<strong>Teams:</strong> No teamA/teamB structure<br>`;
+                            }
+                            
+                            output.innerHTML += '<hr>';
+                        });
+                        
+                    } catch (error) {
+                        console.error('Error loading matches:', error);
+                        document.getElementById('output').innerHTML = 'Error: ' + error.message;
+                    }
+                } else {
+                    console.log('Firebase not initialized');
+                    document.getElementById('output').innerHTML = 'Firebase not initialized';
+                }
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

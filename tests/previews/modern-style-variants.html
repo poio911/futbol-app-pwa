@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Variantes Estilo Moderno - OVR Mejorado</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0a0e1a 0%, #1a1f2e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .main-title {
+            text-align: center;
+            font-size: 42px;
+            margin-bottom: 50px;
+            background: linear-gradient(90deg, #00ff9d, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .variant-section {
+            margin-bottom: 60px;
+            background: rgba(26, 31, 46, 0.4);
+            border-radius: 25px;
+            padding: 35px;
+            border: 1px solid rgba(0, 255, 157, 0.1);
+        }
+
+        .variant-title {
+            font-size: 28px;
+            color: #00ff9d;
+            margin-bottom: 35px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-weight: 700;
+        }
+
+        .variant-title::before {
+            content: '';
+            width: 5px;
+            height: 28px;
+            background: linear-gradient(to bottom, #00ff9d, #00d4ff);
+            border-radius: 3px;
+        }
+
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 25px;
+        }
+
+        .preview-card {
+            background: rgba(10, 14, 26, 0.9);
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .preview-label {
+            font-size: 12px;
+            color: #00d4ff;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+
+        /* ========================================= */
+        /* HEADER COMPARTIDO */
+        /* ========================================= */
+        .modern-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, #1a1f2e 0%, #232938 100%);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 255, 157, 0.1);
+        }
+
+        .modern-avatar {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            border: 3px solid #00ff9d;
+            background: linear-gradient(135deg, #232938, #1a1f2e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: #00ff9d;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0, 255, 157, 0.2);
+        }
+
+        .header-ovr {
+            position: absolute;
+            bottom: -5px;
+            right: -5px;
+            background: #00ff9d;
+            color: #0a0e1a;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 16px;
+            box-shadow: 0 3px 10px rgba(0, 255, 157, 0.6);
+            border: 2px solid #0a0e1a;
+        }
+
+        .header-info h3 {
+            font-size: 20px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .header-info p {
+            font-size: 14px;
+            opacity: 0.7;
+            margin-bottom: 10px;
+        }
+
+        .header-position {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Colores por posición */
+        .pos-del {
+            background: linear-gradient(135deg, #ff4757, #ff6b7a);
+            color: white;
+        }
+
+        .pos-med {
+            background: linear-gradient(135deg, #00d2d3, #00a8a8);
+            color: white;
+        }
+
+        .pos-def {
+            background: linear-gradient(135deg, #5f27cd, #7c4dff);
+            color: white;
+        }
+
+        .pos-por {
+            background: linear-gradient(135deg, #ff9f43, #ffb667);
+            color: white;
+        }
+
+        /* ========================================= */
+        /* VARIANTE 1: OVR CIRCULAR GRANDE */
+        /* ========================================= */
+        .v1-player-card {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, #1a1f2e 0%, #232938 100%);
+            border-radius: 15px;
+            border: 1px solid rgba(0, 255, 157, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .v1-player-card:hover {
+            transform: translateX(5px);
+            border-color: #00ff9d;
+            box-shadow: 0 8px 25px rgba(0, 255, 157, 0.25);
+        }
+
+        .v1-player-photo {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #232938, #1a1f2e);
+            border: 2px solid #00ff9d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00ff9d;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .v1-player-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .v1-player-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .v1-player-details {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .v1-ovr-large {
+            width: 55px;
+            height: 55px;
+            background: #00ff9d;
+            color: #0a0e1a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 22px;
+            box-shadow: 0 4px 15px rgba(0, 255, 157, 0.5);
+            flex-shrink: 0;
+        }
+
+        .v1-best-stat {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 215, 0, 0.2);
+            color: #ffd700;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        /* ========================================= */
+        /* VARIANTE 2: OVR CUADRADO CON GRADIENTE */
+        /* ========================================= */
+        .v2-player-card {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, #1a1f2e 0%, #232938 100%);
+            border-radius: 15px;
+            border: 1px solid rgba(0, 255, 157, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .v2-player-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 255, 157, 0.3);
+        }
+
+        .v2-player-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+        }
+
+        .v2-player-photo {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #232938, #1a1f2e);
+            border: 2px solid #00ff9d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00ff9d;
+            font-size: 24px;
+        }
+
+        .v2-ovr-square {
+            width: 65px;
+            height: 65px;
+            background: linear-gradient(135deg, #00ff9d 0%, #00d4ff 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 26px;
+            color: #0a0e1a;
+            box-shadow: 0 5px 20px rgba(0, 255, 157, 0.4);
+            position: relative;
+        }
+
+        .v2-ovr-square::after {
+            content: 'OVR';
+            position: absolute;
+            bottom: 3px;
+            font-size: 9px;
+            font-weight: 700;
+            opacity: 0.7;
+        }
+
+        .v2-best-stat {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(0, 255, 157, 0.2));
+            color: #00d4ff;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 5px;
+            width: fit-content;
+        }
+
+        /* ========================================= */
+        /* VARIANTE 3: OVR HEXAGONAL */
+        /* ========================================= */
+        .v3-player-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            background: linear-gradient(135deg, #1a1f2e 0%, #232938 100%);
+            border-radius: 15px;
+            border: 1px solid rgba(0, 255, 157, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .v3-player-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #00ff9d, #00d4ff, #ff00e6);
+            border-radius: 15px 15px 0 0;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .v3-player-card:hover::before {
+            opacity: 1;
+        }
+
+        .v3-player-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(0, 255, 157, 0.2);
+        }
+
+        .v3-ovr-hexagon {
+            width: 70px;
+            height: 70px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 24px;
+            color: #0a0e1a;
+        }
+
+        .v3-ovr-hexagon::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #00ff9d 0%, #00d4ff 100%);
+            clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+            box-shadow: 0 5px 20px rgba(0, 255, 157, 0.5);
+        }
+
+        .v3-ovr-hexagon span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .v3-best-stat-badge {
+            position: absolute;
+            top: -8px;
+            right: 15px;
+            background: #ffd700;
+            color: #0a0e1a;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            box-shadow: 0 2px 10px rgba(255, 215, 0, 0.5);
+        }
+
+        /* ========================================= */
+        /* VARIANTE 4: OVR MINIMALISTA CON BARRA */
+        /* ========================================= */
+        .v4-player-card {
+            padding: 20px;
+            background: linear-gradient(135deg, #1a1f2e 0%, #232938 100%);
+            border-radius: 15px;
+            border: 1px solid rgba(0, 255, 157, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .v4-player-top {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+
+        .v4-player-photo {
+            width: 55px;
+            height: 55px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #232938, #1a1f2e);
+            border: 2px solid #00ff9d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00ff9d;
+            font-size: 22px;
+        }
+
+        .v4-ovr-container {
+            display: flex;
+            align-items: baseline;
+            gap: 5px;
+        }
+
+        .v4-ovr-number {
+            font-size: 42px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #00ff9d, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1;
+        }
+
+        .v4-ovr-label {
+            font-size: 12px;
+            color: #00d4ff;
+            font-weight: 700;
+            opacity: 0.7;
+        }
+
+        .v4-stat-bar {
+            background: rgba(0, 255, 157, 0.1);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 10px;
+            position: relative;
+        }
+
+        .v4-stat-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00ff9d, #00d4ff);
+            border-radius: 3px;
+            position: relative;
+            animation: fillBar 1s ease-out;
+        }
+
+        @keyframes fillBar {
+            from { width: 0; }
+        }
+
+        .v4-best-stat-label {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 11px;
+            color: #ffd700;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* ========================================= */
+        /* VARIANTE 5: DISEÑO CARD FIFA */
+        /* ========================================= */
+        .v5-player-card {
+            padding: 20px;
+            background: linear-gradient(135deg, #1a1f2e 0%, #2a3f5f 100%);
+            border-radius: 15px;
+            border: 2px solid rgba(0, 255, 157, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .v5-player-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 255, 157, 0.05) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .v5-card-layout {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .v5-player-photo {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00ff9d, #00d4ff);
+            padding: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .v5-photo-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: #1a1f2e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00ff9d;
+            font-size: 26px;
+        }
+
+        .v5-ovr-fifa {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 8px 15px;
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.4);
+        }
+
+        .v5-ovr-value {
+            font-size: 32px;
+            font-weight: 900;
+            color: #1a1a1a;
+            line-height: 1;
+        }
+
+        .v5-ovr-text {
+            font-size: 10px;
+            font-weight: 800;
+            color: #1a1a1a;
+            opacity: 0.7;
+        }
+
+        .v5-best-stat-corner {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: linear-gradient(135deg, #ff6b6b, #ff4757);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 0 13px 0 15px;
+            font-size: 11px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* ========================================= */
+        /* VARIANTE 6: DISEÑO COMPACTO MODERNO */
+        /* ========================================= */
+        .v6-player-card {
+            padding: 15px;
+            background: linear-gradient(135deg, #1a1f2e 0%, #232938 100%);
+            border-radius: 20px;
+            border: 1px solid rgba(0, 255, 157, 0.15);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .v6-card-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .v6-player-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(0, 255, 157, 0.1);
+            border: 2px solid rgba(0, 255, 157, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00ff9d;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .v6-player-card:hover .v6-player-avatar {
+            border-color: #00ff9d;
+            background: rgba(0, 255, 157, 0.2);
+            transform: scale(1.1);
+        }
+
+        .v6-player-details {
+            flex: 1;
+        }
+
+        .v6-player-name {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .v6-stats-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .v6-ovr-pill {
+            background: linear-gradient(135deg, #00ff9d, #00d4ff);
+            color: #0a0e1a;
+            padding: 6px 14px;
+            border-radius: 25px;
+            font-weight: 900;
+            font-size: 18px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 50px;
+            box-shadow: 0 3px 15px rgba(0, 255, 157, 0.4);
+        }
+
+        .v6-best-stat-inline {
+            background: rgba(255, 215, 0, 0.15);
+            color: #ffd700;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        /* Iconos para mejores stats */
+        .stat-icon {
+            font-size: 14px;
+        }
+
+        /* Efectos hover generales */
+        .player-card-hover:hover {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="main-title">Variantes Estilo Moderno</h1>
+
+        <!-- HEADER COMPARTIDO -->
+        <div class="variant-section">
+            <h2 class="variant-title">Header de Referencia - Usuario</h2>
+            <div class="preview-grid">
+                <div class="preview-card">
+                    <div class="preview-label">Header con posición DEL</div>
+                    <div class="modern-header">
+                        <div class="modern-avatar">
+                            <i class='bx bx-user'></i>
+                            <div class="header-ovr">56</div>
+                        </div>
+                        <div class="header-info">
+                            <h3>Juan Pérez</h3>
+                            <p>juan@example.com</p>
+                            <span class="header-position pos-del">
+                                <i class='bx bx-football'></i>
+                                DELANTERO
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="preview-card">
+                    <div class="preview-label">Header con posición MED</div>
+                    <div class="modern-header">
+                        <div class="modern-avatar">
+                            <i class='bx bx-user'></i>
+                            <div class="header-ovr">72</div>
+                        </div>
+                        <div class="header-info">
+                            <h3>María García</h3>
+                            <p>maria@example.com</p>
+                            <span class="header-position pos-med">
+                                <i class='bx bx-target-lock'></i>
+                                MEDIOCAMPISTA
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VARIANTE 1 -->
+        <div class="variant-section">
+            <h2 class="variant-title">Variante 1: OVR Circular Grande</h2>
+            <div class="preview-grid">
+                <div class="preview-card">
+                    <div class="preview-label">Jugador Delantero - Mejor stat: Velocidad</div>
+                    <div class="v1-player-card player-card-hover">
+                        <div class="v1-best-stat">
+                            <i class='bx bx-run'></i>
+                            <span>VEL 94</span>
+                        </div>
+                        <div class="v1-player-photo">
+                            <i class='bx bx-user'></i>
+                        </div>
+                        <div class="v1-player-info">
+                            <div class="v1-player-name">Kylian Mbappé</div>
+                            <div class="v1-player-details">
+                                <span class="header-position pos-del">DEL</span>
+                            </div>
+                        </div>
+                        <div class="v1-ovr-large">91</div>
+                    </div>
+                </div>
+                <div class="preview-card">
+                    <div class="preview-label">Jugador Mediocampista - Mejor stat: Pase</div>
+                    <div class="v1-player-card player-card-hover">
+                        <div class="v1-best-stat">
+                            <i class='bx bx-target-lock'></i>
+                            <span>PAS 92</span>
+                        </div>
+                        <div class="v1-player-photo">
+                            <i class='bx bx-user'></i>
+                        </div>
+                        <div class="v1-player-info">
+                            <div class="v1-player-name">Kevin De Bruyne</div>
+                            <div class="v1-player-details">
+                                <span class="header-position pos-med">MED</span>
+                            </div>
+                        </div>
+                        <div class="v1-ovr-large">88</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VARIANTE 2 -->
+        <div class="variant-section">
+            <h2 class="variant-title">Variante 2: OVR Cuadrado con Gradiente</h2>
+            <div class="preview-grid">
+                <div class="preview-card">
+                    <div class="preview-label">Jugador Defensor - Mejor stat: Defensa</div>
+                    <div class="v2-player-card player-card-hover">
+                        <div class="v2-player-left">
+                            <div class="v2-player-photo">
+                                <i class='bx bx-user'></i>
+                            </div>
+                            <div>
+                                <div class="v1-player-name">Virgil van Dijk</div>
+                                <span class="header-position pos-def">DEF</span>
+                                <div class="v2-best-stat">
+                                    <i class='bx bx-shield'></i>
+                                    <span>DEF 91</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="v2-ovr-square">89</div>
+                    </div>
+                </div>
+                <div class="preview-card">
+                    <div class="preview-label">Jugador Portero - Mejor stat: Reflejos</div>
+                    <div class="v2-player-card player-card-hover">
+                        <div class="v2-player-left">
+                            <div class="v2-player-photo">
+                                <i class='bx bx-user'></i>
+                            </div>
+                            <div>
+                                <div class="v1-player-name">Alisson Becker</div>
+                                <span class="header-position pos-por">POR</span>
+                                <div class="v2-best-stat">
+                                    <i class='bx bxs-hand'></i>
+                                    <span>REF 90</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="v2-ovr-square">87</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VARIANTE 3 -->
+        <div class="variant-section">
+            <h2 class="variant-title">Variante 3: OVR Hexagonal</h2>
+            <div class="preview-grid">
+                <div class="preview-card">
+                    <div class="preview-label">Jugador Delantero - Mejor stat: Tiro</div>
+                    <div class="v3-player-card player-card-hover">
+                        <div class="v3-best-stat-badge">
+                            <i class='bx bx-target-lock' style="font-size: 12px;"></i>
+                            TIR 95
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 15px; flex: 1;">
+                            <div class="v1-player-photo">
+                                <i class='bx bx-user'></i>
+                            </div>
+                            <div>
+                                <div class="v1-player-name">Erling Haaland</div>
+                                <span class="header-position pos-del">DEL</span>
+                            </div>
+                        </div>
+                        <div class="v3-ovr-hexagon">
+                            <span>93</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="preview-card">
+                    <div class="preview-label">Jugador Mediocampista - Mejor stat: Control</div>
+                    <div class="v3-player-card player-card-hover">
+                        <div class="v3-best-stat-badge">
+                            <i class='bx bx-dots-horizontal-rounded' style="font-size: 12px;"></i>
+                            CON 93
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 15px; flex: 1;">
+                            <div class="v1-player-photo">
+                                <i class='bx bx-user'></i>
+                            </div>
+                            <div>
+                                <div class="v1-player-name">Luka Modric</div>
+                                <span class="header-position pos-med">MED</span>
+                            </div>
+                        </div>
+                        <div class="v3-ovr-hexagon">
+                            <span>86</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VARIANTE 4 -->
+        <div class="variant-section">
+            <h2 class="variant-title">Variante 4: OVR Minimalista con Barra de Progreso</h2>
+            <div class="preview-grid">
+                <div class="preview-card">
+                    <div class="preview-label">Jugador Defensor - Mejor stat: Físico</div>
+                    <div class="v4-player-card player-card-hover">
+                        <div class="v4-best-stat-label">
+                            <i class='bx bx-body'></i>
+                            <span>FÍS 88</span>
+                        </div>
+                        <div class="v4-player-top">
+                            <div class="v4-player-photo">
+                                <i class='bx bx-user'></i>
+                            </div>
+                            <div style="flex: 1;">
+                                <div class="v1-player-name">Rúben Dias</div>
+                                <span class="header-position pos-def">DEF</span>
+                            </div>
+                            <div class="v4-ovr-container">
+                                <span class="v4-ovr-number">85</span>
+                                <span class="v4-ovr-label">OVR</span>
+                            </div>
+                        </div>
+                        <div class="v4-stat-bar">
+                            <div class="v4-stat-fill" style="width: 85%;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="preview-card">
+                    <div class="preview-label">Jugador Portero - Mejor stat: Posicionamiento</div>
+                    <div class="v4-player-card player-card-hover">
+                        <div class="v4-best-stat-label">
+                            <i class='bx bx-map-pin'></i>
+                            <span>POS 89</span>
+                        </div>
+                        <div class="v4-player-top">
+                            <div class="v4-player-photo">
+                                <i class='bx bx-user'></i>
+                            </div>
+                            <div style="flex: 1;">
+                                <div class="v1-player-name">Thibaut Courtois</div>
+                                <span class="header-position pos-por">POR</span>
+                            </div>
+                            <div class="v4-ovr-container">
+                                <span class="v4-ovr-number">88</span>
+                                <span class="v4-ovr-label">OVR</span>
+                            </div>
+                        </div>
+                        <div class="v4-stat-bar">
+                            <div class="v4-stat-fill" style="width: 88%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VARIANTE 5 -->
+        <div class="variant-section">
+            <h2 class="variant-title">Variante 5: Diseño Card FIFA</h2>
+            <div class="preview-grid">
+                <div class="preview-card">
+                    <div class="preview-label">Jugador Delantero - Mejor stat: Regate</div>
+                    <div class="v5-player-card player-card-hover">
+                        <div class="v5-best-stat-corner">
+                            <i class='bx bx-joystick'></i>
+                            REG 96
+                        </div>
+                        <div class="v5-card-layout">
+                            <div class="v5-player-photo">
+                                <div class="v5-photo-inner">
+                                    <i class='bx bx-user'></i>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="v1-player-name">Lionel Messi</div>
+                                <span class="header-position pos-del">DEL</span>
+                            </div>
+                            <div class="v5-ovr-fifa">
+                                <span class="v5-ovr-value">90</span>
+                                <span class="v5-ovr-text">OVR</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="preview-card">
+                    <div class="preview-label">Jugador Mediocampista - Mejor stat: Resistencia</div>
+                    <div class="v5-player-card player-card-hover">
+                        <div class="v5-best-stat-corner">
+                            <i class='bx bx-battery'></i>
+                            RES 92
+                        </div>
+                        <div class="v5-card-layout">
+                            <div class="v5-player-photo">
+                                <div class="v5-photo-inner">
+                                    <i class='bx bx-user'></i>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="v1-player-name">N'Golo Kanté</div>
+                                <span class="header-position pos-med">MED</span>
+                            </div>
+                            <div class="v5-ovr-fifa">
+                                <span class="v5-ovr-value">84</span>
+                                <span class="v5-ovr-text">OVR</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VARIANTE 6 -->
+        <div class="variant-section">
+            <h2 class="variant-title">Variante 6: Diseño Compacto Moderno</h2>
+            <div class="preview-grid">
+                <div class="preview-card">
+                    <div class="preview-label">Jugador Defensor - Mejor stat: Marcaje</div>
+                    <div class="v6-player-card player-card-hover">
+                        <div class="v6-card-content">
+                            <div class="v6-player-avatar">
+                                <i class='bx bx-user'></i>
+                            </div>
+                            <div class="v6-player-details">
+                                <div class="v6-player-name">Sergio Ramos</div>
+                                <div class="v6-stats-row">
+                                    <span class="header-position pos-def">DEF</span>
+                                    <span class="v6-best-stat-inline">
+                                        <i class='bx bx-crosshair'></i>
+                                        MAR 89
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="v6-ovr-pill">83</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="preview-card">
+                    <div class="preview-label">Jugador Portero - Mejor stat: Manos</div>
+                    <div class="v6-player-card player-card-hover">
+                        <div class="v6-card-content">
+                            <div class="v6-player-avatar">
+                                <i class='bx bx-user'></i>
+                            </div>
+                            <div class="v6-player-details">
+                                <div class="v6-player-name">Manuel Neuer</div>
+                                <div class="v6-stats-row">
+                                    <span class="header-position pos-por">POR</span>
+                                    <span class="v6-best-stat-inline">
+                                        <i class='bx bxs-hand'></i>
+                                        MAN 90
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="v6-ovr-pill">86</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Debug Direct - Pela Data</title>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <style>
+        body { background: #000; color: #00ff9d; font-family: monospace; padding: 20px; }
+        pre { background: #111; padding: 15px; border: 1px solid #333; white-space: pre-wrap; }
+        button { background: #00ff9d; color: #000; padding: 10px; border: none; cursor: pointer; margin: 5px; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Debug Directo - Datos de Pela</h1>
+    <button onclick="debugPelaData()">Debug Pela</button>
+    <div id="results"></div>
+
+    <script>
+        // Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyAes7EVn8hQswS8XgvDMJfN6U4IT_ZL_WY",
+            authDomain: "mil-disculpis.firebaseapp.com",
+            databaseURL: "https://mil-disculpis-default-rtdb.firebaseio.com",
+            projectId: "mil-disculpis",
+            storageBucket: "mil-disculpis.firebasestorage.app",
+            messagingSenderId: "5614567933",
+            appId: "1:5614567933:web:0dce7bf37b8325c0861994",
+            measurementId: "G-EMLP4TKXKR"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        
+        async function debugPelaData() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<h2>🔍 Buscando Pela...</h2>';
+            
+            try {
+                const snapshot = await db.collection('futbol_users')
+                    .where('email', '==', 'poio911@hotmail.com')
+                    .get();
+                
+                if (snapshot.empty) {
+                    resultsDiv.innerHTML += '<p>❌ No encontrado por email</p>';
+                    return;
+                }
+                
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    
+                    resultsDiv.innerHTML += `
+                        <h2>✅ Jugador encontrado: ${data.displayName}</h2>
+                        <h3>📋 Estructura COMPLETA:</h3>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                        
+                        <h3>🔍 Análisis de Atributos:</h3>
+                        <pre>Campos directos:
+pac: ${data.pac}
+sho: ${data.sho}
+pas: ${data.pas}
+dri: ${data.dri}
+def: ${data.def}
+phy: ${data.phy}
+ovr: ${data.ovr}
+
+Objeto attributes:
+${data.attributes ? JSON.stringify(data.attributes, null, 2) : 'No existe'}
+
+OVR calculado desde campos directos: ${data.pac !== undefined ? ((data.pac + data.sho + data.pas + data.dri + data.def + data.phy) / 6).toFixed(2) : 'N/A'}
+OVR calculado desde attributes: ${data.attributes ? ((data.attributes.pac + data.attributes.sho + data.attributes.pas + data.attributes.dri + data.attributes.def + data.attributes.phy) / 6).toFixed(2) : 'N/A'}
+</pre>
+                        
+                        <h3>⚠️ Problemas detectados:</h3>
+                        <pre id="problems"></pre>
+                    `;
+                    
+                    const problemsDiv = document.getElementById('problems');
+                    let problems = [];
+                    
+                    // Check for inconsistencies
+                    if (data.attributes && data.pac !== undefined) {
+                        problems.push('🔥 AMBAS ESTRUCTURAS PRESENTES - Esto causa el problema!');
+                        
+                        const directOVR = (data.pac + data.sho + data.pas + data.dri + data.def + data.phy) / 6;
+                        const attributesOVR = (data.attributes.pac + data.attributes.sho + data.attributes.pas + data.attributes.dri + data.attributes.def + data.attributes.phy) / 6;
+                        
+                        if (Math.abs(directOVR - attributesOVR) > 1) {
+                            problems.push('❌ Los valores NO coinciden entre estructuras');
+                            problems.push(`   - Directos: ${directOVR.toFixed(2)}`);
+                            problems.push(`   - Attributes: ${attributesOVR.toFixed(2)}`);
+                        }
+                        
+                        if (Math.abs(data.ovr - directOVR) > 1) {
+                            problems.push('❌ OVR almacenado no coincide con campos directos');
+                            problems.push(`   - OVR almacenado: ${data.ovr}`);
+                            problems.push(`   - Calculado: ${directOVR.toFixed(2)}`);
+                        }
+                    }
+                    
+                    if (problems.length === 0) {
+                        problems.push('✅ No se detectaron problemas estructurales');
+                    }
+                    
+                    problemsDiv.textContent = problems.join('\n');
+                });
+                
+            } catch (error) {
+                resultsDiv.innerHTML += `<p>❌ Error: ${error.message}</p>`;
+            }
+        }
+        
+        // Auto-run on load
+        window.addEventListener('load', () => {
+            setTimeout(debugPelaData, 1000);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Avatares</title>
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #0a0e1a;
+            color: white;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        
+        .player-photo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            color: var(--bg-main);
+            font-weight: bold;
+            position: relative;
+            margin: 10px;
+            display: inline-block;
+        }
+        
+        .player-photo .avatar-initials {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+            border-radius: 50%;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        
+        .test-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test de Avatares Coloridos</h1>
+    <div class="test-container" id="test-container"></div>
+
+    <script>
+        // Función para generar colores consistentes
+        function generateConsistentColors(name) {
+            if (!name) name = 'Default';
+            
+            // Create hash from name for consistency
+            let hash = 0;
+            for (let i = 0; i < name.length; i++) {
+                hash = name.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            
+            // Define color palette
+            const colorPalettes = [
+                { background: '#FF6B6B', text: '#FFFFFF' }, // Red
+                { background: '#4ECDC4', text: '#FFFFFF' }, // Teal  
+                { background: '#45B7D1', text: '#FFFFFF' }, // Blue
+                { background: '#96CEB4', text: '#FFFFFF' }, // Green
+                { background: '#FFEAA7', text: '#2D3436' }, // Yellow
+                { background: '#DDA0DD', text: '#FFFFFF' }, // Plum
+                { background: '#98D8C8', text: '#2D3436' }, // Mint
+                { background: '#F7DC6F', text: '#2D3436' }, // Light Yellow
+                { background: '#BB8FCE', text: '#FFFFFF' }, // Light Purple
+                { background: '#85C1E9', text: '#FFFFFF' }, // Light Blue
+                { background: '#F8C471', text: '#2D3436' }, // Orange
+                { background: '#82E0AA', text: '#2D3436' }, // Light Green
+            ];
+            
+            // Select color based on hash
+            const colorIndex = Math.abs(hash) % colorPalettes.length;
+            return colorPalettes[colorIndex];
+        }
+        
+        // Función para obtener iniciales
+        function getPlayerInitials(name) {
+            if (!name || name === 'Jugador') return '?';
+            const parts = name.trim().split(' ');
+            if (parts.length >= 2) {
+                return parts[0].charAt(0).toUpperCase() + parts[parts.length - 1].charAt(0).toUpperCase();
+            }
+            return name.charAt(0).toUpperCase();
+        }
+
+        // Crear avatares de prueba
+        const testPlayers = [
+            'Juan Pérez',
+            'María García',
+            'Carlos López', 
+            'Ana Rodríguez',
+            'Pedro Martínez',
+            'Laura Hernández',
+            'Diego Silva',
+            'Carmen Torres'
+        ];
+
+        const container = document.getElementById('test-container');
+        
+        testPlayers.forEach(playerName => {
+            const initials = getPlayerInitials(playerName);
+            const colors = generateConsistentColors(playerName);
+            
+            const avatarDiv = document.createElement('div');
+            avatarDiv.innerHTML = `
+                <div class="player-photo">
+                    <div class="avatar-initials" style="background: ${colors.background}; color: ${colors.text};">${initials}</div>
+                </div>
+                <p>${playerName}</p>
+            `;
+            container.appendChild(avatarDiv);
+        });
+    </script>
+</body>
+</html>
