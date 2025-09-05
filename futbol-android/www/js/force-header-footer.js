@@ -34,12 +34,23 @@ class ForceHeaderFooter {
     }
     
     createHeaderIfMissing() {
-        // Buscar si ya existe algún header
+        // Buscar CleanHeader específicamente
+        const cleanHeader = document.querySelector('#clean-header');
         const existingHeaders = document.querySelectorAll('.main-header, .new-header, #header, [class*="header"]');
         
+        if (cleanHeader) {
+            console.log('✅ CleanHeader encontrado - No crear header de emergencia');
+            // Asegurar que CleanHeader esté visible
+            cleanHeader.style.display = 'block';
+            cleanHeader.style.visibility = 'visible';
+            cleanHeader.style.opacity = '1';
+            return; // No crear header de emergencia
+        }
+        
         if (existingHeaders.length === 0) {
-            console.log('🚨 No se encontró header - Creando uno de emergencia');
-            this.createEmergencyHeader();
+            console.log('🚨 No se encontró header - Esperando CleanHeader...');
+            // Dar tiempo a que CleanHeader se inicialice en lugar de crear uno de emergencia
+            setTimeout(() => this.createHeaderIfMissing(), 2000);
         } else {
             console.log('✅ Header encontrado:', existingHeaders[0]);
             // Asegurar que esté visible
