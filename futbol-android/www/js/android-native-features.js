@@ -9,21 +9,31 @@ class AndroidNativeFeatures {
         this.isCapacitorReady = false;
         this.notificationPermission = false;
         
-        this.init();
+        try {
+            this.init();
+        } catch (error) {
+            console.error('❌ AndroidNativeFeatures constructor failed:', error);
+        }
     }
 
     async init() {
-        console.log('🤖 Inicializando funcionalidades nativas Android...');
-        
-        // Verificar si estamos en Capacitor (APK)
-        if (window.Capacitor && window.Capacitor.Plugins) {
-            this.isAndroidApp = true;
-            this.isCapacitorReady = true;
-            console.log('✅ App ejecutándose como APK Android');
+        try {
+            console.log('🤖 Inicializando funcionalidades nativas Android...');
             
-            await this.initializeNativeFeatures();
-        } else {
-            console.log('🌐 App ejecutándose en navegador web');
+            // Verificar si estamos en Capacitor (APK)
+            if (window.Capacitor && window.Capacitor.Plugins) {
+                this.isAndroidApp = true;
+                this.isCapacitorReady = true;
+                console.log('✅ App ejecutándose como APK Android');
+                
+                await this.initializeNativeFeatures();
+            } else {
+                console.log('🌐 App ejecutándose en navegador web');
+                this.initializeWebFeatures();
+            }
+        } catch (error) {
+            console.error('❌ Error en AndroidNativeFeatures.init():', error);
+            // Fallback para asegurar que la app no se crashee
             this.initializeWebFeatures();
         }
     }
@@ -382,10 +392,33 @@ class AndroidNativeFeatures {
     }
 }
 
-// 🚀 INICIALIZAR AUTOMÁTICAMENTE
-document.addEventListener('DOMContentLoaded', () => {
-    window.androidNative = new AndroidNativeFeatures();
-});
+// 🚀 INICIALIZAR AUTOMÁTICAMENTE CON FALLBACK
+function initializeAndroidNative() {
+    try {
+        if (typeof AndroidNativeFeatures !== 'undefined') {
+            window.androidNative = new AndroidNativeFeatures();
+            console.log('✅ AndroidNativeFeatures initialized successfully');
+        } else {
+            console.log('⚠️ AndroidNativeFeatures class not found');
+        }
+    } catch (error) {
+        console.error('❌ Failed to initialize AndroidNativeFeatures:', error);
+        // Crear un objeto mock para evitar errores
+        window.androidNative = {
+            buttonTap: () => Promise.resolve(),
+            vibrate: () => Promise.resolve(),
+            sendLocalNotification: () => Promise.resolve(),
+            isAndroidApp: false
+        };
+    }
+}
+
+// Inicializar cuando esté listo
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeAndroidNative);
+} else {
+    initializeAndroidNative();
+}
 
 // 📱 EXPORT PARA USO EN OTROS MÓDULOS
 if (typeof module !== 'undefined' && module.exports) {

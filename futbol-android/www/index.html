@@ -53,7 +53,7 @@
     
     <!-- Android Native Features -->
     <link rel="stylesheet" href="css/android-native-styles.css?v=1.0">
-    <script src="js/android-native-features.js?v=1.0" defer></script>
+    <script src="js/android-native-features.js?v=1.0" defer onerror="console.log('Android features failed to load')"></script>
     
     <!-- EA SPORTS FC 24 Styles -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -6315,8 +6315,10 @@
         // Limpieza automática removida - notificaciones viejas eliminadas
         // EAModal ya no es necesario - UnifiedNotificationSystem maneja todo
         document.addEventListener('DOMContentLoaded', () => {
-            // Initialize Gaming Header and Dashboard synchronization
-            initializeGamingUI();
+            try {
+                console.log('🚀 Starting APK initialization...');
+                // Initialize Gaming Header and Dashboard synchronization
+                initializeGamingUI();
             
             // Initialize CLEAN HEADER (nuevo sistema limpio)
             setTimeout(async () => {
@@ -6503,7 +6505,38 @@
             
             // Periodic sync every 2 seconds to catch any missed updates
             setInterval(syncUserData, 2000);
+            
+        } catch (error) {
+            console.error('❌ Critical error in main script:', error);
+            
+            // Fallback initialization for APK
+            try {
+                if (window.Capacitor) {
+                    console.log('🤖 APK detected - Using minimal initialization');
+                    document.body.classList.add('capacitor-android');
+                }
+                
+                // Ensure basic functionality works
+                window.addEventListener('load', () => {
+                    console.log('✅ APK loaded successfully with fallback');
+                });
+                
+            } catch (fallbackError) {
+                console.error('❌ Even fallback failed:', fallbackError);
+            }
         }
+        
+        // Global error handler for APK
+        window.addEventListener('error', (event) => {
+            console.error('🚨 Global error in APK:', event.error);
+            return false; // Don't crash the app
+        });
+        
+        // Unhandled promise rejection handler
+        window.addEventListener('unhandledrejection', (event) => {
+            console.error('🚨 Unhandled promise in APK:', event.reason);
+            event.preventDefault(); // Prevent crash
+        });
     </script>
 </body>
 </html>
