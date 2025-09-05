@@ -51,6 +51,10 @@
     <!-- Fix CSS para notificaciones -->
     <link rel="stylesheet" href="css/unified-notifications-fix.css?v=1.1">
     
+    <!-- Android Native Features -->
+    <link rel="stylesheet" href="css/android-native-styles.css?v=1.0">
+    <script src="js/android-native-features.js?v=1.0" defer></script>
+    
     <!-- EA SPORTS FC 24 Styles -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
@@ -2102,7 +2106,7 @@
         }
     </style>
 </head>
-<body>
+<body id="app-body">
     <div id="app">
         <!-- Authentication Screen -->
         <div id="auth-screen" class="auth-overlay" style="
@@ -6402,6 +6406,100 @@
             
             // Initial sync
             syncUserData();
+            
+            // 📱 ANDROID DETECTION AND NATIVE FEATURES SETUP
+            function initializeAndroidFeatures() {
+                const body = document.getElementById('app-body');
+                
+                // Detect if we're running in Capacitor (Android APK)
+                if (window.Capacitor && window.Capacitor.Plugins) {
+                    console.log('🤖 Detected Android APK - Enabling native features');
+                    body.classList.add('capacitor-android');
+                    
+                    // Enable haptic feedback for all buttons
+                    document.addEventListener('click', async (e) => {
+                        if (e.target.matches('.btn, .button, .nav-link, .card')) {
+                            if (window.androidNative) {
+                                await window.androidNative.buttonTap();
+                            }
+                        }
+                    });
+                    
+                    // Integration with existing notification system
+                    if (window.UnifiedNotificationSystem) {
+                        const originalShowNotification = window.UnifiedNotificationSystem.showNotification;
+                        window.UnifiedNotificationSystem.showNotification = async function(title, message, type) {
+                            // Call original function
+                            originalShowNotification.call(this, title, message, type);
+                            
+                            // Add native notification
+                            if (window.androidNative) {
+                                await window.androidNative.sendLocalNotification(title, message, { type });
+                                
+                                // Vibrate based on notification type
+                                switch(type) {
+                                    case 'success':
+                                        await window.androidNative.successFeedback();
+                                        break;
+                                    case 'error':
+                                        await window.androidNative.errorFeedback();
+                                        break;
+                                    default:
+                                        await window.androidNative.vibrate('light');
+                                }
+                            }
+                        };
+                    }
+                    
+                    // Integration with match system
+                    if (window.TestApp) {
+                        const originalShowNotification = window.TestApp.showNotification || function(){};
+                        window.TestApp.showNotification = async function(title, message, type = 'info') {
+                            // Call original if exists
+                            if (originalShowNotification !== function(){}) {
+                                originalShowNotification.call(this, title, message, type);
+                            }
+                            
+                            // Add native notification
+                            if (window.androidNative) {
+                                await window.androidNative.sendLocalNotification(title, message, { type });
+                                await window.androidNative.vibrate('light');
+                            }
+                        };
+                    }
+                    
+                } else {
+                    console.log('🌐 Detected Web Browser - Using web fallbacks');
+                    body.classList.add('web-browser');
+                }
+                
+                // Always add connection status indicator
+                const connectionStatus = document.createElement('div');
+                connectionStatus.className = 'connection-status';
+                connectionStatus.title = navigator.onLine ? 'Conectado' : 'Sin conexión';
+                if (!navigator.onLine) {
+                    connectionStatus.classList.add('offline');
+                }
+                document.body.appendChild(connectionStatus);
+                
+                // Update connection status
+                window.addEventListener('online', () => {
+                    connectionStatus.classList.remove('offline');
+                    connectionStatus.title = 'Conectado';
+                });
+                
+                window.addEventListener('offline', () => {
+                    connectionStatus.classList.add('offline');
+                    connectionStatus.title = 'Sin conexión';
+                });
+            }
+            
+            // Initialize Android features when DOM is ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initializeAndroidFeatures);
+            } else {
+                initializeAndroidFeatures();
+            }
             
             // Periodic sync every 2 seconds to catch any missed updates
             setInterval(syncUserData, 2000);

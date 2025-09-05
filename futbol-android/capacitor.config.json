@@ -10,11 +10,53 @@
       "launchShowDuration": 2000,
       "backgroundColor": "#0a0e1a",
       "androidSplashResourceName": "splash",
-      "showSpinner": false
+      "showSpinner": false,
+      "androidScaleType": "CENTER_CROP",
+      "spinnerStyle": "small",
+      "spinnerColor": "#00ff9d",
+      "splashFullScreen": true,
+      "splashImmersive": true
     },
     "StatusBar": {
-      "style": "Dark",
-      "backgroundColor": "#0a0e1a"
+      "style": "DARK",
+      "backgroundColor": "#0a0e1a",
+      "overlay": false
+    },
+    "PushNotifications": {
+      "presentationOptions": ["badge", "sound", "alert"]
+    },
+    "LocalNotifications": {
+      "smallIcon": "ic_stat_notification",
+      "iconColor": "#00ff9d",
+      "sound": "beep.wav"
+    },
+    "App": {
+      "launchUrl": "index.html",
+      "iosScheme": "futbolapp",
+      "androidScheme": "futbolapp"
+    },
+    "Haptics": {
+      "enabled": true
     }
+  },
+  "android": {
+    "allowMixedContent": true,
+    "captureInput": true,
+    "webContentsDebuggingEnabled": false,
+    "appendUserAgent": "FutbolApp/1.0",
+    "backgroundColor": "#0a0e1a",
+    "toolbarColor": "#0a0e1a",
+    "navigationBarColor": "#0a0e1a",
+    "hideLauncher": false,
+    "overrideUserAgent": "FutbolApp Android/1.0"
+  },
+  "preferences": {
+    "ScrollEnabled": "false",
+    "BackupWebStorage": "none",
+    "SplashMaintainAspectRatio": "true",
+    "FadeSplashScreenDuration": "300",
+    "SplashShowOnlyFirstTime": "false",
+    "SplashScreen": "screen",
+    "SplashScreenDelay": "2000"
   }
 }
