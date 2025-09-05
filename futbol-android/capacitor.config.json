@@ -1,7 +1,7 @@
 {
   "appId": "com.futbolapp.miercoles",
   "appName": "Futbol app",
-  "webDir": ".",
+  "webDir": "www",
   "server": {
     "androidScheme": "https"
   },

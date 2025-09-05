@@ -1,0 +1,24 @@
+{
+  "name": "Fútbol Miércoles",
+  "short_name": "Fútbol App",
+  "description": "Aplicación de gestión de fútbol con equipos y partidos",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0e1a",
+  "theme_color": "#00ff9d",
+  "orientation": "portrait",
+  "categories": ["sports", "games"],
+  "lang": "es",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='%2300ff9d'/%3E%3Ctext x='50' y='55' text-anchor='middle' fill='%230a0e1a' font-size='30' font-weight='bold'%3E⚽%3C/text%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='%2300ff9d'/%3E%3Ctext x='50' y='55' text-anchor='middle' fill='%230a0e1a' font-size='30' font-weight='bold'%3E⚽%3C/text%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}
